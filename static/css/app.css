@@ -1,0 +1,136 @@
+body {
+    font-size: 16px;
+    background-color: #f1f1f1;
+}
+.header {
+    background-color: #222;
+    color: white;
+    font-size: 13px;
+    height: 40px;
+    line-height: 40px;
+}
+.header a {
+    color: #90D987;
+}
+.header .btn {
+    font-size: 12px;
+    padding: 0.2em 0.6em;
+    margin-top: 7px;
+    color: white;
+}
+.item {
+    display: inline-block;
+}
+.sidepanel-container {
+    max-width: 200px;
+}
+.sidepanel {
+    display: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.sidepanel .panel-item {
+}
+.sidepanel .panel-button {
+    display: block;
+    width: 100%;
+    padding: 0.4em;
+    background-color: #222;
+    border-bottom: 1px solid #ccc;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+.sidepanel .panel-button:hover {
+    background-color: #333;
+}
+.sidepanel .panel-button:active {
+    background-color: #444;
+}
+.sidepanel .sidepanel-bsideutton .icon,
+.panel .panel-button .text {
+    display: block;
+}
+.sidepanel .panel-button .icon {
+    font-size: 20px;
+}
+.sidepanel .panel-button .text {
+    font-size: 12px;
+}
+.sidepanel.open {
+    display: block;
+}
+
+/* Widgets */
+
+.widget {
+    clear: both;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-bottom-width: 2px;
+    border-bottom-color: #bbb;
+    position: relative;
+    overflow: hidden; /* the onus for correct sizing is on the user who configures each widget, so we always hide overlapping content. */
+}
+.widget:hover {
+    cursor: move;
+    border-color: #85C785;
+}
+.widget iframe {
+    border: 0;
+}
+.widget .widget-edit {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 40px;
+    font-size: 11px;
+    background-color: #999;
+    padding: 0 0.8em;
+    border-radius: 0 0 3px 3px;
+    height: 20px;
+    line-height: 20px;
+    color: white;
+    border-bottom: 2px solid #777;
+}
+.widget:hover .widget-edit {
+    display: block;
+}
+.widget .widget-refresh {
+    -webkit-transition: all .25s ease-in-out;
+    -moz-transition: all .25s ease-in-out;
+    -ms-transition: all .25s ease-in-out;
+    -o-transition: all .25s ease-in-out;
+    transition: all .25s ease-in-out;
+}
+.widget .widget-refresh:hover {
+    cursor: pointer;
+    transform: rotate(60deg);
+}
+.widget .widget-loader {
+    position: absolute;
+    font-size: 30px;
+    color: #333;
+    top: 50%;
+    right: 50%;
+    margin-left: -50%;
+}
+.widget .widget-title {
+    display: block;
+    font-weight: 200;
+    font-size: 0.9em;
+    border-bottom: 1px solid #ccc;
+    padding: 0.6em 1.2em;
+    height: 35px !important;
+    overflow: hidden;
+}
+#view-builder {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    min-width: 800px;
+    min-height: 800px;
+    /*http://www.patternify.com/*/
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAALUlEQVQYV2M8fvz4fwYiACNIoaWlJSMhtaMK8YYQOHgsLCxMQKoYGRnP4lINANSKKF9X4C8fAAAAAElFTkSuQmCC);
+}

@@ -1,0 +1,47 @@
+<div class="modal fade" id="chart-options">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Chart options</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-block row" id="new-module" role="form">
+                <div class="col-md-6">
+                    <label>
+                        Name
+                        <input class="form-control" type="text" name="name" value="" placeholder="name">
+                    </label>
+                    <label>
+                        Type
+                        {% include "form-diagram-options.html" %}
+                    </label>
+                    <label>
+                        width <input class="form-control" type="text" name="width" value="" placeholder="e.g. 500">
+                    </label>
+                    <label>
+                        height <input class="form-control" type="text" name="height" value="" placeholder="e.g. 400">
+                    </label>
+                    <label>
+                        API endpoint (<em>or template path, if using "custom/iframe"</em>) <input class="form-control" type="text" name="dataSource" value="http://" placeholder="e.g. localhost:5000/my/endpoint">
+                    </label>
+                </div>
+                <div class="col-md-6">
+                    <p class="lead">API response:</p>
+                    <div class="well">
+                        <code id="api-output">...</code>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            {% if view %}
+            <button type="button" id="update-module" data-dismiss="modal" class="btn btn-primary">Update</button>
+            {% else %}
+            <button type="button" id="save-module" data-dismiss="modal" class="btn btn-primary">Save</button>
+            {% endif %}
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

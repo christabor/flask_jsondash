@@ -1,0 +1,31 @@
+{% extends "layouts/default.html" %}
+{% block header %}
+<p>
+    <a href="/charts/"><span class="fa fa-angle-left"></span> Back</a>
+    | View "{{ id }}" <small>created {{ view.date.strftime('%Y-%m-%d') }}</small>
+    <a href="#edit-view-container" data-toggle="collapse" class="btn btn-sm btn-primary pull-right">
+        Edit
+    </a>
+</p>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="collapse" id="edit-view-container">
+            <h3>Edit this view</h3>
+            {% include "form-view.html" %}
+
+            <!-- TESTING! -->
+            {% include "sidepanel.html" %}
+
+        </div>
+
+        <div class="layout">
+            <div id="container"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% include "edit-data-modal.html" %}
