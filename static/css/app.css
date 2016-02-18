@@ -85,7 +85,7 @@ body {
     display: none;
     position: absolute;
     top: 0;
-    right: 40px;
+    left: 40px;
     font-size: 11px;
     background-color: #999;
     padding: 0 0.8em;
@@ -95,18 +95,24 @@ body {
     color: white;
     border-bottom: 2px solid #777;
 }
-.widget:hover .widget-edit {
-    display: block;
+.widget .icon {
+    margin-left: 0.5em;
 }
-.widget .widget-refresh {
+.widget .icon:last-of-type {
+    margin-left: 0;
+}
+.widget .icon:hover {
     -webkit-transition: all .25s ease-in-out;
     -moz-transition: all .25s ease-in-out;
     -ms-transition: all .25s ease-in-out;
     -o-transition: all .25s ease-in-out;
     transition: all .25s ease-in-out;
+    cursor: pointer;
+}
+.widget:hover .widget-edit {
+    display: block;
 }
 .widget .widget-refresh:hover {
-    cursor: pointer;
     transform: rotate(60deg);
 }
 .widget .widget-loader {
