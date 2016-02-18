@@ -4,6 +4,7 @@
 
  var dashboard_data = null;
  var wall = null;
+ var HEARTBEAT_INTERVAL = 10000;
  var $API_PREVIEW = '#api-output';
  var $NEW_MODULE = '#new-module';
  var $VIEW_BUILDER = '#view-builder';
@@ -67,7 +68,8 @@ function updateModule(e){
 
 function refreshWidget(e) {
     e.preventDefault();
-    var guid = $(this).closest('.widget').attr('data-guid');
+    var container = $(this).closest('.widget');
+    var guid = container.attr('data-guid');
     var config = dashboard_data.modules.find(function(n){return n['guid'] === guid;});
     var widget = addWidget($MAIN_CONTAINER, config);
     loadWidgetData(widget, config, config);
@@ -117,6 +119,10 @@ function addDomEvents() {
         .off('click.module')
         .on('click', updateModule);
     });
+}
+
+function heartBeat(data) {
+    addChartContainers($MAIN_CONTAINER, data);
 }
 
 function togglePanel(e) {
@@ -173,6 +179,8 @@ function loadWidgetData(widget, config, config) {
 function loadDashboard(data) {
     addChartContainers($MAIN_CONTAINER, data);
     dashboard_data = data;
+    // Set interval
+    setInterval(function(){heartBeat(data);}, HEARTBEAT_INTERVAL);
     // Add event handlers for widget UI
     $('.widget-refresh').on('click', refreshWidget);
     // Setup responsive handlers

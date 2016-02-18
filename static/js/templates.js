@@ -17,7 +17,7 @@ function addWidget(container, model) {
     <span class="widget-loader fa fa-circle-o-notch fa-spin"></span>
     <p class="widget-title">
     {name}
-    <span rel="tooltip" title="Refresh the panels url endpoint" class="pull-right widget-refresh fa fa-refresh"></span>
+    <span rel="tooltip" title="Refresh the panels url endpoint" class="pull-right icon widget-refresh fa fa-refresh"></span>
     </p>
     <a href="#chart-options" data-toggle="modal" class="widget-edit"><span class="fa fa-edit"></span> Edit</a>
     <div id="{id}"></div>
