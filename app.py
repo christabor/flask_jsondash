@@ -1,7 +1,8 @@
 """This is your typical app, demonstrating usage."""
 
-from flask import Flask
 from charts_builder import charts
+
+from flask import Flask
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'NOTSECURELOL'

@@ -1,14 +1,25 @@
 # -*- coding: utf-8 -*-
 
+"""The chart blueprint that houses all functionality."""
+
 import json
+import os
 from datetime import datetime as dt
-import jinja2
-from flask import render_template, request, flash, redirect
+
 from flask import Blueprint
+from flask import (
+    flash,
+    redirect,
+    render_template,
+    request,
+)
+import jinja2
+
 from pymongo import MongoClient
 
 client = MongoClient()
-db = client['buildalytics']
+MONGO_URI = os.environ.get('CHARTS_MONGO_URI')
+db = client[MONGO_URI]
 collection = db['views']
 
 
@@ -18,9 +29,11 @@ charts = Blueprint('charts_builder', __name__, template_folder='templates')
 @jinja2.contextfilter
 @charts.app_template_filter('jsonstring')
 def jsonstring(ctx, string):
-    # Format view json module data for template use - it's automatically
-    # converted to unicode key/value pairs,
-    # which is undesirable for the template.
+    """Format view json module data for template use.
+
+    It's automatically converted to unicode key/value pairs,
+    which is undesirable for the template.
+    """
     return json.dumps(string).replace('\'', '"').replace(
         'u"', '"').replace('"{"', '{"').replace('"}"', '"}')
 
@@ -44,7 +57,8 @@ def dashboard():
 
 @charts.route('/charts/custom', methods=['GET'])
 def custom_widget():
-    """Provides custom widget functionality for built-in app widgets.
+    """Provide custom widget functionality for built-in app widgets.
+
     These are specified in the c.dataSource argument in your config,
     and map to a template specified within the `templates` directory.
     """
@@ -55,8 +69,10 @@ def custom_widget():
 
 @charts.route('/charts/<id>', methods=['GET'])
 def view(id):
-    """Load a json view config via mongoDB. Other json adapters
-    (PSQL/Cassandra, etc...) can be easily adapted here."""
+    """Load a json view config via mongoDB.
+
+    Other json adapters (PSQL/Cassandra, etc...) can be easily adapted here.
+    """
     viewjson = collection.find_one({'name': id})
     if not viewjson:
         flash('Could not find view: {}'.format(id))
@@ -68,7 +84,9 @@ def view(id):
 @charts.route('/charts/update', methods=['POST'])
 def update():
     """Normalize the form POST and setup the json view config object.
-    This is then saved to MongoDB."""
+
+    This is then saved to MongoDB.
+    """
     data = request.form
     save_conf = {
         '$set': {
@@ -86,7 +104,9 @@ def update():
 @charts.route('/charts/create', methods=['POST'])
 def create():
     """Normalize the form POST and setup the json view config object.
-    This is then saved to MongoDB."""
+
+    This is then saved to MongoDB.
+    """
     data = request.form
 
     d = {

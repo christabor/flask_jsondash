@@ -98,3 +98,23 @@ Below is a very complicated configuration that can demonstrate all the types tha
 ```
 
 As you can see, each chart is very straightforward. Most of the power is leveraged by the various charting libraries.
+
+## Usage
+
+### Setting environment variables.
+
+Make sure the following env vars are set:
+
+...
+
+### Starting flask app
+
+Either import and use the blueprint in your own flask app, or run `app.py` directly to start the app as-is.
+
+### Starting mongo app
+
+Make sure to start so json configuration can be saved.
+
+### Starting the test server
+
+Run `endpoints.py` if you'd like to test out existing endpoints to link your chart json to.
