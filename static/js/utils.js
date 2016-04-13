@@ -23,5 +23,5 @@ function guid() {
 }
 
 function normalizeName(name) {
-    return name.replace(/#/gi, '').replace(/\./gi, '').replace(/ /gi, '_');
+    return 'id_' + name.replace(/#/gi, '').replace(/\./gi, '').replace(/ /gi, '_');
 }
