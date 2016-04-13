@@ -115,13 +115,23 @@ body {
 .widget .widget-refresh:hover {
     transform: rotate(60deg);
 }
-.widget .widget-loader {
+.widget .widget-loader,
+.widget .loadfail {
     position: absolute;
     font-size: 30px;
     color: #333;
     top: 50%;
     right: 50%;
     margin-left: -50%;
+}
+[data-failed="true"] {
+    opacity: 0.5 !important;
+}
+[data-failed="true"]:hover {
+    opacity: 1 !important;
+}
+.widget .loadfail {
+    font-size: 12px;
 }
 .widget .widget-title {
     display: block;
