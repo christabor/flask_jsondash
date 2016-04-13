@@ -7,7 +7,10 @@ import os
 import random as rand
 import time
 
-from flask import Flask
+from flask import (
+    Flask,
+    abort,
+)
 from flask.ext.cors import CORS
 from flask.ext.cors import cross_origin
 
@@ -30,6 +33,15 @@ def timeline():
     with open('timeline3.json', 'r') as timelinejson:
         return timelinejson.read()
     return json.dumps({})
+
+
+@cross_origin()
+@app.route('/deadend/')
+def test_die():
+    """Fake endpoint that has a 500."""
+    # Simulate slow connection
+    time.sleep(rand.random())
+    abort(500)
 
 
 @cross_origin()
