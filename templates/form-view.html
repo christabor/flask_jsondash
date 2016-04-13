@@ -1,5 +1,8 @@
-<form action="/charts/{{ 'update' if view else 'create' }}" class="well form-inline" id="save-view-form" method="post" role="form">
+<form action="{{ url_for('charts_builder.update') if view else url_for('charts_builder.create') }}" class="well form-inline" id="save-view-form" method="POST" role="form">
     <button class="pull-right btn btn-lg btn-primary"><span class="fa fa-check"></span> {% if view %}update{% else %}save{% endif %} layout</button>
+    {% if view %}
+        <input type="hidden" name="id" value="{{ view.id }}">
+    {% endif %}
     <label>
         View Name <input class="form-control" type="text" name="name" value="{% if view %}{{ view.name }}{% endif %}" placeholder="name">
     </label>

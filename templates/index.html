@@ -14,8 +14,13 @@
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <div id="new-view-form" class="collapse row">
+        <div id="new-view-form" class="{{ 'collapse' if views else ''}} row">
             <div class="col-md-12">
+                {% if not views %}
+                <div class="alert alert-warning text-center">
+                    <p>No views exist. Create one below to get started.</p>
+                </div>
+                {% endif %}
                 <h3>Configure view</h3>
                 {% include "form-view.html" %}
                 {% include "edit-data-modal.html" %}
@@ -25,7 +30,7 @@
             {% for view in views %}
             <li class="list-group-item">
                 <span class="fa fa-bar-chart"></span>
-                <a href="/charts/{{ view.name }}">
+                <a href="{{ url_for('charts_builder.view', id=view.id) }}">
                     <strong>{{ view.name }}</strong> - {{ view.date }} ({{ view.modules|length }} modules)
                 </a>
             </li>

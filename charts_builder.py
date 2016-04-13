@@ -4,6 +4,7 @@
 
 import json
 import os
+import uuid
 from datetime import datetime as dt
 
 from flask import Blueprint
@@ -12,6 +13,7 @@ from flask import (
     redirect,
     render_template,
     request,
+    url_for,
 )
 import jinja2
 
@@ -43,7 +45,6 @@ def _format_modules(data):
     # Format modules data for json usage
     for item in data:
         if item.startswith('module_'):
-            print(data[item])
             val_json = json.loads(data[item])
             modules.append(val_json)
     return modules
@@ -52,7 +53,7 @@ def _format_modules(data):
 @charts.route('/charts/', methods=['GET'])
 def dashboard():
     """Load all views."""
-    return render_template('index.html', views=collection.find())
+    return render_template('index.html', views=list(collection.find()))
 
 
 @charts.route('/charts/custom', methods=['GET'])
@@ -73,10 +74,11 @@ def view(id):
 
     Other json adapters (PSQL/Cassandra, etc...) can be easily adapted here.
     """
-    viewjson = collection.find_one({'name': id})
+    viewjson = collection.find_one({'id': id})
     if not viewjson:
         flash('Could not find view: {}'.format(id))
-        return redirect('/charts/')
+        return redirect(url_for('charts_builder.dashboard'))
+    # Remove _id, it's not JSON serializeable.
     viewjson.pop('_id')
     return render_template('view.html', id=id, view=viewjson)
 
@@ -88,6 +90,7 @@ def update():
     This is then saved to MongoDB.
     """
     data = request.form
+    c_id = data['id']
     save_conf = {
         '$set': {
             'name': data['name'],
@@ -96,9 +99,9 @@ def update():
         }
     }
     # Update mongo
-    collection.update({'name': data['name']}, save_conf)
-    flash('Updated view "{}"'.format(data['name']))
-    return redirect('/charts/{}'.format(data['name']))
+    collection.update({'id': c_id}, save_conf)
+    flash('Updated view "{}"'.format(c_id))
+    return redirect(url_for('charts_builder.view', id=c_id))
 
 
 @charts.route('/charts/create', methods=['POST'])
@@ -112,9 +115,10 @@ def create():
     d = {
         'name': data['name'],
         'modules': _format_modules(data),
-        'date': dt.now()
+        'date': dt.now(),
+        'id': str(uuid.uuid1()),
     }
     # Add to mongo
     collection.insert(d)
     flash('Created new view "{}"'.format(data['name']))
-    return redirect('/charts/')
+    return redirect(url_for('charts_builder.dashboard'))
