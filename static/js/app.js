@@ -13,9 +13,16 @@
 
  function previewAPIRoute(e) {
     // Shows the response of the API field as a json payload, inline.
-    $.get($(this).val().trim(), function(d){
-       $($API_PREVIEW).html(d);
-   });
+    $.ajax({
+        type: 'get',
+        url: $(this).val().trim(),
+        success: function(d) {
+           $($API_PREVIEW).html(d);
+        },
+        error: function(d, status, error) {
+            $($API_PREVIEW).html(error);
+        }
+    });
 }
 
 function saveModule(e){
@@ -36,7 +43,7 @@ function saveModule(e){
 
 function updateEditForm(e) {
     // Updates the fields in the edit form to the active widgets values.
-    var name = $(this).siblings('div:first').attr('id');
+    var name = $(this).siblings('div:first').attr('id').replace('id_', '');
     var module_form = $('#new-module');
     var module = dashboard_data.modules.find(function(n){return n['name'] === name});
     // Update the modal window fields with this one's value.
