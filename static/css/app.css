@@ -132,7 +132,7 @@ body {
     height: 35px !important;
     overflow: hidden;
 }
-#view-builder {
+#view-builder.editing {
     border: 1px solid #ccc;
     background-color: #fff;
     min-width: 800px;
