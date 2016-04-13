@@ -41,7 +41,7 @@ def test_die():
     """Fake endpoint that has a 500."""
     # Simulate slow connection
     time.sleep(rand.random())
-    abort(500)
+    abort(rand.choice([500, 501, 502, 503, 504]))
 
 
 @cross_origin()
