@@ -1,30 +1,32 @@
+"""A separate Flask app that serves fake endpoints for demo purposes."""
+
 # -*- coding: utf-8 -*-
 
-from flask import Flask
 import json
+import os
 import random as rand
-from pymongo import MongoClient
-from flask.ext.cors import cross_origin
-from flask.ext.cors import CORS
 import time
 
+from flask import Flask
+from flask.ext.cors import CORS
+from flask.ext.cors import cross_origin
+
+from pymongo import MongoClient
 
 client = MongoClient()
-db = client['buildalytics']
+MONGO_URI = os.environ.get('CHARTS_MONGO_URI')
+db = client[MONGO_URI]
 collection = db['views']
 app = Flask(__name__)
 CORS(app)
 app.config['SECRET_KEY'] = 'NOTSECURELOL'
 app.debug = True
 
-"""
-https://flask-cors.readthedocs.org/en/latest/
-"""
-
 
 @cross_origin()
 @app.route('/timeline/')
 def timeline():
+    """Fake endpoint."""
     with open('timeline3.json', 'r') as timelinejson:
         return timelinejson.read()
     return json.dumps({})
@@ -33,7 +35,9 @@ def timeline():
 @cross_origin()
 @app.route('/test4/')
 def test4():
-    # time.sleep(rand.randrange(1, 4))
+    """Fake endpoint."""
+    # Simulate slow connection
+    time.sleep(rand.random())
     return json.dumps({
         "name": "foo",
         "children": [{
@@ -45,7 +49,9 @@ def test4():
 @cross_origin()
 @app.route('/test3/')
 def test3():
-    # time.sleep(rand.randrange(1, 4))
+    """Fake endpoint."""
+    # Simulate slow connection
+    time.sleep(rand.random())
     return json.dumps({
         "name": "foo",
         "children": [{
@@ -57,8 +63,9 @@ def test3():
 @cross_origin()
 @app.route('/test1/')
 def test1():
+    """Fake endpoint."""
     # Simulate slow connection
-    # time.sleep(rand.randrange(1, 4))
+    time.sleep(rand.random())
     return json.dumps([
         ['data1'] + [rand.randrange(0, 100) for _ in range(12)],
         ['data2'] + [rand.randrange(0, 100) for _ in range(12)],
@@ -70,7 +77,9 @@ def test1():
 @cross_origin()
 @app.route('/test2/')
 def test2():
-    # time.sleep(rand.randrange(1, 4))
+    """Fake endpoint."""
+    # Simulate slow connection
+    time.sleep(rand.random())
     return json.dumps([
         ['data3'] + [rand.randrange(0, 100) for _ in range(12)],
         ['data4'] + [rand.randrange(0, 100) for _ in range(12)],
