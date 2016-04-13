@@ -53,7 +53,12 @@ def _format_modules(data):
 @charts.route('/charts/', methods=['GET'])
 def dashboard():
     """Load all views."""
-    return render_template('index.html', views=list(collection.find()))
+    views = list(collection.find())
+    kwargs = dict(
+        views=views,
+        total_modules=sum([len(view['modules']) for view in views]),
+    )
+    return render_template('index.html', **kwargs)
 
 
 @charts.route('/charts/custom', methods=['GET'])
