@@ -19,11 +19,14 @@ import jinja2
 
 from pymongo import MongoClient
 
-client = MongoClient()
-MONGO_URI = os.environ.get('CHARTS_MONGO_URI')
-db = client[MONGO_URI]
-collection = db['views']
+MONGO_URI = os.environ.get('CHARTS_MONGO_HOST', 'localhost')
+MONGO_PORT = os.environ.get('CHARTS_MONGO_PORT', 27017)
+MONGO_DB = os.environ.get('CHARTS_MONGO_DB', 'charts')
+MONGO_COLLECTION = os.environ.get('CHARTS_MONGO_COLLECTION', 'views')
 
+client = MongoClient(host=MONGO_URI, port=MONGO_PORT)
+db = client[MONGO_DB]
+collection = db[MONGO_COLLECTION]
 
 charts = Blueprint('charts_builder', __name__, template_folder='templates')
 

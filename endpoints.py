@@ -16,10 +16,14 @@ from flask.ext.cors import cross_origin
 
 from pymongo import MongoClient
 
-client = MongoClient()
-MONGO_URI = os.environ.get('CHARTS_MONGO_URI')
-db = client[MONGO_URI]
-collection = db['views']
+MONGO_URI = os.environ.get('CHARTS_MONGO_HOST')
+MONGO_PORT = os.environ.get('CHARTS_MONGO_PORT')
+MONGO_DB = os.environ.get('CHARTS_MONGO_DB')
+MONGO_COLLECTION = os.environ.get('CHARTS_MONGO_COLLECTION')
+
+client = MongoClient(host=MONGO_URI, port=MONGO_PORT)
+db = client[MONGO_DB]
+collection = db[MONGO_COLLECTION]
 app = Flask(__name__)
 CORS(app)
 app.config['SECRET_KEY'] = 'NOTSECURELOL'

@@ -103,17 +103,22 @@ As you can see, each chart is very straightforward. Most of the power is leverag
 
 ### Setting environment variables.
 
+### Starting mongo app
+
 Make sure the following env vars are set:
 
-...
+*CHARTS_MONGO_HOST* - The Mongo server hostname (defaults to 'localhost')
+*CHARTS_MONGO_PORT* - The Mongo server port (defaults to 27017)
+*CHARTS_MONGO_DB* - The Mongo database name (defaults to 'charts')
+*CHARTS_MONGO_COLLECTION* The mongo collection name (defaults to 'views')
+
+Make sure to start so json configuration can be saved.
+
+Start however you'd like, but usually `mongod` will work.
 
 ### Starting flask app
 
 Either import and use the blueprint in your own flask app, or run `app.py` directly to start the app as-is.
-
-### Starting mongo app
-
-Make sure to start so json configuration can be saved.
 
 ### Starting the test server
 
