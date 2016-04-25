@@ -107,10 +107,10 @@ As you can see, each chart is very straightforward. Most of the power is leverag
 
 Make sure the following env vars are set:
 
-*CHARTS_MONGO_HOST* - The Mongo server hostname (defaults to 'localhost')
-*CHARTS_MONGO_PORT* - The Mongo server port (defaults to 27017)
-*CHARTS_MONGO_DB* - The Mongo database name (defaults to 'charts')
-*CHARTS_MONGO_COLLECTION* The mongo collection name (defaults to 'views')
+* *CHARTS_MONGO_HOST* - The Mongo server hostname (defaults to 'localhost')
+* *CHARTS_MONGO_PORT* - The Mongo server port (defaults to 27017)
+* *CHARTS_MONGO_DB* - The Mongo database name (defaults to 'charts')
+* *CHARTS_MONGO_COLLECTION* The mongo collection name (defaults to 'views')
 
 Make sure to start so json configuration can be saved.
 
