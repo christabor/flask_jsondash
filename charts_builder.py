@@ -67,7 +67,7 @@ def dashboard():
         views=views,
         total_modules=sum([len(view['modules']) for view in views]),
     )
-    return render_template('index.html', **kwargs)
+    return render_template('charts_index.html', **kwargs)
 
 
 @charts.route('/charts/custom', methods=['GET'])
