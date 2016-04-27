@@ -28,7 +28,13 @@ client = MongoClient(host=MONGO_URI, port=MONGO_PORT)
 db = client[MONGO_DB]
 collection = db[MONGO_COLLECTION]
 
-charts = Blueprint('charts_builder', __name__, template_folder='templates')
+charts = Blueprint(
+    'charts_builder',
+    __name__,
+    template_folder='templates',
+    static_url_path='/flask_jsondash/static',
+    static_folder='static',
+)
 
 
 @jinja2.contextfilter
