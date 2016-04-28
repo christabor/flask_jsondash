@@ -13,8 +13,8 @@
     <link title="timeline-styles" rel="stylesheet" href="//cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
 
     <!-- APP CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/examples.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/examples.css') }}">
+    <link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/app.css') }}">
 </head>
 <body>
     <div class="container-fluid">
@@ -46,14 +46,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sugar/1.4.1/sugar.min.js"></script>
     <script src="//cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
-    <script src="{{ url_for('static', filename='js/vendor/freewall.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/vendor/jRespond.min.js') }}"></script>
+    <script src="{{ url_for('charts_builder.static', filename='js/vendor/freewall.js') }}"></script>
+    <script src="{{ url_for('charts_builder.static', filename='js/vendor/jRespond.min.js') }}"></script>
 
     <!-- APP JS -->
-    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/templates.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/handlers.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('charts_builder.static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('charts_builder.static', filename='js/templates.js') }}"></script>
+    <script src="{{ url_for('charts_builder.static', filename='js/handlers.js') }}"></script>
+    <script src="{{ url_for('charts_builder.static', filename='js/app.js') }}"></script>
     <script>
         {% if view %}
         loadDashboard({{ view|tojson|safe }});
