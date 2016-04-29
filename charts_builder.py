@@ -3,7 +3,6 @@
 """The chart blueprint that houses all functionality."""
 
 import json
-import os
 import uuid
 from datetime import datetime as dt
 
@@ -17,16 +16,7 @@ from flask import (
 )
 import jinja2
 
-from pymongo import MongoClient
-
-MONGO_URI = os.environ.get('CHARTS_MONGO_HOST', 'localhost')
-MONGO_PORT = os.environ.get('CHARTS_MONGO_PORT', 27017)
-MONGO_DB = os.environ.get('CHARTS_MONGO_DB', 'charts')
-MONGO_COLLECTION = os.environ.get('CHARTS_MONGO_COLLECTION', 'views')
-
-client = MongoClient(host=MONGO_URI, port=MONGO_PORT)
-db = client[MONGO_DB]
-collection = db[MONGO_COLLECTION]
+import db_adapters as adapter
 
 charts = Blueprint(
     'charts_builder',
@@ -49,20 +39,10 @@ def jsonstring(ctx, string):
         'u"', '"').replace('"{"', '{"').replace('"}"', '"}')
 
 
-def _format_modules(data):
-    modules = []
-    # Format modules data for json usage
-    for item in data:
-        if item.startswith('module_'):
-            val_json = json.loads(data[item])
-            modules.append(val_json)
-    return modules
-
-
 @charts.route('/charts/', methods=['GET'])
 def dashboard():
     """Load all views."""
-    views = list(collection.find())
+    views = list(adapter.read())
     kwargs = dict(
         views=views,
         total_modules=sum([len(view['modules']) for view in views]),
@@ -84,55 +64,41 @@ def custom_widget():
 
 @charts.route('/charts/<id>', methods=['GET'])
 def view(id):
-    """Load a json view config via mongoDB.
-
-    Other json adapters (PSQL/Cassandra, etc...) can be easily adapted here.
-    """
-    viewjson = collection.find_one({'id': id})
+    """Load a json view config from the DB."""
+    viewjson = adapter.read(c_id=id)
     if not viewjson:
         flash('Could not find view: {}'.format(id))
         return redirect(url_for('charts_builder.dashboard'))
     # Remove _id, it's not JSON serializeable.
     viewjson.pop('_id')
-    return render_template('view.html', id=id, view=viewjson)
+    return render_template('chart_detail.html', id=id, view=viewjson)
 
 
 @charts.route('/charts/update', methods=['POST'])
 def update():
-    """Normalize the form POST and setup the json view config object.
-
-    This is then saved to MongoDB.
-    """
+    """Normalize the form POST and setup the json view config object."""
+    # Disable CSRF for now.
     data = request.form
     c_id = data['id']
-    save_conf = {
-        '$set': {
-            'name': data['name'],
-            'modules': _format_modules(data),
-            'date': dt.now()
-        }
-    }
-    # Update mongo
-    collection.update({'id': c_id}, save_conf)
+    # Update db
+    adapter.update(c_id, data=data)
     flash('Updated view "{}"'.format(c_id))
     return redirect(url_for('charts_builder.view', id=c_id))
+    kwargs = dict(form=None)
+    return redirect(url_for('charts_builder.index'), **kwargs)
 
 
 @charts.route('/charts/create', methods=['POST'])
 def create():
-    """Normalize the form POST and setup the json view config object.
-
-    This is then saved to MongoDB.
-    """
+    """Normalize the form POST and setup the json view config object."""
     data = request.form
-
-    d = {
-        'name': data['name'],
-        'modules': _format_modules(data),
-        'date': dt.now(),
-        'id': str(uuid.uuid1()),
-    }
-    # Add to mongo
-    collection.insert(d)
+    d = dict(
+        name=data['name'],
+        modules=adapter._format_modules(data),
+        date=dt.now(),
+        id=str(uuid.uuid1()),
+    )
+    # Add to DB
+    adapter.create(data=d)
     flash('Created new view "{}"'.format(data['name']))
     return redirect(url_for('charts_builder.dashboard'))
