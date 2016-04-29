@@ -124,3 +124,7 @@ Either import and use the blueprint in your own flask app, or run `app.py` direc
 ### Starting the test server
 
 Run `endpoints.py` if you'd like to test out existing endpoints to link your chart json to.
+
+### Using remote AJAX endpoints
+
+See `endpoints.py` for examples on how to achieve this. If you do not allow CORS on the server-side, all ajax requests will fail.
