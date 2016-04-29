@@ -1,6 +1,6 @@
-# Ch-api-rts
+# Flask JSONDash
 
-Instant charts from any API endpoint. JSON config only. Ready to go.
+Instant configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
 
 This project is a flask app, backed by mongodb, that saves JSON configurations for declaring arbitrary charts, templates and iframes, and uses any arbitrary json endpoint, so long as the data format is correct.
 
