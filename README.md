@@ -103,19 +103,25 @@ As you can see, each chart is very straightforward. Most of the power is leverag
 
 ### Setting environment variables.
 
-### Starting mongo app
-
 Make sure the following env vars are set:
 
-* *CHARTS_DB_HOST* - The Mongo server hostname (defaults to 'localhost')
-* *CHARTS_DB_PORT* - The Mongo server port (defaults to 27017)
-* *CHARTS_DB_NAME* - The Mongo database name (defaults to 'charts')
-* *CHARTS_DB_TABLE* The mongo collection name (or sql table name) (defaults to 'views')
+* *CHARTS_DB_HOST* - The DB server hostname (defaults to 'localhost')
+* *CHARTS_DB_PORT* - The DB server port (defaults to 27017)
+* *CHARTS_DB_NAME* - The DB database name (defaults to 'charts')
+* *CHARTS_DB_TABLE* The DB collection name (or sql table name) (defaults to 'views')
 * *CHARTS_ACTIVE_DB* The DB backend to use - options: 'mongo', 'postgres' (defaults to 'mongo')
 
 Make sure to start so json configuration can be saved.
 
+### Starting DB
+
+#### Mongodb
+
 Start however you'd like, but usually `mongod` will work.
+
+#### Postgresql
+
+Start however you'd like, but usually `postgres -D /path/to/data/` will work.
 
 ### Starting flask app
 
