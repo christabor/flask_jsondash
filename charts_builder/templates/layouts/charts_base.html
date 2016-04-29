@@ -28,18 +28,18 @@
 
 {% block custom_scripts %}
 {{ super() }}
-<!-- VENDOR JS -->
+<!-- CORE VENDOR JS -->
 <script src="{{ url_for('charts_builder.static', filename='js/vendor/jquery.min.js') }}"></script>
-<script src="{{ url_for('charts_builder.static', filename='js/vendor/d3.min.js') }}"></script>
-<script src="{{ url_for('charts_builder.static', filename='js/vendor/c3.min.js') }}"></script>
+<script src="{{ url_for('charts_builder.static', filename='js/vendor/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('charts_builder.static', filename='js/vendor/sugar.min.js') }}"></script>
 <script src="{{ url_for('charts_builder.static', filename='js/vendor/freewall.js') }}"></script>
 <script src="{{ url_for('charts_builder.static', filename='js/vendor/jRespond.min.js') }}"></script>
 
 <!-- CHART SPECIFIC SCRIPTS -->
+<script src="{{ url_for('charts_builder.static', filename='js/vendor/d3.min.js') }}"></script>
+<script src="{{ url_for('charts_builder.static', filename='js/vendor/c3.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/js/dataTables.bootstrap.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sugar/1.4.1/sugar.min.js"></script>
 <script src="//cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
 
 <!-- APP JS -->
