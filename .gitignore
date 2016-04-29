@@ -12,6 +12,12 @@ assets/build/
 *.so
 .tox/
 
+# Virtualenv #
+bin/
+lib/
+include/
+.Python
+
 # Packages #
 ############
 # it's better to unpack these files and commit the raw source

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}My tester app for charts.{% endblock %}
+    </title>
+    <!-- VENDOR CSS -->
+    {% block custom_css %}{% endblock %}
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+    <!-- VENDOR JS -->
+    {% block custom_scripts %}{% endblock %}
+</body>
+</html>

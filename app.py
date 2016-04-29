@@ -1,6 +1,6 @@
 """This is your typical app, demonstrating usage."""
 
-from charts_builder import charts
+from charts_builder.charts_builder import charts
 
 from flask import Flask
 
@@ -18,4 +18,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5002)
