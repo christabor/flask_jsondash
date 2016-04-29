@@ -100,31 +100,33 @@ function addChartContainers(container, data) {
 function addDomEvents() {
     initGrid($VIEW_BUILDER);
     // TODO: debounce/throttle
-    $('[name="dataSource"]').on('change', previewAPIRoute);
+    $('[name="dataSource"]').on('change.charts', previewAPIRoute);
     // Save module popup form
-    $('#save-module').on('click.module', saveModule);
+    $('#save-module').on('click.charts.module', saveModule);
 
     // Sidepanels
-    $('.panel-button').on('click', togglePanel);
+    $('.panel-button').on('click.charts', togglePanel);
 
     // Edit existing modules
-    $('.widget-edit').on('click', updateEditForm);
-    $('#update-module').on('click.module', updateModule);
+    $('.widget-edit').on('click.charts', updateEditForm);
+    $('#update-module').on('click.charts.module', updateModule);
     // Allow swapping of edit/update events
     // for the add module button and form modal
-    $($ADD_MODULE).on('click', function(){
+    $($ADD_MODULE).on('click.charts', function(){
         $('#update-module')
-        .attr('id', 'save-module').text('Save module')
-        .off('click.module')
-        .on('click', saveModule);
+        .attr('id', 'save-module')
+        .text('Save module')
+        .off('click.charts.module')
+        .on('click.charts', saveModule);
     });
     // Allow swapping of edit/update events
     // for the edit button and form modal
-    $('.widget-edit').on('click', function(){
+    $('.widget-edit').on('click.charts', function(){
         $('#save-module')
-        .attr('id', 'update-module').text('Update module')
-        .off('click.module')
-        .on('click', updateModule);
+        .attr('id', 'update-module')
+        .text('Update module')
+        .off('click.charts.module')
+        .on('click.charts', updateModule);
     });
 }
 
@@ -189,7 +191,7 @@ function loadDashboard(data) {
     // Set interval
     setInterval(function(){heartBeat(data);}, HEARTBEAT_INTERVAL);
     // Add event handlers for widget UI
-    $('.widget-refresh').on('click', refreshWidget);
+    $('.widget-refresh').on('click.charts', refreshWidget);
     // Setup responsive handlers
     var jres = jRespond([
     {
