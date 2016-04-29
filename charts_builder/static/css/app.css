@@ -1,38 +1,37 @@
 body {
-    font-size: 16px;
     background-color: #f1f1f1;
 }
-.header {
+#charts-builder .header {
     background-color: #222;
     color: white;
     font-size: 13px;
     height: 40px;
     line-height: 40px;
 }
-.header a {
+#charts-builder .header a {
     color: #90D987;
 }
-.header .btn {
+#charts-builder .header .btn {
     font-size: 12px;
     padding: 0.2em 0.6em;
     margin-top: 7px;
     color: white;
 }
-.item {
+#charts-builder .item {
     display: inline-block;
 }
-.sidepanel-container {
+#charts-builder .sidepanel-container {
     max-width: 200px;
 }
-.sidepanel {
+#charts-builder .sidepanel {
     display: none;
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
-.sidepanel .panel-item {
+#charts-builder .sidepanel .panel-item {
 }
-.sidepanel .panel-button {
+#charts-builder .sidepanel .panel-button {
     display: block;
     width: 100%;
     padding: 0.4em;
@@ -42,29 +41,29 @@ body {
     text-align: center;
     text-decoration: none;
 }
-.sidepanel .panel-button:hover {
+#charts-builder .sidepanel .panel-button:hover {
     background-color: #333;
 }
-.sidepanel .panel-button:active {
+#charts-builder .sidepanel .panel-button:active {
     background-color: #444;
 }
-.sidepanel .sidepanel-bsideutton .icon,
+#charts-builder .sidepanel .sidepanel-bsideutton .icon,
 .panel .panel-button .text {
     display: block;
 }
-.sidepanel .panel-button .icon {
+#charts-builder .sidepanel .panel-button .icon {
     font-size: 20px;
 }
-.sidepanel .panel-button .text {
+#charts-builder .sidepanel .panel-button .text {
     font-size: 12px;
 }
-.sidepanel.open {
+#charts-builder .sidepanel.open {
     display: block;
 }
 
 /* Widgets */
 
-.widget {
+#charts-builder .widget {
     clear: both;
     border-radius: 5px;
     border: 1px solid #ddd;
@@ -74,14 +73,14 @@ body {
     position: relative;
     overflow: hidden; /* the onus for correct sizing is on the user who configures each widget, so we always hide overlapping content. */
 }
-.widget:hover {
+#charts-builder .widget:hover {
     cursor: move;
     border-color: #85C785;
 }
-.widget iframe {
+#charts-builder .widget iframe {
     border: 0;
 }
-.widget .widget-edit {
+#charts-builder .widget .widget-edit {
     display: none;
     position: absolute;
     top: 0;
@@ -95,13 +94,13 @@ body {
     color: white;
     border-bottom: 2px solid #777;
 }
-.widget .icon {
+#charts-builder .widget .icon {
     margin-left: 0.5em;
 }
-.widget .icon:last-of-type {
+#charts-builder .widget .icon:last-of-type {
     margin-left: 0;
 }
-.widget .icon:hover {
+#charts-builder .widget .icon:hover {
     -webkit-transition: all .25s ease-in-out;
     -moz-transition: all .25s ease-in-out;
     -ms-transition: all .25s ease-in-out;
@@ -109,14 +108,14 @@ body {
     transition: all .25s ease-in-out;
     cursor: pointer;
 }
-.widget:hover .widget-edit {
+#charts-builder .widget:hover .widget-edit {
     display: block;
 }
-.widget .widget-refresh:hover {
+#charts-builder .widget .widget-refresh:hover {
     transform: rotate(60deg);
 }
-.widget .widget-loader,
-.widget .loadfail {
+#charts-builder .widget .widget-loader,
+#charts-builder .widget .loadfail {
     position: absolute;
     font-size: 30px;
     color: #333;
@@ -124,16 +123,16 @@ body {
     right: 50%;
     margin-left: -50%;
 }
-[data-failed="true"] {
+#charts-builder [data-failed="true"] {
     opacity: 0.5 !important;
 }
-[data-failed="true"]:hover {
+#charts-builder [data-failed="true"]:hover {
     opacity: 1 !important;
 }
-.widget .loadfail {
+#charts-builder .widget .loadfail {
     font-size: 12px;
 }
-.widget .widget-title {
+#charts-builder .widget .widget-title {
     display: block;
     font-weight: 200;
     font-size: 0.9em;
@@ -142,7 +141,7 @@ body {
     height: 35px !important;
     overflow: hidden;
 }
-#view-builder.editing {
+#charts-builder #view-builder.editing {
     border: 1px solid #ccc;
     background-color: #fff;
     min-width: 800px;

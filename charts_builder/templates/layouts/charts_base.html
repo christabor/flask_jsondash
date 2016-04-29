@@ -1,4 +1,5 @@
 {% extends "layouts/base.html" %}
+
 {% block custom_css %}
 {{ super() }}
 <!-- VENDOR CSS -->
@@ -19,10 +20,14 @@
 <div class="container-fluid" id="charts-builder">
     <div class="row header">
         <div class="col-md-12 clearfix">
-            {% block header %}{% endblock %}
+            {% block chart_header %}{% endblock %}
         </div>
     </div>
-    {% block content %}{% endblock %}
+    <div class="row">
+        <div class="col-md-12">
+            {% block chart_body %}{% endblock %}
+        </div>
+    </div>
 </div>
 {% endblock %}
 

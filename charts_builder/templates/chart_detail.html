@@ -1,5 +1,5 @@
 {% extends "layouts/charts_base.html" %}
-{% block header %}
+{% block chart_header %}
 <p>
     <a href="/charts/"><span class="fa fa-angle-left"></span> Back</a>
     | View "{{ id }}" <small>created {{ view.date.strftime('%Y-%m-%d') }}</small>
@@ -9,7 +9,7 @@
 </p>
 {% endblock %}
 
-{% block content %}
+{% block chart_body %}
 <div class="row">
     <div class="col-md-12">
         <div class="collapse" id="edit-view-container">
