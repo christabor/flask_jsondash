@@ -156,11 +156,11 @@ function initGrid(container) {
         delay: 1,
         fixSize: 1, // Important! Fixes the widgets to their configured size.
         gutterX: 4,
-        gutterY: 4
-        // draggable: true,
-        // onResize: function() {
-        //     wall.fitWidth();
-        // }
+        gutterY: 4,
+        draggable: false,
+        onResize: function() {
+            wall.fitWidth();
+        }
     });
     wall.fitWidth();
 }
@@ -177,27 +177,33 @@ function isD3Subtype(config) {
     return false;
 }
 
+function isSparkline(type) {
+    return type.substr(0, 10) === 'sparklines';
+}
+
 function loadWidgetData(widget, config) {
-    if(config.type === 'datatable') {
-        _handleDataTable(widget, config);
-    }
-    else if(config.type.substr(0, 10) === 'sparklines') {
-        _handleSparkline(widget, config);
-    }
-    else if(config.type === 'iframe') {
-        _handleIframe(widget, config);
-    }
-    else if(config.type === 'timeline') {
-        _handleTimeline(widget, config);
-    }
-    else if(config.type === 'custom') {
-        _handleCustom(widget, config);
-    }
-    else if(isD3Subtype(config)) {
-        _handleD3(widget, config);
-    } else {
-        _handleC3(widget, config);
-    }
+    try {
+        if(config.type === 'datatable') {
+            _handleDataTable(widget, config);
+        }
+        else if(isSparkline(config.type)) {
+            _handleSparkline(widget, config);
+        }
+        else if(config.type === 'iframe') {
+            _handleIframe(widget, config);
+        }
+        else if(config.type === 'timeline') {
+            _handleTimeline(widget, config);
+        }
+        else if(config.type === 'custom') {
+            _handleCustom(widget, config);
+        }
+        else if(isD3Subtype(config)) {
+            _handleD3(widget, config);
+        } else {
+            _handleC3(widget, config);
+        }
+    } catch(e) {}
 }
 
 function loadDashboard(data) {

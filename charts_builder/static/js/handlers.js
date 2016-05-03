@@ -123,9 +123,8 @@ function _handleVoronoi(container, config) {
 }
 
 function _handleSparkline(container, config) {
-    var sparkline_type = config.type.split('_')[1];
+    var sparkline_type = config.type.split('-')[1];
     var spark = container.append('span');
-    spark.attr('id', config.name);
     spark.sparkline($.getJSON(config.dataSource, function(data){
         unload(container);
     }), {type: sparkline_type});
