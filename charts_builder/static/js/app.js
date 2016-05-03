@@ -3,15 +3,16 @@
  */
 
  var dashboard_data = null;
- var wall = null;
+ var chart_wall = null;
  var $API_ROUTE_URL = '[name="dataSource"]';
  var $API_PREVIEW = '#api-output';
  var $API_PREVIEW_BTN = '#api-output-preview';
- var $NEW_MODULE = '#new-module';
+ var $MODULE_FORM = '#module-form';
  var $VIEW_BUILDER = '#view-builder';
  var $ADD_MODULE = '#add-module';
  var $MAIN_CONTAINER = '#container';
  var $EDIT_MODAL = '#chart-options';
+ var $DELETE_BTN = '#delete-widget';
 
  function previewAPIRoute(e) {
     e.preventDefault();
@@ -29,7 +30,7 @@
 }
 
 function saveModule(e){
-    var data     = serializeToJSON($($NEW_MODULE).serializeArray());
+    var data     = serializeToJSON($($MODULE_FORM).serializeArray());
     var last     = $('.modules').find('input').last();
     var newfield = $('<input class="form-control" type="text">');
     var id = guid();
@@ -41,11 +42,11 @@ function saveModule(e){
     // Add new visual block to view grid
     addWidget($VIEW_BUILDER, data);
     // Refit the grid
-    wall.fitWidth();
+    chart_wall.fitWidth();
 }
 
 function updateEditForm(e) {
-    var module_form = $('#new-module');
+    var module_form = $($MODULE_FORM);
     // If the modal caller was the add modal button, skip populating the field.
     if(e.relatedTarget.id === $ADD_MODULE.replace('#', '')) {
         module_form.find('input').each(function(k, input){
@@ -56,7 +57,7 @@ function updateEditForm(e) {
     // Updates the fields in the edit form to the active widgets values.
     var data = $(e.relatedTarget).closest('.item.widget').data();
     var guid = data.guid;
-    var module = dashboard_data.modules.find(function(n){return n['guid'] === guid});
+    var module = getModuleByGUID(guid);
     // Update the modal window fields with this one's value.
     $.each(module, function(field, val){
         module_form.find('[name="' + field + '"]').val(val);
@@ -66,9 +67,10 @@ function updateEditForm(e) {
 }
 
 function updateModule(e){
-    var module_form = $('#new-module');
+    var module_form = $($MODULE_FORM);
     // Updates the module input fields with new data by rewriting them all.
-    var active = dashboard_data.modules.find(function(n){return n['guid'] === module_form.attr('data-guid')});
+    var guid = module_form.attr('data-guid');
+    var active = getModuleByGUID(guid);
     module_form.find('input').each(function(k, input){
         var name = $(input).attr('name');
         if(name) active[name] = $(input).val();
@@ -88,7 +90,7 @@ function refreshWidget(e) {
     e.preventDefault();
     var container = $(this).closest('.widget');
     var guid = container.attr('data-guid');
-    var config = dashboard_data.modules.find(function(n){return n['guid'] === guid;});
+    var config = getModuleByGUID(guid);
     var widget = addWidget($MAIN_CONTAINER, config);
     loadWidgetData(widget, config);
 }
@@ -106,6 +108,22 @@ function addChartContainers(container, data) {
         })(data.modules[name]);
     }
     initGrid($MAIN_CONTAINER);
+}
+
+function getModuleByGUID(guid) {
+    return dashboard_data.modules.find(function(n){return n['guid'] === guid});
+}
+
+function deleteModule(e) {
+    e.preventDefault();
+    var guid = $($MODULE_FORM).attr('data-guid');
+    var module = getModuleByGUID(guid);
+    // Remove form input and visual widget
+    $('.modules').find('#' + guid).remove();
+    $('.item.widget[data-guid="' + guid + '"]').remove();
+    $($EDIT_MODAL).modal('hide');
+    // Redraw wall to replace visual 'hole'
+    chart_wall.fitWidth();
 }
 
 function addDomEvents() {
@@ -136,6 +154,8 @@ function addDomEvents() {
         .off('click.charts.module')
         .on('click.charts', updateModule);
     });
+    // Add delete button for existing widgets.
+    $($DELETE_BTN).on('click', deleteModule);
 }
 
 function heartBeat(data) {
@@ -150,8 +170,8 @@ function togglePanel(e) {
 
 function initGrid(container) {
     // http://vnjs.net/www/project/freewall/#options
-    wall = new freewall(container);
-    wall.reset({
+    chart_wall = new freewall(container);
+    chart_wall.reset({
         selector: '.item',
         delay: 1,
         fixSize: 1, // Important! Fixes the widgets to their configured size.
@@ -159,10 +179,10 @@ function initGrid(container) {
         gutterY: 4,
         draggable: false,
         onResize: function() {
-            wall.fitWidth();
+            chart_wall.fitWidth();
         }
     });
-    wall.fitWidth();
+    chart_wall.fitWidth();
 }
 
 function unload(container) {

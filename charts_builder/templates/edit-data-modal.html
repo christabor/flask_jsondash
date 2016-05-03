@@ -6,7 +6,7 @@
             <h4 class="modal-title">Chart options</h4>
         </div>
         <div class="modal-body">
-            <form class="form-block row" id="new-module" role="form">
+            <form class="form-block row" id="module-form" role="form">
                 <div class="col-md-6">
                     <label>
                         Name
@@ -36,11 +36,14 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
             {% if view %}
             <button type="button" id="update-module" data-dismiss="modal" class="btn btn-primary">Update</button>
             {% else %}
             <button type="button" id="save-module" data-dismiss="modal" class="btn btn-primary">Save</button>
+            {% endif %}
+            {% if view %}
+            <button id="delete-widget" class="btn btn-danger"><span class="fa fa-times"></span> Delete</button>
             {% endif %}
         </div>
     </div><!-- /.modal-content -->
