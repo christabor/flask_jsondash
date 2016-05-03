@@ -4,7 +4,6 @@
 
  var dashboard_data = null;
  var wall = null;
- var HEARTBEAT_INTERVAL = 10000;
  var $API_ROUTE_URL = '[name="dataSource"]';
  var $API_PREVIEW = '#api-output';
  var $API_PREVIEW_BTN = '#api-output-preview';
@@ -195,8 +194,10 @@ function loadWidgetData(widget, config, config) {
 function loadDashboard(data) {
     addChartContainers($MAIN_CONTAINER, data);
     dashboard_data = data;
-    // Set interval
-    setInterval(function(){heartBeat(data);}, HEARTBEAT_INTERVAL);
+    if(window.charts_heartbeat.ENABLED) {
+        // Set refresh interval
+        setInterval(function(){heartBeat(data);}, HEARTBEAT_INTERVAL);
+    }
     // Add event handlers for widget UI
     $('.widget-refresh').on('click.charts', refreshWidget);
     // Setup responsive handlers

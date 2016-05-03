@@ -101,6 +101,30 @@ As you can see, each chart is very straightforward. Most of the power is leverag
 
 ## Usage
 
+### Requirements
+
+### Core
+
+* Flask
+* Jinja2
+
+### Javascript/CSS
+
+These are not included, as you are likely going to have them yourself. If you don't, you'll need to add them:
+
+* Jquery (JS)
+* Bootstrap (CSS/JS)
+
+These are necessary and included, based simply on the likelihood they may not alread be used:
+
+* JRespond (JS)
+* SugarJS (JS)
+* Freewall (JS)
+
+### Charts
+
+Chart requirements depend on what you want to expose to your users. You can configure these in the CHART_CONFIG dictionary in the `settings.py` file.
+
 ### Setting environment variables.
 
 Make sure the following env vars are set:

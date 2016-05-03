@@ -3,12 +3,17 @@
 {% block custom_css %}
 {{ super() }}
 <!-- VENDOR CSS -->
-<link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/vendor/c3.min.css') }}">
-<link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/vendor/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/vendor/font-awesome.css') }}">
-<link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/vendor/dataTables.bootstrap.css') }}">
 <link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/vendor/loaders.min.css') }}">
-<link title="timeline-styles" rel="stylesheet" href="//cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
+
+{# <link title="timeline-styles" rel="stylesheet" href="//cdn.knightlab.com/libs/timeline3/latest/css/timeline.css"> #}
+
+<!-- CHART SPECIFIC CSS -->
+{% for label, chart_group in charts_config.items() %}
+    {% if chart_group['enabled'] and chart_group['css_url'] %}
+        <link title="label" rel="stylesheet" href="//{{ chart_group['css_url'] }}">
+    {% endif %}
+{% endfor %}
 
 <!-- APP CSS -->
 <link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/examples.css') }}">
@@ -34,18 +39,16 @@
 {% block custom_scripts %}
 {{ super() }}
 <!-- CORE VENDOR JS -->
-{# <script src="{{ url_for('charts_builder.static', filename='js/vendor/jquery.min.js') }}"></script> #}
-{# <script src="{{ url_for('charts_builder.static', filename='js/vendor/bootstrap.min.js') }}"></script> #}
 <script src="{{ url_for('charts_builder.static', filename='js/vendor/sugar.min.js') }}"></script>
 <script src="{{ url_for('charts_builder.static', filename='js/vendor/freewall.js') }}"></script>
 <script src="{{ url_for('charts_builder.static', filename='js/vendor/jRespond.min.js') }}"></script>
 
 <!-- CHART SPECIFIC SCRIPTS -->
-<script src="{{ url_for('charts_builder.static', filename='js/vendor/d3.min.js') }}"></script>
-<script src="{{ url_for('charts_builder.static', filename='js/vendor/c3.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/js/dataTables.bootstrap.js"></script>
-<script src="//cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+{% for label, chart_group in charts_config.items() %}
+    {% if chart_group['enabled'] and chart_group['js_url'] %}
+        <script src="//{{ chart_group['js_url'] }}"></script>
+    {% endif %}
+{% endfor %}
 
 <!-- APP JS -->
 <script src="{{ url_for('charts_builder.static', filename='js/utils.js') }}"></script>
@@ -54,6 +57,9 @@
 <script src="{{ url_for('charts_builder.static', filename='js/app.js') }}"></script>
 <script>
     {% if view %}
+    // Add js context
+    window.charts_heartbeat = {{ charts_heartbeat|tojson }};
+    window.HEARTBEAT_INTERVAL = window.charts_heartbeat.INTERVAL || 10000;
     function init() {
         addDomEvents();
         loadDashboard({{ view|tojson|safe }});

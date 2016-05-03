@@ -17,6 +17,10 @@ from flask import (
 import jinja2
 
 import db_adapters as adapter
+from settings import (
+    CHARTS_CONFIG,
+    HEARTBEAT,
+)
 
 charts = Blueprint(
     'charts_builder',
@@ -25,6 +29,15 @@ charts = Blueprint(
     static_url_path='/flask_jsondash/static',
     static_folder='static',
 )
+
+
+@charts.context_processor
+def _ctx():
+    """Inject any context needed for this blueprint."""
+    return dict(
+        charts_config=CHARTS_CONFIG,
+        charts_heartbeat=HEARTBEAT,
+    )
 
 
 @jinja2.contextfilter
