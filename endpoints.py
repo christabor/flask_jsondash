@@ -31,7 +31,7 @@ def timeline():
 @cross_origin()
 @app.route('/deadend/')
 def test_die():
-    """Fake endpoint that has a 500."""
+    """Fake endpoint that ends in a random 50x error."""
     # Simulate slow connection
     time.sleep(rand.random())
     abort(rand.choice([500, 501, 502, 503, 504]))
