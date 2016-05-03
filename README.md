@@ -8,96 +8,9 @@ Styles and chart layout is pre-packaged, and provides only the bare essentials, 
 
 ## Example configuration
 
-Below is a very complicated configuration that can demonstrate all the types that are supported:
+Each chart is very straightforward. Most of the power is leveraged by the various charting libraries.
 
-```json
-{
-    "date" : "2015-12-28T00:39:04.209Z",
-    "name": "basic-view-001",
-    "gutters": 5,
-    "modules": [
-        {
-            "type": "timeseries",
-            "name": "name3",
-            "width": 510,
-            "height": 400,
-            "dataSource": "http://localhost:5001/test1"
-        },
-        {
-            "type" : "iframe"
-            "name" : "sparklines1",
-            "height" : 200,
-            "width" : 400,
-            "dataSource": "/examples/inline-sparklines.html",
-        },
-        {
-            "type" : "timeline"
-            "name" : "timeline",
-            "height" : 500,
-            "width" : 1000,
-            "dataSource" : "http://localhost:5001/timeline/",
-        },
-        {
-            "type": "pie",
-            "name": "name4",
-            "width": 510,
-            "height": 400,
-            "dataSource": "http://localhost:5001/test1"
-        },
-        {
-            "type": "iframe",
-            "name": "hexbin1",
-            "width": 600,
-            "height": 400,
-            "dataSource": "/examples/inline-chart-hexbin.html"
-        },
-        {
-            "type": "iframe",
-            "name": "inline1",
-            "width": 600,
-            "height": 400,
-            "dataSource": "/examples/inline-chart.html"
-        },
-        {
-            "type": "custom",
-            "name": "tabsthing",
-            "width": 510,
-            "height": 400,
-            "dataSource": "/examples/tabbed-widget.html"
-        },
-        {
-            "type": "line",
-            "name": "name5",
-            "width": 510,
-            "height": 400,
-            "dataSource": "http://localhost:5001/test1"
-        },
-        {
-            "type": "step",
-            "name": "name6",
-            "width": 510,
-            "height": 400,
-            "dataSource": "http://localhost:5001/test1"
-        },
-        {
-            "type": "bar",
-            "name": "name7",
-            "width": 510,
-            "height": 400,
-            "dataSource": "http://localhost:5001/test1"
-        },
-        {
-            "type": "table",
-            "name": "name8",
-            "width": 510,
-            "height": 400,
-            "dataSource": "http://localhost:5001/test1"
-        }
-    ]
-}
-```
-
-As you can see, each chart is very straightforward. Most of the power is leveraged by the various charting libraries.
+The [example json configuration](example.json) a very complicated example that can demonstrate all kinds of types that are supported.
 
 ## Usage
 
@@ -123,7 +36,7 @@ These are necessary and included, based simply on the likelihood they may not al
 
 ### Charts
 
-Chart requirements depend on what you want to expose to your users. You can configure these in the CHART_CONFIG dictionary in the `settings.py` file.
+Chart requirements depend on what you want to expose to your users. You can configure these in the CHARTS_CONFIG dictionary in the `settings.py` file. You can override these settings by adding your own file, called `settings_override.py`
 
 ### Setting environment variables.
 
