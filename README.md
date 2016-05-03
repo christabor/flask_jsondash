@@ -4,7 +4,7 @@ Instant configurable, chart dashboards from any arbitrary API endpoint. JSON con
 
 This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/) that saves JSON configurations for declaring arbitrary charts, templates and iframes, and uses any arbitrary json endpoint, so long as the data format is correct.
 
-Styles and chart layout is pre-packaged, and provides only the bare essentials, while getting out of the way.
+Styles and chart layout are pre-packaged, and provides only the bare essentials, while getting out of the way.
 
 ## Example configuration
 
@@ -71,3 +71,8 @@ Run `endpoints.py` if you'd like to test out existing endpoints to link your cha
 ### Using remote AJAX endpoints
 
 See `endpoints.py` for examples on how to achieve this. If you do not allow CORS on the server-side, all ajax requests will fail.
+
+## FAQs
+
+**Q**: "Why'd you choose to expose library X, Y, or Z?"
+*A*: I tried to go for libraries that are pretty widely known and popular. If you are dissastisfied with what's exposed, you can always add your own by embeddding any js/css and html in a template, and loading it through the `iframe` option.
