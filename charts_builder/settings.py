@@ -66,11 +66,20 @@ CHARTS_CONFIG = {
         'charts': [
             ('custom', 'Custom embed of any arbitrary code.'),
             ('iframe', 'Embedded iframe.'),
-            ('table', 'A table of data.'),
         ],
         'js_url': None,
         'css_url': None,
         'enabled': True
+    },
+    'DataTable': {
+        'charts': [
+            ('datatable', 'A table of data, with sorting and filtering.'),
+        ],
+        'js_url': ('cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/js/'
+                   'dataTables.bootstrap.min.js'),
+        'css_url': ('cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/css/'
+                    'dataTables.bootstrap.min.css'),
+        'enabled': True,
     },
     'Timeline': {
         'charts': [
@@ -82,9 +91,15 @@ CHARTS_CONFIG = {
     },
     'Sparklines': {
         'charts': [
-            ('sparklines-bar', 'Sparkline bar'),
+            ('sparklines-bar', 'Sparkline Bar'),
+            ('sparklines-tristate', 'Sparkline Tristate'),
+            ('sparklines-discrete', 'Sparkline Discrete'),
+            ('sparklines-bullet', 'Sparkline Bullet'),
+            ('sparklines-pie', 'Sparkline Pie'),
+            ('sparklines-box', 'Sparkline Box'),
         ],
-        'js_url': 'cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js',
+        'js_url': ('cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/'
+                   '2.1.2/jquery.sparkline.min.js'),
         'css_url': '',
         'enabled': True,
     }
