@@ -34,8 +34,8 @@
 {% block custom_scripts %}
 {{ super() }}
 <!-- CORE VENDOR JS -->
-<script src="{{ url_for('charts_builder.static', filename='js/vendor/jquery.min.js') }}"></script>
-<script src="{{ url_for('charts_builder.static', filename='js/vendor/bootstrap.min.js') }}"></script>
+{# <script src="{{ url_for('charts_builder.static', filename='js/vendor/jquery.min.js') }}"></script> #}
+{# <script src="{{ url_for('charts_builder.static', filename='js/vendor/bootstrap.min.js') }}"></script> #}
 <script src="{{ url_for('charts_builder.static', filename='js/vendor/sugar.min.js') }}"></script>
 <script src="{{ url_for('charts_builder.static', filename='js/vendor/freewall.js') }}"></script>
 <script src="{{ url_for('charts_builder.static', filename='js/vendor/jRespond.min.js') }}"></script>
@@ -54,7 +54,11 @@
 <script src="{{ url_for('charts_builder.static', filename='js/app.js') }}"></script>
 <script>
     {% if view %}
-    loadDashboard({{ view|tojson|safe }});
+    function init() {
+        addDomEvents();
+        loadDashboard({{ view|tojson|safe }});
+    }
+    $(document).ready(init);
     {% endif %}
 </script>
 {% endblock %}

@@ -25,9 +25,6 @@ function _handleC3(container, data, config) {
             unload(container);
         }
     };
-    // var params = $.extend(init_config, );
-    // console.log(params)
-    // console.log($.parseJSON(config.params));
     c3.generate(init_config);
 }
 

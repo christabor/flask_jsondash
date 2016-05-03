@@ -5,17 +5,20 @@
  var dashboard_data = null;
  var wall = null;
  var HEARTBEAT_INTERVAL = 10000;
+ var $API_ROUTE_URL = '[name="dataSource"]';
  var $API_PREVIEW = '#api-output';
+ var $API_PREVIEW_BTN = '#api-output-preview';
  var $NEW_MODULE = '#new-module';
  var $VIEW_BUILDER = '#view-builder';
  var $ADD_MODULE = '#add-module';
  var $MAIN_CONTAINER = '#container';
 
  function previewAPIRoute(e) {
+    e.preventDefault();
     // Shows the response of the API field as a json payload, inline.
     $.ajax({
         type: 'get',
-        url: $(this).val().trim(),
+        url: $($API_ROUTE_URL).val().trim(),
         success: function(d) {
            $($API_PREVIEW).html(d);
         },
@@ -100,7 +103,8 @@ function addChartContainers(container, data) {
 function addDomEvents() {
     initGrid($VIEW_BUILDER);
     // TODO: debounce/throttle
-    $('[name="dataSource"]').on('change.charts', previewAPIRoute);
+    $($API_ROUTE_URL).on('change.charts', previewAPIRoute);
+    $($API_PREVIEW_BTN).on('click.charts', previewAPIRoute);
     // Save module popup form
     $('#save-module').on('click.charts.module', saveModule);
 
@@ -161,6 +165,14 @@ function unload(container) {
     container.select('.widget-loader').attr('class', 'hidden');
 }
 
+function isD3Subtype(config) {
+    // Handle specific D3 types that aren't necessarily referenced under
+    // the D3 namespace in a select field.
+    if(config.type === 'dendrogram') return true;
+    if(config.type === 'voronoi') return true;
+    return false;
+}
+
 function loadWidgetData(widget, config, config) {
     if(config.type === 'datatable') {
         _handleDataTable(widget, config, config);
@@ -177,8 +189,7 @@ function loadWidgetData(widget, config, config) {
     else if(config.type === 'custom') {
         _handleCustom(widget, config, config);
     }
-    // TODO: FIX THIS ASAP
-    else if(config.type === 'dendrogram' || config.type === 'voronoi') {
+    else if(isD3Subtype(config)) {
         _handleD3(widget, config, config);
     } else {
         _handleC3(widget, config, config);
@@ -211,9 +222,3 @@ function loadDashboard(data) {
         }
     });
 }
-
-function init() {
-    addDomEvents();
-}
-
-$(document).ready(init);
