@@ -52,8 +52,10 @@ function updateEditForm(e) {
         module_form.find('input').each(function(k, input){
             $(input).val('');
         });
+        $($DELETE_BTN).hide();
         return;
     }
+    $($DELETE_BTN).show();
     // Updates the fields in the edit form to the active widgets values.
     var data = $(e.relatedTarget).closest('.item.widget').data();
     var guid = data.guid;
@@ -116,6 +118,7 @@ function getModuleByGUID(guid) {
 
 function deleteModule(e) {
     e.preventDefault();
+    if(!confirm('Are you sure?')) return;
     var guid = $($MODULE_FORM).attr('data-guid');
     var module = getModuleByGUID(guid);
     // Remove form input and visual widget
