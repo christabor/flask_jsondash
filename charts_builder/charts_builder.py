@@ -63,18 +63,6 @@ def dashboard():
     return render_template('charts_index.html', **kwargs)
 
 
-@charts.route('/charts/custom', methods=['GET'])
-def custom_widget():
-    """Provide custom widget functionality for built-in app widgets.
-
-    These are specified in the c.dataSource argument in your config,
-    and map to a template specified within the `templates` directory.
-    """
-    widget = request.args.get('template', None)
-    assert widget is not None, 'Must have a valid widget'
-    return render_template(widget)
-
-
 @charts.route('/charts/<id>', methods=['GET'])
 def view(id):
     """Load a json view config from the DB."""

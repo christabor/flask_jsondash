@@ -156,7 +156,7 @@ function _handleIframe(container, config) {
 }
 
 function _handleCustom(container, config) {
-    $.get('/charts/custom?template=' + config.dataSource, function(html){
+    $.get(config.dataSource, function(html){
         container.append('div').html(html);
         unload(container);
     });
