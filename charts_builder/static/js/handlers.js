@@ -29,8 +29,8 @@ function _handleC3(container, config) {
 }
 
 function _handleD3(container, config) {
-    if(config.type === 'dendrogram') return _handleDendrogram(container, data, config);
-    if(config.type === 'voronoi') return _handleVoronoi(container, data, config);
+    if(config.type === 'dendrogram') return _handleDendrogram(container, config);
+    if(config.type === 'voronoi') return _handleVoronoi(container, config);
     throw new Error('Unknown type: ' + config.type);
 }
 
