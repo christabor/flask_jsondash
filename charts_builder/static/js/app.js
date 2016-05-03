@@ -124,6 +124,8 @@ function deleteModule(e) {
     $($EDIT_MODAL).modal('hide');
     // Redraw wall to replace visual 'hole'
     chart_wall.fitWidth();
+    // Trigger update form into view since data is dirty
+    $('#edit-view-container').collapse('in');
 }
 
 function addDomEvents() {

@@ -75,10 +75,17 @@ def view(id):
     return render_template('pages/chart_detail.html', id=id, view=viewjson)
 
 
+@charts.route('/charts/<c_id>/delete', methods=['GET'])
+def delete(c_id):
+    """Delete a json dashboard config."""
+    adapter.delete(c_id)
+    flash('Deleted dashboard {}'.format(c_id))
+    return redirect(url_for('charts_builder.dashboard'))
+
+
 @charts.route('/charts/update', methods=['POST'])
 def update():
     """Normalize the form POST and setup the json view config object."""
-    # Disable CSRF for now.
     data = request.form
     c_id = data['id']
     # Update db

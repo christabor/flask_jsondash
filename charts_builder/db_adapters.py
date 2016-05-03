@@ -72,5 +72,9 @@ def create(data=None):
         raise NotImplemented('PostgreSQL is not yet supported.')
 
 
-def delete():
+def delete(c_id):
     """Delete a record."""
+    if DB_NAME == 'mongo':
+        db.delete_one(dict(id=c_id))
+    else:
+        raise NotImplemented('PostgreSQL is not yet supported.')

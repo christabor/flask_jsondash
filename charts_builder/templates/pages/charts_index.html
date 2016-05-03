@@ -37,6 +37,9 @@
                 <a href="{{ url_for('charts_builder.view', id=view.id) }}">
                     <strong>{{ view.name }}</strong> - {{ view.date }} ({{ view.modules|length }} modules)
                 </a>
+                <a href="{{ url_for('charts_builder.delete', c_id=view.id) }}" class="text-danger pull-right">
+                    <span class="fa fa-times-circle"></span>
+                </a>
             </li>
             {% endfor %}
         </ul>
