@@ -60,7 +60,7 @@ def dashboard():
         views=views,
         total_modules=sum([len(view['modules']) for view in views]),
     )
-    return render_template('charts_index.html', **kwargs)
+    return render_template('pages/charts_index.html', **kwargs)
 
 
 @charts.route('/charts/<id>', methods=['GET'])
@@ -72,7 +72,7 @@ def view(id):
         return redirect(url_for('charts_builder.dashboard'))
     # Remove _id, it's not JSON serializeable.
     viewjson.pop('_id')
-    return render_template('chart_detail.html', id=id, view=viewjson)
+    return render_template('pages/chart_detail.html', id=id, view=viewjson)
 
 
 @charts.route('/charts/update', methods=['POST'])
