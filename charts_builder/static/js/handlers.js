@@ -136,8 +136,7 @@ function _handleDataTable(container, config) {
     $('#' + config.name).dataTable({
         processing: true,
         serverSide: true,
-        ajax: config.dataSource,
-        aoColumns: config.keys
+        ajax: config.dataSource
     });
     unload(container);
 }
