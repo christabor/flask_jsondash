@@ -2,7 +2,7 @@
 
 Instant configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
 
-This project is a flask app, backed by mongodb, that saves JSON configurations for declaring arbitrary charts, templates and iframes, and uses any arbitrary json endpoint, so long as the data format is correct.
+This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/) that saves JSON configurations for declaring arbitrary charts, templates and iframes, and uses any arbitrary json endpoint, so long as the data format is correct.
 
 Styles and chart layout is pre-packaged, and provides only the bare essentials, while getting out of the way.
 
