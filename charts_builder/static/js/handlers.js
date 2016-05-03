@@ -6,7 +6,7 @@
 var WIDGET_MARGIN_X = 20;
 var WIDGET_MARGIN_Y = 60;
 
-function _handleC3(container, data, config) {
+function _handleC3(container, config) {
     var init_config = {
         bindto: '#' + normalizeName(config.name),
         legend: {
@@ -28,20 +28,20 @@ function _handleC3(container, data, config) {
     c3.generate(init_config);
 }
 
-function _handleD3(container, data, config) {
-    if(data.type === 'dendrogram') return _handleDendrogram(container, data, config);
-    if(data.type === 'voronoi') return _handleVoronoi(container, data, config);
-    throw new Error('Unknown type: ' + data.type);
+function _handleD3(container, config) {
+    if(config.type === 'dendrogram') return _handleDendrogram(container, data, config);
+    if(config.type === 'voronoi') return _handleVoronoi(container, data, config);
+    throw new Error('Unknown type: ' + config.type);
 }
 
-function _handleRadialDendrogram(container, data, config) {
-
+function _handleRadialDendrogram(container, config) {
+    // TODO
 }
 
-function _handleDendrogram(container, data, config) {
+function _handleDendrogram(container, config) {
     var PADDING = 100;
-    var width = data.width - WIDGET_MARGIN_X,
-    height = data.height - WIDGET_MARGIN_Y;
+    var width = config.width - WIDGET_MARGIN_X,
+    height = config.height - WIDGET_MARGIN_Y;
 
     var cluster = d3.layout.cluster()
     .size([height, width - PADDING]);
@@ -86,9 +86,9 @@ function _handleDendrogram(container, data, config) {
     });
 }
 
-function _handleVoronoi(container, data, config) {
-    var width = data.width - WIDGET_MARGIN_X,
-    height = data.height - WIDGET_MARGIN_Y;
+function _handleVoronoi(container, config) {
+    var width = config.width - WIDGET_MARGIN_X,
+    height = config.height - WIDGET_MARGIN_Y;
 
     var vertices = d3.range(100).map(function(d) {
         return [Math.random() * width, Math.random() * height];
@@ -119,26 +119,22 @@ function _handleVoronoi(container, data, config) {
         .attr("d", polygon);
         path.order();
     }
-
-    function polygon(d) {
-        return "M" + d.join("L") + "Z";
-    }
     unload(container);
 }
 
-function _handleSparkline(container, data, config) {
-    var sparkline_type = data.type.split('_')[1];
+function _handleSparkline(container, config) {
+    var sparkline_type = config.type.split('_')[1];
     var spark = container.append('span');
-    spark.attr('id', data.name);
+    spark.attr('id', config.name);
     spark.sparkline($.getJSON(config.dataSource, function(data){
         unload(container);
     }), {type: sparkline_type});
 }
 
-function _handleDataTable(container, data, config) {
+function _handleDataTable(container, config) {
     var t = container.append('table');
-    t.attr('id', data.name);
-    $('#' + data.name).dataTable({
+    t.attr('id', config.name);
+    $('#' + config.name).dataTable({
         processing: true,
         serverSide: true,
         ajax: config.dataSource,
@@ -147,12 +143,11 @@ function _handleDataTable(container, data, config) {
     unload(container);
 }
 
-function _handleTimeline(container, data, config) {
-    console.log(container, container.attr('id'))
-    var timeline = new TL.Timeline(data.name, config.dataSource);
+function _handleTimeline(container, config) {
+    var timeline = new TL.Timeline(config.name, config.dataSource);
 }
 
-function _handleIframe(container, data, config) {
+function _handleIframe(container, config) {
     var iframe = container.append('iframe');
     iframe.attr('border', 0);
     iframe.attr('width', '100%');
@@ -161,7 +156,7 @@ function _handleIframe(container, data, config) {
     unload(container);
 }
 
-function _handleCustom(container, data, config) {
+function _handleCustom(container, config) {
     $.get('/charts/custom?template=' + config.dataSource, function(html){
         container.append('div').html(html);
         unload(container);

@@ -81,7 +81,7 @@ function refreshWidget(e) {
     var guid = container.attr('data-guid');
     var config = dashboard_data.modules.find(function(n){return n['guid'] === guid;});
     var widget = addWidget($MAIN_CONTAINER, config);
-    loadWidgetData(widget, config, config);
+    loadWidgetData(widget, config);
 }
 
 function addChartContainers(container, data) {
@@ -93,7 +93,7 @@ function addChartContainers(container, data) {
             // and add title, icons, and buttons
             var widget = addWidget(container, config);
             // Determine how to load this widget
-            loadWidgetData(widget, config, config);
+            loadWidgetData(widget, config);
         })(data.modules[name]);
     }
     initGrid($MAIN_CONTAINER);
@@ -168,26 +168,26 @@ function isD3Subtype(config) {
     return false;
 }
 
-function loadWidgetData(widget, config, config) {
+function loadWidgetData(widget, config) {
     if(config.type === 'datatable') {
-        _handleDataTable(widget, config, config);
+        _handleDataTable(widget, config);
     }
     else if(config.type.substr(0, 10) === 'sparklines') {
-        _handleSparkline(widget, config, config);
+        _handleSparkline(widget, config);
     }
     else if(config.type === 'iframe') {
-        _handleIframe(widget, config, config);
+        _handleIframe(widget, config);
     }
     else if(config.type === 'timeline') {
-        _handleTimeline(widget, config, config);
+        _handleTimeline(widget, config);
     }
     else if(config.type === 'custom') {
-        _handleCustom(widget, config, config);
+        _handleCustom(widget, config);
     }
     else if(isD3Subtype(config)) {
-        _handleD3(widget, config, config);
+        _handleD3(widget, config);
     } else {
-        _handleC3(widget, config, config);
+        _handleC3(widget, config);
     }
 }
 

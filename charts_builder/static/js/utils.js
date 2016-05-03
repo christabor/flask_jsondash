@@ -25,3 +25,7 @@ function guid() {
 function normalizeName(name) {
     return 'id_' + name.replace(/#/gi, '').replace(/\./gi, '').replace(/ /gi, '_');
 }
+
+function polygon(d) {
+    return "M" + d.join("L") + "Z";
+}
