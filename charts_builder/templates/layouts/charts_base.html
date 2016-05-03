@@ -6,12 +6,10 @@
 <link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/vendor/font-awesome.css') }}">
 <link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/vendor/loaders.min.css') }}">
 
-{# <link title="timeline-styles" rel="stylesheet" href="//cdn.knightlab.com/libs/timeline3/latest/css/timeline.css"> #}
-
 <!-- CHART SPECIFIC CSS -->
 {% for label, chart_group in charts_config.items() %}
     {% if chart_group['enabled'] and chart_group['css_url'] %}
-        <link title="label" rel="stylesheet" href="//{{ chart_group['css_url'] }}">
+        <link title="{{ label|lower }}" rel="stylesheet" href="//{{ chart_group['css_url'] }}">
     {% endif %}
 {% endfor %}
 
