@@ -11,6 +11,7 @@
  var $VIEW_BUILDER = '#view-builder';
  var $ADD_MODULE = '#add-module';
  var $MAIN_CONTAINER = '#container';
+ var $EDIT_MODAL = '#chart-options';
 
  function previewAPIRoute(e) {
     e.preventDefault();
@@ -45,15 +46,16 @@ function saveModule(e){
 
 function updateEditForm(e) {
     // Updates the fields in the edit form to the active widgets values.
-    var name = $(this).siblings('div:first').attr('id').replace('id_', '');
+    var data = $(e.relatedTarget).closest('.item.widget').data();
+    var guid = data.guid;
     var module_form = $('#new-module');
-    var module = dashboard_data.modules.find(function(n){return n['name'] === name});
+    var module = dashboard_data.modules.find(function(n){return n['guid'] === guid});
     // Update the modal window fields with this one's value.
     $.each(module, function(field, val){
         module_form.find('[name="' + field + '"]').val(val);
     });
     // Update with current guid for referencing the module.
-    module_form.attr('data-guid', module.guid);
+    module_form.attr('data-guid', guid);
 }
 
 function updateModule(e){
@@ -107,7 +109,9 @@ function addDomEvents() {
     // Save module popup form
     $('#save-module').on('click.charts.module', saveModule);
     // Edit existing modules
-    $('.widget-edit').on('click.charts', updateEditForm);
+    $($EDIT_MODAL).on('show.bs.modal', function(e){
+        updateEditForm(e);
+    });
     $('#update-module').on('click.charts.module', updateModule);
     // Allow swapping of edit/update events
     // for the add module button and form modal
