@@ -73,10 +73,14 @@ function updateModule(e){
     // Updates the module input fields with new data by rewriting them all.
     var guid = module_form.attr('data-guid');
     var active = getModuleByGUID(guid);
+    // Update all inputs
     module_form.find('input').each(function(k, input){
         var name = $(input).attr('name');
         if(name) active[name] = $(input).val();
     });
+    // Update bar chart type
+    var chart_type = module_form.find('select');
+    active[chart_type.attr('name')] = chart_type.val();
     $('.modules').empty();
     $.each(dashboard_data.modules, function(k, module){
         var val = JSON.stringify(module);
