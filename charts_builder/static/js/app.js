@@ -45,10 +45,17 @@ function saveModule(e){
 }
 
 function updateEditForm(e) {
+    var module_form = $('#new-module');
+    // If the modal caller was the add modal button, skip populating the field.
+    if(e.relatedTarget.id === $ADD_MODULE.replace('#', '')) {
+        module_form.find('input').each(function(k, input){
+            $(input).val('');
+        });
+        return;
+    }
     // Updates the fields in the edit form to the active widgets values.
     var data = $(e.relatedTarget).closest('.item.widget').data();
     var guid = data.guid;
-    var module_form = $('#new-module');
     var module = dashboard_data.modules.find(function(n){return n['guid'] === guid});
     // Update the modal window fields with this one's value.
     $.each(module, function(field, val){
