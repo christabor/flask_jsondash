@@ -82,7 +82,7 @@ CHARTS_CONFIG = {
     },
     'Sparklines': {
         'charts': [
-            ('bar', 'Sparkline bar'),
+            ('sparklines-bar', 'Sparkline bar'),
         ],
         'js_url': 'cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js',
         'css_url': '',
