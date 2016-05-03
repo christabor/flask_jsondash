@@ -20,46 +20,6 @@ body {
 #charts-builder .item {
     display: inline-block;
 }
-#charts-builder .sidepanel-container {
-    max-width: 200px;
-}
-#charts-builder .sidepanel {
-    display: none;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-#charts-builder .sidepanel .panel-item {
-}
-#charts-builder .sidepanel .panel-button {
-    display: block;
-    width: 100%;
-    padding: 0.4em;
-    background-color: #222;
-    border-bottom: 1px solid #ccc;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-}
-#charts-builder .sidepanel .panel-button:hover {
-    background-color: #333;
-}
-#charts-builder .sidepanel .panel-button:active {
-    background-color: #444;
-}
-#charts-builder .sidepanel .sidepanel-bsideutton .icon,
-.panel .panel-button .text {
-    display: block;
-}
-#charts-builder .sidepanel .panel-button .icon {
-    font-size: 20px;
-}
-#charts-builder .sidepanel .panel-button .text {
-    font-size: 12px;
-}
-#charts-builder .sidepanel.open {
-    display: block;
-}
 
 /* Widgets */
 

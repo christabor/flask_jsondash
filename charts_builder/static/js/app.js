@@ -107,10 +107,6 @@ function addDomEvents() {
     $($API_PREVIEW_BTN).on('click.charts', previewAPIRoute);
     // Save module popup form
     $('#save-module').on('click.charts.module', saveModule);
-
-    // Sidepanels
-    $('.panel-button').on('click.charts', togglePanel);
-
     // Edit existing modules
     $('.widget-edit').on('click.charts', updateEditForm);
     $('#update-module').on('click.charts.module', updateModule);
