@@ -109,9 +109,7 @@ function addDomEvents() {
     // Save module popup form
     $('#save-module').on('click.charts.module', saveModule);
     // Edit existing modules
-    $($EDIT_MODAL).on('show.bs.modal', function(e){
-        updateEditForm(e);
-    });
+    $($EDIT_MODAL).on('show.bs.modal', updateEditForm);
     $('#update-module').on('click.charts.module', updateModule);
     // Allow swapping of edit/update events
     // for the add module button and form modal
