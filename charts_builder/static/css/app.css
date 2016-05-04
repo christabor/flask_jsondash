@@ -3,6 +3,7 @@ body {
 }
 #charts-builder .item {
     display: inline-block;
+    overflow: hidden;
 }
 
 /* Widgets */
@@ -18,7 +19,6 @@ body {
     overflow: hidden; /* the onus for correct sizing is on the user who configures each widget, so we always hide overlapping content. */
 }
 #charts-builder .widget:hover {
-    cursor: move;
     border-color: #85C785;
 }
 #charts-builder .widget iframe {
