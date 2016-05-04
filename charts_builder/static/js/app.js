@@ -52,6 +52,7 @@ function updateEditForm(e) {
         module_form.find('input').each(function(k, input){
             $(input).val('');
         });
+        $($API_PREVIEW).empty();
         $($DELETE_BTN).hide();
         return;
     }

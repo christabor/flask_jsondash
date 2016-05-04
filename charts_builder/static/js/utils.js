@@ -35,6 +35,7 @@ function isD3Subtype(config) {
     // the D3 namespace in a select field.
     if(config.type === 'dendrogram') return true;
     if(config.type === 'voronoi') return true;
+    if(config.type === 'treemap') return true;
     return false;
 }
 

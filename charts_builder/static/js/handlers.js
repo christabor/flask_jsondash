@@ -34,7 +34,71 @@ function _handleD3(container, config) {
     // Handle specific types.
     if(config.type === 'dendrogram') return _handleDendrogram(container, config);
     if(config.type === 'voronoi') return _handleVoronoi(container, config);
+    if(config.type === 'treemap') return _handleTreemap(container, config);
     throw new Error('Unknown type: ' + config.type);
+}
+
+function _handleTreemap(container, config) {
+    // From http://bl.ocks.org/mbostock/4063582
+    var margin = {
+        top: WIDGET_MARGIN_Y / 2,
+        bottom: WIDGET_MARGIN_Y / 2,
+        left: WIDGET_MARGIN_X / 2,
+        right: WIDGET_MARGIN_X / 2
+    };
+    var width = config.width - WIDGET_MARGIN_X;
+    var height = config.height - WIDGET_MARGIN_Y;
+    var color = d3.scale.category20c();
+    var treemap = d3.layout.treemap()
+        .size([width, height])
+        .sticky(true)
+        .value(function(d) { return d.size; });
+    // Cleanup
+    container.selectAll('.treemap').remove();
+    var div = container
+        .append('div')
+        .classed({'treemap': true, 'chart-centered': true})
+        .style('position', 'relative')
+        .style('width', width + 'px')
+        .style('height', height + 'px');
+
+    d3.json(config.dataSource, function(error, root) {
+        if (error) throw error;
+        var node = div.datum(root).selectAll('.node')
+            .data(treemap.nodes)
+            .enter().append('div')
+            .attr('class', 'node')
+            .call(position)
+            .style('border', '1px solid white')
+            .style('font', '10px sans-serif')
+            .style('line-height', '12px')
+            .style('overflow', 'hidden')
+            .style('position', 'absolute')
+            .style('text-indent', '2px')
+            .style('background', function(d) {
+                return d.children ? color(d.name) : null;
+            })
+            .text(function(d) {
+                return d.children ? null : d.name;
+            });
+        d3.selectAll('input').on('change', function change() {
+            var value = this.value === 'count'
+            ? function() { return 1; }
+            : function(d) { return d.size;};
+            node
+            .data(treemap.value(value).nodes)
+            .transition()
+            .duration(1500)
+            .call(position);
+        });
+    });
+
+    function position() {
+        this.style('left', function(d) { return d.x + 'px'; })
+            .style('top', function(d) { return d.y + 'px'; })
+            .style('width', function(d) { return Math.max(0, d.dx - 1) + 'px'; })
+            .style('height', function(d) { return Math.max(0, d.dy - 1) + 'px'; });
+    }
 }
 
 function _handleRadialDendrogram(container, config) {
