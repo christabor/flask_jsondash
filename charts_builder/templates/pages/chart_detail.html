@@ -1,21 +1,24 @@
 {% extends "layouts/charts_base.html" %}
-{% block chart_header %}
-<p>
-    <a href="{{ url_for('charts_builder.dashboard') }}"><span class="fa fa-angle-left"></span> Back</a>
-    | View "{{ id }}" <small>created {{ view.date.strftime('%Y-%m-%d') }}</small>
-    <a href="#edit-view-container" data-toggle="collapse" class="btn btn-sm btn-primary pull-right">
-        Edit
-    </a>
-</p>
-{% endblock %}
 
 {% block chart_body %}
 <div class="row">
     <div class="col-md-12">
         <div class="collapse" id="edit-view-container">
-            <h3>Edit this view</h3>
             {% include "partials/form-view.html" %}
         </div>
+        <h2 class="lead text-center">
+            <small>
+                <a href="{{ url_for('charts_builder.dashboard') }}" class="pull-left">
+                    <span class="fa fa-angle-left"></span> Back
+                </a>
+            </small>
+            {{ view.name }}
+            <small>
+                <a href="#edit-view-container" data-toggle="collapse">
+                    (Edit)
+                </a>
+            </small>
+        </h2>
         <div class="layout" id="view-builder">
             <div id="container"></div>
         </div>

@@ -1,31 +1,28 @@
 {% extends "layouts/charts_base.html" %}
-{% block chart_header %}
-<p>
-    All Views
-    <small>
-        <a href="#new-view-form" class="pull-right btn btn-sm btn-success" id="add" data-toggle="collapse">
-            <span class="fa fa-plus"></span> Create new view
-        </a>
-    </small>
-</p>
-{% endblock %}
 
 {% block chart_body %}
 <div class="row">
     <div class="col-md-12">
         {% if views %}
             <div class="well text-center">
-                <h1 class="lead">You have <strong>{{ views|length }}</strong> {{ 'views' if views|length > 1 else 'view' }}, with <strong>{{ total_modules }}</strong> charts total.</h1>
+                <h1 class="lead">You have <strong>{{ views|length }}</strong> {{ 'dashboards' if views|length > 1 else 'dashboard' }}, with <strong>{{ total_modules }}</strong> charts total.
+                <hr>
+                <small>
+                    <a href="#new-view-form" class="btn btn-sm btn-success" id="add" data-toggle="collapse">
+                        <span class="fa fa-plus"></span> Create new dashboard
+                    </a>
+                </small>
+                </h1>
             </div>
         {% endif %}
         <div id="new-view-form" class="{{ 'collapse' if views else ''}} row">
             <div class="col-md-12">
                 {% if not views %}
                 <div class="alert alert-warning text-center">
-                    <p>No views exist. Create one below to get started.</p>
+                    <p>No dashboard exist. Create one below to get started.</p>
                 </div>
                 {% endif %}
-                <h3>Create view</h3>
+                <h3>Create dashboard</h3>
                 {% include "partials/form-view.html" %}
                 {% include "partials/edit-data-modal.html" %}
             </div>
@@ -35,7 +32,7 @@
             <li class="list-group-item">
                 <span class="fa fa-bar-chart"></span>
                 <a href="{{ url_for('charts_builder.view', id=view.id) }}">
-                    <strong>{{ view.name }}</strong> - {{ view.date }} ({{ view.modules|length }} modules)
+                    <strong>{{ view.name }}</strong> - Created {{ view.date }} ({{ view.modules|length }} modules)
                 </a>
                 <a href="{{ url_for('charts_builder.delete', c_id=view.id) }}" class="text-danger pull-right">
                     <span class="fa fa-times-circle"></span>

@@ -1,22 +1,6 @@
 body {
     background-color: #f1f1f1;
 }
-#charts-builder .header {
-    background-color: #222;
-    color: white;
-    font-size: 13px;
-    height: 40px;
-    line-height: 40px;
-}
-#charts-builder .header a {
-    color: #90D987;
-}
-#charts-builder .header .btn {
-    font-size: 12px;
-    padding: 0.2em 0.6em;
-    margin-top: 7px;
-    color: white;
-}
 #charts-builder .item {
     display: inline-block;
 }

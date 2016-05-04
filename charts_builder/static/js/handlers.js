@@ -142,7 +142,10 @@ function _handleDataTable(container, config) {
 }
 
 function _handleTimeline(container, config) {
-    var timeline = new TL.Timeline(config.name, config.dataSource);
+    $.getJSON(config.dataSource, function(data){
+        container.attr('id', 'widget-' + config.guid);
+        var timeline = new TL.Timeline('widget-' + config.guid, data);
+    });
 }
 
 function _handleIframe(container, config) {
