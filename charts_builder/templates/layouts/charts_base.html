@@ -4,7 +4,6 @@
 {{ super() }}
 <!-- VENDOR CSS -->
 <link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/vendor/font-awesome.css') }}">
-<link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/vendor/loaders.min.css') }}">
 
 <!-- CHART SPECIFIC CSS -->
 {% for label, chart_group in charts_config.items() %}
