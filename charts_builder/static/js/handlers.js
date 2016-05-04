@@ -124,19 +124,26 @@ function _handleVoronoi(container, config) {
 
 function _handleSparkline(container, config) {
     var sparkline_type = config.type.split('-')[1];
-    var spark = container.append('span');
+    var spark = container
+        .select('div')
+        .classed({'sparkline-container': true})
+        .append('span');
     spark.sparkline($.getJSON(config.dataSource, function(data){
         unload(container);
     }), {type: sparkline_type});
 }
 
 function _handleDataTable(container, config) {
+    // Clean up old tables if they exist, during reloading.
+    container.select('table').remove();
     var t = container.append('table');
     t.attr('id', config.name);
     $('#' + config.name).dataTable({
         processing: true,
         serverSide: true,
-        ajax: config.dataSource
+        ajax: config.dataSource,
+    }).css({
+        width: '100%'
     });
     unload(container);
 }
@@ -150,17 +157,21 @@ function _handleTimeline(container, config) {
 }
 
 function _handleIframe(container, config) {
+    container.select('iframe').remove();
     var iframe = container.append('iframe');
-    iframe.attr('border', 0);
-    iframe.attr('width', '100%');
-    iframe.attr('height', '100%');
-    iframe.attr('src', '/charts/custom?template=' + config.dataSource);
+    iframe.attr({
+        border: 0,
+        src: config.dataSource,
+        height: '100%',
+        width: '100%'
+    });
     unload(container);
 }
 
 function _handleCustom(container, config) {
+    container.select('.custom-container').remove();
     $.get(config.dataSource, function(html){
-        container.append('div').html(html);
+        container.append('div').classed({'custom-container': true}).html(html);
         unload(container);
     });
 }
