@@ -29,3 +29,15 @@ function normalizeName(name) {
 function polygon(d) {
     return "M" + d.join("L") + "Z";
 }
+
+function isD3Subtype(config) {
+    // Handle specific D3 types that aren't necessarily referenced under
+    // the D3 namespace in a select field.
+    if(config.type === 'dendrogram') return true;
+    if(config.type === 'voronoi') return true;
+    return false;
+}
+
+function isSparkline(type) {
+    return type.substr(0, 10) === 'sparklines';
+}

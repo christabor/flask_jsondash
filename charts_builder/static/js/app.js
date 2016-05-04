@@ -198,18 +198,6 @@ function unload(container) {
     container.select('.widget-loader').attr('class', 'hidden');
 }
 
-function isD3Subtype(config) {
-    // Handle specific D3 types that aren't necessarily referenced under
-    // the D3 namespace in a select field.
-    if(config.type === 'dendrogram') return true;
-    if(config.type === 'voronoi') return true;
-    return false;
-}
-
-function isSparkline(type) {
-    return type.substr(0, 10) === 'sparklines';
-}
-
 function loadWidgetData(widget, config) {
     try {
         if(config.type === 'datatable') {
