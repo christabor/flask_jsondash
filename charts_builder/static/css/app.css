@@ -93,7 +93,8 @@ body {
     /*http://www.patternify.com/*/
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAALUlEQVQYV2M8fvz4fwYiACNIoaWlJSMhtaMK8YYQOHgsLCxMQKoYGRnP4lINANSKKF9X4C8fAAAAAElFTkSuQmCC);
 }
-#charts-builder .widget iframe {
+#charts-builder .widget iframe,
+#charts-builder .widget svg {
     margin: 0 auto;
     display: block;
 }
