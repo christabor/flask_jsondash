@@ -57,7 +57,7 @@ function _handleDendrogram(container, config) {
     .attr('transform', 'translate(40,0)');
 
     d3.json(config.dataSource, function(error, root) {
-        if (error) throw error;
+        if(error) throw new Error('Could not load url: ' + config.dataSource);
 
         var nodes = cluster.nodes(root),
         links = cluster.links(nodes);
@@ -86,40 +86,35 @@ function _handleDendrogram(container, config) {
 }
 
 function _handleVoronoi(container, config) {
-    // TODO: DO NOT USE RANDOM DATA!
-    var width = config.width - WIDGET_MARGIN_X;
-    var height = config.height - WIDGET_MARGIN_Y;
-    var name = '#' + normalizeName(config.name);
-    var vertices = d3.range(100).map(function(d) {
-        return [Math.random() * width, Math.random() * height];
+    d3.json(config.dataSource, function(error, data){
+        if(error) throw new Error('Could not load url: ' + config.dataSource);
+        var width = config.width - WIDGET_MARGIN_X;
+        var height = config.height - WIDGET_MARGIN_Y;
+        var vertices = data;
+        var voronoi = d3.geom.voronoi().clipExtent([[0, 0], [width, height]]);
+        // Cleanup
+        var svg = container
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
+        var path = svg.append('g').selectAll('path');
+        svg.selectAll('circle')
+        .data(vertices.slice(1))
+        .enter().append('circle')
+        .attr('transform', function(d) { return 'translate(' + d + ')'; })
+        .attr('r', 1.5);
+        redraw();
+
+        function redraw() {
+            path = path.data(voronoi(vertices), polygon);
+            path.exit().remove();
+            path.enter().append('path')
+            .attr('class', function(d, i) { return 'q' + (i % 9) + '-9'; })
+            .attr('d', polygon);
+            path.order();
+        }
+        unload(container);
     });
-    var voronoi = d3.geom.voronoi()
-    .clipExtent([[0, 0], [width, height]]);
-    // Cleanup
-    var svg = container
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height);
-
-    var path = svg.append('g').selectAll('path');
-
-    svg.selectAll('circle')
-    .data(vertices.slice(1))
-    .enter().append('circle')
-    .attr('transform', function(d) { return 'translate(' + d + ')'; })
-    .attr('r', 1.5);
-
-    redraw();
-
-    function redraw() {
-        path = path.data(voronoi(vertices), polygon);
-        path.exit().remove();
-        path.enter().append('path')
-        .attr('class', function(d, i) { return 'q' + (i % 9) + '-9'; })
-        .attr('d', polygon);
-        path.order();
-    }
-    unload(container);
 }
 
 function _handleSparkline(container, config) {
@@ -137,7 +132,7 @@ function _handleDataTable(container, config) {
     // Clean up old tables if they exist, during reloading.
     container.selectAll('div').remove();
     d3.json(config.dataSource, function(error, res) {
-        if (error) throw error;
+        if(error) throw new Error('Could not load url: ' + config.dataSource);
         var keys = d3.keys(res[0]).map(function(d){
             return {'data': d};
         });
