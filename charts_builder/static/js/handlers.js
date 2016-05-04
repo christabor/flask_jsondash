@@ -143,8 +143,9 @@ function _handleDataTable(container, config) {
 
 function _handleTimeline(container, config) {
     $.getJSON(config.dataSource, function(data){
-        container.attr('id', 'widget-' + config.guid);
+        container.append('div').attr('id', 'widget-' + config.guid);
         var timeline = new TL.Timeline('widget-' + config.guid, data);
+        unload(container);
     });
 }
 
