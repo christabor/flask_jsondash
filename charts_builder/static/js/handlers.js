@@ -135,17 +135,28 @@ function _handleSparkline(container, config) {
 
 function _handleDataTable(container, config) {
     // Clean up old tables if they exist, during reloading.
-    container.select('table').remove();
-    var t = container.append('table');
-    t.attr('id', config.name);
-    $('#' + config.name).dataTable({
-        processing: true,
-        serverSide: true,
-        ajax: config.dataSource,
-    }).css({
-        width: '100%'
+    container.selectAll('div').remove();
+    d3.json(config.dataSource, function(error, res) {
+        if (error) throw error;
+        var keys = d3.keys(res[0]).map(function(d){
+            return {'data': d};
+        });
+        container
+            .append('table')
+            .classed({
+                'table': true,
+                'table-striped': true,
+                'table-bordered': true
+            })
+            .attr('id', config.name);
+        $('#' + config.name).dataTable({
+            data: res,
+            columns: keys
+        }).css({
+            width: '100%'
+        });
+        unload(container);
     });
-    unload(container);
 }
 
 function _handleTimeline(container, config) {
@@ -157,7 +168,7 @@ function _handleTimeline(container, config) {
 }
 
 function _handleIframe(container, config) {
-    container.select('iframe').remove();
+    container.selectAll('iframe').remove();
     var iframe = container.append('iframe');
     iframe.attr({
         border: 0,
@@ -169,7 +180,7 @@ function _handleIframe(container, config) {
 }
 
 function _handleCustom(container, config) {
-    container.select('.custom-container').remove();
+    container.selectAll('.custom-container').remove();
     $.get(config.dataSource, function(html){
         container.append('div').classed({'custom-container': true}).html(html);
         unload(container);

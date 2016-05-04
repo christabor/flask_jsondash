@@ -97,3 +97,8 @@ body {
     margin: 0 auto;
     display: block;
 }
+#api-output {
+    max-height: 600px;
+    overflow: scroll;
+    display: block;
+}
