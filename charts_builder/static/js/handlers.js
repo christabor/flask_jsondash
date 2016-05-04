@@ -29,6 +29,9 @@ function _handleC3(container, config) {
 }
 
 function _handleD3(container, config) {
+    // Clean up all D3 charts in one step.
+    container.selectAll('svg').remove();
+    // Handle specific types.
     if(config.type === 'dendrogram') return _handleDendrogram(container, config);
     if(config.type === 'voronoi') return _handleVoronoi(container, config);
     throw new Error('Unknown type: ' + config.type);
@@ -42,14 +45,12 @@ function _handleDendrogram(container, config) {
     var PADDING = 100;
     var width = config.width - WIDGET_MARGIN_X,
     height = config.height - WIDGET_MARGIN_Y;
-
     var cluster = d3.layout.cluster()
     .size([height, width - PADDING]);
-
     var diagonal = d3.svg.diagonal()
     .projection(function(d) { return [d.y, d.x]; });
-
-    var svg = container.select('#' + normalizeName(config.name)).append('svg')
+    var svg = container
+    .append('svg')
     .attr('width', width)
     .attr('height', height)
     .append('g')
@@ -73,9 +74,7 @@ function _handleDendrogram(container, config) {
         .attr('class', 'node')
         .attr('transform', function(d) { return 'translate(' + d.y + ',' + d.x + ')'; })
 
-        node.append('circle')
-        .attr('r', 4.5);
-
+        node.append('circle').attr('r', 4.5);
         node.append('text')
         .attr('dx', function(d) { return d.children ? -8 : 8; })
         .attr('dy', 3)
@@ -87,17 +86,18 @@ function _handleDendrogram(container, config) {
 }
 
 function _handleVoronoi(container, config) {
-    var width = config.width - WIDGET_MARGIN_X,
-    height = config.height - WIDGET_MARGIN_Y;
-
+    // TODO: DO NOT USE RANDOM DATA!
+    var width = config.width - WIDGET_MARGIN_X;
+    var height = config.height - WIDGET_MARGIN_Y;
+    var name = '#' + normalizeName(config.name);
     var vertices = d3.range(100).map(function(d) {
         return [Math.random() * width, Math.random() * height];
     });
-
     var voronoi = d3.geom.voronoi()
     .clipExtent([[0, 0], [width, height]]);
-
-    var svg = container.select('#' + normalizeName(config.name)).append('svg')
+    // Cleanup
+    var svg = container
+    .append('svg')
     .attr('width', width)
     .attr('height', height);
 
@@ -114,9 +114,9 @@ function _handleVoronoi(container, config) {
     function redraw() {
         path = path.data(voronoi(vertices), polygon);
         path.exit().remove();
-        path.enter().append("path")
-        .attr("class", function(d, i) { return "q" + (i % 9) + "-9"; })
-        .attr("d", polygon);
+        path.enter().append('path')
+        .attr('class', function(d, i) { return 'q' + (i % 9) + '-9'; })
+        .attr('d', polygon);
         path.order();
     }
     unload(container);
