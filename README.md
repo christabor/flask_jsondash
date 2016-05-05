@@ -48,9 +48,9 @@ Make sure the following env vars are set:
 * *CHARTS_DB_TABLE* The DB collection name (or sql table name) (defaults to 'views')
 * *CHARTS_ACTIVE_DB* The DB backend to use - options: 'mongo', 'postgres' (defaults to 'mongo')
 
-Make sure to start so json configuration can be saved.
-
 ### Starting DB
+
+Make sure to start so json configuration can be saved.
 
 #### Mongodb
 
@@ -75,4 +75,5 @@ See `endpoints.py` for examples on how to achieve this. If you do not allow CORS
 ## FAQs
 
 **Q**: "Why'd you choose to expose library X, Y, or Z?"
+
 *A*: I tried to go for libraries that are pretty widely known and popular. If you are dissastisfied with what's exposed, you can always add your own by embeddding any js/css and html in a template, and loading it through the `iframe` option.
