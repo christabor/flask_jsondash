@@ -19,12 +19,10 @@
     stroke: rgb(31, 119, 180);
     stroke-width: 1px;
 }
-
 .node.leaf circle {
-    fill: #ff7f0e;
+    fill: #FDF59A;
     fill-opacity: 1;
 }
-
 .node text {
     font: 10px sans-serif;
 }
