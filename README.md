@@ -77,3 +77,13 @@ See `endpoints.py` for examples on how to achieve this. If you do not allow CORS
 **Q**: "Why'd you choose to expose library X, Y, or Z?"
 
 *A*: I tried to go for libraries that are pretty widely known and popular. If you are dissastisfied with what's exposed, you can always add your own by embeddding any js/css and html in a template, and loading it through the `iframe` option.
+
+**Q**: "How do I customize X, Y, Z?"
+
+*A*: Because of the level of abstract used here, a lot of charts will naturally be less configurable than if they had been scripted by hand. This is the tradeoff with being able to quickly setup a lot of charts easily.
+
+The goal here is to use intelligent defaults as much as possible, and then allow the most universal aspects to be customized through a common interface.
+
+In a future roadmap, I may try to allow for arbitrary customizations to be passed alongside the default configuration, on a per chart basis.
+
+Keep in mind, many *stylistic* customizations can be overridden in css, since most all charts are html and/or SVG. And, as mentioned above, you can always use the iframe option and make your `dataSource` endpoint return whatever you want, including a full html/js/css pre-rendered template.
