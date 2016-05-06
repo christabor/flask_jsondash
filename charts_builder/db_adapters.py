@@ -18,7 +18,7 @@ DB_NAME = settings.ACTIVE_DB
 if DB_NAME == 'mongo':
     client = MongoClient(host=settings.DB_URI, port=settings.DB_PORT)
     conn = client[settings.DB_NAME]
-    db = conn[settings.DB_TABLE]
+    coll = conn[settings.DB_TABLE]
 else:
     raise NotImplemented('PostgreSQL is not yet supported.')
 
@@ -38,9 +38,9 @@ def read(c_id=None):
     """Read a record."""
     if DB_NAME == 'mongo':
         if c_id is None:
-            return db.find()
+            return coll.find()
         else:
-            return db.find_one(dict(id=c_id))
+            return coll.find_one(dict(id=c_id))
     else:
         raise NotImplemented('PostgreSQL is not yet supported.')
 
@@ -57,7 +57,7 @@ def update(c_id, data=None):
                 'date': dt.now()
             }
         }
-        db.update(dict(id=c_id), save_conf)
+        coll.update(dict(id=c_id), save_conf)
     else:
         raise NotImplemented('PostgreSQL is not yet supported.')
 
@@ -67,7 +67,7 @@ def create(data=None):
     if data is None:
         return
     if DB_NAME == 'mongo':
-        db.insert(data)
+        coll.insert(data)
     else:
         raise NotImplemented('PostgreSQL is not yet supported.')
 
@@ -75,6 +75,6 @@ def create(data=None):
 def delete(c_id):
     """Delete a record."""
     if DB_NAME == 'mongo':
-        db.delete_one(dict(id=c_id))
+        coll.delete_one(dict(id=c_id))
     else:
         raise NotImplemented('PostgreSQL is not yet supported.')
