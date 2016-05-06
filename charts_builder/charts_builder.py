@@ -114,7 +114,7 @@ def create():
 
 @charts.route('/charts/clone/<c_id>', methods=['POST'])
 def clone(c_id):
-    """Load a json view config from the DB."""
+    """Clone a json view config from the DB."""
     viewjson = adapter.read(c_id=c_id)
     if not viewjson:
         flash('Could not find view: {}'.format(id))
