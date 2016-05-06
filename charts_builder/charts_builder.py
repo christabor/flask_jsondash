@@ -75,7 +75,7 @@ def view(id):
     return render_template('pages/chart_detail.html', id=id, view=viewjson)
 
 
-@charts.route('/charts/<c_id>/delete', methods=['GET'])
+@charts.route('/charts/<c_id>/delete', methods=['POST'])
 def delete(c_id):
     """Delete a json dashboard config."""
     adapter.delete(c_id)
@@ -110,3 +110,22 @@ def create():
     adapter.create(data=d)
     flash('Created new view "{}"'.format(data['name']))
     return redirect(url_for('charts_builder.dashboard'))
+
+
+@charts.route('/charts/clone/<c_id>', methods=['POST'])
+def clone(c_id):
+    """Load a json view config from the DB."""
+    viewjson = adapter.read(c_id=c_id)
+    if not viewjson:
+        flash('Could not find view: {}'.format(id))
+        return redirect(url_for('charts_builder.dashboard'))
+    # Update some fields.
+    data = dict(
+        name='Clone of {}'.format(viewjson['name']),
+        modules=viewjson['modules'],
+        data=dt.now(),
+        id=str(uuid.uuid1()),
+    )
+    # Add to DB
+    adapter.create(data=data)
+    return redirect(url_for('charts_builder.view', id=data['id']))

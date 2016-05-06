@@ -104,3 +104,10 @@ body {
     overflow: scroll;
     display: block;
 }
+#charts-builder .form-inline {
+    display: inline-block !important;
+}
+#charts-builder .form-inline input,
+#charts-builder .form-inline button {
+    display: inline-block;
+}

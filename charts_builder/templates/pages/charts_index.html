@@ -34,9 +34,18 @@
                 <a href="{{ url_for('charts_builder.view', id=view.id) }}">
                     <strong>{{ view.name }}</strong> - Created {{ view.date }} ({{ view.modules|length }} modules)
                 </a>
-                <a href="{{ url_for('charts_builder.delete', c_id=view.id) }}" class="text-danger pull-right">
-                    <span class="fa fa-times-circle"></span>
-                </a>
+                <div class="pull-right">
+                    <form class="form-inline" action="{{ url_for('charts_builder.clone', c_id=view.id) }}" method="POST">
+                        <button class="btn btn-success btn-xs">
+                            <span class="fa fa-clone"></span> Clone
+                        </button>
+                    </form>
+                    <form class="form-inline delete-dashboard" action="{{ url_for('charts_builder.delete', c_id=view.id) }}" method="POST">
+                        <button class="btn btn-danger btn-xs">
+                            <span class="fa fa-times"></span> Delete
+                        </button>
+                    </form>
+                </div>
             </li>
             {% endfor %}
         </ul>

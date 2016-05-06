@@ -13,6 +13,7 @@
  var $MAIN_CONTAINER = '#container';
  var $EDIT_MODAL = '#chart-options';
  var $DELETE_BTN = '#delete-widget';
+ var $DELETE_DASHBOARD = '.delete-dashboard';
 
  function previewAPIRoute(e) {
     e.preventDefault();
@@ -165,7 +166,11 @@ function addDomEvents() {
         .on('click.charts', updateModule);
     });
     // Add delete button for existing widgets.
-    $($DELETE_BTN).on('click', deleteModule);
+    $($DELETE_BTN).on('click.charts', deleteModule);
+    // Add delete confirm for dashboards.
+    $($DELETE_DASHBOARD).on('submit.charts', function(e){
+        if(!confirm('Are you sure?')) e.preventDefault();
+    });
 }
 
 function heartBeat(data) {
