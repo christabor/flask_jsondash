@@ -221,7 +221,9 @@ function loadWidgetData(widget, config) {
         } else {
             _handleC3(widget, config);
         }
-    } catch(e) {}
+    } catch(e) {
+        if(console && console.error) console.error(e);
+    }
 }
 
 function loadDashboard(data) {

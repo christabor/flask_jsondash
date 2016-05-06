@@ -58,6 +58,7 @@ CHARTS_CONFIG = {
             ('dendrogram', 'Dendrogram'),
             ('treemap', 'Treemap'),
             ('voronoi', 'Voronoi'),
+            ('circlepack', 'Circle Pack'),
         ],
         'js_url': 'cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js',
         'css_url': None,

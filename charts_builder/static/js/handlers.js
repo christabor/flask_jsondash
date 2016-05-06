@@ -35,11 +35,53 @@ function _handleD3(container, config) {
     if(config.type === 'dendrogram') return _handleDendrogram(container, config);
     if(config.type === 'voronoi') return _handleVoronoi(container, config);
     if(config.type === 'treemap') return _handleTreemap(container, config);
+    if(config.type === 'circlepack') return _handleCirclePack(container, config);
     throw new Error('Unknown type: ' + config.type);
 }
 
+function _handleCirclePack(container, config) {
+    // Adapted from https://bl.ocks.org/mbostock/4063530
+    var margin = WIDGET_MARGIN_Y;
+    var diameter = d3.max([config.width, config.height]) - margin;
+    var format = d3.format(',d');
+
+    var pack = d3.layout.pack()
+        .size([diameter, diameter])
+        .value(function(d) { return d.size; });
+
+    var svg = container
+        .append('svg')
+        .attr('width', diameter)
+        .attr('height', diameter)
+        .append('g');
+
+    d3.json(config.dataSource, function(error, data) {
+        if(error) throw new Error("Could not load url: " + config.dataSource);
+
+        var node = svg.datum(data).selectAll('.node')
+        .data(pack.nodes)
+        .enter().append('g')
+        .attr('class', function(d) { return d.children ? 'node' : 'leaf node'; })
+        .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
+
+        node.append('title')
+        .text(function(d) { return d.name + (d.children ? '' : ': ' + format(d.size)); });
+
+        node.append('circle')
+        .attr('r', function(d) { return d.r; });
+
+        node.filter(function(d) { return !d.children; }).append('text')
+        .attr('dy', '.3em')
+        .style('text-anchor', 'middle')
+        .text(function(d) { return d.name.substring(0, d.r / 3); });
+        unload(container);
+    });
+
+    d3.select(self.frameElement).style("height", diameter + "px");
+}
+
 function _handleTreemap(container, config) {
-    // From http://bl.ocks.org/mbostock/4063582
+    // Adapted from http://bl.ocks.org/mbostock/4063582
     var margin = {
         top: WIDGET_MARGIN_Y / 2,
         bottom: WIDGET_MARGIN_Y / 2,
@@ -63,7 +105,7 @@ function _handleTreemap(container, config) {
         .style('height', height + 'px');
 
     d3.json(config.dataSource, function(error, root) {
-        if (error) throw error;
+        if(error) throw new Error('Could not load url: ' + config.dataSource);
         var node = div.datum(root).selectAll('.node')
             .data(treemap.nodes)
             .enter().append('div')
