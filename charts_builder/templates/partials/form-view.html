@@ -9,7 +9,7 @@
     <div class="modules hidden">
         {% if view %}
         {% for module in view.modules %}
-        <input type="text" id="{{ module.guid }}" class="form-control" name="module_{{ module.name }}" value="{{ module|safe|jsonstring }}">
+        <input type="text" id="{{ module.guid }}" class="form-control" name="module_{{ module.name }}" value="{{ module|jsonstring }}">
         {% endfor %}
         {% endif %}
     </div>
