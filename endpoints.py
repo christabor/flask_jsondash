@@ -125,6 +125,14 @@ def treemap():
     return json.dumps({})
 
 
+@app.route('/map', methods=['GET'])
+def datamap():
+    """Fake endpoint."""
+    with open('{}/examples/map.html'.format(cwd, 'r')) as maphtml:
+        return maphtml.read()
+    return ''
+
+
 @app.route('/dendrogram', methods=['GET'])
 def dendro():
     """Fake endpoint."""
