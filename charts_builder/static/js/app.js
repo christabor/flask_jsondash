@@ -218,6 +218,9 @@ function loadWidgetData(widget, config) {
         else if(config.type === 'timeline') {
             _handleTimeline(widget, config);
         }
+        else if(config.type === 'venn') {
+            _handleVenn(widget, config);
+        }
         else if(config.type === 'custom') {
             _handleCustom(widget, config);
         }

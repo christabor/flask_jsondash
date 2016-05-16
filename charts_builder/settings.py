@@ -91,6 +91,14 @@ CHARTS_CONFIG = {
         'css_url': 'cdn.knightlab.com/libs/timeline3/latest/css/timeline.css',
         'enabled': True,
     },
+    'Venn': {
+        'charts': [
+            ('venn', 'A venn diagram'),
+        ],
+        'js_url': 'cdn.rawgit.com/benfred/venn.js/master/venn.js',
+        'css_url': None,
+        'enabled': True,
+    },
     'Sparklines': {
         'charts': [
             ('sparklines-bar', 'Sparkline Bar'),

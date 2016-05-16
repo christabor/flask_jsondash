@@ -287,3 +287,16 @@ function _handleCustom(container, config) {
         unload(container);
     });
 }
+
+function _handleVenn(container, config) {
+    d3.json(config.dataSource, function(error, data){
+        if(error) throw new Error('Could not load url: ' + config.dataSource);
+        var chart = venn.VennDiagram();
+        var svg = container
+            .append('svg')
+            .attr('width', config.width)
+            .attr('height', config.height)
+            .append('g');
+        svg.datum(data).call(chart);
+    });
+}
