@@ -25,7 +25,11 @@ function guid() {
 
 function normalizeName(name) {
     if(!name) return 'id_NONAME_' + s4();
-    return 'id_' + name.replace(/#/gi, '').replace(/\./gi, '').replace(/ /gi, '_');
+    // Credit: http://stackoverflow.com/questions/4328500/
+    // how-can-i-strip-all-punctuation-from-a-string-in-javascript-using-regex
+    name = name.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+    // Reformat it for ID use.
+    return 'id_' + name.replace(/#/gi, '').replace(/ /gi, '_');
 }
 
 function polygon(d) {
