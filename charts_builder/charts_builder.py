@@ -42,14 +42,15 @@ def _ctx():
 
 @jinja2.contextfilter
 @charts.app_template_filter('jsonstring')
-def jsonstring(ctx, string):
+def jsonstring(ctx, data):
     """Format view json module data for template use.
 
     It's automatically converted to unicode key/value pairs,
     which is undesirable for the template.
     """
-    return json.dumps(string).replace('\'', '"').replace(
-        'u"', '"').replace('"{"', '{"').replace('"}"', '"}')
+    if 'date' in data:
+        data['date'] = str(data['date'])
+    return json.dumps(data)
 
 
 @charts.route('/charts/', methods=['GET'])
@@ -123,7 +124,7 @@ def clone(c_id):
     data = dict(
         name='Clone of {}'.format(viewjson['name']),
         modules=viewjson['modules'],
-        data=dt.now(),
+        date=dt.now(),
         id=str(uuid.uuid1()),
     )
     # Add to DB
