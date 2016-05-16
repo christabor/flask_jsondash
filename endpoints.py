@@ -3,7 +3,9 @@
 # -*- coding: utf-8 -*-
 
 import json
-import random as rand
+import os
+from random import randrange as rr
+from random import choice, random
 import time
 
 from flask import (
@@ -18,12 +20,14 @@ CORS(app)
 app.config['SECRET_KEY'] = 'NOTSECURELOL'
 app.debug = True
 
+cwd = os.getcwd()
+
 
 @cross_origin()
 @app.route('/timeline/')
 def timeline():
     """Fake endpoint."""
-    with open('timeline3.json', 'r') as timelinejson:
+    with open('{}/examples/timeline3.json'.format(cwd), 'r') as timelinejson:
         return timelinejson.read()
     return json.dumps({})
 
@@ -33,8 +37,8 @@ def timeline():
 def test_die():
     """Fake endpoint that ends in a random 50x error."""
     # Simulate slow connection
-    time.sleep(rand.random())
-    abort(rand.choice([500, 501, 502, 503, 504]))
+    time.sleep(random())
+    abort(choice([500, 501, 502, 503, 504]))
 
 
 @cross_origin()
@@ -42,7 +46,7 @@ def test_die():
 def test4():
     """Fake endpoint."""
     # Simulate slow connection
-    time.sleep(rand.random())
+    time.sleep(random())
     return json.dumps({
         "name": "foo",
         "children": [{
@@ -56,7 +60,7 @@ def test4():
 def test3():
     """Fake endpoint."""
     # Simulate slow connection
-    time.sleep(rand.random())
+    time.sleep(random())
     return json.dumps({
         "name": "foo",
         "children": [{
@@ -70,12 +74,12 @@ def test3():
 def test1():
     """Fake endpoint."""
     # Simulate slow connection
-    time.sleep(rand.random())
+    time.sleep(random())
     return json.dumps([
-        ['data1'] + [rand.randrange(0, 100) for _ in range(12)],
-        ['data2'] + [rand.randrange(0, 100) for _ in range(12)],
-        ['data3'] + [rand.randrange(0, 100) for _ in range(12)],
-        ['data4'] + [rand.randrange(0, 100) for _ in range(12)],
+        ['data1'] + [rr(0, 100) for _ in range(12)],
+        ['data2'] + [rr(0, 100) for _ in range(12)],
+        ['data3'] + [rr(0, 100) for _ in range(12)],
+        ['data4'] + [rr(0, 100) for _ in range(12)],
     ])
 
 
@@ -84,12 +88,42 @@ def test1():
 def test2():
     """Fake endpoint."""
     # Simulate slow connection
-    time.sleep(rand.random())
+    time.sleep(random())
     return json.dumps([
-        ['data3'] + [rand.randrange(0, 100) for _ in range(12)],
-        ['data4'] + [rand.randrange(0, 100) for _ in range(12)],
+        ['data3'] + [rr(0, 100) for _ in range(12)],
+        ['data4'] + [rr(0, 100) for _ in range(12)],
     ])
 
 
+@app.route('/sparklines', methods=['GET'])
+def sparklines():
+    """Fake endpoint."""
+    return json.dumps([rr(0, 100) for _ in range(20)])
+
+
+@app.route('/circlepack', methods=['GET'])
+def circlepack():
+    """Fake endpoint."""
+    with open('{}/examples/flare.json'.format(cwd), 'r') as djson:
+        return djson.read()
+    return json.dumps({})
+
+
+@app.route('/treemap', methods=['GET'])
+def treemap():
+    """Fake endpoint."""
+    with open('{}/examples/flare.json'.format(cwd), 'r') as djson:
+        return djson.read()
+    return json.dumps({})
+
+
+@app.route('/dendrogram', methods=['GET'])
+def dendro():
+    """Fake endpoint."""
+    with open('{}/examples/flare.json'.format(cwd), 'r') as djson:
+        return djson.read()
+    return json.dumps({})
+
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5004)
