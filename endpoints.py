@@ -41,6 +41,26 @@ def dtable():
 
 
 @cross_origin()
+@app.route('/bar/')
+def barchart():
+    """Fake endpoint."""
+    return json.dumps([
+        ['data{}'.format(i)] + [rr(0, 100) for i in range(10)]
+        for i in range(10)
+    ])
+
+
+@cross_origin()
+@app.route('/line/')
+def linechart():
+    """Fake endpoint."""
+    return json.dumps([
+        ['data{}'.format(i)] + [rr(0, 100) for i in range(10)]
+        for i in range(5)
+    ])
+
+
+@cross_origin()
 @app.route('/deadend/')
 def test_die():
     """Fake endpoint that ends in a random 50x error."""
@@ -61,32 +81,6 @@ def test_venn():
         {'sets': ['A', 'B', 'C'], 'size': rr(10, 100)},
     ]
     return json.dumps(data)
-
-
-@cross_origin()
-@app.route('/test1/')
-def test1():
-    """Fake endpoint."""
-    # Simulate slow connection
-    time.sleep(random())
-    return json.dumps([
-        ['data1'] + [rr(0, 100) for _ in range(12)],
-        ['data2'] + [rr(0, 100) for _ in range(12)],
-        ['data3'] + [rr(0, 100) for _ in range(12)],
-        ['data4'] + [rr(0, 100) for _ in range(12)],
-    ])
-
-
-@cross_origin()
-@app.route('/test2/')
-def test2():
-    """Fake endpoint."""
-    # Simulate slow connection
-    time.sleep(random())
-    return json.dumps([
-        ['data3'] + [rr(0, 100) for _ in range(12)],
-        ['data4'] + [rr(0, 100) for _ in range(12)],
-    ])
 
 
 @app.route('/sparklines', methods=['GET'])
