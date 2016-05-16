@@ -13,10 +13,10 @@ DB_TABLE = os.environ.get('CHARTS_DB_TABLE', 'views')
 ACTIVE_DB = os.environ.get('CHARTS_ACTIVE_DB', 'mongo').lower()
 
 # Javascript heartbeat for dashboards.
-HEARTBEAT = {
-    'INTERVAL': 10000,
-    'ENABLED': False,
-}
+HEARTBEAT = dict(
+    INTERVAL=10000,
+    ENABLED=False,
+)
 
 """
 Chart configuration below -- this is essential to making the frontend work.
