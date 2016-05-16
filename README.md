@@ -87,3 +87,17 @@ The goal here is to use intelligent defaults as much as possible, and then allow
 In a future roadmap, I may try to allow for arbitrary customizations to be passed alongside the default configuration, on a per chart basis.
 
 Keep in mind, many *stylistic* customizations can be overridden in css, since most all charts are html and/or SVG. And, as mentioned above, you can always use the iframe option and make your `dataSource` endpoint return whatever you want, including a full html/js/css pre-rendered template.
+
+## Tips & tricks
+
+### Using endpoints dynamically
+
+Because the chart builder utilizes simple endpoints, you can use the power of REST to create more complicated views. For example:
+
+`curl -XGET http://localhost:5002/api/foo/`
+
+could return `{"data": [1, 2, 3, 4]}`, but you could customize the url by updating the url saved in your dashboard to support query arguments:
+
+`curl -XGET http://localhost:5002/api/foo?gt=9`
+
+could return {"data": [10, 20, 30, 40]} instead!
