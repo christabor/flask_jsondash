@@ -289,6 +289,7 @@ function _handleCustom(container, config) {
 }
 
 function _handleVenn(container, config) {
+    container.selectAll('svg').remove();
     d3.json(config.dataSource, function(error, data){
         if(error) throw new Error('Could not load url: ' + config.dataSource);
         var chart = venn.VennDiagram();
