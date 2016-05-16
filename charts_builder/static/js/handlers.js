@@ -298,5 +298,6 @@ function _handleVenn(container, config) {
             .attr('height', config.height)
             .append('g');
         svg.datum(data).call(chart);
+        unload(container);
     });
 }
