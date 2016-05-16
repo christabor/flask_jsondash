@@ -3,9 +3,6 @@
 {% block chart_body %}
 <div class="row">
     <div class="col-md-12">
-        <div class="collapse" id="edit-view-container">
-            {% include "partials/form-view.html" %}
-        </div>
         <h2 class="lead text-center">
             <small>
                 <a href="{{ url_for('charts_builder.dashboard') }}" class="pull-left">
@@ -14,14 +11,32 @@
             </small>
             {{ view.name }}
             <small>
-                <a href="#edit-view-container" data-toggle="collapse">
-                    (Edit)
-                </a>
+                (
+                <a href="#edit-view-container" data-toggle="collapse">Edit</a> |
+                <a href="#json-output" data-toggle="modal">View JSON</a>
+                )
             </small>
         </h2>
-        <hr>
+        <div class="collapse" id="edit-view-container">
+            {% include "partials/form-view.html" %}
+        </div>
         <div class="layout" id="view-builder">
             <div id="container"></div>
+        </div>
+        <div class="modal fade" id="json-output">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">JSON config</h4>
+                    </div>
+                    <div class="modal-body">
+                        <pre>
+                            <code>{{ view|jsonstring }}</code>
+                        </pre>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

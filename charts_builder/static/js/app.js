@@ -243,6 +243,13 @@ function loadDashboard(data) {
     }
     // Add event handlers for widget UI
     $('.widget-refresh').on('click.charts', refreshWidget);
+
+    // Format json config display
+    $('#json-output').on('show.bs.modal', function(e){
+        var code = $(this).find('code').text();
+        $(this).find('code').text(JSON.stringify(JSON.parse(code), null, 4));
+    });
+
     // Setup responsive handlers
     var jres = jRespond([
     {
