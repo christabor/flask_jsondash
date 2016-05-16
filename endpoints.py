@@ -32,6 +32,14 @@ def timeline():
     return json.dumps({})
 
 
+@app.route('/dtable', methods=['GET'])
+def dtable():
+    """Fake endpoint."""
+    with open('{}/examples/dtable.json'.format(os.getcwd()), 'r') as djson:
+        return djson.read()
+    return json.dumps({})
+
+
 @cross_origin()
 @app.route('/deadend/')
 def test_die():
