@@ -6,17 +6,22 @@
         {% block title %}My tester app for charts.{% endblock %}
     </title>
     <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
     {% block custom_css %}{% endblock %}
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                {% block content %}{% endblock %}
+                <h1>My tester app for charts</h1>
+                <p class="lead">A place to demonstrate how to use the blueprint.</p>
+                {% block body %}{% endblock %}
             </div>
         </div>
     </div>
     <!-- VENDOR JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
     {% block custom_scripts %}{% endblock %}
 </body>
 </html>

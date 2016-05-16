@@ -29,7 +29,7 @@
         </div>
         <ul class="list-group">
             {% for view in views %}
-            <li class="list-group-item">
+            <li class="list-group-item clearfix">
                 <span class="fa fa-bar-chart"></span>
                 <a href="{{ url_for('charts_builder.view', id=view.id) }}">
                     <strong>{{ view.name }}</strong> - Created {{ view.date }} ({{ view.modules|length }} modules)
