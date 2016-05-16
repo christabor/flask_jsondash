@@ -50,31 +50,17 @@ def test_die():
 
 
 @cross_origin()
-@app.route('/test4/')
-def test4():
+@app.route('/venn/')
+def test_venn():
     """Fake endpoint."""
-    # Simulate slow connection
-    time.sleep(random())
-    return json.dumps({
-        "name": "foo",
-        "children": [{
-            "name": '---foo---', "size": i
-        } for i in range(0, 30)]
-    })
-
-
-@cross_origin()
-@app.route('/test3/')
-def test3():
-    """Fake endpoint."""
-    # Simulate slow connection
-    time.sleep(random())
-    return json.dumps({
-        "name": "foo",
-        "children": [{
-            "name": '---foo---', "size": i
-        } for i in range(0, 30)]
-    })
+    data = [
+        {'sets': ['A'], 'size': rr(10, 100)},
+        {'sets': ['B'], 'size': rr(10, 100)},
+        {'sets': ['C'], 'size': rr(10, 100)},
+        {'sets': ['A', 'B'], 'size': rr(10, 100)},
+        {'sets': ['A', 'B', 'C'], 'size': rr(10, 100)},
+    ]
+    return json.dumps(data)
 
 
 @cross_origin()
