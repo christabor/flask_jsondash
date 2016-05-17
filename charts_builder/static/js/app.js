@@ -221,6 +221,9 @@ function loadWidgetData(widget, config) {
         else if(config.type === 'venn') {
             _handleVenn(widget, config);
         }
+        else if(config.type === 'number') {
+            _handleSingleNum(widget, config);
+        }
         else if(config.type === 'custom') {
             _handleCustom(widget, config);
         }

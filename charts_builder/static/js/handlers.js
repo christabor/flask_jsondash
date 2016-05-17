@@ -260,6 +260,23 @@ function _handleDataTable(container, config) {
     });
 }
 
+function _handleSingleNum(container, config) {
+    container.selectAll('.singlenum').remove();
+    $.getJSON(config.dataSource, function(data){
+        var num = container.append('div')
+            .attr('id', 'widget-' + config.guid)
+            .append('p')
+            .classed({'singlenum': true})
+            .text(data);
+        // Add red or green, depending on if the number appears to be pos/neg.
+        num.classed({
+            'text-danger': data.startsWith('-'),
+            'text-success': !data.startsWith('-')
+        });
+        unload(container);
+    });
+}
+
 function _handleTimeline(container, config) {
     $.getJSON(config.dataSource, function(data){
         container.append('div').attr('id', 'widget-' + config.guid);

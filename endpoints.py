@@ -3,6 +3,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+import locale
 import os
 from random import randrange as rr
 from random import choice, random
@@ -11,6 +12,7 @@ import time
 from flask import (
     Flask,
     abort,
+    request,
 )
 from flask.ext.cors import CORS
 from flask.ext.cors import cross_origin
@@ -19,6 +21,8 @@ app = Flask(__name__)
 CORS(app)
 app.config['SECRET_KEY'] = 'NOTSECURELOL'
 app.debug = True
+
+locale.setlocale(locale.LC_ALL, '')
 
 cwd = os.getcwd()
 
@@ -58,6 +62,19 @@ def linechart():
         ['data{}'.format(i)] + [rr(0, 100) for i in range(10)]
         for i in range(5)
     ])
+
+
+@cross_origin()
+@app.route('/singlenum/')
+def singlenum():
+    """Fake endpoint."""
+    if 'sales' in request.args:
+        val = locale.currency(float(rr(10, 10000)), grouping=True)
+    else:
+        val = rr(10, 100000)
+    if 'negative' in request.args:
+        val = '-{}'.format(val)
+    return json.dumps(val)
 
 
 @cross_origin()
