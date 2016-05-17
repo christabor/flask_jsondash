@@ -13,11 +13,12 @@ from flask import (
     Flask,
     abort,
     request,
+    render_template,
 )
 from flask.ext.cors import CORS
 from flask.ext.cors import cross_origin
 
-app = Flask(__name__)
+app = Flask('endpoints_test')
 CORS(app)
 app.config['SECRET_KEY'] = 'NOTSECURELOL'
 app.debug = True
@@ -129,9 +130,7 @@ def treemap():
 @app.route('/map', methods=['GET'])
 def datamap():
     """Fake endpoint."""
-    with open('{}/examples/map.html'.format(cwd, 'r')) as maphtml:
-        return maphtml.read()
-    return ''
+    return render_template('examples/map.html')
 
 
 @app.route('/dendrogram', methods=['GET'])
