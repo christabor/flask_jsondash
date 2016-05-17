@@ -68,10 +68,11 @@ def linechart():
 @app.route('/singlenum/')
 def singlenum():
     """Fake endpoint."""
+    _min, _max = 10, 10000
     if 'sales' in request.args:
-        val = locale.currency(float(rr(10, 10000)), grouping=True)
+        val = locale.currency(float(rr(_min, _max)), grouping=True)
     else:
-        val = rr(10, 100000)
+        val = rr(_min, _max)
     if 'negative' in request.args:
         val = '-{}'.format(val)
     return json.dumps(val)
