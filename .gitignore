@@ -49,7 +49,7 @@ Icon?
 ehthumbs.db
 Thumbs.db
 *.pyc
-config
+/config
 compass
 /tmp
 /node_modules

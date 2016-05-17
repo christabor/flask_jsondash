@@ -10,7 +10,7 @@ The dashboard layout and blueprint styles are pre-packaged, and provide only the
 
 Each chart is very straightforward. Most of the power is leveraged by the various charting libraries.
 
-The [example json configuration](example.json) a very complicated example that can demonstrate all kinds of types that are supported.
+The [example json configurations](examples/config) have examples that can demonstrate all kinds of types that are supported.
 
 ## Usage
 
