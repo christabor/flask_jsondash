@@ -27,6 +27,11 @@ locale.setlocale(locale.LC_ALL, '')
 cwd = os.getcwd()
 
 
+def rr_list(max_range=10):
+    """Generate a list of random integers."""
+    return [rr(0, 100) for i in range(max_range)]
+
+
 @cross_origin()
 @app.route('/timeline/')
 def timeline():
@@ -48,10 +53,9 @@ def dtable():
 @app.route('/bar/')
 def barchart():
     """Fake endpoint."""
-    return json.dumps([
-        ['data{}'.format(i)] + [rr(0, 100) for i in range(10)]
-        for i in range(10)
-    ])
+    return json.dumps(
+        {'data {}'.format(i): rr_list() for i in range(10)}
+    )
 
 
 @cross_origin()
@@ -59,8 +63,7 @@ def barchart():
 def linechart():
     """Fake endpoint."""
     return json.dumps([
-        ['data{}'.format(i)] + [rr(0, 100) for i in range(10)]
-        for i in range(5)
+        ['data{}'.format(i)] + rr_list() for i in range(5)
     ])
 
 
