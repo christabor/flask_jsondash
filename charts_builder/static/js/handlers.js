@@ -263,9 +263,9 @@ function _handleDataTable(container, config) {
 function _handleSingleNum(container, config) {
     container.selectAll('.singlenum').remove();
     $.getJSON(config.dataSource, function(data){
-        var num = container.append('div')
-            .attr('id', 'widget-' + config.guid)
-            .append('p')
+        var div = container.append('div')
+            .attr('id', 'widget-' + config.guid);
+        var num = div.append('p')
             .classed({'singlenum': true})
             .text(data);
         // Add red or green, depending on if the number appears to be pos/neg.
@@ -273,6 +273,20 @@ function _handleSingleNum(container, config) {
             'text-danger': data.startsWith('-'),
             'text-success': !data.startsWith('-')
         });
+        // Get title height to offset box.
+        var title_h = container
+            .select('.widget-title')
+            .node()
+            .getBoundingClientRect()
+            .height;
+        var inner_box_height = config.height - title_h; // factor in rough height of title.
+        div.style({
+            'line-height': inner_box_height + 'px',
+            'height': inner_box_height + 'px'
+        });
+        var digits = String(data).length;
+        var size = getDigitSize()(digits);
+        num.style('font-size', size + 'px');
         unload(container);
     });
 }
