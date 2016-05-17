@@ -253,9 +253,7 @@ function _handleDataTable(container, config) {
         $('#' + config.name).dataTable({
             data: res,
             columns: keys
-        }).css({
-            width: '100%'
-        });
+        }).css({width: 'auto'});
         unload(container);
     });
 }

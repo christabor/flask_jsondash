@@ -3,8 +3,10 @@
  */
 
 .dataTables_wrapper {
+    width: 100%;
     max-width: 100%;
-    margin: 0.8em;
+    padding: 1em;
+    margin: 0.4em auto;
 }
 
 /**
