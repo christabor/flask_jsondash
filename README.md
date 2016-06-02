@@ -1,6 +1,6 @@
 # Flask JSONDash
 
-Instant configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
+Easily configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
 
 ![kitchensink screenshot 1](examples/screenshots/kitchensink1.png)
 
