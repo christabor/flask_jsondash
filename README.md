@@ -2,6 +2,8 @@
 
 Instant configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
 
+![examples/screenshots/kitchensink1.png](screenshot 1)
+
 This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/) that allows you to create sleek dashboards without writing any front end code. It saves JSON configurations for declaring arbitrary charts, leveraging popular libraries like C3.js and D3.js. It also supports templates and iframes, as well as other data visualization libraries. The beauty is that it simply requires a very basic configuration and uses any arbitrary json endpoint to get data, so long as the payload format is correct.
 
 The dashboard layout and blueprint styles are pre-packaged, and provide only the essentials, while getting out of the way.
