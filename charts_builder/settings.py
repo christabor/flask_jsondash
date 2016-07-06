@@ -5,7 +5,7 @@ import os
 # DB Settings - Defaults to values specific for Mongo,
 # but Postgresql is also supported.
 DB_URI = os.environ.get('CHARTS_DB_HOST', 'localhost')
-DB_PORT = os.environ.get('CHARTS_DB_PORT', 27017)
+DB_PORT = int(os.environ.get('CHARTS_DB_PORT', 27017))
 DB_NAME = os.environ.get('CHARTS_DB_DB', 'charts')
 # This name is used for table/collection,
 # regardless of Postgresql or Mongodb usage.
