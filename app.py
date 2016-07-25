@@ -1,6 +1,6 @@
 """This is your typical app, demonstrating usage."""
 
-from charts_builder.charts_builder import charts
+from flask_jsondash.charts_builder import charts
 
 from flask import Flask
 
