@@ -3,7 +3,7 @@
 {% block custom_css %}
 {{ super() }}
 <!-- VENDOR CSS -->
-<link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/vendor/font-awesome.css') }}">
+<link rel="stylesheet" href="{{ url_for('jsondash._static', filename='css/vendor/font-awesome.css') }}">
 
 <!-- CHART SPECIFIC CSS -->
 {% for label, chart_group in charts_config.items() %}
@@ -13,9 +13,9 @@
 {% endfor %}
 
 <!-- APP CSS -->
-<link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/examples.css') }}">
-<link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/app.css') }}">
-<link rel="stylesheet" href="{{ url_for('charts_builder.static', filename='css/overrides.css') }}">
+<link rel="stylesheet" href="{{ url_for('jsondash._static', filename='css/examples.css') }}">
+<link rel="stylesheet" href="{{ url_for('jsondash._static', filename='css/app.css') }}">
+<link rel="stylesheet" href="{{ url_for('jsondash._static', filename='css/overrides.css') }}">
 
 {% endblock %}
 
@@ -33,9 +33,9 @@
 {% block custom_scripts %}
 {{ super() }}
 <!-- CORE VENDOR JS -->
-<script src="{{ url_for('charts_builder.static', filename='js/vendor/sugar.min.js') }}"></script>
-<script src="{{ url_for('charts_builder.static', filename='js/vendor/freewall.js') }}"></script>
-<script src="{{ url_for('charts_builder.static', filename='js/vendor/jRespond.min.js') }}"></script>
+<script src="{{ url_for('jsondash._static', filename='js/vendor/sugar.min.js') }}"></script>
+<script src="{{ url_for('jsondash._static', filename='js/vendor/freewall.js') }}"></script>
+<script src="{{ url_for('jsondash._static', filename='js/vendor/jRespond.min.js') }}"></script>
 
 <!-- CHART SPECIFIC SCRIPTS -->
 {% for label, chart_group in charts_config.items() %}
@@ -45,10 +45,10 @@
 {% endfor %}
 
 <!-- APP JS -->
-<script src="{{ url_for('charts_builder.static', filename='js/utils.js') }}"></script>
-<script src="{{ url_for('charts_builder.static', filename='js/templates.js') }}"></script>
-<script src="{{ url_for('charts_builder.static', filename='js/handlers.js') }}"></script>
-<script src="{{ url_for('charts_builder.static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('jsondash._static', filename='js/utils.js') }}"></script>
+<script src="{{ url_for('jsondash._static', filename='js/templates.js') }}"></script>
+<script src="{{ url_for('jsondash._static', filename='js/handlers.js') }}"></script>
+<script src="{{ url_for('jsondash._static', filename='js/app.js') }}"></script>
 <script>
     // Add js context
     window.charts_heartbeat = {{ charts_heartbeat|tojson|safe }};

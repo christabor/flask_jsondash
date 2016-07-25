@@ -31,16 +31,16 @@
             {% for view in views %}
             <li class="list-group-item clearfix">
                 <span class="fa fa-bar-chart"></span>
-                <a href="{{ url_for('charts_builder.view', id=view.id) }}">
+                <a href="{{ url_for('jsondash.view', id=view.id) }}">
                     <strong>{{ view.name }}</strong> - Created {{ view.date }} ({{ view.modules|length }} modules)
                 </a>
                 <div class="pull-right">
-                    <form class="form-inline" action="{{ url_for('charts_builder.clone', c_id=view.id) }}" method="POST">
+                    <form class="form-inline" action="{{ url_for('jsondash.clone', c_id=view.id) }}" method="POST">
                         <button class="btn btn-success btn-xs">
                             <span class="fa fa-clone"></span> Clone
                         </button>
                     </form>
-                    <form class="form-inline delete-dashboard" action="{{ url_for('charts_builder.delete', c_id=view.id) }}" method="POST">
+                    <form class="form-inline delete-dashboard" action="{{ url_for('jsondash.delete', c_id=view.id) }}" method="POST">
                         <button class="btn btn-danger btn-xs">
                             <span class="fa fa-times"></span> Delete
                         </button>
