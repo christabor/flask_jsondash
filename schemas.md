@@ -66,11 +66,28 @@ An object with each key corresponding to the line label, and an an integer value
 
 #### Area
 
-...
+An object with each key corresponding to the line label, and an an integer value.
+
+```json
+{
+    "bar1": [1, 2, 30, 12, 100],
+    "bar2": [2, 4, 12, 50, 80],
+}
+```
 
 #### Donut
 
-...
+An object with each key corresponding to the line label, and an an integer value.
+
+```json
+{
+    "data d": 16,
+    "data e": 77,
+    "data b": 87,
+    "data c": 41,
+    "data a": 15
+}
+```
 
 #### Spline
 
@@ -78,7 +95,13 @@ An object with each key corresponding to the line label, and an an integer value
 
 #### Gauge
 
-...
+An object with each a single key called `data` and an integer value corresponding to the current gauge value.
+
+```json
+{
+    "data": 40
+}
+```
 
 #### Scatter
 
@@ -86,7 +109,14 @@ An object with each key corresponding to the line label, and an an integer value
 
 #### Area spline
 
-...
+An object with each key corresponding to the line label, and an an integer value.
+
+```json
+{
+    "bar1": [1, 2, 30, 12, 100],
+    "bar2": [2, 4, 12, 50, 80],
+}
+```
 
 ## D3
 
