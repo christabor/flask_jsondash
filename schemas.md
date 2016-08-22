@@ -4,6 +4,10 @@
 
 C3js is a wrapper around D3js, that provides simple, out-of-the-box charts. Visit [c3js.org](http://c3js.org) for more.
 
+### Overrides
+
+Supported.
+
 #### Line chart
 
 An object with each key corresponding to the line label, and a list of its values.
@@ -166,6 +170,10 @@ A recursive json config that uses `name` and `children` as its main keys of arbi
 
 One-off, simple, ad-hoc displays.
 
+### Overrides
+
+Not supported.
+
 #### Custom
 
 ...
@@ -193,6 +201,10 @@ Any number, positive or negative. Prefixes, such as currencies, are also allowed
 
 ## Datatables
 
+### Overrides
+
+Not supported.
+
 #### Datatables standard
 
 A table with automatic styling, sorting, filtering and pagination. Format is a list of objects, where values can be any key and value, but all elements in the list **must** have matching key names.
@@ -212,6 +224,12 @@ A table with automatic styling, sorting, filtering and pagination. Format is a l
 
 ## Timeline
 
+An interactive timeline creator.
+
+### Overrides
+
+Not supported.
+
 #### Timeline standard
 
 A timeline using timeline.js. Format requirements are [available here](https://github.com/christabor/flask_jsondash/blob/master/examples/timeline3.json).
@@ -219,6 +237,10 @@ A timeline using timeline.js. Format requirements are [available here](https://g
 ## VennJS
 
 VennJS is a wrapper for d3js that provides an easy to use api for Venn and Euler diagrams. Visit [https://github.com/benfred/venn.js](https://github.com/benfred/venn.js) for more.
+
+### Overrides
+
+Not supported.
 
 #### VennJS standard
 
@@ -233,6 +255,10 @@ VennJS is a wrapper for d3js that provides an easy to use api for Venn and Euler
 ## Sparklines
 
 Sparklines are "mini" charts that can be used inline. They most often make sense as complementing a larger context, for example, a paragraph of text. See [http://omnipotent.net/jquery.sparkline/](http://omnipotent.net/jquery.sparkline/) for more.
+
+### Overrides
+
+Not supported.
 
 #### Sparklines bar chart
 
