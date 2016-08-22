@@ -71,6 +71,14 @@ def timeseries():
 
 
 @cross_origin()
+@app.route('/pie/')
+def pie():
+    """Fake endpoint."""
+    letters = list('abcde')
+    return json.dumps({'data {}'.format(name): rr(1, 100) for name in letters})
+
+
+@cross_origin()
 @app.route('/bar/')
 def barchart():
     """Fake endpoint."""

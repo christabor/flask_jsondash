@@ -41,15 +41,28 @@ An object with each key corresponding to the line label, and a list of its value
 
 #### Step
 
-...
+An object with each key corresponding to the line label, and a list of its values.
 
-#### Step
-
-...
+```json
+{
+    "bar1": [1, 2, 30, 12, 100],
+    "bar2": [2, 4, 12, 50, 80],
+}
+```
 
 #### Pie
 
-...
+An object with each key corresponding to the line label, and an an integer value.
+
+```json
+{
+    "data d": 16,
+    "data e": 77,
+    "data b": 87,
+    "data c": 41,
+    "data a": 15
+}
+```
 
 #### Area
 
