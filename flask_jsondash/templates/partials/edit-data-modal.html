@@ -25,6 +25,10 @@
                     <label>
                         API endpoint (<em>or template path, if using "custom/iframe"</em>) <input class="form-control" type="text" name="dataSource" value="http://" placeholder="e.g. localhost:5000/my/endpoint">
                     </label>
+                    <label>
+                        <input class="form-control" type="checkbox" name="override">
+                        Use custom configuration? <br><small>Note: this will pass the <strong>entire</strong> payload from <code>config.dataSource</code> to the widget constructor, and may result in errors if not configured properly.</small>
+                    </label>
                 </div>
                 <div class="col-md-12">
                     <hr>

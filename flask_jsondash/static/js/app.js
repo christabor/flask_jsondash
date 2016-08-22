@@ -64,7 +64,12 @@ function updateEditForm(e) {
     var module = getModuleByGUID(guid);
     // Update the modal window fields with this one's value.
     $.each(module, function(field, val){
-        module_form.find('[name="' + field + '"]').val(val);
+        if(field === 'override') {
+            var is_checked = val === 'true';
+            module_form.find('[name="' + field + '"]').prop('checked', is_checked);
+        } else {
+            module_form.find('[name="' + field + '"]').val(val);
+        }
     });
     // Update with current guid for referencing the module.
     module_form.attr('data-guid', guid);
@@ -85,6 +90,8 @@ function updateModule(e){
     active[chart_type.attr('name')] = chart_type.val();
     $('.modules').empty();
     $.each(dashboard_data.modules, function(k, module){
+        // Convert checkbox to json friendly format.
+        module['override'] = module['override'] === 'on' ? "true" : "false";
         var val = JSON.stringify(module);
         var input = $('<input type="text" name="module_' + k + '" class="form-control">');
         input.val(val);

@@ -7,6 +7,12 @@ var WIDGET_MARGIN_X = 20;
 var WIDGET_MARGIN_Y = 60;
 
 function _handleC3(container, config) {
+    if(config.override && config.override === 'true') {
+        // Just use the raw payload for this widgets' options.
+        $.getJSON(config.dataSource, function(res){
+            return c3.generate(res);
+        });
+    }
     var init_config = {
         bindto: '#' + normalizeName(config.name),
         legend: {
