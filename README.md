@@ -14,6 +14,10 @@ Each chart is very straightforward. Most of the power is leveraged by the variou
 
 The [example json configurations](examples/config) have examples that can demonstrate all kinds of types that are supported.
 
+### Widget endpoint schemas
+
+See [schemas](schemas.md) for more detail on how your endpoint json data should be formatted.
+
 ## Usage
 
 ### Requirements
