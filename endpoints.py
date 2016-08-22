@@ -71,6 +71,22 @@ def timeseries():
 
 
 @cross_origin()
+@app.route('/gauge/')
+def gauge():
+    """Fake endpoint."""
+    return json.dumps({'data': rr(1, 100)})
+
+
+@cross_origin()
+@app.route('/scatter/')
+def scatter():
+    """Fake endpoint."""
+    with open('{}/examples/overrides.json'.format(cwd), 'r') as jsonfile:
+        return jsonfile.read()
+    return json.dumps(dict())
+
+
+@cross_origin()
 @app.route('/pie/')
 def pie():
     """Fake endpoint."""
