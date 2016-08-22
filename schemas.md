@@ -28,7 +28,16 @@ An object with each key corresponding to the line label, and a list of its value
 
 #### Timeseries
 
-...
+An object with each key corresponding to the line label, and a list of its values. A `dates` key must be specified, with a list of dates.
+
+```json
+{
+    "dates": ["2016-08-22", "2016-09-01", "2016-09-11", "2016-09-21"],
+    "line1": [1, 2, 3, 4],
+    "line2": [2, 10, 3, 10],
+    "line3": [2, 10, 20, 40]
+}
+```
 
 #### Step
 
@@ -124,7 +133,20 @@ One-off, simple, ad-hoc displays.
 
 #### Number
 
-...
+Any number, positive or negative. Prefixes, such as currencies, are also allowed (there is no real limit to the string, but it is typically shown as a number, and styled accordingly).
+
+```json
+"$12,300"
+```
+
+```json
+"-12,300"
+```
+
+```json
+2302
+```
+
 
 ## Datatables
 
