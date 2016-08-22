@@ -6,11 +6,25 @@ C3js is a wrapper around D3js, that provides simple, out-of-the-box charts. Visi
 
 #### Line chart
 
-...
+An object with each key corresponding to the line label, and a list of its values.
+
+```json
+{
+    "line1": [1, 2, 10, 15],
+    "line2": [2, 30, 40, 55]
+}
+```
 
 #### Bar chart
 
-...
+An object with each key corresponding to the line label, and a list of its values.
+
+```json
+{
+    "bar1": [1, 2, 30, 12, 100],
+    "bar2": [2, 4, 12, 50, 80],
+}
+```
 
 #### Timeseries
 
@@ -24,7 +38,7 @@ C3js is a wrapper around D3js, that provides simple, out-of-the-box charts. Visi
 
 ...
 
-#### PIe
+#### Pie
 
 ...
 
