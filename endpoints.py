@@ -78,12 +78,35 @@ def gauge():
 
 
 @cross_origin()
+@app.route('/area-custom/')
+def area_custom():
+    """Fake endpoint."""
+    return json.dumps({
+        "data": {
+            "columns": [
+                ["data1", 300, 350, 300, 0, 0, 0],
+                ["data2", 130, 100, 140, 200, 150, 50]
+            ],
+            "types": {
+                "data1": "area",
+                "data2": "area-spline"
+            }
+        }
+    })
+
+
+@cross_origin()
 @app.route('/scatter/')
 def scatter():
     """Fake endpoint."""
-    with open('{}/examples/overrides.json'.format(cwd), 'r') as jsonfile:
-        return jsonfile.read()
-    return json.dumps(dict())
+    if 'override' in request.args:
+        with open('{}/examples/overrides.json'.format(cwd), 'r') as jsonfile:
+            return jsonfile.read()
+    return json.dumps({
+        "bar1": [1, 2, 30, 12, 100],
+        "bar2": rr_list(max_range=5),
+        "bar3": rr_list(max_range=5),
+    })
 
 
 @cross_origin()
