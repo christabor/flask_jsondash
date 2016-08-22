@@ -25,6 +25,14 @@ function _handleC3(container, config) {
             unload(container);
         }
     };
+    if(config.type === 'timeseries') {
+        init_config['axis'] = {
+            x: {type: 'timeseries'},
+        };
+        // Map the corresponding data key and list of dates
+        // to the `x` property.
+        init_config['data']['x'] = 'dates';
+    }
     c3.generate(init_config);
 }
 
