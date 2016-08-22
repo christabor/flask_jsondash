@@ -143,7 +143,13 @@ VennJS is a wrapper for d3js that provides an easy to use api for Venn and Euler
 
 #### VennJS standard
 
-...
+```json
+[
+    {"sets": ["A"], "size": 12},
+    {"sets": ["B"], "size": 12},
+    {"sets": ["A", "B"], "size": 2},
+]
+```
 
 ## Sparklines
 
