@@ -5,6 +5,8 @@
 import json
 import locale
 import os
+from datetime import timedelta as td
+from datetime import datetime as dt
 from random import randrange as rr
 from random import choice, random
 import time
@@ -26,6 +28,12 @@ app.debug = True
 locale.setlocale(locale.LC_ALL, '')
 
 cwd = os.getcwd()
+
+
+def dates_list(max_dates=10):
+    """Generate a timeseries dates list."""
+    now = dt.now()
+    return [str(now + td(days=i * 10))[0:10] for i in range(max_dates)]
 
 
 def rr_list(max_range=10):
@@ -51,21 +59,37 @@ def dtable():
 
 
 @cross_origin()
+@app.route('/timeseries/')
+def timeseries():
+    """Fake endpoint."""
+    return json.dumps({
+        "dates": dates_list(),
+        "line1": rr_list(max_range=10),
+        "line2": rr_list(max_range=10),
+        "line3": rr_list(max_range=10),
+    })
+
+
+@cross_origin()
 @app.route('/bar/')
 def barchart():
     """Fake endpoint."""
-    return json.dumps(
-        {'data {}'.format(i): rr_list() for i in range(10)}
-    )
+    return json.dumps({
+        "bar1": [1, 2, 30, 12, 100],
+        "bar2": rr_list(max_range=5),
+        "bar3": rr_list(max_range=5),
+    })
 
 
 @cross_origin()
 @app.route('/line/')
 def linechart():
     """Fake endpoint."""
-    return json.dumps([
-        ['data{}'.format(i)] + rr_list() for i in range(5)
-    ])
+    return json.dumps({
+        "line1": [1, 4, 3, 10, 12, 14, 18, 10],
+        "line2": [1, 2, 10, 20, 30, 6, 10, 12, 18, 2],
+        "line3": rr_list(),
+    })
 
 
 @cross_origin()
