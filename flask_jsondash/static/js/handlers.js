@@ -7,12 +7,6 @@ var WIDGET_MARGIN_X = 20;
 var WIDGET_MARGIN_Y = 60;
 
 function _handleC3(container, config) {
-    if(config.override && config.override === 'true') {
-        // Just use the raw payload for this widgets' options.
-        $.getJSON(config.dataSource, function(res){
-            return c3.generate(res);
-        });
-    }
     var init_config = {
         bindto: '#' + normalizeName(config.name),
         legend: {
@@ -31,6 +25,15 @@ function _handleC3(container, config) {
             unload(container);
         }
     };
+    if(config.override && config.override === 'true') {
+        // Just use the raw payload for this widgets' options.
+        $.getJSON(config.dataSource, function(res){
+            // Keep existing options if not specified.
+            var config = $.extend(init_config, res);
+            c3.generate(init_config);
+        });
+        return;
+    }
     if(config.type === 'timeseries') {
         init_config['axis'] = {
             x: {type: 'timeseries'},
