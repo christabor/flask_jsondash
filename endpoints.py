@@ -42,7 +42,7 @@ def rr_list(max_range=10):
 
 
 @cross_origin()
-@app.route('/combination/')
+@app.route('/combination')
 def combination():
     """Fake endpoint."""
     data = {
@@ -68,7 +68,7 @@ def combination():
 
 
 @cross_origin()
-@app.route('/timeline/')
+@app.route('/timeline')
 def timeline():
     """Fake endpoint."""
     with open('{}/examples/timeline3.json'.format(cwd), 'r') as timelinejson:
@@ -85,7 +85,7 @@ def dtable():
 
 
 @cross_origin()
-@app.route('/timeseries/')
+@app.route('/timeseries')
 def timeseries():
     """Fake endpoint."""
     return json.dumps({
@@ -97,14 +97,14 @@ def timeseries():
 
 
 @cross_origin()
-@app.route('/gauge/')
+@app.route('/gauge')
 def gauge():
     """Fake endpoint."""
     return json.dumps({'data': rr(1, 100)})
 
 
 @cross_origin()
-@app.route('/area-custom/')
+@app.route('/area-custom')
 def area_custom():
     """Fake endpoint."""
     return json.dumps({
@@ -122,7 +122,7 @@ def area_custom():
 
 
 @cross_origin()
-@app.route('/scatter/')
+@app.route('/scatter')
 def scatter():
     """Fake endpoint."""
     if 'override' in request.args:
@@ -136,7 +136,7 @@ def scatter():
 
 
 @cross_origin()
-@app.route('/pie/')
+@app.route('/pie')
 def pie():
     """Fake endpoint."""
     letters = list('abcde')
@@ -144,7 +144,7 @@ def pie():
 
 
 @cross_origin()
-@app.route('/bar/')
+@app.route('/bar')
 def barchart():
     """Fake endpoint."""
     return json.dumps({
@@ -155,7 +155,7 @@ def barchart():
 
 
 @cross_origin()
-@app.route('/line/')
+@app.route('/line')
 def linechart():
     """Fake endpoint."""
     return json.dumps({
@@ -166,7 +166,7 @@ def linechart():
 
 
 @cross_origin()
-@app.route('/singlenum/')
+@app.route('/singlenum')
 def singlenum():
     """Fake endpoint."""
     _min, _max = 10, 10000
@@ -180,7 +180,7 @@ def singlenum():
 
 
 @cross_origin()
-@app.route('/deadend/')
+@app.route('/deadend')
 def test_die():
     """Fake endpoint that ends in a random 50x error."""
     # Simulate slow connection
@@ -189,7 +189,7 @@ def test_die():
 
 
 @cross_origin()
-@app.route('/venn/')
+@app.route('/venn')
 def test_venn():
     """Fake endpoint."""
     data = [
@@ -202,12 +202,14 @@ def test_venn():
     return json.dumps(data)
 
 
+@cross_origin()
 @app.route('/sparklines', methods=['GET'])
 def sparklines():
     """Fake endpoint."""
     return json.dumps([rr(0, 100) for _ in range(20)])
 
 
+@cross_origin()
 @app.route('/circlepack', methods=['GET'])
 def circlepack():
     """Fake endpoint."""
@@ -216,6 +218,7 @@ def circlepack():
     return json.dumps({})
 
 
+@cross_origin()
 @app.route('/treemap', methods=['GET'])
 def treemap():
     """Fake endpoint."""
@@ -224,18 +227,29 @@ def treemap():
     return json.dumps({})
 
 
+@cross_origin()
 @app.route('/map', methods=['GET'])
 def datamap():
     """Fake endpoint."""
     return render_template('examples/map.html')
 
 
+@cross_origin()
 @app.route('/dendrogram', methods=['GET'])
 def dendro():
     """Fake endpoint."""
     with open('{}/examples/flare.json'.format(cwd), 'r') as djson:
         return djson.read()
     return json.dumps({})
+
+
+@cross_origin()
+@app.route('/voronoi', methods=['GET'])
+def voronoi():
+    """Fake endpoint."""
+    w, h = request.args.get('width', 800), request.args.get('height', 800)
+    max_points = int(request.args.get('points', 100))
+    return json.dumps([[rr(1, h), rr(1, w)] for _ in range(max_points)])
 
 
 if __name__ == '__main__':

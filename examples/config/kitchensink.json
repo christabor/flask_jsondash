@@ -1,5 +1,5 @@
 {
-    "date": "2016-08-23 11:56:16.365000",
+    "date": "2016-08-23 15:03:49.178000",
     "modules": [
         {
             "name": "circlepack",
@@ -68,7 +68,7 @@
             "name": "Combination",
             "height": "550",
             "width": "600",
-            "dataSource": "http://localhost:5004/combination/",
+            "dataSource": "http://localhost:5004/combination",
             "override": true,
             "guid": "31f4b888-b98c-fa4a-770d-6d482609571d",
             "type": "line"
@@ -95,7 +95,7 @@
             "name": "Timeseries chart",
             "height": "500",
             "width": "600",
-            "dataSource": "http://localhost:5004/timeseries/",
+            "dataSource": "http://localhost:5004/timeseries",
             "override": false,
             "guid": "d4ca76e3-5eb8-fd49-8bc8-13bd55b9bba7",
             "type": "timeseries"
@@ -144,6 +144,14 @@
             "override": false,
             "guid": "661b21fb-3d26-7665-5e96-5510b9382d19",
             "type": "donut"
+        },
+        {
+            "name": "Voronoi",
+            "height": "650",
+            "width": "650",
+            "dataSource": "http://localhost:5004/voronoi",
+            "guid": "e139611b-9ce0-8bdd-4de7-d3c15d3ee55c",
+            "type": "voronoi"
         },
         {
             "name": "Negative sales",

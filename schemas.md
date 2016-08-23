@@ -10,7 +10,7 @@ Supported.
 
 #### Line chart
 
-An object with each key corresponding to the line label, and a list of its values.
+An object with each key corresponding to the line label, and a list of integer values.
 
 ```json
 {
@@ -45,7 +45,7 @@ An object with each key corresponding to the line label, and a list of its value
 
 #### Step
 
-An object with each key corresponding to the line label, and a list of its values.
+An object with each key corresponding to the line label, and a list of integer values.
 
 ```json
 {
@@ -70,7 +70,7 @@ An object with each key corresponding to the line label, and an an integer value
 
 #### Area
 
-An object with each key corresponding to the line label, and an an integer value.
+An object with each key corresponding to the line label, and a list of integer values.
 
 ```json
 {
@@ -109,11 +109,18 @@ An object with each a single key called `data` and an integer value correspondin
 
 #### Scatter
 
-...
+An object with each key corresponding to the line label, and a list of integer values.
+
+```json
+{
+    "bar1": [1, 2, 30, 12, 100],
+    "bar2": [2, 4, 12, 50, 80],
+}
+```
 
 #### Area spline
 
-An object with each key corresponding to the line label, and an an integer value.
+An object with each key corresponding to the line label, and a list of integer values.
 
 ```json
 {
@@ -128,11 +135,23 @@ D3js is a powerful SVG based "dynamic document" drawing library that can create 
 
 #### Dendrogram
 
-...
+A recursive json config that uses `name` and `children` as its main keys of arbitrary depth. Additional keys can be added as needed.
+
+```json
+{
+    "name": "chartname",
+    "children": [
+        {
+            "name": "childelements",
+            "children": []
+        }
+    ]
+}
+```
 
 #### Treemap
 
-A recursive json config that uses `name` and `children` as its main keys of arbitrary depth.
+A recursive json config that uses `name` and `children` as its main keys of arbitrary depth. Additional keys can be added as needed.
 
 ```json
 {
@@ -148,11 +167,17 @@ A recursive json config that uses `name` and `children` as its main keys of arbi
 
 #### Voronoi
 
-...
+An array of arrays, where each array element contains 2 items: the x, y coordinates for a given point.
+
+```json
+[
+    [2, 10], [100, 30], [300, 10], [320, 101]
+]
+```
 
 #### Circlepack
 
-A recursive json config that uses `name` and `children` as its main keys of arbitrary depth.
+A recursive json config that uses `name` and `children` as its main keys of arbitrary depth. Additional keys can be added as needed.
 
 ```json
 {
@@ -243,6 +268,8 @@ VennJS is a wrapper for d3js that provides an easy to use api for Venn and Euler
 Not supported.
 
 #### VennJS standard
+
+A list of objects with keys `sets`, and `size`, where `set` is a list of set names, and `size` is relative size of the circle.
 
 ```json
 [
