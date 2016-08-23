@@ -14,6 +14,7 @@
  var $EDIT_MODAL = '#chart-options';
  var $DELETE_BTN = '#delete-widget';
  var $DELETE_DASHBOARD = '.delete-dashboard';
+ var $SAVE_MODULE = '#save-module';
 
  function previewAPIRoute(e) {
     e.preventDefault();
@@ -37,6 +38,7 @@ function saveModule(e){
     var id = guid();
     // Add a unique guid for referencing later.
     data['guid'] = id;
+    if(!data.override) data['override'] = false;
     newfield.attr('name', 'module_' + id);
     newfield.val(JSON.stringify(data));
     $('.modules').append(newfield);
@@ -158,7 +160,7 @@ function addDomEvents() {
     $($API_ROUTE_URL).on('change.charts', previewAPIRoute);
     $($API_PREVIEW_BTN).on('click.charts', previewAPIRoute);
     // Save module popup form
-    $('#save-module').on('click.charts.module', saveModule);
+    $($SAVE_MODULE).on('click.charts.module', saveModule);
     // Edit existing modules
     $($EDIT_MODAL).on('show.bs.modal', updateEditForm);
     $('#update-module').on('click.charts.module', updateModule);
@@ -166,7 +168,7 @@ function addDomEvents() {
     // for the add module button and form modal
     $($ADD_MODULE).on('click.charts', function(){
         $('#update-module')
-        .attr('id', 'save-module')
+        .attr('id', $SAVE_MODULE.replace('#', ''))
         .text('Save module')
         .off('click.charts.module')
         .on('click.charts', saveModule);
@@ -174,7 +176,7 @@ function addDomEvents() {
     // Allow swapping of edit/update events
     // for the edit button and form modal
     $('.widget-edit').on('click.charts', function(){
-        $('#save-module')
+        $($SAVE_MODULE)
         .attr('id', 'update-module')
         .text('Update module')
         .off('click.charts.module')
