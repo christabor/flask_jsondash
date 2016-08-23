@@ -172,6 +172,15 @@
             "type": "voronoi"
         },
         {
+            "name": "Stacked bar chart",
+            "height": "400",
+            "width": "500",
+            "dataSource": "http://localhost:5004/stacked-bar",
+            "override": true,
+            "guid": "734fc13a-302e-3562-6a63-0cd15e562f71",
+            "type": "line"
+        },
+        {
             "name": "Negative sales",
             "height": "300",
             "width": "300",
