@@ -29,6 +29,15 @@
             "type": "gauge"
         },
         {
+            "name": "Treemap",
+            "height": "800",
+            "width": "800",
+            "dataSource": "http://localhost:5004/treemap",
+            "override": false,
+            "guid": "139b6c94-99ae-4aa3-d525-812642d91b03",
+            "type": "treemap"
+        },
+        {
             "name": "line",
             "height": "400",
             "width": "500",
