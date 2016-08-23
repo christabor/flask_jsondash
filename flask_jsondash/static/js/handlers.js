@@ -25,7 +25,7 @@ function _handleC3(container, config) {
             unload(container);
         }
     };
-    if(config.override && config.override === 'true') {
+    if(config.override && config.override === true) {
         // Just use the raw payload for this widgets' options.
         $.getJSON(config.dataSource, function(res){
             // Keep existing options if not specified.

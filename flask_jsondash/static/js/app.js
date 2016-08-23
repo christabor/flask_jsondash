@@ -46,10 +46,14 @@ function saveModule(e){
     chart_wall.fitWidth();
 }
 
+function isModalButton(e) {
+    return e.relatedTarget.id === $ADD_MODULE.replace('#', '');
+}
+
 function updateEditForm(e) {
     var module_form = $($MODULE_FORM);
     // If the modal caller was the add modal button, skip populating the field.
-    if(e.relatedTarget.id === $ADD_MODULE.replace('#', '')) {
+    if(isModalButton(e)) {
         module_form.find('input').each(function(k, input){
             $(input).val('');
         });
@@ -65,8 +69,7 @@ function updateEditForm(e) {
     // Update the modal window fields with this one's value.
     $.each(module, function(field, val){
         if(field === 'override') {
-            var is_checked = val === 'true';
-            module_form.find('[name="' + field + '"]').prop('checked', is_checked);
+            module_form.find('[name="' + field + '"]').prop('checked', val);
         } else {
             module_form.find('[name="' + field + '"]').val(val);
         }
@@ -80,19 +83,24 @@ function updateModule(e){
     // Updates the module input fields with new data by rewriting them all.
     var guid = module_form.attr('data-guid');
     var active = getModuleByGUID(guid);
-    // Update all inputs
+    // Update the modules values to the current input values.
     module_form.find('input').each(function(k, input){
         var name = $(input).attr('name');
-        if(name) active[name] = $(input).val();
+        if(name) {
+            if(name === 'override') {
+                // Convert checkbox to json friendly format.
+                active[name] = $(input).val() === 'on';
+            } else {
+                active[name] = $(input).val();
+            }
+        }
     });
     // Update bar chart type
     var chart_type = module_form.find('select');
     active[chart_type.attr('name')] = chart_type.val();
     $('.modules').empty();
     $.each(dashboard_data.modules, function(k, module){
-        // Convert checkbox to json friendly format.
-        module['override'] = module['override'] === 'on' ? "true" : "false";
-        var val = JSON.stringify(module);
+        var val = JSON.stringify(module, module);
         var input = $('<input type="text" name="module_' + k + '" class="form-control">');
         input.val(val);
         $('.modules').append(input);
