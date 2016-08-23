@@ -11,6 +11,15 @@
             "type": "circlepack"
         },
         {
+            "name": "Spline",
+            "height": "400",
+            "width": "500",
+            "dataSource": "http://localhost:5004/bar",
+            "override": false,
+            "guid": "1318edad-4fe6-e521-1cb5-c8556bf2f51d",
+            "type": "spline"
+        },
+        {
             "name": "Scatter",
             "height": "500",
             "width": "500",

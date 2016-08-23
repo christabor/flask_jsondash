@@ -95,7 +95,14 @@ An object with each key corresponding to the line label, and an an integer value
 
 #### Spline
 
-...
+An object with each key corresponding to the line label, and a list of its values.
+
+```json
+{
+    "bar1": [1, 2, 30, 12, 100],
+    "bar2": [2, 4, 12, 50, 80],
+}
+```
 
 #### Gauge
 
