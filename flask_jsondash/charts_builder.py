@@ -78,6 +78,7 @@ def _ctx():
     return dict(
         charts_config=CHARTS_CONFIG,
         charts_heartbeat=HEARTBEAT,
+        page_title='dashboards',
     )
 
 
