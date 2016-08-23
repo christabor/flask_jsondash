@@ -76,6 +76,29 @@ Run `endpoints.py` if you'd like to test out existing endpoints to link your cha
 
 See `endpoints.py` for examples on how to achieve this. If you do not allow CORS on the server-side, all ajax requests will fail.
 
+### Authentication configuration
+
+By default, not authentication is performed for a given action. However, supporting your own custom auth for each type is just a simple config away. Using the flask pattern of injecting configurations into the `app.config` namespace (in this case, `JSONDASH` must be specified), you can put whichever functions you want, and only those specified will be checked. Here is a working example:
+
+```python
+
+def can_delete_charts():
+    return session.get('user')['name'] in SECRET_ADMINS
+
+charts_auth = dict(
+    auth=dict(
+        delete=can_delete_charts,
+    ),
+)
+app.config['JSONDASH'] = charts_auth
+```
+
+The following types are supported:
+
+`delete`, `clone`, `update`, `create`, `view`
+
+Note: `view` is the only function that takes an argument, which is the ID of the dashboard.
+
 ## FAQs
 
 **Q**: "Why'd you choose to expose library X, Y, or Z?"
