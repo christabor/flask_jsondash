@@ -52,6 +52,7 @@ CHARTS_CONFIG = {
         'js_url': 'cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js',
         'css_url': 'cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css',
         'enabled': True,
+        'help_link': 'http://c3js.org/reference.html',
     },
     'D3': {
         'charts': [

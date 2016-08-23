@@ -7,8 +7,8 @@
 
 <!-- CHART SPECIFIC CSS -->
 {% for label, chart_group in charts_config.items() %}
-    {% if chart_group['enabled'] and chart_group['css_url'] %}
-        <link title="{{ label|lower }}" rel="stylesheet" href="//{{ chart_group['css_url'] }}">
+    {% if chart_group.enabled and chart_group.css_url %}
+        <link title="{{ label|lower }}" rel="stylesheet" href="//{{ chart_group.css_url }}">
     {% endif %}
 {% endfor %}
 
@@ -39,8 +39,8 @@
 
 <!-- CHART SPECIFIC SCRIPTS -->
 {% for label, chart_group in charts_config.items() %}
-    {% if chart_group['enabled'] and chart_group['js_url'] %}
-        <script src="//{{ chart_group['js_url'] }}"></script>
+    {% if chart_group.enabled and chart_group.js_url %}
+        <script src="//{{ chart_group.js_url }}"></script>
     {% endif %}
 {% endfor %}
 

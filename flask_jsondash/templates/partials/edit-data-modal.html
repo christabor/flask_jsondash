@@ -39,6 +39,23 @@
                     <button id="api-output-preview" class="btn btn-xs btn-success">Preview</button>
                 </div>
             </form>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#chart-docs" data-toggle="collapse">Toggle chart documentation</a>
+                    <div class="collapse" id="chart-docs">
+                        <ul>
+                            {% for label, options in charts_config.items() %}
+                                {% if options.help_link %}
+                                    <li>
+                                        <a href="{{ options.help_link }}" target="_blank">{{ label }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
