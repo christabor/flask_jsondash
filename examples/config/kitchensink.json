@@ -1,102 +1,102 @@
 {
-    "date": "2016-08-22 15:52:37.574000",
+    "date": "2016-08-23 11:56:16.365000",
     "modules": [
         {
-            "name": "Area",
-            "height": "400",
-            "width": "500",
-            "dataSource": "http://localhost:5004/bar",
-            "override": "false",
-            "guid": "990fc4cd-8882-2707-f42c-99442e4e88b0",
-            "type": "area"
-        },
-        {
-            "name": "Gauge",
-            "height": "400",
-            "width": "500",
-            "dataSource": "http://localhost:5004/gauge",
-            "override": "false",
-            "guid": "c455dfe7-dcac-d24f-2251-dec23ba0bcc5",
-            "type": "gauge"
-        },
-        {
-            "name": "Area spline",
-            "height": "400",
-            "width": "500",
-            "dataSource": "http://localhost:5004/bar",
-            "override": "false",
-            "guid": "7d30f572-c0ca-552f-9db9-696796cab5a0",
-            "type": "area-spline"
-        },
-        {
-            "name": "line",
-            "height": "400",
-            "width": "500",
-            "dataSource": "http://localhost:5004/line",
-            "override": "false",
-            "guid": "a6eb10e7-26fa-7814-818a-3699b24415c5",
-            "type": "line"
-        },
-        {
-            "name": "Scatter override",
-            "height": "400",
-            "width": "500",
-            "dataSource": "http://localhost:5004/scatter?override=true",
-            "override": "true",
-            "guid": "5feb235a-3891-c0ec-e25c-2fc49febb83d",
-            "type": "scatter"
+            "name": "circlepack",
+            "height": "900",
+            "width": "900",
+            "dataSource": "http://localhost:5004/circlepack",
+            "override": false,
+            "guid": "79178d58-a690-37ec-3594-84516d263e9e",
+            "type": "circlepack"
         },
         {
             "name": "Scatter",
             "height": "500",
             "width": "500",
             "dataSource": "http://localhost:5004/scatter",
-            "override": "false",
+            "override": false,
             "guid": "f5dc4f3a-9632-d77e-991f-6b3e3047ad7f",
             "type": "scatter"
+        },
+        {
+            "name": "Gauge",
+            "height": "400",
+            "width": "500",
+            "dataSource": "http://localhost:5004/gauge",
+            "override": false,
+            "guid": "c455dfe7-dcac-d24f-2251-dec23ba0bcc5",
+            "type": "gauge"
+        },
+        {
+            "name": "line",
+            "height": "400",
+            "width": "500",
+            "dataSource": "http://localhost:5004/line",
+            "override": false,
+            "guid": "a6eb10e7-26fa-7814-818a-3699b24415c5",
+            "type": "line"
         },
         {
             "name": "Pie chart",
             "height": "400",
             "width": "500",
             "dataSource": "http://localhost:5004/pie",
-            "override": "false",
+            "override": false,
             "guid": "1546e622-8973-62f5-4c10-cf2f2474f9c3",
             "type": "pie"
         },
         {
-            "name": "circlepack",
-            "height": "900",
-            "width": "900",
-            "dataSource": "http://localhost:5004/circlepack",
-            "override": "false",
-            "guid": "79178d58-a690-37ec-3594-84516d263e9e",
-            "type": "circlepack"
-        },
-        {
-            "name": "bar",
+            "name": "Area",
             "height": "400",
             "width": "500",
             "dataSource": "http://localhost:5004/bar",
-            "override": "false",
-            "guid": "24b8bd6c-77a8-9548-9232-86d75459a700",
-            "type": "bar"
+            "override": false,
+            "guid": "990fc4cd-8882-2707-f42c-99442e4e88b0",
+            "type": "area"
         },
         {
-            "name": "datatable",
-            "height": "600",
-            "width": "900",
-            "dataSource": "http://localhost:5004/dtable",
-            "override": "false",
-            "guid": "c3a9c36b-edc1-6627-340c-07da627b2175",
-            "type": "datatable"
+            "name": "Area spline",
+            "height": "400",
+            "width": "500",
+            "dataSource": "http://localhost:5004/bar",
+            "override": false,
+            "guid": "7d30f572-c0ca-552f-9db9-696796cab5a0",
+            "type": "area-spline"
+        },
+        {
+            "name": "Combination",
+            "height": "550",
+            "width": "600",
+            "dataSource": "http://localhost:5004/combination/",
+            "override": true,
+            "guid": "31f4b888-b98c-fa4a-770d-6d482609571d",
+            "type": "line"
+        },
+        {
+            "name": "Area custom override",
+            "height": "400",
+            "width": "500",
+            "dataSource": "http://localhost:5004/area-custom",
+            "override": true,
+            "guid": "51a95e30-56ac-7ac1-4a52-5f130e13a879",
+            "type": "area-spline"
+        },
+        {
+            "name": "Scatter override",
+            "height": "400",
+            "width": "500",
+            "dataSource": "http://localhost:5004/scatter?override=true",
+            "override": true,
+            "guid": "5feb235a-3891-c0ec-e25c-2fc49febb83d",
+            "type": "scatter"
         },
         {
             "name": "Timeseries chart",
             "height": "500",
-            "width": "800",
+            "width": "600",
             "dataSource": "http://localhost:5004/timeseries/",
-            "override": "false",
+            "override": false,
             "guid": "d4ca76e3-5eb8-fd49-8bc8-13bd55b9bba7",
             "type": "timeseries"
         },
@@ -105,44 +105,53 @@
             "height": "500",
             "width": "500",
             "dataSource": "http://localhost:5004/bar",
-            "override": "false",
+            "override": false,
             "guid": "3794efeb-213b-67f5-0b1f-7b62be2b9e37",
             "type": "step"
-        },
-        {
-            "name": "Area custom override",
-            "height": "400",
-            "width": "500",
-            "dataSource": "http://localhost:5004/area-custom",
-            "override": "false",
-            "guid": "51a95e30-56ac-7ac1-4a52-5f130e13a879",
-            "type": "area-spline"
-        },
-        {
-            "name": "Negative sales",
-            "height": "300",
-            "width": "300",
-            "dataSource": "http://localhost:5004/singlenum?negative=1&sales=1",
-            "override": "false",
-            "guid": "9048c165-d8cc-0904-abde-9f0aff4bf029",
-            "type": "number"
-        },
-        {
-            "name": "Donut",
-            "height": "400",
-            "width": "500",
-            "dataSource": "http://localhost:5004/pie",
-            "override": "false",
-            "guid": "661b21fb-3d26-7665-5e96-5510b9382d19",
-            "type": "donut"
         },
         {
             "name": "Total sales last month",
             "height": "400",
             "width": "400",
             "dataSource": "http://localhost:5004/singlenum?sales=1",
-            "override": "false",
+            "override": false,
             "guid": "ad3c4d3a-0d31-9952-a298-3a2de96fc579",
+            "type": "number"
+        },
+        {
+            "name": "bar",
+            "height": "400",
+            "width": "500",
+            "dataSource": "http://localhost:5004/bar",
+            "override": false,
+            "guid": "24b8bd6c-77a8-9548-9232-86d75459a700",
+            "type": "bar"
+        },
+        {
+            "name": "datatable",
+            "height": "600",
+            "width": "900",
+            "dataSource": "http://localhost:5004/dtable",
+            "override": false,
+            "guid": "c3a9c36b-edc1-6627-340c-07da627b2175",
+            "type": "datatable"
+        },
+        {
+            "name": "Donut",
+            "height": "400",
+            "width": "500",
+            "dataSource": "http://localhost:5004/pie",
+            "override": false,
+            "guid": "661b21fb-3d26-7665-5e96-5510b9382d19",
+            "type": "donut"
+        },
+        {
+            "name": "Negative sales",
+            "height": "300",
+            "width": "300",
+            "dataSource": "http://localhost:5004/singlenum?negative=1&sales=1",
+            "override": false,
+            "guid": "9048c165-d8cc-0904-abde-9f0aff4bf029",
             "type": "number"
         }
     ],
