@@ -208,11 +208,11 @@ Not supported.
 
 #### Custom
 
-No schema. You can server whatever kind of page you want. Similar to an iframe, but this will load the source directly into the page. **Note**: some unintended side effects of your dashboard may occur (such as css style overrides), so YMMV. Alternatively, you can use the iframe option.
+No schema; you can serve whatever kind of page you want. Similar to an iframe, except this will load the source directly into the page. **Note**: some unintended side effects of your dashboard may occur (such as css style overrides), so YMMV. Alternatively, you can use the iframe option.
 
 #### Iframe
 
-...
+No schema; you can load whatever page you want. This will not affect the dashboard, unlike the *custom* option, but you will have limited access to the contents of the iframe (typically not a concern.)
 
 #### Number
 
