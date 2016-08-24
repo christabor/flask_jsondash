@@ -78,7 +78,7 @@ See `endpoints.py` for examples on how to achieve this. If you do not allow CORS
 
 ### Authentication configuration
 
-By default, not authentication is performed for a given action. However, supporting your own custom auth for each type is just a simple config away. Using the flask pattern of injecting configurations into the `app.config` namespace (in this case, `JSONDASH` must be specified), you can put whichever functions you want, and only those specified will be checked. Here is a working example:
+By default, no authentication is performed for a given action. However, supporting your own custom auth for each type is just a simple config away. Using the flask pattern of injecting configurations into the `app.config` namespace (in this case, `JSONDASH` must be specified), you can put whichever functions you want, and only those specified will be checked. Here is a working example:
 
 ```python
 
@@ -107,13 +107,13 @@ Note: `view` is the only function that takes an argument, which is the ID of the
 
 **Q**: "How do I customize X, Y, Z?"
 
-*A*: Because of the level of abstract used here, a lot of charts will naturally be less configurable than if they had been scripted by hand. This is the tradeoff with being able to quickly setup a lot of charts easily.
+*A*: Because of the level of abstraction used here, a lot of charts will naturally be less configurable than if they had been scripted by hand. This is the tradeoff with being able to quickly setup a lot of charts easily.
 
 The goal here is to use intelligent defaults as much as possible, and then allow the most universal aspects to be customized through a common interface.
 
-In a future roadmap, I may try to allow for arbitrary customizations to be passed alongside the default configuration, on a per chart basis.
+However, you can inject raw json-friendly configurations if your chart has the `override` flag set. This will not work for all charts. See [configuration options](schemas.md) for more.
 
-Keep in mind, many *stylistic* customizations can be overridden in css, since most all charts are html and/or SVG. And, as mentioned above, you can always use the iframe option and make your `dataSource` endpoint return whatever you want, including a full html/js/css pre-rendered template.
+Keep in mind, many *stylistic* customizations can be overridden in css, since most all charts are html and/or SVG. And, as mentioned above, you can always use override option, or the iframe/custom option and make your `dataSource` endpoint return whatever you want, including a full html/js/css pre-rendered template.
 
 ## Tips & tricks
 
