@@ -294,9 +294,25 @@ Sparklines are "mini" charts that can be used inline. They most often make sense
 
 Not supported.
 
+#### Sparklines line chart
+
+An array of arrays, where each element contains two integers, representing x/y positions.
+
+```json
+[
+    [1, 2], [2, 10], [10, 30]
+]
+```
+
 #### Sparklines bar chart
 
-...
+An array of arrays, where each element contains two integers, representing x/y positions.
+
+```json
+[
+    [1, 2], [2, 10], [10, 30]
+]
+```
 
 #### Sparklines tristate chart
 
@@ -312,7 +328,13 @@ Not supported.
 
 #### Sparklines pie chart
 
-...
+An array of arrays, where each element contains two integers, representing x/y positions.
+
+```json
+[
+    [1, 2], [2, 10]
+]
+```
 
 #### Sparklines box chart
 

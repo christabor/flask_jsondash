@@ -252,7 +252,12 @@ function _handleSparkline(container, config) {
         });
     spark = $(spark[0]);
     $.getJSON(config.dataSource, function(data){
-        spark.sparkline(data, {type: sparkline_type});
+        var opts = {
+            type: sparkline_type,
+            width: config.width - WIDGET_MARGIN_X,
+            height: config.height - WIDGET_MARGIN_Y,
+        };
+        spark.sparkline(data, opts);
         unload(container);
     });
 }

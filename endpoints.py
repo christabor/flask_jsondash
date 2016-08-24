@@ -230,7 +230,9 @@ def test_venn():
 @app.route('/sparklines', methods=['GET'])
 def sparklines():
     """Fake endpoint."""
-    return json.dumps([rr(0, 100) for _ in range(20)])
+    if 'pie' in request.args:
+        return json.dumps([rr(1, 100) for _ in range(10)])
+    return json.dumps([[i, rr(i, 100)] for i in range(10)])
 
 
 @cross_origin()
