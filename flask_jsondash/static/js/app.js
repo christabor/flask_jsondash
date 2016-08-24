@@ -217,11 +217,16 @@ function initGrid(container) {
     chart_wall.fitWidth();
 }
 
+function loader(container) {
+    container.select('.widget-loader').classed({hidden: false});
+}
+
 function unload(container) {
-    container.select('.widget-loader').attr('class', 'hidden');
+    container.select('.widget-loader').classed({hidden: true});
 }
 
 function loadWidgetData(widget, config) {
+    loader(widget);
     try {
         if(config.type === 'datatable') {
             _handleDataTable(widget, config);
@@ -251,6 +256,7 @@ function loadWidgetData(widget, config) {
         }
     } catch(e) {
         if(console && console.error) console.error(e);
+        unload(widget);
     }
 }
 

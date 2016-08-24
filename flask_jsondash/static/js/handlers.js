@@ -326,9 +326,7 @@ function _handleDataTable(container, config) {
 function _handleSingleNum(container, config) {
     container.selectAll('.singlenum').remove();
     $.getJSON(config.dataSource, function(data){
-        var div = container.append('div')
-            .attr('id', 'widget-' + config.guid);
-        var num = div.append('p')
+        var num = container.append('div')
             .classed({'singlenum': true})
             .text(data);
         // Add red or green, depending on if the number appears to be pos/neg.
@@ -343,7 +341,7 @@ function _handleSingleNum(container, config) {
             .getBoundingClientRect()
             .height;
         var inner_box_height = config.height - title_h; // factor in rough height of title.
-        div.style({
+        container.style({
             'line-height': inner_box_height + 'px',
             'height': inner_box_height + 'px'
         });
