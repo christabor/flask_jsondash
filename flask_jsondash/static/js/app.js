@@ -260,6 +260,10 @@ function loadWidgetData(widget, config) {
     }
 }
 
+function prettyCode(code) {
+    return JSON.stringify(JSON.parse(code), null, 4)
+}
+
 function loadDashboard(data) {
     addChartContainers($MAIN_CONTAINER, data);
     dashboard_data = data;
@@ -273,8 +277,12 @@ function loadDashboard(data) {
     // Format json config display
     $('#json-output').on('show.bs.modal', function(e){
         var code = $(this).find('code').text();
-        $(this).find('code').text(JSON.stringify(JSON.parse(code), null, 4));
+        $(this).find('code').text(prettyCode(code));
     });
+
+    // Reformat the code inside of the raw json field, to pretty print
+    // for the user.
+    $('#raw-config').text(prettyCode($('#raw-config').text()));
 
     // Setup responsive handlers
     var jres = jRespond([

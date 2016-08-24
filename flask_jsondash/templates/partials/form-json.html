@@ -1,7 +1,7 @@
 <form action="{{ url_for('jsondash.update') }}" class="well clearfix collapse" id="save-json-form" method="POST" role="form">
     <input type="hidden" name="id" value="{{ view.id }}">
     <input type="hidden" name="edit-raw">
-    <textarea name="config" id="" cols="30" rows="10">
+    <textarea name="config" id="raw-config" cols="30" rows="10">
         {{ view|jsonstring }}
     </textarea>
     <br>
