@@ -320,7 +320,13 @@ An array of arrays, where each element contains two integers, representing x/y p
 
 #### Sparklines discrete chart
 
-...
+An array of integers representing up and down positions.
+
+```json
+[
+    [20, 40, 30, 10]
+]
+```
 
 #### Sparklines bullet chart
 
@@ -328,11 +334,11 @@ An array of arrays, where each element contains two integers, representing x/y p
 
 #### Sparklines pie chart
 
-An array of arrays, where each element contains two integers, representing x/y positions.
+An array of integers, representing percentages.
 
 ```json
 [
-    [1, 2], [2, 10]
+    [20, 40, 30, 10]
 ]
 ```
 
