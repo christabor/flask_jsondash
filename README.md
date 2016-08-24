@@ -14,7 +14,7 @@ The dashboard layout and blueprint styles are pre-packaged, and provide only the
 
 Each chart is very straightforward. Most of the power is leveraged by the various charting libraries. See [schemas](schemas.md) for more detail on how your endpoint json data should be formatted for a given chart.
 
-If you want to see all/most charts in action, you'll need to fire up the `endpoints.py` flask app (included), and then in your database, insert a record, specifying one of the json files found in [examples/config](examples/config). (This has been tested using mongodb).
+If you want to see all/most charts in action, you'll need to fire up the `endpoints.py` flask app (included), create a new dashboard, then choose the *edit raw json* option, specifying one of the json files found in [examples/config](examples/config). (This has been tested using mongodb).
 
 ## Usage
 
