@@ -241,14 +241,20 @@ function _handleVoronoi(container, config) {
 }
 
 function _handleSparkline(container, config) {
+    // Clean up old canvas elements
+    container.selectAll('.sparkline-container').remove();
     var sparkline_type = config.type.split('-')[1];
     var spark = container
-        .select('div')
-        .classed({'sparkline-container': true})
-        .append('span');
-    spark.sparkline($.getJSON(config.dataSource, function(data){
+        .append('div')
+        .classed({
+            'sparkline-container': true,
+            'text-center': true
+        });
+    spark = $(spark[0]);
+    $.getJSON(config.dataSource, function(data){
+        spark.sparkline(data, {type: sparkline_type});
         unload(container);
-    }), {type: sparkline_type});
+    });
 }
 
 function _handleDataTable(container, config) {

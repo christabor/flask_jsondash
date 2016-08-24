@@ -107,6 +107,7 @@ CHARTS_CONFIG = {
     },
     'Sparklines': {
         'charts': [
+            ('sparklines-line', 'Sparkline Line'),
             ('sparklines-bar', 'Sparkline Bar'),
             ('sparklines-tristate', 'Sparkline Tristate'),
             ('sparklines-discrete', 'Sparkline Discrete'),
