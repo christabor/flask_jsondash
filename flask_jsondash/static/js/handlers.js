@@ -49,6 +49,7 @@ function _handleD3(container, config) {
     // Clean up all D3 charts in one step.
     container.selectAll('svg').remove();
     // Handle specific types.
+    if(config.type === 'radial-dendrogram') return _handleRadialDendrogram(container, config);
     if(config.type === 'dendrogram') return _handleDendrogram(container, config);
     if(config.type === 'voronoi') return _handleVoronoi(container, config);
     if(config.type === 'treemap') return _handleTreemap(container, config);
@@ -161,23 +162,59 @@ function _handleTreemap(container, config) {
 }
 
 function _handleRadialDendrogram(container, config) {
-    // TODO
+    container.selectAll('svg').remove();
+    // Code taken (and refactored for use here) from:
+    // https://bl.ocks.org/mbostock/4339607
+    var radius = (config.width > config.height ? config.width : config.height) / 2;
+    var cluster = d3.layout.cluster()
+        .size([360, radius * 0.65]); // reduce size relative to `radius`
+    var diagonal = d3.svg.diagonal.radial()
+        .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
+    var svg = container.append('svg')
+        .attr('width', radius * 2)
+        .attr('height', radius * 2)
+        .append('g')
+        .attr('transform', 'translate(' + radius + ',' + radius + ')');
+    d3.json(config.dataSource, function(error, root) {
+        if (error) throw error;
+        var nodes = cluster.nodes(root);
+        var link = svg.selectAll('path.link')
+            .data(cluster.links(nodes))
+            .enter().append('path')
+            .attr('class', 'link')
+            .attr('d', diagonal);
+        var node = svg.selectAll('g.node')
+            .data(nodes)
+            .enter().append('g')
+            .attr('class', 'node')
+            .attr('transform', function(d) { return 'rotate(' + (d.x - 90) + ')translate(' + d.y + ')'; })
+        node.append('circle')
+            .attr('r', 4.5);
+        node.append('text')
+            .attr('dy', '.31em')
+            .attr('text-anchor', function(d) { return d.x < 180 ? 'start' : 'end'; })
+            .attr('transform', function(d) { return d.x < 180 ? 'translate(8)' : 'rotate(180)translate(-8)'; })
+            .text(function(d) { return d.name; });
+        unload(container);
+    });
+    d3.select(self.frameElement).style('height', radius * 2 + 'px');
 }
 
 function _handleDendrogram(container, config) {
+    container.selectAll('svg').remove();
     var PADDING = 100;
-    var width = config.width - WIDGET_MARGIN_X,
-    height = config.height - WIDGET_MARGIN_Y;
+    var width = config.width - WIDGET_MARGIN_X;
+    var height = config.height - WIDGET_MARGIN_Y;
     var cluster = d3.layout.cluster()
-    .size([height, width - PADDING]);
+        .size([height, width - PADDING]);
     var diagonal = d3.svg.diagonal()
-    .projection(function(d) { return [d.y, d.x]; });
+        .projection(function(d) { return [d.y, d.x]; });
     var svg = container
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height)
-    .append('g')
-    .attr('transform', 'translate(40,0)');
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', 'translate(40,0)');
 
     d3.json(config.dataSource, function(error, root) {
         if(error) throw new Error('Could not load url: ' + config.dataSource);

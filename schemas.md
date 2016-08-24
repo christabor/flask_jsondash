@@ -156,6 +156,22 @@ A recursive json config that uses `name` and `children` as its main keys of arbi
 }
 ```
 
+#### Radial Dendrogram
+
+A recursive json config that uses `name` and `children` as its main keys of arbitrary depth. Additional keys can be added as needed.
+
+```json
+{
+    "name": "chartname",
+    "children": [
+        {
+            "name": "childelements",
+            "children": []
+        }
+    ]
+}
+```
+
 #### Treemap
 
 A recursive json config that uses `name` and `children` as its main keys of arbitrary depth. Additional keys can be added as needed.

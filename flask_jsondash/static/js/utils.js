@@ -43,6 +43,7 @@ function isD3Subtype(config) {
     if(config.type === 'voronoi') return true;
     if(config.type === 'circlepack') return true;
     if(config.type === 'treemap') return true;
+    if(config.type === 'radial-dendrogram') return true;
     return false;
 }
 

@@ -56,6 +56,7 @@ CHARTS_CONFIG = {
     },
     'D3': {
         'charts': [
+            ('radial-dendrogram', 'Radial Dendrogram'),
             ('dendrogram', 'Dendrogram'),
             ('treemap', 'Treemap'),
             ('voronoi', 'Voronoi'),

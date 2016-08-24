@@ -276,7 +276,8 @@ def datamap():
 @app.route('/dendrogram', methods=['GET'])
 def dendro():
     """Fake endpoint."""
-    with open('{}/examples/flare.json'.format(cwd), 'r') as djson:
+    filename = 'flare-simple' if 'simple' in request.args else 'flare'
+    with open('{}/examples/{}.json'.format(cwd, filename), 'r') as djson:
         return djson.read()
     return json.dumps({})
 
