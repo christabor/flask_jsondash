@@ -59,7 +59,7 @@ def update(c_id, data=None, fmt_modules=True):
         modules = _format_modules(data) if fmt_modules else data.get('modules')
         save_conf = {
             '$set': {
-                'name': data['name'],
+                'name': data.get('name', 'NONAME'),
                 'modules': modules,
                 'date': dt.now()
             }
