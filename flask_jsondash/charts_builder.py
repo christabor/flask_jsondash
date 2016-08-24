@@ -144,10 +144,21 @@ def update():
             return redirect(url_for('jsondash.dashboard'))
     data = request.form
     c_id = data['id']
-    # Update db
-    adapter.update(c_id, data=data)
+    view_url = url_for('jsondash.view', id=c_id)
+    if 'edit-raw' in request.form:
+        try:
+            data = json.loads(request.form.get('config'))
+            data = adapter.reformat_data(data, c_id)
+            # Update db
+            adapter.update(c_id, data=data, fmt_modules=False)
+        except (TypeError, ValueError):
+            flash('Invalid JSON config.', 'error')
+            return redirect(view_url)
+    else:
+        # Update db
+        adapter.update(c_id, data=data)
     flash('Updated view "{}"'.format(c_id))
-    return redirect(url_for('jsondash.view', id=c_id))
+    return redirect(view_url)
 
 
 @charts.route('/charts/create', methods=['POST'])

@@ -11,12 +11,7 @@
             </small>
             {{ view.name }}
             <small>
-                (
-                <a href="#edit-view-container" data-toggle="collapse">Edit</a> |
-                <a href="#json-output" data-toggle="modal">View JSON</a>
-                {% if charts_heartbeat.ENABLED %}
-                    | Updating every {{ charts_heartbeat.INTERVAL // 1000 }}s
-                {% endif %})
+                {% include "partials/dashboard-options.html" %}
             </small>
         </h2>
         <div class="{{ 'collapse' if view.modules|length else '' }}" id="edit-view-container">
@@ -29,6 +24,7 @@
             {% endif %}
             {% include "partials/form-view.html" %}
         </div>
+        {% include "partials/form-json.html" %}
         <div class="layout" id="view-builder">
             <div id="container"></div>
         </div>

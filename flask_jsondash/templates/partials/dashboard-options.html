@@ -1,0 +1,19 @@
+<div class="btn-group">
+    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Options <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li>
+            <a href="#edit-view-container" data-toggle="collapse">Edit</a>
+        </li>
+        <li>
+            <a href="#json-output" data-toggle="modal">View JSON</a>
+        </li>
+        <li>
+            <a href="#save-json-form" data-toggle="collapse">Edit raw JSON</a>
+        </li>
+    </ul>
+</div>
+{% if charts_heartbeat.ENABLED %}
+    (Updating every {{ charts_heartbeat.INTERVAL // 1000 }}s)
+{% endif %}

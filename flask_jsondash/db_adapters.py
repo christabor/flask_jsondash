@@ -23,6 +23,12 @@ else:
     raise NotImplemented('PostgreSQL is not yet supported.')
 
 
+def reformat_data(data, c_id):
+    """Format/clean existing config data to be re-inserted into database."""
+    data.update(dict(id=c_id, date=dt.now()))
+    return data
+
+
 def _format_modules(data):
     """Form module data for JSON."""
     modules = []
@@ -45,15 +51,16 @@ def read(c_id=None):
         raise NotImplemented('PostgreSQL is not yet supported.')
 
 
-def update(c_id, data=None):
+def update(c_id, data=None, fmt_modules=True):
     """Update a record."""
     if data is None:
         return
     if DB_NAME == 'mongo':
+        modules = _format_modules(data) if fmt_modules else data.get('modules')
         save_conf = {
             '$set': {
                 'name': data['name'],
-                'modules': _format_modules(data),
+                'modules': modules,
                 'date': dt.now()
             }
         }
