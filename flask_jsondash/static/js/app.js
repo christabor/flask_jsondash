@@ -91,7 +91,7 @@ function updateModule(e){
         if(name) {
             if(name === 'override') {
                 // Convert checkbox to json friendly format.
-                active[name] = $(input).val() === 'on';
+                active[name] = $(input).is(':checked');
             } else {
                 active[name] = $(input).val();
             }
