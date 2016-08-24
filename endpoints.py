@@ -162,8 +162,9 @@ def scatter():
             return jsonfile.read()
     return json.dumps({
         "bar1": [1, 2, 30, 12, 100],
-        "bar2": rr_list(max_range=5),
-        "bar3": rr_list(max_range=5),
+        "bar2": rr_list(max_range=40),
+        "bar3": rr_list(max_range=40),
+        "bar4": [-10, 1, 5, 4, 10, 20],
     })
 
 
