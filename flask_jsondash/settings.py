@@ -14,8 +14,8 @@ ACTIVE_DB = os.environ.get('CHARTS_ACTIVE_DB', 'mongo').lower()
 
 # Javascript heartbeat for dashboards.
 HEARTBEAT = dict(
-    INTERVAL=10000,
-    ENABLED=False,
+    INTERVAL=20000,
+    ENABLED=True,
 )
 
 """
