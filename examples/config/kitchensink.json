@@ -189,6 +189,24 @@
             "guid": "1eeb7877-6462-4b00-373b-f01746a71e8b",
             "type": "custom"
         },
+       {
+            "name": "Radial dendrogram",
+            "height": "900",
+            "width": "900",
+            "dataSource": "http://localhost:5004/dendrogram?radial=1&simple=1",
+            "override": false,
+            "guid": "61dca3d8-c713-2b0b-ce68-5d93fff19fa5",
+            "type": "radial-dendrogram"
+        },
+        {
+            "name": "Dendrogram",
+            "height": "900",
+            "width": "1200",
+            "dataSource": "http://localhost:5004/dendrogram",
+            "override": false,
+            "guid": "0b7e0c94-e526-4821-706c-b038ec42322b",
+            "type": "dendrogram"
+        },
         {
             "name": "Negative sales",
             "height": "300",
