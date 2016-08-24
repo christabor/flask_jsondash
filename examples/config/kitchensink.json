@@ -181,6 +181,15 @@
             "type": "line"
         },
         {
+            "name": "Custom",
+            "height": "250",
+            "width": "500",
+            "dataSource": "http://localhost:5004/custom",
+            "override": false,
+            "guid": "1eeb7877-6462-4b00-373b-f01746a71e8b",
+            "type": "custom"
+        },
+        {
             "name": "Negative sales",
             "height": "300",
             "width": "300",

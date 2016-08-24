@@ -208,7 +208,7 @@ Not supported.
 
 #### Custom
 
-...
+No schema. You can server whatever kind of page you want. Similar to an iframe, but this will load the source directly into the page. **Note**: some unintended side effects of your dashboard may occur (such as css style overrides), so YMMV. Alternatively, you can use the iframe option.
 
 #### Iframe
 

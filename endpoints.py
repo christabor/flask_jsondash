@@ -121,6 +121,14 @@ def timeseries():
 
 
 @cross_origin()
+@app.route('/custom')
+def custompage():
+    """Fake endpoint."""
+    kwargs = dict(number=rr(1, 1000))
+    return render_template('examples/custom.html', **kwargs)
+
+
+@cross_origin()
 @app.route('/gauge')
 def gauge():
     """Fake endpoint."""
