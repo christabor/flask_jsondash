@@ -37,7 +37,7 @@ function _handleC3(container, config) {
             unload(container);
         }
     };
-    if(config.override && config.override === true) {
+    if(isOverride(config)) {
         // Just use the raw payload for this widgets' options.
         $.getJSON(config.dataSource, function(res){
             // Keep existing options if not specified.
@@ -337,10 +337,11 @@ function _handleDataTable(container, config) {
 
 function _handleSingleNum(container, config) {
     container.selectAll('.singlenum').remove();
-    $.getJSON(config.dataSource, function(data){
+    d3.json(config.dataSource, function(data){
         var num = container.append('div')
             .classed({'singlenum': true})
             .text(data);
+        data = String(data);
         // Add red or green, depending on if the number appears to be pos/neg.
         num.classed({
             'text-danger': data.startsWith('-'),
