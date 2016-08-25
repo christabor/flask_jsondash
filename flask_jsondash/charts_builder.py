@@ -25,7 +25,6 @@ import jinja2
 import db_adapters as adapter
 from settings import (
     CHARTS_CONFIG,
-    HEARTBEAT,
 )
 
 template_dir = os.path.dirname(templates.__file__)
@@ -77,7 +76,6 @@ def _ctx():
     """Inject any context needed for this blueprint."""
     return dict(
         charts_config=CHARTS_CONFIG,
-        charts_heartbeat=HEARTBEAT,
         page_title='dashboards',
     )
 

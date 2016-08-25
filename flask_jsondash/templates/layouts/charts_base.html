@@ -50,9 +50,6 @@
 <script src="{{ url_for('jsondash._static', filename='js/handlers.js') }}"></script>
 <script src="{{ url_for('jsondash._static', filename='js/app.js') }}"></script>
 <script>
-    // Add js context
-    window.charts_heartbeat = {{ charts_heartbeat|tojson|safe }};
-    window.HEARTBEAT_INTERVAL = window.charts_heartbeat.INTERVAL || 10000;
     function init() {
         addDomEvents();
     }

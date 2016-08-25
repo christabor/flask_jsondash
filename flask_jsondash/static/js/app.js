@@ -38,6 +38,7 @@ function saveModule(e){
     var id = guid();
     // Add a unique guid for referencing later.
     data['guid'] = id;
+    if(!data.refresh) data['refresh'] = false;
     if(!data.override) data['override'] = false;
     newfield.attr('name', 'module_' + id);
     newfield.val(JSON.stringify(data));
@@ -70,7 +71,7 @@ function updateEditForm(e) {
     var module = getModuleByGUID(guid);
     // Update the modal window fields with this one's value.
     $.each(module, function(field, val){
-        if(field === 'override') {
+        if(field === 'override' || field === 'refresh') {
             module_form.find('[name="' + field + '"]').prop('checked', val);
         } else {
             module_form.find('[name="' + field + '"]').val(val);
@@ -89,7 +90,7 @@ function updateModule(e){
     module_form.find('input').each(function(k, input){
         var name = $(input).attr('name');
         if(name) {
-            if(name === 'override') {
+            if(name === 'override' || name === 'refresh') {
                 // Convert checkbox to json friendly format.
                 active[name] = $(input).is(':checked');
             } else {
@@ -190,10 +191,6 @@ function addDomEvents() {
     });
 }
 
-function heartBeat(data) {
-    addChartContainers($MAIN_CONTAINER, data);
-}
-
 function togglePanel(e) {
     e.preventDefault();
     var el = $(this).attr('href');
@@ -264,15 +261,26 @@ function prettyCode(code) {
     return JSON.stringify(JSON.parse(code), null, 4)
 }
 
+function addRefreshers(modules) {
+    $.each(modules, function(k, module){
+        if(module.refresh && module.refreshInterval) {
+            var container = d3.select('[data-guid="' + module.guid + '"]');
+            setInterval(function(){
+                loadWidgetData(container, module);
+            }, parseInt(module.refreshInterval, 10));
+        }
+    });
+}
+
 function loadDashboard(data) {
     addChartContainers($MAIN_CONTAINER, data);
     dashboard_data = data;
-    if(window.charts_heartbeat.ENABLED) {
-        // Set refresh interval
-        setInterval(function(){heartBeat(data);}, HEARTBEAT_INTERVAL);
-    }
+
     // Add event handlers for widget UI
     $('.widget-refresh').on('click.charts', refreshWidget);
+
+    // Setup refresh intervals for all widgets that specify it.
+    addRefreshers(data.modules);
 
     // Format json config display
     $('#json-output').on('show.bs.modal', function(e){

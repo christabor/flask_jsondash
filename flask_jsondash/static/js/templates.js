@@ -10,6 +10,8 @@ function addWidget(container, model) {
     widget.attr('class', 'item widget');
     // Need a guid for referencing later
     widget.attr('data-guid', model.guid);
+    widget.attr('data-refresh', model.refresh);
+    widget.attr('data-refresh-interval', model.refreshInterval);
     widget.style('width',  model.width + 'px');
     widget.style('height',  model.height + 'px');
 

@@ -7,28 +7,45 @@
         </div>
         <div class="modal-body">
             <form class="form-block row" id="module-form" role="form">
-                <div class="col-md-12">
-                    <label>
-                        Name
-                        <input class="form-control" type="text" name="name" value="" placeholder="name">
-                    </label>
-                    <label>
-                        Type
-                        {% include "partials/form-diagram-options.html" %}
-                    </label>
-                    <label>
-                        width <input class="form-control" type="text" name="width" value="" placeholder="e.g. 500">
-                    </label>
-                    <label>
-                        height <input class="form-control" type="text" name="height" value="" placeholder="e.g. 400">
-                    </label>
-                    <label>
-                        API endpoint (<em>or template path, if using "custom/iframe"</em>) <input class="form-control" type="text" name="dataSource" value="http://" placeholder="e.g. localhost:5000/my/endpoint">
-                    </label>
-                    <label>
-                        <input class="form-control" type="checkbox" name="override">
-                        Use custom configuration? <br><small>Note: this will pass the <strong>entire</strong> payload from <code>config.dataSource</code> to the widget constructor, and may result in errors if not configured properly.</small>
-                    </label>
+                <div class="col-md-6">
+                    <fieldset>
+                        <legend class="lead">Required fields</legend>
+                        <label>
+                            Name
+                            <input class="form-control" type="text" name="name" value="" placeholder="name">
+                        </label>
+                        <label>
+                            Type
+                            {% include "partials/form-diagram-options.html" %}
+                        </label>
+                        <label>
+                            width <input class="form-control" type="text" name="width" value="" placeholder="e.g. 500">
+                        </label>
+                        <label>
+                            height <input class="form-control" type="text" name="height" value="" placeholder="e.g. 400">
+                        </label>
+                        <label>
+                            API endpoint (<em>or template path, if using "custom/iframe"</em>) <input class="form-control" type="text" name="dataSource" value="http://" placeholder="e.g. localhost:5000/my/endpoint">
+                        </label>
+                    </fieldset>
+                </div>
+                <div class="col-md-6">
+                    <fieldset>
+                        <legend class="lead">Options</legend>
+                        <label>
+                            <input class="form-control" type="checkbox" name="override">
+                            Use custom configuration? <br><small>Note: this will pass the <strong>entire</strong> payload from <code>config.dataSource</code> to the widget constructor, and may result in errors if not configured properly.</small>
+                        </label>
+                        <label>
+                            Auto-refresh?
+                            <input class="form-control" type="checkbox" name="refresh">
+                        </label>
+                        <br>
+                        <label>
+                            Auto refresh interval <small>(in milliseconds)</small>
+                            <input class="form-control" type="text" name="refreshInterval" value="10000">
+                        </label>
+                    </fieldset>
                 </div>
                 <div class="col-md-12">
                     <hr>
