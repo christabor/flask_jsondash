@@ -39,7 +39,7 @@ function _handleC3(container, config) {
     };
     if(isOverride(config)) {
         // Just use the raw payload for this widgets' options.
-        $.getJSON(config.dataSource, function(res){
+        d3.json(config.dataSource, function(res){
             // Keep existing options if not specified.
             var config = $.extend(init_config, res);
             c3.generate(init_config);
@@ -300,7 +300,7 @@ function _handleSparkline(container, config) {
             'text-center': true
         });
     spark = $(spark[0]);
-    $.getJSON(config.dataSource, function(data){
+    d3.json(config.dataSource, function(data){
         var opts = {
             type: sparkline_type,
             width: config.width - WIDGET_MARGIN_X,
@@ -366,7 +366,7 @@ function _handleSingleNum(container, config) {
 }
 
 function _handleTimeline(container, config) {
-    $.getJSON(config.dataSource, function(data){
+    d3.json(config.dataSource, function(data){
         container.append('div').attr('id', 'widget-' + config.guid);
         var timeline = new TL.Timeline('widget-' + config.guid, data);
         unload(container);
