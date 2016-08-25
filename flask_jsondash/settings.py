@@ -65,7 +65,8 @@ CHARTS_CONFIG = {
         'charts': [
             ('custom', 'Custom embed of any arbitrary code.'),
             ('iframe', 'Embedded iframe.'),
-            ('number', 'A single number representing some aggregate value.')
+            ('number', 'A single number representing some aggregate value.'),
+            ('youtube', 'An embedded YouTube video.'),
         ],
         'js_url': None,
         'css_url': None,

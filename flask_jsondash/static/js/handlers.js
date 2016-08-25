@@ -6,6 +6,18 @@
 var WIDGET_MARGIN_X = 20;
 var WIDGET_MARGIN_Y = 60;
 
+function _handleYoutube(container, config) {
+    // Clean up all previous.
+    container.selectAll('iframe').remove();
+    var iframe = container.append('iframe');
+    iframe
+        .attr('width', config.width)
+        .attr('height', config.height)
+        .attr('src', config.dataSource)
+        .attr('allowfullscreen')
+        .attr('frameborder', 0)
+}
+
 function _handleC3(container, config) {
     var init_config = {
         bindto: '#' + normalizeName(config.name),

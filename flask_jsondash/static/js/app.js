@@ -31,6 +31,11 @@
     });
 }
 
+function refreshableType(type) {
+    if(type === 'youtube') return false;
+    return true;
+}
+
 function saveModule(e){
     var data     = serializeToJSON($($MODULE_FORM).serializeArray());
     var last     = $('.modules').find('input').last();
@@ -38,7 +43,7 @@ function saveModule(e){
     var id = guid();
     // Add a unique guid for referencing later.
     data['guid'] = id;
-    if(!data.refresh) data['refresh'] = false;
+    if(!data.refresh || !refreshableType(data.type)) data['refresh'] = false;
     if(!data.override) data['override'] = false;
     newfield.attr('name', 'module_' + id);
     newfield.val(JSON.stringify(data));
@@ -242,6 +247,9 @@ function loadWidgetData(widget, config) {
         }
         else if(config.type === 'number') {
             _handleSingleNum(widget, config);
+        }
+        else if(config.type === 'youtube') {
+            _handleYoutube(widget, config);
         }
         else if(config.type === 'custom') {
             _handleCustom(widget, config);
