@@ -317,7 +317,7 @@ function _handleDataTable(container, config) {
     d3.json(config.dataSource, function(error, res) {
         if(error) throw new Error('Could not load url: ' + config.dataSource);
         var keys = d3.keys(res[0]).map(function(d){
-            return {'data': d};
+            return {data: d, title: d};
         });
         container
             .append('table')
