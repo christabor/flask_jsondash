@@ -50,7 +50,7 @@ staticfiles = js_files + css_files + html_files
 
 setup(
     name='flask_jsondash',
-    version='3.4.1',
+    version='3.5.1',
     description=('Easily configurable, chart dashboards from any '
                  'arbitrary API endpoint. JSON config only. Ready to go.'),
     long_description=readme(),
