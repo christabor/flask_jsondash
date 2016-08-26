@@ -28,23 +28,7 @@
         <div class="layout" id="view-builder">
             <div id="container"></div>
         </div>
-        <div class="modal fade" id="json-output">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">JSON config</h4>
-                    </div>
-                    <div class="modal-body">
-                        <pre>
-                            <code>{{ view|jsonstring }}</code>
-                        </pre>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
-{% endblock %}
-
 {% include "partials/edit-data-modal.html" %}
+{% endblock %}
