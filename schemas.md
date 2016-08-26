@@ -251,7 +251,7 @@ Any number, positive or negative. Prefixes, such as currencies, are also allowed
 
 ### Overrides
 
-Not supported.
+Supported.
 
 #### Datatables standard
 

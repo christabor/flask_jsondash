@@ -103,7 +103,8 @@ def timeline():
 @app.route('/dtable', methods=['GET'])
 def dtable():
     """Fake endpoint."""
-    with open('{}/examples/dtable.json'.format(os.getcwd()), 'r') as djson:
+    fname = 'dtable-override' if 'override' in request.args else 'dtable'
+    with open('{}/examples/{}.json'.format(os.getcwd(), fname), 'r') as djson:
         return djson.read()
     return json.dumps({})
 

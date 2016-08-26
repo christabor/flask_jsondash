@@ -313,7 +313,7 @@ function _handleSparkline(container, config) {
 
 function _handleDataTable(container, config) {
     // Clean up old tables if they exist, during reloading.
-    container.selectAll('div').remove();
+    container.selectAll('.dataTables_wrapper').remove();
     d3.json(config.dataSource, function(error, res) {
         if(error) throw new Error('Could not load url: ' + config.dataSource);
         var keys = d3.keys(res[0]).map(function(d){
@@ -326,12 +326,9 @@ function _handleDataTable(container, config) {
                 'table-striped': true,
                 'table-bordered': true,
                 'table-condensed': true
-            })
-            .attr('id', config.name);
-        $('#' + config.name).dataTable({
-            data: res,
-            columns: keys
-        }).css({width: 'auto'});
+            });
+        var opts = config.override ? res : {data: res, columns: keys};
+        $(container.select('table')[0]).dataTable(opts).css({width: 'auto'});
         unload(container);
     });
 }

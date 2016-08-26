@@ -1,0 +1,63 @@
+{
+  "searching": false,
+  "columns": [
+    {"data": "name", "title": "Name"},
+    {"data": "position", "title": "Position"},
+    {"data": "salary", "title": "Salary ($)"},
+    {"data": "start_date", "title": "Start Date"},
+    {"data": "office", "title": "Office"},
+    {"data": "extn", "title": "Extension"}
+  ],
+  "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+  "pagingType": "numbers",
+  "data": [
+    {
+      "name": "Tiger Nixon",
+      "position": "System Architect",
+      "salary": "$320,800",
+      "start_date": "2011/04/25",
+      "office": "Edinburgh",
+      "extn": "5421"
+    },
+    {
+      "name": "Garrett Winters",
+      "position": "Accountant",
+      "salary": "$170,750",
+      "start_date": "2011/07/25",
+      "office": "Tokyo",
+      "extn": "8422"
+    },
+    {
+      "name": "Ashton Cox",
+      "position": "Junior Technical Author",
+      "salary": "$86,000",
+      "start_date": "2009/01/12",
+      "office": "San Francisco",
+      "extn": "1562"
+    },
+    {
+      "name": "Shad Decker",
+      "position": "Regional Director",
+      "salary": "$183,000",
+      "start_date": "2008/11/13",
+      "office": "Edinburgh",
+      "extn": "6373"
+    },
+    {
+      "name": "Michael Bruce",
+      "position": "Javascript Developer",
+      "salary": "$183,000",
+      "start_date": "2011/06/27",
+      "office": "Singapore",
+      "extn": "5384"
+    },
+    {
+      "name": "Donna Snider",
+      "position": "Customer Support",
+      "salary": "$112,000",
+      "start_date": "2011/01/25",
+      "office": "New York",
+      "extn": "4226"
+    }
+  ]
+}

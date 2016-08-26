@@ -155,6 +155,17 @@
             "type": "datatable"
         },
         {
+            "name": "Datatable override",
+            "refresh": false,
+            "height": "600",
+            "width": "700",
+            "dataSource": "http://localhost:5004/dtable?override=1",
+            "override": true,
+            "refreshInterval": "10000",
+            "guid": "c1a9c36b-edc1-6627-340c-333aaaa",
+            "type": "datatable"
+        },
+        {
             "name": "Donut",
             "height": "400",
             "width": "500",
