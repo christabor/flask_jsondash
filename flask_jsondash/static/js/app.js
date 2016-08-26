@@ -23,7 +23,7 @@
         type: 'get',
         url: $($API_ROUTE_URL).val().trim(),
         success: function(d) {
-           $($API_PREVIEW).html(d);
+           $($API_PREVIEW).html(prettyCode(d));
         },
         error: function(d, status, error) {
             $($API_PREVIEW).html(error);
