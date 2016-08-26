@@ -8,7 +8,10 @@
 <!-- CHART SPECIFIC CSS -->
 {% for label, chart_group in charts_config.items() %}
     {% if chart_group.enabled and chart_group.css_url %}
-        <link title="{{ label|lower }}" rel="stylesheet" href="//{{ chart_group.css_url }}">
+        <!-- Chart CSS: {{ label }} -->
+        {% for url in chart_group.css_url %}
+            <link rel="stylesheet" href="//{{ url }}">
+        {% endfor %}
     {% endif %}
 {% endfor %}
 
@@ -21,12 +24,8 @@
 
 {% block body %}
 {{ super() }}
-<div class="container-fluid" id="charts-builder">
-    <div class="row">
-        <div class="col-md-12">
-            {% block chart_body %}{% endblock %}
-        </div>
-    </div>
+<div id="charts-builder">
+    {% block chart_body %}{% endblock %}
 </div>
 {% endblock %}
 
@@ -40,7 +39,10 @@
 <!-- CHART SPECIFIC SCRIPTS -->
 {% for label, chart_group in charts_config.items() %}
     {% if chart_group.enabled and chart_group.js_url %}
-        <script src="//{{ chart_group.js_url }}"></script>
+        <!-- Chart JS: {{ label }} -->
+        {% for url in chart_group.js_url %}
+            <script src="//{{ url }}"></script>
+        {% endfor %}
     {% endif %}
 {% endfor %}
 
