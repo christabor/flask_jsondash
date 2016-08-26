@@ -45,10 +45,9 @@ def auth_enabled(authtype=None):
     Checks for either a global auth (if authtype is None), or
     an action specific auth (specified by authtype).
     """
-    if not all([
-        'JSONDASH' in current_app.config,
-        'auth' in current_app.config['JSONDASH']
-    ]):
+    if 'JSONDASH' not in current_app.config:
+        return False
+    if 'auth' not in current_app.config['JSONDASH']:
         return False
     auth_conf = current_app.config.get('JSONDASH').get('auth')
     if authtype is not None:
