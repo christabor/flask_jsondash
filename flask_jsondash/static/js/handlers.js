@@ -324,7 +324,8 @@ function _handleDataTable(container, config) {
             .classed({
                 'table': true,
                 'table-striped': true,
-                'table-bordered': true
+                'table-bordered': true,
+                'table-condensed': true
             })
             .attr('id', config.name);
         $('#' + config.name).dataTable({
