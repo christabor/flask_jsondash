@@ -64,6 +64,7 @@ def update(c_id, data=None, fmt_modules=True):
                 'date': dt.now()
             }
         }
+        save_conf['$set'].update(**data)
         coll.update(dict(id=c_id), save_conf)
     else:
         raise NotImplemented('PostgreSQL is not yet supported.')

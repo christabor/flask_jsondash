@@ -64,6 +64,23 @@ def auth_check(authtype, **kwargs):
     return current_app.config['JSONDASH']['auth'][authtype](**kwargs)
 
 
+def get_metadata():
+    """An abstraction around misc. metadata.
+
+    This allows loose coupling for enabling and setting
+    metadata for each chart.
+    """
+    metadata = dict()
+    conf = current_app.config['JSONDASH']
+    conf_metadata = conf.get('metadata')
+    if conf_metadata is None:
+        return metadata
+    # Update all metadata if the function exists.
+    for k, func in conf['metadata'].items():
+        metadata[k] = conf_metadata[k]()
+    return metadata
+
+
 @charts.route('/jsondash/<path:filename>')
 def _static(filename):
     """Send static files directly for this blueprint."""
@@ -146,6 +163,7 @@ def update():
         try:
             data = json.loads(request.form.get('config'))
             data = adapter.reformat_data(data, c_id)
+            data.update(**get_metadata())
             # Update db
             adapter.update(c_id, data=data, fmt_modules=False)
         except (TypeError, ValueError):
@@ -153,7 +171,14 @@ def update():
             return redirect(view_url)
     else:
         # Update db
-        adapter.update(c_id, data=data)
+        d = dict(
+            name=data['name'],
+            modules=adapter._format_modules(data),
+            date=dt.now(),
+            id=data['id'],
+        )
+        d.update(**get_metadata())
+        adapter.update(c_id, data=d)
     flash('Updated view "{}"'.format(c_id))
     return redirect(view_url)
 
@@ -172,6 +197,7 @@ def create():
         date=dt.now(),
         id=str(uuid.uuid1()),
     )
+    d.update(**get_metadata())
     # Add to DB
     adapter.create(data=d)
     flash('Created new view "{}"'.format(data['name']))
@@ -196,6 +222,7 @@ def clone(c_id):
         date=dt.now(),
         id=str(uuid.uuid1()),
     )
+    data.update(**get_metadata())
     # Add to DB
     adapter.create(data=data)
     return redirect(url_for('jsondash.view', id=data['id']))

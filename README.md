@@ -85,12 +85,12 @@ By default, no authentication is performed for a given action. However, supporti
 def can_delete_charts():
     return session.get('user')['name'] in SECRET_ADMINS
 
-charts_auth = dict(
+charts_config = dict(
     auth=dict(
         delete=can_delete_charts,
     ),
 )
-app.config['JSONDASH'] = charts_auth
+app.config['JSONDASH'] = charts_config
 ```
 
 The following types are supported:
@@ -98,6 +98,27 @@ The following types are supported:
 `delete`, `clone`, `update`, `create`, `view`
 
 Note: `view` is the only function that takes an argument, which is the ID of the dashboard.
+
+### Metadata configuration
+
+Metadata can be added to the json configuration for further customization purposes. All arbitrary values will expect an accompanying function to be populated with, in the exact same way as the auth functions listed above. They will all be namespaced under the `metadata` key inside of the `app.config['JSONDASH']` dictionary, if specified.
+
+Below is an example of how you can override these fields with your own arbitrary functions. Note: by default, none take arguments. This may change for specific types.
+
+```python
+charts_config = dict(
+    metadata=dict(
+        created_by=lambda x: session.get('username'),
+    ),
+)
+app.config['JSONDASH'] = charts_config
+```
+
+The following metadata overrides are used, but you can also add arbitrary keys and values, *which will be saved to the dashboard config*, just not necessarily used here.
+
+**created_by**
+
+This is used to organize views on the front-page by user, if there is such a key present on the configuration. This key is updated and saved if present, null otherwise.
 
 ## FAQs
 
@@ -114,6 +135,10 @@ The goal here is to use intelligent defaults as much as possible, and then allow
 However, you can inject raw json-friendly configurations if your chart has the `override` flag set. This will not work for all charts. See [configuration options](schemas.md) for more.
 
 Keep in mind, many *stylistic* customizations can be overridden in css, since most all charts are html and/or SVG. And, as mentioned above, you can always use override option, or the iframe/custom option and make your `dataSource` endpoint return whatever you want, including a full html/js/css pre-rendered template.
+
+**Q**: "When exposing metadata, why don't you just use the `g` variable and read from that?"
+
+*A*: One way this can be done is using the `@app.before_request decorator`, and populating the `g` variable with metadata. The problem is that it creates extremely unnecessary overhead.
 
 ## Tips & tricks
 
