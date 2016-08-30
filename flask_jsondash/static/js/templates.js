@@ -15,20 +15,15 @@ function addWidget(container, model) {
     widget.style('width',  model.width + 'px');
     widget.style('height',  model.height + 'px');
 
-    var html = `
-    <span class="widget-loader fa fa-circle-o-notch fa-spin"></span>
-    <p class="widget-title">
-    {name}
-    <span rel="tooltip" title="Refresh the panels url endpoint" class="pull-right icon widget-refresh fa fa-refresh"></span>
-    </p>
-    <a href="#chart-options" data-toggle="modal" class="widget-edit"><span class="fa fa-edit"></span> Edit</a>
-    <div id="{id}"></div>
-    `.assign({
-        name: model.name,
-        width: model.width,
-        height: model.height,
-        id: normalizeName(model.name)
-    });
+    var html = [
+        '<span class="widget-loader fa fa-circle-o-notch fa-spin"></span>',
+        '<p class="widget-title">',
+        model.name,
+        '<span rel="tooltip" title="Refresh the panels url endpoint" class="pull-right icon widget-refresh fa fa-refresh"></span>',
+        '</p>',
+        '<a href="#chart-options" data-toggle="modal" class="widget-edit"><span class="fa fa-edit"></span> Edit</a>',
+        '<div id="' + normalizeName(model.name) + '"></div>'
+    ].join('\n');
     widget.html(html);
     return widget;
 }
