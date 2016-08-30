@@ -1,24 +1,12 @@
 """Setup for Flask Jsondash."""
 
-from glob import glob
 import os
-from setuptools import setup, find_packages
+from setuptools import setup
 
 SRCDIR = '.'
 folder = os.path.abspath(os.path.dirname(__file__))
 template_start = '{}/flask_jsondash/templates'.format(folder)
 static_start = '{}/flask_jsondash/static'.format(folder)
-
-
-def get_all_files(pattern, start_dir=None):
-    """Get all subdirectory files specified by `pattern`."""
-    paths = []
-    if start_dir is None:
-        start_dir = os.getcwd()
-    for root, dirs, files in os.walk(start_dir):
-        globbed = glob(os.path.join(root, pattern))
-        paths.extend(globbed)
-    return paths
 
 
 def readme():
@@ -41,16 +29,9 @@ def get_requires():
         return [req for req in reqs.readlines() if req]
 
 
-# Recursively retrieve all package data (static files)
-# Make sure static data exists, except uncompiled source (sass, etc)
-js_files = get_all_files('*.js', start_dir='{}/js'.format(static_start))
-css_files = get_all_files('*.css', start_dir='{}/css'.format(static_start))
-html_files = get_all_files('*.html', start_dir=template_start)
-staticfiles = js_files + css_files + html_files
-
 setup(
     name='flask_jsondash',
-    version='3.5.1',
+    version='3.6.1',
     description=('Easily configurable, chart dashboards from any '
                  'arbitrary API endpoint. JSON config only. Ready to go.'),
     long_description=readme(),
@@ -59,12 +40,17 @@ setup(
     url='https://github.com/christabor/flask_jsondash',
     license='MIT',
     classifiers=[
-        'Topic :: Software Development',
+        'Environment :: Web Environment',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.7',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        'Topic :: Software Development :: Libraries :: Python Modules'
     ],
-    package_dir={'': SRCDIR},
-    packages=find_packages(SRCDIR, exclude=['ez_setup', 'examples', 'tests']),
-    package_data=dict(flask_jsondash=staticfiles),
+    install_requires=get_requires(),
+    package_dir={'flask_jsondash': 'flask_jsondash'},
+    packages=['flask_jsondash'],
     zip_safe=False,
     include_package_data=True,
 )
