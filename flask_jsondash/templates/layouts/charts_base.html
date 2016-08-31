@@ -46,17 +46,15 @@
 {% endfor %}
 
 <!-- APP JS -->
-<script src="{{ url_for('jsondash._static', filename='js/utils.js') }}"></script>
-<script src="{{ url_for('jsondash._static', filename='js/templates.js') }}"></script>
-<script src="{{ url_for('jsondash._static', filename='js/handlers.js') }}"></script>
 <script src="{{ url_for('jsondash._static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('jsondash._static', filename='js/handlers.js') }}"></script>
+<script src="{{ url_for('jsondash._static', filename='js/utils.js') }}"></script>
 <script>
-    function init() {
-        addDomEvents();
-    }
-    $(document).ready(init);
-    {% if view %}
-        loadDashboard({{ view|jsonstring|safe }});
-    {% endif %}
+    $(document).ready(function(){
+        jsondash.addDomEvents();
+        {% if view %}
+        jsondash.loadDashboard({{ view|jsonstring|safe }});
+        {% endif %}
+    });
 </script>
 {% endblock %}

@@ -3,10 +3,7 @@
  * but each handler can handle them differently.
  */
 
-var WIDGET_MARGIN_X = 20;
-var WIDGET_MARGIN_Y = 60;
-
-function _handleYoutube(container, config) {
+jsondash.handlers.handleYoutube = function(container, config) {
     // Clean up all previous.
     container.selectAll('iframe').remove();
     var iframe = container.append('iframe');
@@ -15,18 +12,18 @@ function _handleYoutube(container, config) {
         .attr('height', config.height)
         .attr('src', config.dataSource)
         .attr('allowfullscreen')
-        .attr('frameborder', 0)
-}
+        .attr('frameborder', 0);
+};
 
-function _handleC3(container, config) {
+jsondash.handlers.handleC3 = function(container, config) {
     var init_config = {
-        bindto: '#' + normalizeName(config.name),
+        bindto: '#' + jsondash.util.normalizeName(config.name),
         legend: {
             show: true
         },
         size: {
-            height: config.height - WIDGET_MARGIN_Y,
-            width: config.width - WIDGET_MARGIN_X
+            height: config.height - jsondash.config.WIDGET_MARGIN_Y,
+            width: config.width - jsondash.config.WIDGET_MARGIN_X
         },
         data: {
             type: config.type,
@@ -34,10 +31,10 @@ function _handleC3(container, config) {
             mimeType: 'json'
         },
         onrendered: function(){
-            unload(container);
+            jsondash.unload(container);
         }
     };
-    if(isOverride(config)) {
+    if(jsondash.util.isOverride(config)) {
         // Just use the raw payload for this widgets' options.
         d3.json(config.dataSource, function(res){
             // Keep existing options if not specified.
@@ -55,23 +52,23 @@ function _handleC3(container, config) {
         init_config['data']['x'] = 'dates';
     }
     c3.generate(init_config);
-}
+};
 
-function _handleD3(container, config) {
+jsondash.handlers.handleD3 = function(container, config) {
     // Clean up all D3 charts in one step.
     container.selectAll('svg').remove();
     // Handle specific types.
-    if(config.type === 'radial-dendrogram') return _handleRadialDendrogram(container, config);
-    if(config.type === 'dendrogram') return _handleDendrogram(container, config);
-    if(config.type === 'voronoi') return _handleVoronoi(container, config);
-    if(config.type === 'treemap') return _handleTreemap(container, config);
-    if(config.type === 'circlepack') return _handleCirclePack(container, config);
+    if(config.type === 'radial-dendrogram') return jsondash.handlers.handleRadialDendrogram(container, config);
+    if(config.type === 'dendrogram') return jsondash.handlers.handleDendrogram(container, config);
+    if(config.type === 'voronoi') return jsondash.handlers.handleVoronoi(container, config);
+    if(config.type === 'treemap') return jsondash.handlers.handleTreemap(container, config);
+    if(config.type === 'circlepack') return jsondash.handlers.handleCirclePack(container, config);
     throw new Error('Unknown type: ' + config.type);
-}
+};
 
-function _handleCirclePack(container, config) {
+jsondash.handlers.handleCirclePack = function(container, config) {
     // Adapted from https://bl.ocks.org/mbostock/4063530
-    var margin = WIDGET_MARGIN_Y;
+    var margin = jsondash.config.WIDGET_MARGIN_Y;
     var diameter = d3.max([config.width, config.height]) - margin;
     var format = d3.format(',d');
 
@@ -104,22 +101,22 @@ function _handleCirclePack(container, config) {
         .attr('dy', '.3em')
         .style('text-anchor', 'middle')
         .text(function(d) { return d.name.substring(0, d.r / 3); });
-        unload(container);
+        jsondash.unload(container);
     });
 
     d3.select(self.frameElement).style("height", diameter + "px");
-}
+};
 
-function _handleTreemap(container, config) {
+jsondash.handlers.handleTreemap = function(container, config) {
     // Adapted from http://bl.ocks.org/mbostock/4063582
     var margin = {
-        top: WIDGET_MARGIN_Y / 2,
-        bottom: WIDGET_MARGIN_Y / 2,
-        left: WIDGET_MARGIN_X / 2,
-        right: WIDGET_MARGIN_X / 2
+        top: jsondash.config.WIDGET_MARGIN_Y / 2,
+        bottom: jsondash.config.WIDGET_MARGIN_Y / 2,
+        left: jsondash.config.WIDGET_MARGIN_X / 2,
+        right: jsondash.config.WIDGET_MARGIN_X / 2
     };
-    var width = config.width - WIDGET_MARGIN_X;
-    var height = config.height - WIDGET_MARGIN_Y;
+    var width = config.width - jsondash.config.WIDGET_MARGIN_X;
+    var height = config.height - jsondash.config.WIDGET_MARGIN_Y;
     var color = d3.scale.category20c();
     var treemap = d3.layout.treemap()
         .size([width, height])
@@ -171,9 +168,9 @@ function _handleTreemap(container, config) {
             .style('width', function(d) { return Math.max(0, d.dx - 1) + 'px'; })
             .style('height', function(d) { return Math.max(0, d.dy - 1) + 'px'; });
     }
-}
+};
 
-function _handleRadialDendrogram(container, config) {
+jsondash.handlers.handleRadialDendrogram = function(container, config) {
     container.selectAll('svg').remove();
     // Code taken (and refactored for use here) from:
     // https://bl.ocks.org/mbostock/4339607
@@ -207,16 +204,16 @@ function _handleRadialDendrogram(container, config) {
             .attr('text-anchor', function(d) { return d.x < 180 ? 'start' : 'end'; })
             .attr('transform', function(d) { return d.x < 180 ? 'translate(8)' : 'rotate(180)translate(-8)'; })
             .text(function(d) { return d.name; });
-        unload(container);
+        jsondash.unload(container);
     });
     d3.select(self.frameElement).style('height', radius * 2 + 'px');
-}
+};
 
-function _handleDendrogram(container, config) {
+jsondash.handlers.handleDendrogram = function(container, config) {
     container.selectAll('svg').remove();
     var PADDING = 100;
-    var width = config.width - WIDGET_MARGIN_X;
-    var height = config.height - WIDGET_MARGIN_Y;
+    var width = config.width - jsondash.config.WIDGET_MARGIN_X;
+    var height = config.height - jsondash.config.WIDGET_MARGIN_Y;
     var cluster = d3.layout.cluster()
         .size([height, width - PADDING]);
     var diagonal = d3.svg.diagonal()
@@ -253,15 +250,15 @@ function _handleDendrogram(container, config) {
         .style('text-anchor', function(d) { return d.children ? 'end' : 'start'; })
         .text(function(d) { return d.name; });
 
-        unload(container);
+        jsondash.unload(container);
     });
-}
+};
 
-function _handleVoronoi(container, config) {
+jsondash.handlers.handleVoronoi = function(container, config) {
     d3.json(config.dataSource, function(error, data){
         if(error) throw new Error('Could not load url: ' + config.dataSource);
-        var width = config.width - WIDGET_MARGIN_X;
-        var height = config.height - WIDGET_MARGIN_Y;
+        var width = config.width - jsondash.config.WIDGET_MARGIN_X;
+        var height = config.height - jsondash.config.WIDGET_MARGIN_Y;
         var vertices = data;
         var voronoi = d3.geom.voronoi().clipExtent([[0, 0], [width, height]]);
         // Cleanup
@@ -278,18 +275,18 @@ function _handleVoronoi(container, config) {
         redraw();
 
         function redraw() {
-            path = path.data(voronoi(vertices), polygon);
+            path = path.data(voronoi(vertices), jsondash.util.polygon);
             path.exit().remove();
             path.enter().append('path')
             .attr('class', function(d, i) { return 'q' + (i % 9) + '-9'; })
-            .attr('d', polygon);
+            .attr('d', jsondash.util.polygon);
             path.order();
         }
-        unload(container);
+        jsondash.unload(container);
     });
-}
+};
 
-function _handleSparkline(container, config) {
+jsondash.handlers.handleSparkline = function(container, config) {
     // Clean up old canvas elements
     container.selectAll('.sparkline-container').remove();
     var sparkline_type = config.type.split('-')[1];
@@ -303,15 +300,15 @@ function _handleSparkline(container, config) {
     d3.json(config.dataSource, function(data){
         var opts = {
             type: sparkline_type,
-            width: config.width - WIDGET_MARGIN_X,
-            height: config.height - WIDGET_MARGIN_Y,
+            width: config.width - jsondash.config.WIDGET_MARGIN_X,
+            height: config.height - jsondash.config.WIDGET_MARGIN_Y,
         };
         spark.sparkline(data, opts);
-        unload(container);
+        jsondash.unload(container);
     });
-}
+};
 
-function _handleDataTable(container, config) {
+jsondash.handlers.handleDataTable = function(container, config) {
     // Clean up old tables if they exist, during reloading.
     container.selectAll('.dataTables_wrapper').remove();
     d3.json(config.dataSource, function(error, res) {
@@ -329,11 +326,11 @@ function _handleDataTable(container, config) {
             });
         var opts = config.override ? res : {data: res, columns: keys};
         $(container.select('table')[0]).dataTable(opts).css({width: 'auto'});
-        unload(container);
+        jsondash.unload(container);
     });
-}
+};
 
-function _handleSingleNum(container, config) {
+jsondash.handlers.handleSingleNum = function(container, config) {
     container.selectAll('.singlenum').remove();
     d3.json(config.dataSource, function(data){
         var num = container.append('div')
@@ -357,21 +354,21 @@ function _handleSingleNum(container, config) {
             'height': inner_box_height + 'px'
         });
         var digits = String(data).length;
-        var size = getDigitSize()(digits);
+        var size = jsondash.util.getDigitSize()(digits);
         num.style('font-size', size + 'px');
-        unload(container);
+        jsondash.unload(container);
     });
-}
+};
 
-function _handleTimeline(container, config) {
+jsondash.handlers.handleTimeline = function(container, config) {
     d3.json(config.dataSource, function(data){
         container.append('div').attr('id', 'widget-' + config.guid);
         var timeline = new TL.Timeline('widget-' + config.guid, data);
-        unload(container);
+        jsondash.unload(container);
     });
-}
+};
 
-function _handleIframe(container, config) {
+jsondash.handlers.handleIframe = function(container, config) {
     container.selectAll('iframe').remove();
     var iframe = container.append('iframe');
     iframe.attr({
@@ -380,18 +377,18 @@ function _handleIframe(container, config) {
         height: '100%',
         width: '100%'
     });
-    unload(container);
-}
+    jsondash.unload(container);
+};
 
-function _handleCustom(container, config) {
+jsondash.handlers.handleCustom = function(container, config) {
     container.selectAll('.custom-container').remove();
     $.get(config.dataSource, function(html){
         container.append('div').classed({'custom-container': true}).html(html);
-        unload(container);
+        jsondash.unload(container);
     });
-}
+};
 
-function _handleVenn(container, config) {
+jsondash.handlers.handleVenn = function(container, config) {
     container.selectAll('.venn').remove();
     d3.json(config.dataSource, function(error, data){
         if(error) throw new Error('Could not load url: ' + config.dataSource);
@@ -401,8 +398,8 @@ function _handleVenn(container, config) {
             .classed({'venn': true})
         cont.datum(data).call(chart);
         cont.select('svg')
-            .attr('width', config.width - WIDGET_MARGIN_X)
-            .attr('height', config.height - WIDGET_MARGIN_Y)
-        unload(container);
+            .attr('width', config.width - jsondash.config.WIDGET_MARGIN_X)
+            .attr('height', config.height - jsondash.config.WIDGET_MARGIN_Y)
+        jsondash.unload(container);
     });
-}
+};
