@@ -1,11 +1,46 @@
 {% extends "layouts/charts_base.html" %}
 
 {% block chart_body %}
+{%- macro item(view) %}
+<li class="list-group-item clearfix">
+    <span class="fa fa-bar-chart"></span>
+    <a href="{{ url_for('jsondash.view', id=view.id) }}">
+        <strong>{{ view.name }}</strong> - Created {{ view.date }}
+        {% if view.created_by %} by {{ view.created_by }}{% endif %}
+        ({{ view.modules|length }} modules)
+    </a>
+    <div class="pull-right">
+        <form class="form-inline" action="{{ url_for('jsondash.clone', c_id=view.id) }}" method="POST">
+            <button class="btn btn-success btn-xs">
+                <span class="fa fa-clone"></span> Clone
+            </button>
+        </form>
+        <form class="form-inline delete-dashboard" action="{{ url_for('jsondash.delete', c_id=view.id) }}" method="POST">
+            <button class="btn btn-danger btn-xs">
+                <span class="fa fa-times"></span> Delete
+            </button>
+        </form>
+    </div>
+</li>
+{% endmacro -%}
+
 <div class="row">
     <div class="col-md-12">
         {% if views %}
             <div class="well text-center">
                 <h1 class="lead">You have <strong>{{ views|length }}</strong> {{ 'dashboards' if views|length > 1 else 'dashboard' }}, with <strong>{{ total_modules }}</strong> charts total.
+                {% if filter_dashboards and username %}
+                    <p>
+                        <small>
+                            Only showing <strong>your</strong> dashboards ({{ username }})
+                            {% if global_dashboards %}
+                                and all <strong>global</strong> dashoards
+                            {% endif %}
+                        </small>
+                    </p>
+                {% else %}
+                    <p><small>Showing all user dashboards.</small></p>
+                {% endif %}
                 <hr>
                 <small>
                     <a href="#new-view-form" class="btn btn-sm btn-success" id="add" data-toggle="collapse">
@@ -29,24 +64,15 @@
         </div>
         <ul class="list-group">
             {% for view in views %}
-            <li class="list-group-item clearfix">
-                <span class="fa fa-bar-chart"></span>
-                <a href="{{ url_for('jsondash.view', id=view.id) }}">
-                    <strong>{{ view.name }}</strong> - Created {{ view.date }} ({{ view.modules|length }} modules)
-                </a>
-                <div class="pull-right">
-                    <form class="form-inline" action="{{ url_for('jsondash.clone', c_id=view.id) }}" method="POST">
-                        <button class="btn btn-success btn-xs">
-                            <span class="fa fa-clone"></span> Clone
-                        </button>
-                    </form>
-                    <form class="form-inline delete-dashboard" action="{{ url_for('jsondash.delete', c_id=view.id) }}" method="POST">
-                        <button class="btn btn-danger btn-xs">
-                            <span class="fa fa-times"></span> Delete
-                        </button>
-                    </form>
-                </div>
-            </li>
+                {% set is_user_view = username == view.created_by %}
+                {% set show_global_dash = global_dashboards and view.created_by == global_dashuser %}
+                {% if filter_dashboards %}
+                    {% if show_global_dash or is_user_view %}
+                        {{ item(view) }}
+                    {% endif %}
+                {% else %}
+                    {{ item(view) }}
+                {% endif %}
             {% endfor %}
         </ul>
     </div>

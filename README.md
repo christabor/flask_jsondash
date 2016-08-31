@@ -120,6 +120,20 @@ The following metadata overrides are used, but you can also add arbitrary keys a
 
 This is used to organize views on the front-page by user, if there is such a key present on the configuration. This key is updated and saved if present, null otherwise.
 
+**user**
+
+This is the current logged in user. This is required for filtering dashboards by user. You must also set the `JSONDASH_FILTERUSERS` flag to `True` in `app.config`.
+
+### Global config flags
+
+Below are global app config flags. Their default values are represented in the example working Python code.
+
+`app.config['JSONDASH_FILTERUSERS'] = False`: for filtering dashboards by the logged in user. See above for setting user data.
+
+`app.config['JSONDASH_GLOBALDASH'] = True`: for allowing "global" dashboards to be shown. These dashboards must have a created_user of "global" or be overriden (see below).
+
+`app.config['JSONDASH_GLOBAL_USER'] = "global"`: An owner name to use when allowing global dashboards to be seen. This is set on the `created_by` property in the specific json config. See above for more examples.
+
 ## FAQs
 
 **Q**: "Why'd you choose to expose library X, Y, or Z?"

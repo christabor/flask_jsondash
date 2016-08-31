@@ -64,7 +64,7 @@ def auth_check(authtype, **kwargs):
     return current_app.config['JSONDASH']['auth'][authtype](**kwargs)
 
 
-def get_metadata():
+def get_metadata(key=None):
     """An abstraction around misc. metadata.
 
     This allows loose coupling for enabling and setting
@@ -75,6 +75,9 @@ def get_metadata():
     conf_metadata = conf.get('metadata')
     if conf_metadata is None:
         return metadata
+    # Also useful for getting arbitrary configuration keys.
+    if key is not None and key in conf_metadata:
+        return conf_metadata[key]()
     # Update all metadata if the function exists.
     for k, func in conf['metadata'].items():
         metadata[k] = conf_metadata[k]()
@@ -90,9 +93,16 @@ def _static(filename):
 @charts.context_processor
 def _ctx():
     """Inject any context needed for this blueprint."""
+    filter_user = current_app.config.get('JSONDASH_FILTERUSERS', False)
+    global_dashboards = current_app.config.get('JSONDASH_GLOBALDASH', True)
+    global_dashuser = current_app.config.get('JSONDASH_GLOBAL_USER', 'global')
     return dict(
         charts_config=CHARTS_CONFIG,
         page_title='dashboards',
+        global_dashuser=global_dashuser,
+        global_dashboards=global_dashboards,
+        username=get_metadata(key='username') if filter_user else None,
+        filter_dashboards=filter_user,
     )
 
 
