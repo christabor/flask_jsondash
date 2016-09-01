@@ -2,16 +2,15 @@
 
 """The chart blueprint that houses all functionality."""
 
-import os
 import json
+import os
 import uuid
 from datetime import datetime as dt
 
-from flask_jsondash import templates
-from flask_jsondash import static
+from flask_jsondash import static, templates
 
-from flask import Blueprint
 from flask import (
+    Blueprint,
     current_app,
     flash,
     redirect,
@@ -71,15 +70,16 @@ def get_metadata(key=None):
     metadata for each chart.
     """
     metadata = dict()
-    conf = current_app.config.get('JSONDASH', {})
-    conf_metadata = conf.get('metadata')
-    if conf_metadata is None:
-        return metadata
+    conf = current_app.config
+    conf_metadata = conf.get('JSONDASH', {}).get('metadata', None)
     # Also useful for getting arbitrary configuration keys.
-    if key is not None and key in conf_metadata:
-        return conf_metadata[key]()
-    # Update all metadata if the function exists.
-    for k, func in conf['metadata'].items():
+    if key is not None:
+        if key in conf_metadata:
+            return conf_metadata[key]()
+        else:
+            return None
+    # Update all metadata values if the function exists.
+    for k, func in conf_metadata.items():
         metadata[k] = conf_metadata[k]()
     return metadata
 
