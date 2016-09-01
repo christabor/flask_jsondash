@@ -108,7 +108,7 @@ Below is an example of how you can override these fields with your own arbitrary
 ```python
 charts_config = dict(
     metadata=dict(
-        created_by=lambda x: session.get('username'),
+        created_by=get_username,
     ),
 )
 app.config['JSONDASH'] = charts_config
@@ -166,4 +166,4 @@ could return `{"data": [1, 2, 3, 4]}`, but you could customize the url by updati
 
 `curl -XGET http://localhost:5002/api/foo?gt=9`
 
-could return {"data": [10, 20, 30, 40]} instead!
+could return `{"data": [10, 20, 30, 40]}` instead!
