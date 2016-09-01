@@ -28,7 +28,7 @@
     <div class="col-md-12">
         {% if views %}
             <div class="well text-center">
-                <h1 class="lead">You have <strong>{{ views|length }}</strong> {{ 'dashboards' if views|length > 1 else 'dashboard' }}, with <strong>{{ total_modules }}</strong> charts total.
+                <h1 class="lead">Showing <strong>{{ views|length }}</strong> {{ 'dashboards' if views|length > 1 else 'dashboard' }} with <strong>{{ total_modules }}</strong> charts.
                 {% if filter_dashboards and username %}
                     <p>
                         <small>
@@ -39,7 +39,7 @@
                         </small>
                     </p>
                 {% else %}
-                    <p><small>Showing all user dashboards.</small></p>
+                    <p><small>Not filtering any dashboards.</small></p>
                 {% endif %}
                 <hr>
                 <small>
@@ -62,6 +62,7 @@
                 {% include "partials/edit-data-modal.html" %}
             </div>
         </div>
+
         <ul class="list-group">
             {% for view in views %}
                 {% set is_user_view = username == view.created_by %}
@@ -75,6 +76,27 @@
                 {% endif %}
             {% endfor %}
         </ul>
+
+        {% if paginator.count > paginator.limit %}
+            <div class="text-center">
+                <p>
+                    <small>
+                        Showing
+                        <strong>
+                            {{ paginator.skip }}-{{ paginator.skip + views|length }}
+                        </strong> 
+                        of <strong>{{ paginator.count }}</strong> results
+                    </small>
+                </p>
+                <ul class="pagination pagination-small">
+                    {% for page in paginator.num_pages %}
+                        <li class="{{ 'active' if page == paginator.curr_page + 1 else '' }}">
+                            <a href="{{ url_for('jsondash.dashboard') }}?page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

@@ -5,6 +5,7 @@
 import json
 import os
 import uuid
+from collections import namedtuple
 from datetime import datetime as dt
 
 from flask_jsondash import static, templates
@@ -29,6 +30,8 @@ from settings import (
 template_dir = os.path.dirname(templates.__file__)
 static_dir = os.path.dirname(static.__file__)
 
+paginator = namedtuple('Paginator', 'count curr_page num_pages limit skip')
+
 charts = Blueprint(
     'jsondash',
     __name__,
@@ -36,11 +39,11 @@ charts = Blueprint(
     static_url_path=static_dir,
     static_folder=static_dir,
 )
-
 default_config = dict(
     JSONDASH_FILTERUSERS=False,
     JSONDASH_GLOBALDASH=False,
     JSONDASH_GLOBAL_USER='global',
+    JSONDASH_PERPAGE=25,
 )
 
 
@@ -90,12 +93,6 @@ def metadata(key=None):
     return metadata
 
 
-@charts.route('/jsondash/<path:filename>')
-def _static(filename):
-    """Send static files directly for this blueprint."""
-    return send_from_directory(static_dir, filename)
-
-
 def setting(name, default=None):
     """A simplified getter for namespaced flask config values."""
     if default is None:
@@ -130,19 +127,48 @@ def jsonstring(ctx, data):
     return json.dumps(data)
 
 
+@charts.route('/jsondash/<path:filename>')
+def _static(filename):
+    """Send static files directly for this blueprint."""
+    return send_from_directory(static_dir, filename)
+
+
+def _paginator():
+    """Get pagination calculations in a compact format."""
+    limit = setting('JSONDASH_PERPAGE')
+    limit = limit if limit > 2 else 2  # Prevent funky division errors etc
+    curr_page = int(request.args.get('page', 1)) - 1
+    count = adapter.count()
+    end = count // limit
+    remainder = count % limit
+    remainder = remainder or 1  # Prevent invalid ranges
+    num_pages = range(1, end + remainder)
+    return paginator(
+        limit=limit,
+        curr_page=curr_page,
+        skip=curr_page * limit,
+        num_pages=num_pages,
+        count=count,
+    )
+
+
 @charts.route('/charts/', methods=['GET'])
 def dashboard():
     """Load all views."""
+    pagination = _paginator()
+    opts = dict(limit=pagination.limit, skip=pagination.skip)
     if setting('JSONDASH_FILTERUSERS'):
-        views = list(adapter.read(
-            filters=dict(created_by=metadata(key='username'))))
+        opts.update(filters=dict(created_by=metadata(key='username')))
+        views = list(adapter.read(**opts))
         if setting('JSONDASH_GLOBALDASH'):
-            views += list(adapter.read(
-                filters=dict(created_by=setting('JSONDASH_GLOBAL_USER'))))
+            opts.update(
+                filters=dict(created_by=setting('JSONDASH_GLOBAL_USER')))
+            views += list(adapter.read(**opts))
     else:
-        views = list(adapter.read())
+        views = list(adapter.read(**opts))
     kwargs = dict(
         views=views,
+        paginator=pagination,
         total_modules=sum([len(view['modules']) for view in views]),
     )
     return render_template('pages/charts_index.html', **kwargs)
