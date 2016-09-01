@@ -41,6 +41,7 @@ def make_fake_chart_data(**kwargs):
     return (
         'module_{}'.format(_uuid),
         json.dumps(dict(
+            created_by='global',
             name=kwargs.get('name', chart),
             width=kwargs.get('width', randrange(100, 2000)),
             height=kwargs.get('height', randrange(100, 2000)),
