@@ -166,6 +166,8 @@ def dashboard():
             views += list(adapter.read(**opts))
     else:
         views = list(adapter.read(**opts))
+    if not views:
+        pagination = None
     kwargs = dict(
         views=views,
         paginator=pagination,
