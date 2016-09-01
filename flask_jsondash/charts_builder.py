@@ -71,7 +71,7 @@ def get_metadata(key=None):
     metadata for each chart.
     """
     metadata = dict()
-    conf = current_app.config['JSONDASH']
+    conf = current_app.config.get('JSONDASH', {})
     conf_metadata = conf.get('metadata')
     if conf_metadata is None:
         return metadata
