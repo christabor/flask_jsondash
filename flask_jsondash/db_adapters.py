@@ -40,15 +40,23 @@ def _format_modules(data):
     return modules
 
 
-def read(c_id=None, filters={}):
+def count(**kwargs):
+    """Standard db count."""
+    if DB_NAME == 'mongo':
+        return coll.count(**kwargs)
+    else:
+        raise NotImplemented('{} is not supported.'.format(DB_NAME))
+
+
+def read(**kwargs):
     """Read a record."""
     if DB_NAME == 'mongo':
-        if c_id is None:
-            return coll.find(filters)
+        if kwargs.get('c_id', None) is None:
+            return coll.find(**kwargs)
         else:
-            return coll.find_one(dict(id=c_id))
+            return coll.find_one(**kwargs)
     else:
-        raise NotImplemented('PostgreSQL is not yet supported.')
+        raise NotImplemented('{} is not supported.'.format(DB_NAME))
 
 
 def update(c_id, data=None, fmt_modules=True):
@@ -67,7 +75,7 @@ def update(c_id, data=None, fmt_modules=True):
         save_conf['$set'].update(**data)
         coll.update(dict(id=c_id), save_conf)
     else:
-        raise NotImplemented('PostgreSQL is not yet supported.')
+        raise NotImplemented('{} is not supported.'.format(DB_NAME))
 
 
 def create(data=None):
@@ -77,7 +85,7 @@ def create(data=None):
     if DB_NAME == 'mongo':
         coll.insert(data)
     else:
-        raise NotImplemented('PostgreSQL is not yet supported.')
+        raise NotImplemented('{} is not supported.'.format(DB_NAME))
 
 
 def delete(c_id):
@@ -85,4 +93,4 @@ def delete(c_id):
     if DB_NAME == 'mongo':
         coll.delete_one(dict(id=c_id))
     else:
-        raise NotImplemented('PostgreSQL is not yet supported.')
+        raise NotImplemented('{} is not supported.'.format(DB_NAME))
