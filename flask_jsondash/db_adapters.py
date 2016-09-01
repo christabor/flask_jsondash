@@ -5,8 +5,8 @@ Types are either:
 2. MongoDB collections.
 """
 
-from datetime import datetime as dt
 import json
+from datetime import datetime as dt
 
 from pymongo import MongoClient
 
@@ -40,11 +40,11 @@ def _format_modules(data):
     return modules
 
 
-def read(c_id=None):
+def read(c_id=None, filters={}):
     """Read a record."""
     if DB_NAME == 'mongo':
         if c_id is None:
-            return coll.find()
+            return coll.find(filters)
         else:
             return coll.find_one(dict(id=c_id))
     else:

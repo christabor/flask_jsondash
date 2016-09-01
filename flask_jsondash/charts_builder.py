@@ -37,6 +37,12 @@ charts = Blueprint(
     static_folder=static_dir,
 )
 
+default_config = dict(
+    JSONDASH_FILTERUSERS=False,
+    JSONDASH_GLOBALDASH=False,
+    JSONDASH_GLOBAL_USER='global',
+)
+
 
 def auth_enabled(authtype=None):
     """Check if general auth functions have been specified.
@@ -63,7 +69,7 @@ def auth_check(authtype, **kwargs):
     return current_app.config['JSONDASH']['auth'][authtype](**kwargs)
 
 
-def get_metadata(key=None):
+def metadata(key=None):
     """An abstraction around misc. metadata.
 
     This allows loose coupling for enabling and setting
@@ -90,18 +96,23 @@ def _static(filename):
     return send_from_directory(static_dir, filename)
 
 
+def setting(name, default=None):
+    """A simplified getter for namespaced flask config values."""
+    if default is None:
+        default = default_config.get(name)
+    return current_app.config.get(name, default)
+
+
 @charts.context_processor
 def _ctx():
     """Inject any context needed for this blueprint."""
-    filter_user = current_app.config.get('JSONDASH_FILTERUSERS', False)
-    global_dashboards = current_app.config.get('JSONDASH_GLOBALDASH', True)
-    global_dashuser = current_app.config.get('JSONDASH_GLOBAL_USER', 'global')
+    filter_user = setting('JSONDASH_FILTERUSERS')
     return dict(
         charts_config=CHARTS_CONFIG,
         page_title='dashboards',
-        global_dashuser=global_dashuser,
-        global_dashboards=global_dashboards,
-        username=get_metadata(key='username') if filter_user else None,
+        global_dashuser=setting('JSONDASH_GLOBAL_USER'),
+        global_dashboards=setting('JSONDASH_GLOBALDASH'),
+        username=metadata(key='username') if filter_user else None,
         filter_dashboards=filter_user,
     )
 
@@ -122,7 +133,14 @@ def jsonstring(ctx, data):
 @charts.route('/charts/', methods=['GET'])
 def dashboard():
     """Load all views."""
-    views = list(adapter.read())
+    if setting('JSONDASH_FILTERUSERS'):
+        views = list(adapter.read(
+            filters=dict(created_by=metadata(key='username'))))
+        if setting('JSONDASH_GLOBALDASH'):
+            views += list(adapter.read(
+                filters=dict(created_by=setting('JSONDASH_GLOBAL_USER'))))
+    else:
+        views = list(adapter.read())
     kwargs = dict(
         views=views,
         total_modules=sum([len(view['modules']) for view in views]),
@@ -173,7 +191,7 @@ def update():
         try:
             data = json.loads(request.form.get('config'))
             data = adapter.reformat_data(data, c_id)
-            data.update(**get_metadata())
+            data.update(**metadata())
             # Update db
             adapter.update(c_id, data=data, fmt_modules=False)
         except (TypeError, ValueError):
@@ -187,7 +205,7 @@ def update():
             date=dt.now(),
             id=data['id'],
         )
-        d.update(**get_metadata())
+        d.update(**metadata())
         adapter.update(c_id, data=d)
     flash('Updated view "{}"'.format(c_id))
     return redirect(view_url)
@@ -207,7 +225,7 @@ def create():
         date=dt.now(),
         id=str(uuid.uuid1()),
     )
-    d.update(**get_metadata())
+    d.update(**metadata())
     # Add to DB
     adapter.create(data=d)
     flash('Created new view "{}"'.format(data['name']))
@@ -232,7 +250,7 @@ def clone(c_id):
         date=dt.now(),
         id=str(uuid.uuid1()),
     )
-    data.update(**get_metadata())
+    data.update(**metadata())
     # Add to DB
     adapter.create(data=data)
     return redirect(url_for('jsondash.view', id=data['id']))
