@@ -17,6 +17,15 @@
                     <h1>My tester app for charts</h1>
                     <p class="lead">A place to demonstrate how to use the blueprint.</p>
                 </div>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for category, message in get_flashed_messages(with_categories=True) %}
+                            <div class="alert alert-{{ 'danger' if category == 'error' else 'info' }}">
+                                <p class="flash">{{ 'Error: ' if category == 'error' else '' }}{{ message }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
                 {% block body %}{% endblock %}
             </div>
         </div>
