@@ -135,18 +135,20 @@ def _static(filename):
 
 def _paginator():
     """Get pagination calculations in a compact format."""
-    limit = setting('JSONDASH_PERPAGE')
-    limit = limit if limit > 2 else 2  # Prevent funky division errors etc
+    per_page = setting('JSONDASH_PERPAGE')
+    # Allow query parameter overrides.
+    per_page = int(request.args.get('per_page', 0)) or per_page
+    per_page = per_page if per_page > 2 else 2  # Prevent division errors etc
     curr_page = int(request.args.get('page', 1)) - 1
     count = adapter.count()
-    end = count // limit
-    remainder = count % limit
+    end_range = count // per_page
+    remainder = count % per_page
     remainder = remainder or 1  # Prevent invalid ranges
-    num_pages = range(1, end + remainder)
+    num_pages = range(1, end_range + remainder)
     return paginator(
-        limit=limit,
+        limit=per_page,
         curr_page=curr_page,
-        skip=curr_page * limit,
+        skip=curr_page * per_page,
         num_pages=num_pages,
         count=count,
     )

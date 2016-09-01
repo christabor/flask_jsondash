@@ -92,7 +92,7 @@
                     <ul class="pagination pagination-small">
                         {% for page in paginator.num_pages %}
                             <li class="{{ 'active' if page == paginator.curr_page + 1 else '' }}">
-                                <a href="{{ url_for('jsondash.dashboard') }}?page={{ page }}">{{ page }}</a>
+                                <a href="{{ url_for('jsondash.dashboard') }}?page={{ page }}&amp;per_page={{ paginator.limit }}">{{ page }}</a>
                             </li>
                         {% endfor %}
                     </ul>
