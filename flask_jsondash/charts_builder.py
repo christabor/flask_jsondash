@@ -30,7 +30,7 @@ from settings import (
 template_dir = os.path.dirname(templates.__file__)
 static_dir = os.path.dirname(static.__file__)
 
-paginator = namedtuple('Paginator', 'count curr_page num_pages limit skip')
+Paginator = namedtuple('Paginator', 'count curr_page num_pages limit skip')
 
 charts = Blueprint(
     'jsondash',
@@ -133,7 +133,7 @@ def _static(filename):
     return send_from_directory(static_dir, filename)
 
 
-def _paginator():
+def paginator():
     """Get pagination calculations in a compact format."""
     per_page = setting('JSONDASH_PERPAGE')
     # Allow query parameter overrides.
@@ -145,7 +145,7 @@ def _paginator():
     remainder = count % per_page
     remainder = remainder or 1  # Prevent invalid ranges
     num_pages = range(1, end_range + remainder)
-    return paginator(
+    return Paginator(
         limit=per_page,
         curr_page=curr_page,
         skip=curr_page * per_page,
@@ -157,7 +157,7 @@ def _paginator():
 @charts.route('/charts/', methods=['GET'])
 def dashboard():
     """Load all views."""
-    pagination = _paginator()
+    pagination = paginator()
     opts = dict(limit=pagination.limit, skip=pagination.skip)
     if setting('JSONDASH_FILTERUSERS'):
         opts.update(filters=dict(created_by=metadata(key='username')))
