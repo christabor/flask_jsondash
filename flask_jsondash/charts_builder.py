@@ -2,16 +2,16 @@
 
 """The chart blueprint that houses all functionality."""
 
-import os
 import json
+import os
 import uuid
+from collections import namedtuple
 from datetime import datetime as dt
 
-from flask_jsondash import templates
-from flask_jsondash import static
+from flask_jsondash import static, templates
 
-from flask import Blueprint
 from flask import (
+    Blueprint,
     current_app,
     flash,
     redirect,
@@ -30,12 +30,20 @@ from settings import (
 template_dir = os.path.dirname(templates.__file__)
 static_dir = os.path.dirname(static.__file__)
 
+Paginator = namedtuple('Paginator', 'count curr_page num_pages limit skip')
+
 charts = Blueprint(
     'jsondash',
     __name__,
     template_folder=template_dir,
     static_url_path=static_dir,
     static_folder=static_dir,
+)
+default_config = dict(
+    JSONDASH_FILTERUSERS=False,
+    JSONDASH_GLOBALDASH=False,
+    JSONDASH_GLOBAL_USER='global',
+    JSONDASH_PERPAGE=25,
 )
 
 
@@ -64,44 +72,44 @@ def auth_check(authtype, **kwargs):
     return current_app.config['JSONDASH']['auth'][authtype](**kwargs)
 
 
-def get_metadata(key=None):
+def metadata(key=None):
     """An abstraction around misc. metadata.
 
     This allows loose coupling for enabling and setting
     metadata for each chart.
     """
     metadata = dict()
-    conf = current_app.config.get('JSONDASH', {})
-    conf_metadata = conf.get('metadata')
-    if conf_metadata is None:
-        return metadata
+    conf = current_app.config
+    conf_metadata = conf.get('JSONDASH', {}).get('metadata', None)
     # Also useful for getting arbitrary configuration keys.
-    if key is not None and key in conf_metadata:
-        return conf_metadata[key]()
-    # Update all metadata if the function exists.
-    for k, func in conf['metadata'].items():
+    if key is not None:
+        if key in conf_metadata:
+            return conf_metadata[key]()
+        else:
+            return None
+    # Update all metadata values if the function exists.
+    for k, func in conf_metadata.items():
         metadata[k] = conf_metadata[k]()
     return metadata
 
 
-@charts.route('/jsondash/<path:filename>')
-def _static(filename):
-    """Send static files directly for this blueprint."""
-    return send_from_directory(static_dir, filename)
+def setting(name, default=None):
+    """A simplified getter for namespaced flask config values."""
+    if default is None:
+        default = default_config.get(name)
+    return current_app.config.get(name, default)
 
 
 @charts.context_processor
 def _ctx():
     """Inject any context needed for this blueprint."""
-    filter_user = current_app.config.get('JSONDASH_FILTERUSERS', False)
-    global_dashboards = current_app.config.get('JSONDASH_GLOBALDASH', True)
-    global_dashuser = current_app.config.get('JSONDASH_GLOBAL_USER', 'global')
+    filter_user = setting('JSONDASH_FILTERUSERS')
     return dict(
         charts_config=CHARTS_CONFIG,
         page_title='dashboards',
-        global_dashuser=global_dashuser,
-        global_dashboards=global_dashboards,
-        username=get_metadata(key='username') if filter_user else None,
+        global_dashuser=setting('JSONDASH_GLOBAL_USER'),
+        global_dashboards=setting('JSONDASH_GLOBALDASH'),
+        username=metadata(key='username') if filter_user else None,
         filter_dashboards=filter_user,
     )
 
@@ -119,12 +127,52 @@ def jsonstring(ctx, data):
     return json.dumps(data)
 
 
+@charts.route('/jsondash/<path:filename>')
+def _static(filename):
+    """Send static files directly for this blueprint."""
+    return send_from_directory(static_dir, filename)
+
+
+def paginator():
+    """Get pagination calculations in a compact format."""
+    per_page = setting('JSONDASH_PERPAGE')
+    # Allow query parameter overrides.
+    per_page = int(request.args.get('per_page', 0)) or per_page
+    per_page = per_page if per_page > 2 else 2  # Prevent division errors etc
+    curr_page = int(request.args.get('page', 1)) - 1
+    count = adapter.count()
+    num_pages = count // per_page
+    rem = count % per_page
+    extra_pages = 2 if rem else 1
+    pages = range(1, num_pages + extra_pages)
+    return Paginator(
+        limit=per_page,
+        curr_page=curr_page,
+        skip=curr_page * per_page,
+        num_pages=pages,
+        count=count,
+    )
+
+
 @charts.route('/charts/', methods=['GET'])
 def dashboard():
     """Load all views."""
-    views = list(adapter.read())
+    pagination = paginator()
+    opts = dict(limit=pagination.limit, skip=pagination.skip)
+    if setting('JSONDASH_FILTERUSERS'):
+        opts.update(filters=dict(created_by=metadata(key='username')))
+        views = list(adapter.read(**opts))
+        if setting('JSONDASH_GLOBALDASH'):
+            opts.update(
+                filters=dict(created_by=setting('JSONDASH_GLOBAL_USER')))
+            views += list(adapter.read(**opts))
+    else:
+        views = list(adapter.read(**opts))
+    if not views:
+        pagination = None
     kwargs = dict(
         views=views,
+        paginator=pagination,
         total_modules=sum([len(view['modules']) for view in views]),
     )
     return render_template('pages/charts_index.html', **kwargs)
@@ -173,7 +221,7 @@ def update():
         try:
             data = json.loads(request.form.get('config'))
             data = adapter.reformat_data(data, c_id)
-            data.update(**get_metadata())
+            data.update(**metadata())
             # Update db
             adapter.update(c_id, data=data, fmt_modules=False)
         except (TypeError, ValueError):
@@ -187,7 +235,7 @@ def update():
             date=dt.now(),
             id=data['id'],
         )
-        d.update(**get_metadata())
+        d.update(**metadata())
         adapter.update(c_id, data=d)
     flash('Updated view "{}"'.format(c_id))
     return redirect(view_url)
@@ -207,7 +255,7 @@ def create():
         date=dt.now(),
         id=str(uuid.uuid1()),
     )
-    d.update(**get_metadata())
+    d.update(**metadata())
     # Add to DB
     adapter.create(data=d)
     flash('Created new view "{}"'.format(data['name']))
@@ -232,7 +280,7 @@ def clone(c_id):
         date=dt.now(),
         id=str(uuid.uuid1()),
     )
-    data.update(**get_metadata())
+    data.update(**metadata())
     # Add to DB
     adapter.create(data=data)
     return redirect(url_for('jsondash.view', id=data['id']))

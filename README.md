@@ -108,7 +108,7 @@ Below is an example of how you can override these fields with your own arbitrary
 ```python
 charts_config = dict(
     metadata=dict(
-        created_by=lambda x: session.get('username'),
+        created_by=get_username,
     ),
 )
 app.config['JSONDASH'] = charts_config
@@ -133,6 +133,8 @@ Below are global app config flags. Their default values are represented in the e
 `app.config['JSONDASH_GLOBALDASH'] = True`: for allowing "global" dashboards to be shown. These dashboards must have a created_user of "global" or be overriden (see below).
 
 `app.config['JSONDASH_GLOBAL_USER'] = "global"`: An owner name to use when allowing global dashboards to be seen. This is set on the `created_by` property in the specific json config. See above for more examples.
+
+`app.config['JSONDASH_MAX_PERPAGE'] = 50`: The number of results to show per page. Remaining results will be paginated.
 
 ## FAQs
 
@@ -166,4 +168,4 @@ could return `{"data": [1, 2, 3, 4]}`, but you could customize the url by updati
 
 `curl -XGET http://localhost:5002/api/foo?gt=9`
 
-could return {"data": [10, 20, 30, 40]} instead!
+could return `{"data": [10, 20, 30, 40]}` instead!
