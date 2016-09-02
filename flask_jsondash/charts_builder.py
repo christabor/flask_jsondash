@@ -160,11 +160,11 @@ def dashboard():
     pagination = paginator()
     opts = dict(limit=pagination.limit, skip=pagination.skip)
     if setting('JSONDASH_FILTERUSERS'):
-        opts.update(filters=dict(created_by=metadata(key='username')))
+        opts.update(filter=dict(created_by=metadata(key='username')))
         views = list(adapter.read(**opts))
         if setting('JSONDASH_GLOBALDASH'):
             opts.update(
-                filters=dict(created_by=setting('JSONDASH_GLOBAL_USER')))
+                filter=dict(created_by=setting('JSONDASH_GLOBAL_USER')))
             views += list(adapter.read(**opts))
     else:
         views = list(adapter.read(**opts))
