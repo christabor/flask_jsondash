@@ -134,6 +134,8 @@ Below are global app config flags. Their default values are represented in the e
 
 `app.config['JSONDASH_GLOBAL_USER'] = "global"`: An owner name to use when allowing global dashboards to be seen. This is set on the `created_by` property in the specific json config. See above for more examples.
 
+`app.config['JSONDASH_MAX_PERPAGE'] = 50`: The number of results to show per page. Remaining results will be paginated.
+
 ## FAQs
 
 **Q**: "Why'd you choose to expose library X, Y, or Z?"
