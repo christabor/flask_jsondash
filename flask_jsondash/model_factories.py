@@ -58,5 +58,10 @@ def insert_dashboards(records=10):
         db_adapters.create(data=data)
 
 
+def delete_all():
+    """Delete all dashboards."""
+    db_adapters.delete_all()
+
+
 if __name__ == '__main__':
     insert_dashboards()

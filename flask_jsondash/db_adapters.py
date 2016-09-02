@@ -94,3 +94,14 @@ def delete(c_id):
         coll.delete_one(dict(id=c_id))
     else:
         raise NotImplemented('{} is not supported.'.format(DB_NAME))
+
+
+def delete_all():
+    """Delete ALL records. Separated function for safety.
+
+    This should never be used for production.
+    """
+    if DB_NAME == 'mongo':
+        coll.remove()
+    else:
+        raise NotImplemented('{} is not supported.'.format(DB_NAME))
