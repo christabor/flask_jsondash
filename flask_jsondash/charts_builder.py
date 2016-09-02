@@ -141,15 +141,15 @@ def paginator():
     per_page = per_page if per_page > 2 else 2  # Prevent division errors etc
     curr_page = int(request.args.get('page', 1)) - 1
     count = adapter.count()
-    end_range = count // per_page
-    remainder = count % per_page
-    remainder = remainder or 1  # Prevent invalid ranges
-    num_pages = range(1, end_range + remainder)
+    num_pages = count // per_page
+    rem = count % per_page
+    extra_pages = 2 if rem else 1
+    pages = range(1, num_pages + extra_pages)
     return Paginator(
         limit=per_page,
         curr_page=curr_page,
         skip=curr_page * per_page,
-        num_pages=num_pages,
+        num_pages=pages,
         count=count,
     )
 
