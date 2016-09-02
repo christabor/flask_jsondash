@@ -7,6 +7,17 @@ SRCDIR = '.'
 folder = os.path.abspath(os.path.dirname(__file__))
 template_start = '{}/flask_jsondash/templates'.format(folder)
 static_start = '{}/flask_jsondash/static'.format(folder)
+requirements = [
+    'click==6.6',
+    'Flask==0.11.1',
+    'Flask-WTF==0.12',
+    'itsdangerous==0.24',
+    'Jinja2==2.8',
+    'MarkupSafe==0.23',
+    'pymongo==3.3.0',
+    'Werkzeug==0.11.10',
+    'WTForms==2.1',
+]
 
 
 def readme():
@@ -20,13 +31,6 @@ def readme():
                 return fobj.read()
         except IOError:
             return 'No README specified.'
-
-
-def get_requires():
-    """Extract the requirements from a standard requirements.txt file."""
-    path = '{}/requirements.txt'.format(folder)
-    with open(path) as reqs:
-        return [req for req in reqs.readlines() if req]
 
 
 setup(
@@ -48,7 +52,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
-    install_requires=get_requires(),
+    install_requires=requirements,
     package_dir={'flask_jsondash': 'flask_jsondash'},
     packages=['flask_jsondash'],
     zip_safe=False,
