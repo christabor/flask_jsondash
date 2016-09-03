@@ -143,17 +143,22 @@ var jsondash = function() {
             input.val(val);
             $('.modules').append(input);
         });
-        // Trigger update form into view since data is dirty
-        // Update visual size to existing widget.
-        var widget = getModuleWidgetByGUID(guid);
-        widget.style({
-            height: active.height + 'px',
-            width: active.width + 'px'
-        });
-        loadWidgetData(widget, active);
+        updateWidget(active);
+        $('#edit-view-container').collapse('in');
         // Refit the grid
         chart_wall.fitWidth();
-        $('#edit-view-container').collapse('in');
+    }
+
+    function updateWidget(config) {
+        // Trigger update form into view since data is dirty
+        // Update visual size to existing widget.
+        var widget = getModuleWidgetByGUID(config.guid);
+        widget.style({
+            height: config.height + 'px',
+            width: config.width + 'px'
+        });
+        widget.select('.widget-title').text(config.name);
+        loadWidgetData(widget, config);
     }
 
     function refreshWidget(e) {
