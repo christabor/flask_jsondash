@@ -32,6 +32,7 @@ var jsondash = function() {
         widget.style('height',  model.height + 'px');
 
         var html = [
+            '<div class="loader-overlay"></div>',
             '<span class="widget-loader fa fa-circle-o-notch fa-spin"></span>',
             '<p class="widget-title">',
             model.name,
@@ -150,6 +151,8 @@ var jsondash = function() {
             width: active.width + 'px'
         });
         loadWidgetData(widget, active);
+        // Refit the grid
+        chart_wall.fitWidth();
         $('#edit-view-container').collapse('in');
     }
 
@@ -260,10 +263,12 @@ var jsondash = function() {
     }
 
     function loader(container) {
+        container.select('.loader-overlay').classed({hidden: false});
         container.select('.widget-loader').classed({hidden: false});
     }
 
     function unload(container) {
+        container.select('.loader-overlay').classed({hidden: true});
         container.select('.widget-loader').classed({hidden: true});
     }
 
