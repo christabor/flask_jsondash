@@ -1,4 +1,11 @@
-"""Data generation utilities for all charts and dashboards."""
+# -*- coding: utf-8 -*-
+
+"""
+flask_jsondash.model_factories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Data generation utilities for all charts and dashboards.
+"""
 
 from datetime import datetime as dt
 import json

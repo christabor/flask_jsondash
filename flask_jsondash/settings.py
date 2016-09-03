@@ -1,4 +1,11 @@
-"""App/blueprint wide settings."""
+# -*- coding: utf-8 -*-
+
+"""
+flask_jsondash.settings
+~~~~~~~~~~~~~~~~~~~~~~~
+
+App/blueprint wide settings.
+"""
 
 import os
 

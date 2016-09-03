@@ -1,4 +1,10 @@
-"""A translation adapter for making queries between storage types.
+# -*- coding: utf-8 -*-
+
+"""
+flask_jsondash.db_adapters
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A translation adapter for making queries between storage types.
 
 Types are either:
 1. PostgreSQL json fields

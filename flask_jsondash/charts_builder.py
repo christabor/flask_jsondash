@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
-"""The chart blueprint that houses all functionality."""
+"""
+flask_jsondash.charts_builder
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The chart blueprint that houses all functionality.
+"""
 
 import json
 import os
