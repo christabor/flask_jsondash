@@ -1,5 +1,5 @@
 <form action="{{ url_for('jsondash.update') if view else url_for('jsondash.create') }}" class="well" id="save-view-form" method="POST" role="form">
-    <button class="pull-right btn btn-lg btn-primary"><span class="fa fa-check"></span> {% if view %}update{% else %}save{% endif %} layout</button>
+    <button class="pull-right btn btn-lg btn-primary"><span class="fa fa-check"></span> {% if view %}update{% else %}save{% endif %}</button>
     {% if view %}
         <input type="hidden" name="id" value="{{ view.id }}">
     {% endif %}
