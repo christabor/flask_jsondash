@@ -134,6 +134,7 @@ var jsondash = function() {
         // Update bar chart type
         var chart_type = module_form.find('select');
         active[chart_type.attr('name')] = chart_type.val();
+        // Clear out module input values
         $('.modules').empty();
         $.each(dashboard_data.modules, function(k, module){
             var val = JSON.stringify(module, module);
@@ -142,6 +143,13 @@ var jsondash = function() {
             $('.modules').append(input);
         });
         // Trigger update form into view since data is dirty
+        // Update visual size to existing widget.
+        var widget = getModuleWidgetByGUID(guid);
+        widget.style({
+            height: active.height + 'px',
+            width: active.width + 'px'
+        });
+        loadWidgetData(widget, active);
         $('#edit-view-container').collapse('in');
     }
 
@@ -167,6 +175,10 @@ var jsondash = function() {
             })(data.modules[name]);
         }
         initGrid($MAIN_CONTAINER);
+    }
+
+    function getModuleWidgetByGUID(guid) {
+        return d3.select('.item.widget[data-guid="' + guid + '"]');
     }
 
     function getModuleByGUID(guid) {
