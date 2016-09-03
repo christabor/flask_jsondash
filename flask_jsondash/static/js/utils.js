@@ -23,6 +23,7 @@ jsondash.util.s4 = function() {
 };
 
 jsondash.util.guid = function() {
+    var s4 = jsondash.util.s4;
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 };
