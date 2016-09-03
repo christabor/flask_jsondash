@@ -54,7 +54,7 @@ def read(**kwargs):
         if kwargs.get('c_id', None) is None:
             return coll.find(**kwargs)
         else:
-            return coll.find_one(**kwargs)
+            return coll.find_one(dict(id=kwargs.pop('c_id')))
     else:
         raise NotImplemented('{} is not supported.'.format(DB_NAME))
 
