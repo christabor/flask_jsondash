@@ -9,7 +9,7 @@ template_start = '{}/flask_jsondash/templates'.format(folder)
 static_start = '{}/flask_jsondash/static'.format(folder)
 requirements = [
     'click==6.6',
-    'Flask==0.11.1',
+    'Flask==0.10.1',
     'Flask-WTF==0.12',
     'itsdangerous==0.24',
     'Jinja2==2.8',
