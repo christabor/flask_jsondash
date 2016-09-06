@@ -144,9 +144,9 @@ var jsondash = function() {
             $('.modules').append(input);
         });
         updateWidget(active);
-        $('#edit-view-container').collapse('in');
+        $('#edit-view-container').collapse();
         // Refit the grid
-        chart_wall.fitWidth();
+        setTimeout(chart_wall.fitWidth, 100);
     }
 
     function updateWidget(config) {
