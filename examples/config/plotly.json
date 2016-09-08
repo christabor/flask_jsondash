@@ -3,6 +3,28 @@
     "name": "plotly test",
     "modules": [
         {
+            "name": "Ternary",
+            "refresh": false,
+            "height": "650",
+            "width": "650",
+            "dataSource": "http://localhost:5004/plotly?chart=ternary",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "9a31b73f-1e33-30a9-5aaf-76f3aea3sd20a",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Polar",
+            "refresh": false,
+            "height": "500",
+            "width": "750",
+            "dataSource": "http://localhost:5004/plotly?chart=polar",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "9a31b73f-1e33-30a9-5aaf-76f3aea34aazsa",
+            "type": "plotly-any"
+        },
+        {
             "name": "Wind Rose",
             "refresh": false,
             "height": "500",

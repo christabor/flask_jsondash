@@ -1,0 +1,43 @@
+{
+  "data": [{"type":"scatterternary","mode":"lines","name":"sand","a":[0,10,0,0],"b":[100,90,90,100],"c":[0,0,10,0],"line":{"color":"#444"},"fill":"toself","fillcolor":"#8dd3c7","hoveron":"fills+points"},{"type":"scatterternary","mode":"lines","name":"loamy sand","a":[0,10,15,0,0],"b":[90,90,85,70,90],"c":[10,0,0,30,10],"line":{"color":"#444"},"fill":"toself","fillcolor":"#ffffb3","hoveron":"fills+points"},{"type":"scatterternary","mode":"lines","name":"sandy loam","a":[0,15,20,20,5,5,0,0],"b":[70,85,80,53,53,45,50,70],"c":[30,0,0,32,42,50,50,30],"line":{"color":"#444"},"fill":"toself","fillcolor":"#bebada","hoveron":"fills+points"},{"type":"scatterternary","mode":"lines","name":"sandy clay loam","a":[20,35,35,28,20,20],"b":[80,65,45,45,53,80],"c":[0,0,20,27,32,0],"line":{"color":"#444"},"fill":"toself","fillcolor":"#fb8072","hoveron":"fills+points"},{"type":"scatterternary","mode":"lines","name":"sandy clay","a":[35,35,55,35],"b":[65,45,45,65],"c":[0,20,0,0],"line":{"color":"#444"},"fill":"toself","fillcolor":"#80b1d3","hoveron":"fills+points"},{"type":"scatterternary","mode":"lines","name":"clay","a":[55,100,60,40,40,55],"b":[45,0,0,20,45,45],"c":[0,0,40,40,15,0],"line":{"color":"#444"},"fill":"toself","fillcolor":"#fdb462","hoveron":"fills+points"},{"type":"scatterternary","mode":"lines","name":"clay loam","a":[40,40,28,28,40],"b":[45,20,20,45,45],"c":[15,40,52,27,15],"line":{"color":"#444"},"fill":"toself","fillcolor":"#b3de69","hoveron":"fills+points"},{"type":"scatterternary","mode":"lines","name":"silty clay","a":[60,40,40,60],"b":[0,0,20,0],"c":[40,60,40,40],"line":{"color":"#444"},"fill":"toself","fillcolor":"#fccde5","hoveron":"fills+points"},{"type":"scatterternary","mode":"lines","name":"silty clay loam","a":[28,28,40,40,28],"b":[0,20,20,0,0],"c":[72,52,40,60,72],"line":{"color":"#444"},"fill":"toself","fillcolor":"#d9d9d9","hoveron":"fills+points"},{"type":"scatterternary","mode":"lines","name":"silty loam","a":[0,28,28,12,12,0,0],"b":[50,22,0,0,8,20,50],"c":[50,50,72,88,80,80,50],"line":{"color":"#444"},"fill":"toself","fillcolor":"#bc80bd","hoveron":"fills+points"},{"type":"scatterternary","mode":"lines","name":"silt","a":[0,0,12,12,0],"b":[0,20,8,0,0],"c":[100,80,80,88,100],"line":{"color":"#444"},"fill":"toself","fillcolor":"#ccebc5","hoveron":"fills+points"},{"type":"scatterternary","mode":"lines","name":"loam","a":[28,28,5,5,20,28],"b":[45,22,45,53,53,45],"c":[27,50,50,42,32,27],"line":{"color":"#444"},"fill":"toself","fillcolor":"#ffed6f","hoveron":"fills+points"}],
+  "layout": {
+       "ternary": {
+            "sum": 100,
+            "aaxis": {
+              "title": "Clay",
+              "ticksuffix": "%",
+              "min": 0.01,
+              "linewidth": 2,
+              "ticks": "outside",
+              "ticklen": 8,
+              "showgrid": true
+            },
+            "baxis": {
+              "title": "Sand",
+              "ticksuffix": "%",
+              "min": 0.01,
+              "linewidth": 2,
+              "ticks": "outside",
+              "ticklen": 8,
+              "showgrid": true
+            },
+            "caxis": {
+              "title": "Silt",
+              "ticksuffix": "%",
+              "min": 0.01,
+              "linewidth": 2,
+              "ticks": "outside",
+              "ticklen": 8,
+              "showgrid": true
+            }
+        },
+        "showlegend": false,
+        "width": 700,
+        "annotations": [{
+            "showarrow": false,
+            "text": "Soil Types Fill Plot",
+            "x": 0.15,
+            "y": 1.1
+        }]
+  }
+}

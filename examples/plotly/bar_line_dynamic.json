@@ -56,12 +56,6 @@
         "size": 10
       }
     },
-    "margin": {
-      "l": 100,
-      "r": 20,
-      "t": 200,
-      "b": 70
-    },
     "paper_bgcolor": "rgb(248,248,255)",
     "plot_bgcolor": "rgb(248,248,255)",
     "annotations": [
