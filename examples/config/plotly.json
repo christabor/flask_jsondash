@@ -3,6 +3,72 @@
     "name": "plotly test",
     "modules": [
         {
+            "name": "Ribbon plot 3d",
+            "refresh": false,
+            "height": "650",
+            "width": "600",
+            "dataSource": "http://localhost:5004/plotly?chart=ribbon3d",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "ahjKasop6-3x3sc-3d411x-53cc-3301Palsox",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Scatter plot 3d",
+            "refresh": false,
+            "height": "550",
+            "width": "650",
+            "dataSource": "http://localhost:5004/plotly?chart=scatter3d",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "2331xASsdd66-3xasc-3d441-5aaf-3iskLA10x",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Random walk 3d",
+            "refresh": false,
+            "height": "500",
+            "width": "600",
+            "dataSource": "http://localhost:5004/plotly?chart=randomwalk3d",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "3asd45ddfx-1e33-3d441-5aaf-as03gKjaY4azx",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Surface map 3d",
+            "refresh": false,
+            "height": "550",
+            "width": "550",
+            "dataSource": "http://localhost:5004/plotly?chart=surface3d",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "ade2993xza-1e33-34a9-5aaf-as03gKjaYuxx",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Clustering 3d",
+            "refresh": false,
+            "height": "500",
+            "width": "500",
+            "dataSource": "http://localhost:5004/plotly?chart=clustering3d",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "as33xpoza-1e33-34a9-5aaf-3as34301Yuxx",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Multiple subplots 3d",
+            "refresh": false,
+            "height": "700",
+            "width": "750",
+            "dataSource": "http://localhost:5004/plotly?chart=subplot3d",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "as303akvs103-1e33-34a9-5aaf-3as34fdax",
+            "type": "plotly-any"
+        },
+        {
             "name": "Scatter map",
             "refresh": false,
             "height": "500",
@@ -247,7 +313,7 @@
         {
             "name": "Bar chart with line plot - dynamic",
             "refresh": false,
-            "height": "600",
+            "height": "500",
             "width": "1000",
             "dataSource": "http://localhost:5004/plotly-dynamic",
             "override": true,
@@ -258,7 +324,7 @@
         {
             "name": "Test categorical dot plot",
             "refresh": false,
-            "height": "700",
+            "height": "500",
             "width": "1000",
             "dataSource": "http://localhost:5004/plotly?chart=cat_dot_plot",
             "override": true,
