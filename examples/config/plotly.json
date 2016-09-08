@@ -3,6 +3,50 @@
     "name": "plotly test",
     "modules": [
         {
+            "name": "Contour plot color scale",
+            "refresh": false,
+            "height": "650",
+            "width": "650",
+            "dataSource": "http://localhost:5004/plotly?chart=contour-plot-grad",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "341232asdx-1e33-30a9-5aaf-73asda",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Custom contour plot",
+            "refresh": false,
+            "height": "650",
+            "width": "650",
+            "dataSource": "http://localhost:5004/plotly?chart=contour-plot",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "9a313f-1e33-30a9-5aaf-3asd",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Heatmap with labels",
+            "refresh": false,
+            "height": "650",
+            "width": "650",
+            "dataSource": "http://localhost:5004/plotly?chart=heatmap",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "9a31b73f-1e33-30a9-5aaf-76f3aasdcz0a",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Ternary Lines",
+            "refresh": false,
+            "height": "650",
+            "width": "650",
+            "dataSource": "http://localhost:5004/plotly?chart=ternary-lines",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "9a31b73f-1e33-30a9-5aaf-76f3aeaasdzz0a",
+            "type": "plotly-any"
+        },
+        {
             "name": "Ternary",
             "refresh": false,
             "height": "650",
