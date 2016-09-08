@@ -92,6 +92,27 @@ def stackedbar():
 
 
 @cross_origin()
+@app.route('/plotly')
+def plotly():
+    """Fake endpoint."""
+    chart_type = request.args.get('chart', 'line')
+    filename = '{}/examples/plotly/{}.json'.format(cwd, chart_type)
+    with open(filename, 'r') as chartjson:
+        return chartjson.read()
+    return json.dumps({})
+
+
+@cross_origin
+@app.route('/plotly-dynamic')
+def plotly_dynamic():
+    """Fake endpoint."""
+    filename = '{}/examples/plotly/bar_line_dynamic.json'.format(cwd)
+    with open(filename, 'r') as chartjson:
+        return chartjson.read()
+    return json.dumps({})
+
+
+@cross_origin()
 @app.route('/timeline')
 def timeline():
     """Fake endpoint."""

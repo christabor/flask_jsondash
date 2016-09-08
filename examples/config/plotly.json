@@ -1,0 +1,75 @@
+{
+    "username": "ctabor",
+    "name": "plotly test",
+    "modules": [
+        {
+            "name": "Contour map",
+            "refresh": false,
+            "height": "500",
+            "width": "500",
+            "dataSource": "http://localhost:5004/plotly?chart=contour",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "365fa74c-52312c8-3f7f-67a9-3f3cedfc0832",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Data labels on plot",
+            "refresh": false,
+            "height": "500",
+            "width": "500",
+            "dataSource": "http://localhost:5004/plotly?chart=labels_plot",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "365fa74c-52c8-3f7f-67a9-3f3cedfc0832",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Bar chart with line plot - dynamic",
+            "refresh": false,
+            "height": "600",
+            "width": "1000",
+            "dataSource": "http://localhost:5004/plotly-dynamic",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "365fa74c-52c8-3f7f-67a9-33312f3ced3fc0312a832",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Test categorical dot plot",
+            "refresh": false,
+            "height": "700",
+            "width": "1000",
+            "dataSource": "http://localhost:5004/plotly?chart=cat_dot_plot",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "9a41b73f-3e2adsd-30a9-5aaf-76f3ae08608aa",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Test plotly scatter",
+            "refresh": false,
+            "height": "500",
+            "width": "600",
+            "dataSource": "http://localhost:5004/plotly?chart=scatter",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "9a41b73f-3e33-30a9-5aaf-76f3ae08608aa",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Subplot",
+            "refresh": false,
+            "height": "450",
+            "width": "580",
+            "dataSource": "http://localhost:5004/plotly?chart=subplot",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "365fa74c-52c8-3f7f-67a9-33312f3ced3fc031233a832",
+            "type": "plotly-any"
+        }
+    ],
+    "created_by": "ctabor",
+    "date": "2016-09-08 12:33:50.626000",
+    "id": "b76b354c-754c-11e6-8455-a0999b0aebbf"
+}
