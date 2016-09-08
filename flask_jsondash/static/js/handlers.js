@@ -403,3 +403,37 @@ jsondash.handlers.handleVenn = function(container, config) {
         jsondash.unload(container);
     });
 };
+
+jsondash.handlers.handlePlotly = function(container, config) {
+    var id = 'plotly-' + config.guid;
+    container.selectAll('.plotly-container').remove();
+    container.append('div')
+        .classed({'plotly-container': true})
+        .attr('id', id)
+    d3.json(config.dataSource, function(error, data){
+        if(error) throw new Error('Could not load url: ' + config.dataSource);
+        if(config.override) {
+            data = $.extend({layout: {width: config.width, height: config.height}}, data);
+            Plotly.plot(id, data.data, data.layout || {}, data.options || {});
+        } else {
+            Plotly.plot(id, data, data.layout);
+        }
+        d3.select('#' + id).select('.svg-container').style({'margin': '0 auto'})
+        jsondash.unload(container);
+    });
+};
+
+jsondash.handlers.handlePlotlyCartesian = function(container, config) {
+};
+
+jsondash.handlers.handlePlotlyGeo = function(container, config) {
+};
+
+jsondash.handlers.handlePlotlyGl3d = function(container, config) {
+};
+
+jsondash.handlers.handlePlotlyGl2d = function(container, config) {
+};
+
+jsondash.handlers.handlePlotlyMapbox = function(container, config) {
+};

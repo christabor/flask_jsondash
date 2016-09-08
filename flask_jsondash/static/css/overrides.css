@@ -38,3 +38,11 @@
     font-weight: 100;
     display: block;
 }
+
+/**
+ * Plotly
+ */
+
+.plotly-container .main-svg {
+    border-radius: 5px;
+}

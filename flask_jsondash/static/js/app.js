@@ -304,6 +304,9 @@ var jsondash = function() {
             else if(config.type === 'custom') {
                 jsondash.handlers.handleCustom(widget, config);
             }
+            else if(config.type === 'plotly-any') {
+                jsondash.handlers.handlePlotly(widget, config);
+            }
             else if(jsondash.util.isD3Subtype(config)) {
                 jsondash.handlers.handleD3(widget, config);
             } else {

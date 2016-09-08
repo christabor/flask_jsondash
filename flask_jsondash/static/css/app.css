@@ -28,7 +28,7 @@ body {
     display: none;
     position: absolute;
     top: 0;
-    left: 40px;
+    right: 40px;
     font-size: 11px;
     background-color: #999;
     padding: 0 0.8em;
