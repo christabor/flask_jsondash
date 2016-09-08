@@ -3,6 +3,28 @@
     "name": "plotly test",
     "modules": [
         {
+            "name": "Histogram",
+            "refresh": false,
+            "height": "500",
+            "width": "600",
+            "dataSource": "http://localhost:5004/plotly?chart=histogram",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "9a41b73f-1e33-30a9-5aaf-76f3ae08asd3asdsvaa",
+            "type": "plotly-any"
+        },
+        {
+            "name": "2d Histogram",
+            "refresh": false,
+            "height": "500",
+            "width": "600",
+            "dataSource": "http://localhost:5004/plotly?chart=histogram-2d",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "9a41b73f-1e33-30a9-5aaf-76f3ae086asdsvaa",
+            "type": "plotly-any"
+        },
+        {
             "name": "Box plot basic",
             "refresh": false,
             "height": "500",
