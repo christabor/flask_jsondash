@@ -3,6 +3,50 @@
     "name": "plotly test",
     "modules": [
         {
+            "name": "Scatter map",
+            "refresh": false,
+            "height": "500",
+            "width": "650",
+            "dataSource": "http://localhost:5004/plotly?chart=scattermap",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "asasdasdXasaaok303zz-1e33-34a9-5aaf-as30301adskaxx",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Bubble map",
+            "refresh": false,
+            "height": "500",
+            "width": "650",
+            "dataSource": "http://localhost:5004/plotly?chart=bubblemap",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "asasdasdXasaaok303zz-1e33-34a9-5aaf-11asadsasd2213xa",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Lines on orthographic map",
+            "refresh": false,
+            "height": "500",
+            "width": "650",
+            "dataSource": "http://localhost:5004/plotly?chart=orthographic",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "asasdasdXasaaok303zz-1e33-34a9-5aaf-11a2323xa",
+            "type": "plotly-any"
+        },
+        {
+            "name": "World chloropleth map",
+            "refresh": false,
+            "height": "450",
+            "width": "650",
+            "dataSource": "http://localhost:5004/plotly?chart=world-chloropleth",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "as123392xSdz23xazzz-1e33-34a9-5aaf-11a2323xa",
+            "type": "plotly-any"
+        },
+        {
             "name": "Logarithmic plot",
             "refresh": false,
             "height": "500",
