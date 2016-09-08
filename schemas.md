@@ -136,6 +136,29 @@ An object with each key corresponding to the line label, and a list of integer v
 }
 ```
 
+## Plotly
+
+Plotly is an extremely diverse, powerful and now open source charting library that supports a wide range of formats, including webGL and 3d charting/visualization. See [https://plot.ly/](https://plot.ly/) for more.
+
+### Overrides
+
+Supported.
+
+#### Basic
+
+All values are specified using **JSON** configuration specified by the API. See [https://plot.ly/javascript/](https://plot.ly/javascript/) for more.
+
+Usually, the format is at the very least, something like the below json. You can also see more examples that have been tested with jsondash in the [plotly json configs directory](examples/plotly). Typically, you can format it exactly as recommended by Plotly API, except converted to JSON format (most javascript can be converted 1:1 using `JSON.stringify` for example).
+
+This means configuration that uses javascript functions are not accepted; these would need to be pre-computed on the server side instead, and then the results dumped to JSON.
+
+```json
+{
+    "data": [],
+    "layout": {}
+}
+```
+
 ## D3
 
 D3js is a powerful SVG based "dynamic document" drawing library that can create just about any imaginable visualization. Visit [d3js.org](http://d3js.org) for more.
