@@ -3,6 +3,17 @@
     "name": "plotly test",
     "modules": [
         {
+            "name": "Inset charts",
+            "refresh": false,
+            "height": "500",
+            "width": "500",
+            "dataSource": "http://localhost:5004/plotly?chart=inset",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "365fa74c-52c8-3f7f3-67a9-3f3cedfc0832",
+            "type": "plotly-any"
+        },
+        {
             "name": "Error bars - statistical",
             "refresh": false,
             "height": "500",
