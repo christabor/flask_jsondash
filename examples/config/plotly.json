@@ -3,6 +3,17 @@
     "name": "plotly test",
     "modules": [
         {
+            "name": "Error bars - statistical",
+            "refresh": false,
+            "height": "500",
+            "width": "900",
+            "dataSource": "http://localhost:5004/plotly?chart=error_bars",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "365fa74c-523121ac8-3f7f-67a9-3f3cedfc0832",
+            "type": "plotly-any"
+        },
+        {
             "name": "Contour map",
             "refresh": false,
             "height": "500",
