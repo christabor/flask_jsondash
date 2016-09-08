@@ -3,6 +3,17 @@
     "name": "plotly test",
     "modules": [
         {
+            "name": "Wind Rose",
+            "refresh": false,
+            "height": "500",
+            "width": "750",
+            "dataSource": "http://localhost:5004/plotly?chart=windrose",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "9a31b73f-1e33-30a9-5aaf-76f3aea34asvaa",
+            "type": "plotly-any"
+        },
+        {
             "name": "Histogram",
             "refresh": false,
             "height": "500",
