@@ -413,7 +413,11 @@ jsondash.handlers.handlePlotly = function(container, config) {
     d3.json(config.dataSource, function(error, data){
         if(error) throw new Error('Could not load url: ' + config.dataSource);
         if(config.override) {
-            data = $.extend({layout: {width: config.width, height: config.height}}, data);
+            if(data.layout && data.layout.margin) {
+                // Remove margins, they mess up the
+                // layout and are already accounted for.
+                delete data.layout['margin'];
+            }
             Plotly.plot(id, data.data, data.layout || {}, data.options || {});
         } else {
             Plotly.plot(id, data, data.layout);
