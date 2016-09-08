@@ -3,9 +3,53 @@
     "name": "plotly test",
     "modules": [
         {
+            "name": "Logarithmic plot",
+            "refresh": false,
+            "height": "500",
+            "width": "500",
+            "dataSource": "http://localhost:5004/plotly?chart=logplot",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "as3a3Sdz23xazzz-1e33-34a9-5aaf-73asda",
+            "type": "plotly-any"
+        },
+        {
+            "name": "'Simple' contour plot",
+            "refresh": false,
+            "height": "500",
+            "width": "500",
+            "dataSource": "http://localhost:5004/plotly?chart=contour-plot-crazy",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "as30asdjxl-1e33-34a9-5aaf-73asda",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Contour connect gaps between null values",
+            "refresh": false,
+            "height": "500",
+            "width": "500",
+            "dataSource": "http://localhost:5004/plotly?chart=contour-null",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "asd3312ddas-1e33-34a9-5aaf-73asda",
+            "type": "plotly-any"
+        },
+        {
+            "name": "Contour plot smoothing lines",
+            "refresh": false,
+            "height": "500",
+            "width": "500",
+            "dataSource": "http://localhost:5004/plotly?chart=contour-smooth",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "34soadk3001asdzzx-1e33-34a9-5aaf-73asda",
+            "type": "plotly-any"
+        },
+        {
             "name": "Contour plot color scale",
             "refresh": false,
-            "height": "650",
+            "height": "500",
             "width": "650",
             "dataSource": "http://localhost:5004/plotly?chart=contour-plot-grad",
             "override": true,
@@ -16,9 +60,9 @@
         {
             "name": "Custom contour plot",
             "refresh": false,
-            "height": "650",
+            "height": "500",
             "width": "650",
-            "dataSource": "http://localhost:5004/plotly?chart=contour-plot",
+            "dataSource": "http://localhost:5004/plotly?chart=contour-colorscale",
             "override": true,
             "refreshInterval": "",
             "guid": "9a313f-1e33-30a9-5aaf-3asd",

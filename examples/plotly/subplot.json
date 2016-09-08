@@ -28,6 +28,7 @@
     }
   ],
   "layout": {
+    "title": "Subplot examples",
     "xaxis": {
       "domain": [0, 0.45]
     },
