@@ -170,7 +170,6 @@ var jsondash = function() {
                 loadWidgetData(widget, config);
             })(data.modules[name]);
         }
-        initGrid($MAIN_CONTAINER);
     }
 
     function getModuleWidgetByGUID(guid) {
@@ -322,6 +321,10 @@ var jsondash = function() {
     }
 
     function loadDashboard(data) {
+        // Load the grid before rendering the ajax, since the DOM
+        // is rendered server side.
+        initGrid($MAIN_CONTAINER);
+        // Add actual ajax data.
         addChartContainers($MAIN_CONTAINER, data);
         dashboard_data = data;
 
