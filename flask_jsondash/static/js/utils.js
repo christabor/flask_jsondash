@@ -28,15 +28,6 @@ jsondash.util.guid = function() {
     s4() + '-' + s4() + s4() + s4();
 };
 
-jsondash.util.normalizeName = function(name) {
-    if(!name) return 'id_NONAME_' + jsondash.util.s4();
-    // Credit: http://stackoverflow.com/questions/4328500/
-    // how-can-i-strip-all-punctuation-from-a-string-in-javascript-using-regex
-    name = name.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
-    // Reformat it for ID use.
-    return 'id_' + name.replace(/#/gi, '').replace(/ /gi, '_');
-};
-
 jsondash.util.polygon = function(d) {
     return "M" + d.join("L") + "Z";
 };

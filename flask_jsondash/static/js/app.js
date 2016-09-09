@@ -17,32 +17,20 @@ var jsondash = function() {
     var $DELETE_BTN = '#delete-widget';
     var $DELETE_DASHBOARD = '.delete-dashboard';
     var $SAVE_MODULE = '#save-module';
+    var $EDIT_CONTAINER = '#edit-view-container';
 
     function addWidget(container, model) {
-        // Return if it exists.
         if(document.querySelector('[data-guid="' + model.guid + '"]')) return d3.select('[data-guid="' + model.guid + '"]');
-        // Create new widget html
-        var widget = d3.select(container).append('div');
-        widget.attr('class', 'item widget');
-        // Need a guid for referencing later
-        widget.attr('data-guid', model.guid);
-        widget.attr('data-refresh', model.refresh);
-        widget.attr('data-refresh-interval', model.refreshInterval);
-        widget.style('width',  model.width + 'px');
-        widget.style('height',  model.height + 'px');
-
-        var html = [
-            '<div class="loader-overlay"></div>',
-            '<span class="widget-loader fa fa-circle-o-notch fa-spin"></span>',
-            '<p class="widget-title">',
-            model.name,
-            '<span rel="tooltip" title="Refresh the panels url endpoint" class="pull-right icon widget-refresh fa fa-refresh"></span>',
-            '</p>',
-            '<a href="#chart-options" data-toggle="modal" class="widget-edit"><span class="fa fa-edit"></span> Edit</a>',
-            '<div id="' + jsondash.util.normalizeName(model.name) + '"></div>'
-        ].join('\n');
-        widget.html(html);
-        return widget;
+        return d3.select(container).select('div')
+            .append('div')
+            .classed({item: true, widget: true})
+            .attr('data-guid', model.guid)
+            .attr('data-refresh', model.refresh)
+            .attr('data-refresh-interval', model.refreshInterval)
+            .style('width', model.width + 'px')
+            .style('height', model.height + 'px')
+            .html(d3.select('#chart-template').html())
+            .select('.widget-title').text(model.name);
     }
 
     function previewAPIRoute(e) {
@@ -144,7 +132,7 @@ var jsondash = function() {
             $('.modules').append(input);
         });
         updateWidget(active);
-        $('#edit-view-container').collapse();
+        $($EDIT_CONTAINER).collapse();
         // Refit the grid
         setTimeout(chart_wall.fitWidth, 100);
     }
@@ -205,7 +193,7 @@ var jsondash = function() {
         // Redraw wall to replace visual 'hole'
         chart_wall.fitWidth();
         // Trigger update form into view since data is dirty
-        $('#edit-view-container').collapse('in');
+        $($EDIT_CONTAINER).collapse('in');
     }
 
     function addDomEvents() {

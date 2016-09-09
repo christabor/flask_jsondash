@@ -5,8 +5,8 @@
 
 jsondash.handlers.handleYoutube = function(container, config) {
     // Clean up all previous.
-    container.selectAll('iframe').remove();
-    var iframe = container.append('iframe');
+    container.selectAll('.chart-container').remove();
+    var iframe = container.select('.chart-container').append('iframe');
     iframe
         .attr('width', config.width)
         .attr('height', config.height)
@@ -17,7 +17,7 @@ jsondash.handlers.handleYoutube = function(container, config) {
 
 jsondash.handlers.handleC3 = function(container, config) {
     var init_config = {
-        bindto: '#' + jsondash.util.normalizeName(config.name),
+        bindto: '[data-guid="' + config.guid + '"] .chart-container',
         legend: {
             show: true
         },
@@ -420,7 +420,7 @@ jsondash.handlers.handlePlotly = function(container, config) {
             }
             Plotly.plot(id, data.data, data.layout || {}, data.options || {});
         } else {
-            Plotly.plot(id, data, data.layout);
+            Plotly.plot(id, data);
         }
         d3.select('#' + id).select('.svg-container').style({'margin': '0 auto'})
         jsondash.unload(container);

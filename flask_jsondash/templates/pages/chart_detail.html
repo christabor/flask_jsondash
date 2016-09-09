@@ -1,5 +1,24 @@
 {% extends "layouts/charts_base.html" %}
 
+{%- macro chart(module=None) %}
+    {% if module %}
+    <div class="item widget"
+        data-guid="{{ module.guid }}"
+        data-refresh="{{ module.refresh }}"
+        data-refresh-interval="{{ module.refreshInterval }}"
+        style="width: {{ module.width }}px;height: {{ module.height }}px;">
+    {% endif %}
+        <div class="loader-overlay"></div>
+        <span class="widget-loader fa fa-circle-o-notch fa-spin"></span>
+        <p class="widget-title">
+            {{ module.name }}
+            <span rel="tooltip" title="Refresh the panels url endpoint" class="pull-right icon widget-refresh fa fa-refresh"></span>
+        </p>
+        <a href="#chart-options" data-toggle="modal" class="widget-edit"><span class="fa fa-edit"></span> Edit</a>
+        <div class="chart-container"></div>
+    {% if module %}</div>{% endif %}
+{% endmacro -%}
+
 {% block chart_body %}
 <div class="row">
     <div class="col-md-12">
@@ -26,7 +45,14 @@
         </div>
         {% include "partials/form-json.html" %}
         <div class="layout" id="view-builder">
-            <div id="container"></div>
+            <div id="container">
+                {% for module in view.modules %}
+                    {{ chart(module=module) }}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="hidden" id="chart-template">
+            {{ chart() }}
         </div>
     </div>
 </div>
