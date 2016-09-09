@@ -196,7 +196,6 @@ var jsondash = function() {
     }
 
     function addDomEvents() {
-        initGrid($VIEW_BUILDER);
         // TODO: debounce/throttle
         $($API_ROUTE_URL).on('change.charts', previewAPIRoute);
         $($API_PREVIEW_BTN).on('click.charts', previewAPIRoute);
