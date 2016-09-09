@@ -426,18 +426,3 @@ jsondash.handlers.handlePlotly = function(container, config) {
         jsondash.unload(container);
     });
 };
-
-jsondash.handlers.handlePlotlyCartesian = function(container, config) {
-};
-
-jsondash.handlers.handlePlotlyGeo = function(container, config) {
-};
-
-jsondash.handlers.handlePlotlyGl3d = function(container, config) {
-};
-
-jsondash.handlers.handlePlotlyGl2d = function(container, config) {
-};
-
-jsondash.handlers.handlePlotlyMapbox = function(container, config) {
-};
