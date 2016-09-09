@@ -60,6 +60,8 @@ var jsondash = function() {
         var id       = jsondash.util.guid();
         // Add a unique guid for referencing later.
         data['guid'] = id;
+        // Add family for lookups
+        data['family'] = $($MODULE_FORM).find('select option:selected').data().family;
         if(!data.refresh || !refreshableType(data.type)) data['refresh'] = false;
         if(!data.override) data['override'] = false;
         newfield.attr('name', 'module_' + id);

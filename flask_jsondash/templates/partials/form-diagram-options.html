@@ -4,7 +4,7 @@
             {% if chart_group['enabled'] %}
                 {% for chart in chart_group['charts'] %}
                     {% set value, chart_label = chart[0], chart[1] %}
-                    <option value="{{ value }}">{{ chart_label }}</option>
+                    <option value="{{ value }}" data-family="{{ label }}">{{ chart_label }}</option>
                 {% endfor %}
             {% endif %}
         </optgroup>

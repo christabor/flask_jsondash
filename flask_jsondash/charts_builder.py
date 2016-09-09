@@ -192,11 +192,15 @@ def view(id):
             return redirect(url_for('jsondash.dashboard'))
     viewjson = adapter.read(c_id=id)
     if not viewjson:
-        flash('Could not find view: {}'.format(id))
+        flash('Could not find view: {}'.format(id), 'error')
         return redirect(url_for('jsondash.dashboard'))
     # Remove _id, it's not JSON serializeable.
     viewjson.pop('_id')
-    return render_template('pages/chart_detail.html', id=id, view=viewjson)
+    # Chart family is encoded in chart type value for lookup.
+    active_charts = [v.get('family') for
+                     v in viewjson['modules'] if v.get('family')]
+    kwargs = dict(id=id, view=viewjson, active_charts=active_charts)
+    return render_template('pages/chart_detail.html', **kwargs)
 
 
 @charts.route('/charts/<c_id>/delete', methods=['POST'])
@@ -276,7 +280,7 @@ def clone(c_id):
             return redirect(url_for('jsondash.dashboard'))
     viewjson = adapter.read(c_id=c_id)
     if not viewjson:
-        flash('Could not find view: {}'.format(id))
+        flash('Could not find view: {}'.format(id), 'error')
         return redirect(url_for('jsondash.dashboard'))
     # Update some fields.
     data = dict(

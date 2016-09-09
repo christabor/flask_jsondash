@@ -132,7 +132,18 @@ CHARTS_CONFIG = {
         'css_url': None,
         'enabled': True,
         'help_link': 'http://omnipotent.net/jquery.sparkline/#s-docs',
-    }
+    },
+    'PlotlyStandard': {
+        'charts': [
+            ('plotly-any', 'Any'),
+        ],
+        'js_url': [
+            'cdn.plot.ly/plotly-latest.min.js',
+        ],
+        'css_url': None,
+        'enabled': True,
+        'help_link': 'https://plot.ly/javascript/',
+    },
 }
 
 # Import optional chart overrides.
