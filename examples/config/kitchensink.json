@@ -2,6 +2,17 @@
     "date": "2016-08-23 15:03:49.178000",
     "modules": [
         {
+            "name": "Iframe test",
+            "refresh": true,
+            "height": "400",
+            "width": "400",
+            "dataSource": "http://thecatapi.com/api/images/get?format=src&type=gif",
+            "override": false,
+            "refreshInterval": "3000",
+            "guid": "b41a280c-643d-5a6f-198e-b5cbf535ffde",
+            "type": "iframe"
+        },
+        {
             "name": "circlepack",
             "height": "900",
             "width": "900",
