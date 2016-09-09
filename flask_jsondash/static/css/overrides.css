@@ -46,3 +46,11 @@
 .plotly-container .main-svg {
     border-radius: 5px;
 }
+.js-plotly-plot .plotly .modebar {
+    background-color: #f1f1f1;
+    padding: 2px;
+    border: 1px solid #ccc;
+}
+.plotly-notifier .notifier-note {
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
