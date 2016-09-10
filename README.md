@@ -22,7 +22,37 @@ Each chart is very straightforward. Most of the power is leveraged by the variou
 
 If you want to see all/most charts in action, you'll need to fire up the `endpoints.py` flask app (included), create a new dashboard, then choose the *edit raw json* option, specifying one of the json files found in [examples/config](examples/config). (This has been tested using mongodb).
 
+
+
 ## Usage
+
+
+## Quickstart
+
+Assuming you have Python and pip setup
+pip install virtualenvwrapper
+cd <wherever you keep your projects>
+git clone https://github.com/christabor/flask_jsondash.git
+mkvirtualenv flask_jsondash
+cd flask_jsondash
+pip install -r requirements.txt
+
+Setup MongoDB (Do this in a different shell)
+brew install mongodb
+mongod --config /usr/local/etc/mongod.conf
+ln -sfv /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgents #To enable start of MongoDB on system launch
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plisit #To start mongo now
+
+Optional - You'll have to rely on the defaults or set-up the environment variables yourself
+
+Install foreman - Useful to manage environments and Procfile based app (https://github.com/ddollar/foreman)
+gem install foreman #Needs Ruby to be available
+Setup the environment variables in a .env. Defaults have been described below. Sample .env file has been included
+
+Start the app
+foreman run python app.py
+Visit link in your browser
+
 
 ### Requirements
 
