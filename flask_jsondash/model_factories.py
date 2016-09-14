@@ -12,6 +12,7 @@ import json
 from random import choice, randrange
 from uuid import uuid1
 
+import click
 from werkzeug.datastructures import ImmutableMultiDict
 
 import db_adapters
@@ -58,10 +59,17 @@ def make_fake_chart_data(**kwargs):
     )
 
 
-def insert_dashboards(records=10):
+@click.command()
+@click.option('--records',
+              default=10,
+              help='Number of records to insert fake dashboard data into DB.')
+@click.option('--max-charts',
+              default=5,
+              help='Number of charts per dashboard to create.')
+def insert_dashboards(records, max_charts):
     """Insert a number of dashboard records into the database."""
     for i in range(records):
-        data = make_fake_dashboard(max_charts=i)
+        data = make_fake_dashboard(max_charts=max_charts)
         db_adapters.create(data=data)
 
 
