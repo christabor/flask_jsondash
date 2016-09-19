@@ -1,5 +1,7 @@
 """This is your typical app, demonstrating usage."""
 
+import os
+
 from flask_jsondash.charts_builder import charts
 
 from flask import (
@@ -50,4 +52,5 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5002)
+    PORT = int(os.getenv('PORT', 5002))
+    app.run(debug=True, port=PORT)
