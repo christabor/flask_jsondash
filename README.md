@@ -38,7 +38,7 @@ These are not included, as you are likely going to have them yourself. If you do
 * Jquery (JS)
 * Bootstrap (CSS/JS)
 
-These are necessary and included, based simply on the likelihood they may not alread be used:
+These are necessary and included, based simply on the likelihood they may not already be used:
 
 * JRespond (JS)
 * SugarJS (JS)
@@ -136,7 +136,7 @@ Below are global app config flags. Their default values are represented in the e
 
 `app.config['JSONDASH_FILTERUSERS'] = False`: for filtering dashboards by the logged in user. See above for setting user data.
 
-`app.config['JSONDASH_GLOBALDASH'] = True`: for allowing "global" dashboards to be shown. These dashboards must have a created_user of "global" or be overriden (see below).
+`app.config['JSONDASH_GLOBALDASH'] = True`: for allowing "global" dashboards to be shown. These dashboards must have a created_user of "global" or be overridden (see below).
 
 `app.config['JSONDASH_GLOBAL_USER'] = "global"`: An owner name to use when allowing global dashboards to be seen. This is set on the `created_by` property in the specific json config. See above for more examples.
 
@@ -146,7 +146,7 @@ Below are global app config flags. Their default values are represented in the e
 
 **Q**: "Why'd you choose to expose library X, Y, or Z?"
 
-*A*: I tried to go for libraries that are pretty widely known and popular. If you are dissastisfied with what's exposed, you can always add your own by embeddding any js/css and html in a template, and loading it through the `iframe` option.
+*A*: I tried to go for libraries that are pretty widely known and popular. If you are dissatisfied with what's exposed, you can always add your own by embedding any js/css and html in a template, and loading it through the `iframe` option.
 
 **Q**: "How do I customize X, Y, Z?"
 
