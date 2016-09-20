@@ -26,6 +26,12 @@
 
 <div class="row">
     <div class="col-md-12">
+        {% if paginator %}
+            {% set curr_max_range = paginator.skip + paginator.per_page %}
+            {% if curr_max_range > paginator.count %}
+                {% set curr_max_range = paginator.count %}
+            {% endif %}
+        {% endif %}
         {% if views %}
             <div class="row">
                 <div class="col-md-6 text-right">
@@ -69,13 +75,19 @@
         <ul class="list-group">
             {% for view in views %}
                 {% set is_user_view = username == view.created_by %}
+                {% set in_range = True %}
+                {% if paginator %}
+                    {% set in_range = loop.index > paginator.skip and loop.index < curr_max_range + 1 %}
+                {% endif %}
                 {% set show_global_dash = global_dashboards and view.created_by == global_dashuser %}
-                {% if filter_dashboards %}
-                    {% if show_global_dash or is_user_view %}
+                {% if in_range %}
+                    {% if filter_dashboards %}
+                        {% if show_global_dash or is_user_view %}
+                            {{ item(view) }}
+                        {% endif %}
+                    {% else %}
                         {{ item(view) }}
                     {% endif %}
-                {% else %}
-                    {{ item(view) }}
                 {% endif %}
             {% endfor %}
         </ul>
@@ -94,7 +106,7 @@
                         <small>
                             Showing
                             <strong>
-                                {{ paginator.skip }}-{{ paginator.skip + views|length }}
+                                {{ paginator.skip }}-{{ curr_max_range }}
                             </strong>
                             of <strong>{{ paginator.count }}</strong> results
                         </small>

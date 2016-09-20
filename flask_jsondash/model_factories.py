@@ -36,6 +36,7 @@ def make_fake_dashboard(name='Random chart', max_charts=10):
     )
     return dict(
         name=name,
+        created_by='ctabor',
         date=dt.now(),
         modules=db_adapters._format_modules(charts),
         id=str(uuid1()),
@@ -49,7 +50,6 @@ def make_fake_chart_data(**kwargs):
     return (
         'module_{}'.format(_uuid),
         json.dumps(dict(
-            created_by='global',
             name=kwargs.get('name', chart),
             width=kwargs.get('width', randrange(100, 2000)),
             height=kwargs.get('height', randrange(100, 2000)),

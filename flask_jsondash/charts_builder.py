@@ -35,7 +35,8 @@ from settings import (
 template_dir = os.path.dirname(templates.__file__)
 static_dir = os.path.dirname(static.__file__)
 
-Paginator = namedtuple('Paginator', 'count curr_page num_pages limit skip')
+Paginator = namedtuple('Paginator',
+                       'count per_page curr_page num_pages limit skip')
 
 charts = Blueprint(
     'jsondash',
@@ -138,20 +139,22 @@ def _static(filename):
     return send_from_directory(static_dir, filename)
 
 
-def paginator():
+def paginator(count=None):
     """Get pagination calculations in a compact format."""
+    if count is None:
+        count = adapter.count()
     per_page = setting('JSONDASH_PERPAGE')
     # Allow query parameter overrides.
     per_page = int(request.args.get('per_page', 0)) or per_page
     per_page = per_page if per_page > 2 else 2  # Prevent division errors etc
     curr_page = int(request.args.get('page', 1)) - 1
-    count = adapter.count()
     num_pages = count // per_page
     rem = count % per_page
     extra_pages = 2 if rem else 1
     pages = range(1, num_pages + extra_pages)
     return Paginator(
         limit=per_page,
+        per_page=per_page,
         curr_page=curr_page,
         skip=curr_page * per_page,
         num_pages=pages,
@@ -162,8 +165,7 @@ def paginator():
 @charts.route('/charts/', methods=['GET'])
 def dashboard():
     """Load all views."""
-    pagination = paginator()
-    opts = dict(limit=pagination.limit, skip=pagination.skip)
+    opts = dict()
     if setting('JSONDASH_FILTERUSERS'):
         opts.update(filter=dict(created_by=metadata(key='username')))
         views = list(adapter.read(**opts))
@@ -173,8 +175,11 @@ def dashboard():
             views += list(adapter.read(**opts))
     else:
         views = list(adapter.read(**opts))
-    if not views:
+    if views:
+        pagination = paginator(count=len(views))
+    else:
         pagination = None
+    opts.update(limit=pagination.limit, skip=pagination.skip)
     kwargs = dict(
         views=views,
         paginator=pagination,
