@@ -93,6 +93,7 @@ body {
     border-bottom: 1px solid #ccc;
     padding: 0.6em 1.2em;
     height: 35px !important;
+    line-height: 20px;
     overflow: hidden;
 }
 #charts-builder #view-builder.editing {
