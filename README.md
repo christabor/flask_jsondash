@@ -22,7 +22,47 @@ Each chart is very straightforward. Most of the power is leveraged by the variou
 
 If you want to see all/most charts in action, you'll need to fire up the `endpoints.py` flask app (included), create a new dashboard, then choose the *edit raw json* option, specifying one of the json files found in [examples/config](examples/config). (This has been tested using mongodb).
 
+
+
 ## Usage
+
+
+## Quickstart
+
+**Assuming you have Python and pip setup**
+```
+pip install virtualenvwrapper
+cd <wherever you keep your projects>
+git clone https://github.com/christabor/flask_jsondash.git
+mkvirtualenv flask_jsondash
+cd flask_jsondash
+pip install -r requirements.txt
+```
+
+**Setup MongoDB (Do this in a different shell)**
+```
+brew install mongodb
+mongod --config /usr/local/etc/mongod.conf
+ln -sfv /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgents #To enable start of MongoDB on system launch
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plisit #To start mongo now
+```
+
+**Install foreman (Optional) - You'll have to rely on the defaults or set-up the environment variables yourself otherwise**
+
+[Foreman](https://github.com/ddollar/foreman) is useful to manage environments and Procfile based apps.
+
+`gem install foreman` (This has a dependency on ruby being available)
+
+Setup the environment variables in a .env file. Defaults have been described below. A `sample_env` file has been included which you can rename to `.env`.
+
+**Start the app**
+`foreman run python app.py` or `python app.py`
+Visit the link displayed in your browser
+
+**For running the examples**
+`foreman run python endpoints.py` or `python endpoints.py`
+Visit one of the routes listed in `endpoints.py`. For example - `http://<flask app url>/stacked-bar`
+
 
 ### Requirements
 
