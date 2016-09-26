@@ -24,6 +24,31 @@ If you want to see all/most charts in action, you'll need to fire up the `endpoi
 
 ## Usage
 
+### Quickstart
+
+**Method 1 - use provided flask app**
+
+```shell
+git clone https://github.com/christabor/flask_jsondash.git
+cd flask_jsondash
+virtualenv env
+source env/bin/activate
+python setup.py install
+python app.py
+```
+
+This will setup the app in a virtual environment and run the included test app (`app.py`) immediately on port `5002`.
+
+If you want to import the blueprint into your own existing flask instance:
+
+**Method 2 - use your existing app**
+
+```shell
+pip install flask-jsondash
+```
+
+Your app will need to import and register the blueprint, as well as have the appropriate template tags. [An example of this can be found here](templates/layouts/base.html).
+
 ### Requirements
 
 ### Core
