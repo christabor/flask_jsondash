@@ -35,7 +35,7 @@
         {% if views %}
             <div class="row">
                 <div class="col-md-6 text-right">
-                    <h1 class="lead">Showing <strong>{{ views|length }}</strong> {{ 'dashboards' if views|length > 1 else 'dashboard' }} with <strong>{{ total_modules }}</strong> charts.
+                    <h1 class="lead">Showing <strong>{{ "{:,}".format(views|length) }}</strong> {{ 'dashboards' if views|length > 1 else 'dashboard' }} with <strong>{{ "{:,}".format(total_modules) }}</strong> charts.
                     {% if filter_dashboards and username %}
                         <p>
                             <small>
