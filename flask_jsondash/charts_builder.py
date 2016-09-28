@@ -84,7 +84,7 @@ def metadata(key=None):
     This allows loose coupling for enabling and setting
     metadata for each chart.
     """
-    metadata = dict()
+    _metadata = dict()
     conf = current_app.config
     conf_metadata = conf.get('JSONDASH', {}).get('metadata', None)
     # Also useful for getting arbitrary configuration keys.
@@ -95,8 +95,8 @@ def metadata(key=None):
             return None
     # Update all metadata values if the function exists.
     for k, func in conf_metadata.items():
-        metadata[k] = conf_metadata[k]()
-    return metadata
+        _metadata[k] = conf_metadata[k]()
+    return _metadata
 
 
 def setting(name, default=None):
