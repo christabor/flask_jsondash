@@ -2,9 +2,9 @@
  * Handlers for various widget types. The method signatures are always the same,
  * but each handler can handle them differently.
  */
-
 jsondash.handlers.handleYoutube = function(container, config) {
     // Clean up all previous.
+    'use strict';
     container.selectAll('.chart-container').remove();
     var iframe = container.select('.chart-container').append('iframe');
     iframe
@@ -16,6 +16,7 @@ jsondash.handlers.handleYoutube = function(container, config) {
 };
 
 jsondash.handlers.handleC3 = function(container, config) {
+    'use strict';
     var init_config = {
         bindto: '[data-guid="' + config.guid + '"] .chart-container',
         legend: {
@@ -36,37 +37,40 @@ jsondash.handlers.handleC3 = function(container, config) {
     };
     if(jsondash.util.isOverride(config)) {
         // Just use the raw payload for this widgets' options.
-        d3.json(config.dataSource, function(res){
+        d3.json(config.dataSource, function(error, data){
+            if(error) { throw new Error("Could not load url: " + config.dataSource); }
             // Keep existing options if not specified.
-            var config = $.extend(init_config, res);
+            config = $.extend(init_config, data);
             c3.generate(init_config);
         });
         return;
     }
     if(config.type === 'timeseries') {
-        init_config['axis'] = {
-            x: {type: 'timeseries'},
+        init_config.axis = {
+            x: {type: 'timeseries'}
         };
         // Map the corresponding data key and list of dates
         // to the `x` property.
-        init_config['data']['x'] = 'dates';
+        init_config.data.x = 'dates';
     }
     c3.generate(init_config);
 };
 
 jsondash.handlers.handleD3 = function(container, config) {
+    'use strict';
     // Clean up all D3 charts in one step.
     container.selectAll('svg').remove();
     // Handle specific types.
-    if(config.type === 'radial-dendrogram') return jsondash.handlers.handleRadialDendrogram(container, config);
-    if(config.type === 'dendrogram') return jsondash.handlers.handleDendrogram(container, config);
-    if(config.type === 'voronoi') return jsondash.handlers.handleVoronoi(container, config);
-    if(config.type === 'treemap') return jsondash.handlers.handleTreemap(container, config);
-    if(config.type === 'circlepack') return jsondash.handlers.handleCirclePack(container, config);
+    if(config.type === 'radial-dendrogram') { return jsondash.handlers.handleRadialDendrogram(container, config); }
+    if(config.type === 'dendrogram') { return jsondash.handlers.handleDendrogram(container, config); }
+    if(config.type === 'voronoi') { return jsondash.handlers.handleVoronoi(container, config); }
+    if(config.type === 'treemap') { return jsondash.handlers.handleTreemap(container, config); }
+    if(config.type === 'circlepack') { return jsondash.handlers.handleCirclePack(container, config); }
     throw new Error('Unknown type: ' + config.type);
 };
 
 jsondash.handlers.handleCirclePack = function(container, config) {
+    'use strict';
     // Adapted from https://bl.ocks.org/mbostock/4063530
     var margin = jsondash.config.WIDGET_MARGIN_Y;
     var diameter = d3.max([config.width, config.height]) - margin;
@@ -83,7 +87,7 @@ jsondash.handlers.handleCirclePack = function(container, config) {
         .append('g');
 
     d3.json(config.dataSource, function(error, data) {
-        if(error) throw new Error("Could not load url: " + config.dataSource);
+        if(error) { throw new Error("Could not load url: " + config.dataSource); }
 
         var node = svg.datum(data).selectAll('.node')
         .data(pack.nodes)
@@ -108,6 +112,7 @@ jsondash.handlers.handleCirclePack = function(container, config) {
 };
 
 jsondash.handlers.handleTreemap = function(container, config) {
+    'use strict';
     // Adapted from http://bl.ocks.org/mbostock/4063582
     var margin = {
         top: jsondash.config.WIDGET_MARGIN_Y / 2,
@@ -126,13 +131,13 @@ jsondash.handlers.handleTreemap = function(container, config) {
     container.selectAll('.treemap').remove();
     var div = container
         .append('div')
-        .classed({'treemap': true, 'chart-centered': true})
+        .classed({treemap: true, 'chart-centered': true})
         .style('position', 'relative')
         .style('width', width + 'px')
         .style('height', height + 'px');
 
     d3.json(config.dataSource, function(error, root) {
-        if(error) throw new Error('Could not load url: ' + config.dataSource);
+        if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         var node = div.datum(root).selectAll('.node')
             .data(treemap.nodes)
             .enter().append('div')
@@ -171,6 +176,7 @@ jsondash.handlers.handleTreemap = function(container, config) {
 };
 
 jsondash.handlers.handleRadialDendrogram = function(container, config) {
+    'use strict';
     container.selectAll('svg').remove();
     // Code taken (and refactored for use here) from:
     // https://bl.ocks.org/mbostock/4339607
@@ -185,7 +191,7 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
         .append('g')
         .attr('transform', 'translate(' + radius + ',' + radius + ')');
     d3.json(config.dataSource, function(error, root) {
-        if (error) throw error;
+        if (error) { throw error; }
         var nodes = cluster.nodes(root);
         var link = svg.selectAll('path.link')
             .data(cluster.links(nodes))
@@ -196,7 +202,7 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
             .data(nodes)
             .enter().append('g')
             .attr('class', 'node')
-            .attr('transform', function(d) { return 'rotate(' + (d.x - 90) + ')translate(' + d.y + ')'; })
+            .attr('transform', function(d) { return 'rotate(' + (d.x - 90) + ')translate(' + d.y + ')'; });
         node.append('circle')
             .attr('r', 4.5);
         node.append('text')
@@ -210,6 +216,7 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
 };
 
 jsondash.handlers.handleDendrogram = function(container, config) {
+    'use strict';
     container.selectAll('svg').remove();
     var PADDING = 100;
     var width = config.width - jsondash.config.WIDGET_MARGIN_X;
@@ -226,7 +233,7 @@ jsondash.handlers.handleDendrogram = function(container, config) {
         .attr('transform', 'translate(40,0)');
 
     d3.json(config.dataSource, function(error, root) {
-        if(error) throw new Error('Could not load url: ' + config.dataSource);
+        if(error) { throw new Error('Could not load url: ' + config.dataSource); }
 
         var nodes = cluster.nodes(root),
         links = cluster.links(nodes);
@@ -241,7 +248,7 @@ jsondash.handlers.handleDendrogram = function(container, config) {
         .data(nodes)
         .enter().append('g')
         .attr('class', 'node')
-        .attr('transform', function(d) { return 'translate(' + d.y + ',' + d.x + ')'; })
+        .attr('transform', function(d) { return 'translate(' + d.y + ',' + d.x + ')'; });
 
         node.append('circle').attr('r', 4.5);
         node.append('text')
@@ -255,8 +262,9 @@ jsondash.handlers.handleDendrogram = function(container, config) {
 };
 
 jsondash.handlers.handleVoronoi = function(container, config) {
+    'use strict';
     d3.json(config.dataSource, function(error, data){
-        if(error) throw new Error('Could not load url: ' + config.dataSource);
+        if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         var width = config.width - jsondash.config.WIDGET_MARGIN_X;
         var height = config.height - jsondash.config.WIDGET_MARGIN_Y;
         var vertices = data;
@@ -287,6 +295,7 @@ jsondash.handlers.handleVoronoi = function(container, config) {
 };
 
 jsondash.handlers.handleSparkline = function(container, config) {
+    'use strict';
     // Clean up old canvas elements
     container.selectAll('.sparkline-container').remove();
     var sparkline_type = config.type.split('-')[1];
@@ -301,7 +310,7 @@ jsondash.handlers.handleSparkline = function(container, config) {
         var opts = {
             type: sparkline_type,
             width: config.width - jsondash.config.WIDGET_MARGIN_X,
-            height: config.height - jsondash.config.WIDGET_MARGIN_Y,
+            height: config.height - jsondash.config.WIDGET_MARGIN_Y
         };
         spark.sparkline(data, opts);
         jsondash.unload(container);
@@ -309,17 +318,18 @@ jsondash.handlers.handleSparkline = function(container, config) {
 };
 
 jsondash.handlers.handleDataTable = function(container, config) {
+    'use strict';
     // Clean up old tables if they exist, during reloading.
     container.selectAll('.dataTables_wrapper').remove();
     d3.json(config.dataSource, function(error, res) {
-        if(error) throw new Error('Could not load url: ' + config.dataSource);
+        if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         var keys = d3.keys(res[0]).map(function(d){
             return {data: d, title: d};
         });
         container
             .append('table')
             .classed({
-                'table': true,
+                table: true,
                 'table-striped': true,
                 'table-bordered': true,
                 'table-condensed': true
@@ -331,10 +341,11 @@ jsondash.handlers.handleDataTable = function(container, config) {
 };
 
 jsondash.handlers.handleSingleNum = function(container, config) {
+    'use strict';
     container.selectAll('.singlenum').remove();
     d3.json(config.dataSource, function(data){
         var num = container.append('div')
-            .classed({'singlenum': true})
+            .classed({singlenum: true})
             .text(data);
         data = String(data);
         // Add red or green, depending on if the number appears to be pos/neg.
@@ -351,7 +362,7 @@ jsondash.handlers.handleSingleNum = function(container, config) {
         var inner_box_height = config.height - title_h; // factor in rough height of title.
         container.style({
             'line-height': inner_box_height + 'px',
-            'height': inner_box_height + 'px'
+            height: inner_box_height + 'px'
         });
         var digits = String(data).length;
         var size = jsondash.util.getDigitSize()(digits);
@@ -361,6 +372,7 @@ jsondash.handlers.handleSingleNum = function(container, config) {
 };
 
 jsondash.handlers.handleTimeline = function(container, config) {
+    'use strict';
     d3.json(config.dataSource, function(data){
         container.append('div').attr('id', 'widget-' + config.guid);
         var timeline = new TL.Timeline('widget-' + config.guid, data);
@@ -369,6 +381,7 @@ jsondash.handlers.handleTimeline = function(container, config) {
 };
 
 jsondash.handlers.handleIframe = function(container, config) {
+    'use strict';
     container.selectAll('iframe').remove();
     var iframe = container.append('iframe');
     iframe.attr({
@@ -381,6 +394,7 @@ jsondash.handlers.handleIframe = function(container, config) {
 };
 
 jsondash.handlers.handleCustom = function(container, config) {
+    'use strict';
     container.selectAll('.custom-container').remove();
     $.get(config.dataSource, function(html){
         container.append('div').classed({'custom-container': true}).html(html);
@@ -389,29 +403,31 @@ jsondash.handlers.handleCustom = function(container, config) {
 };
 
 jsondash.handlers.handleVenn = function(container, config) {
+    'use strict';
     container.selectAll('.venn').remove();
     d3.json(config.dataSource, function(error, data){
-        if(error) throw new Error('Could not load url: ' + config.dataSource);
+        if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         var chart = venn.VennDiagram();
         var cont = container
             .append('div')
-            .classed({'venn': true})
+            .classed({venn: true});
         cont.datum(data).call(chart);
         cont.select('svg')
             .attr('width', config.width - jsondash.config.WIDGET_MARGIN_X)
-            .attr('height', config.height - jsondash.config.WIDGET_MARGIN_Y)
+            .attr('height', config.height - jsondash.config.WIDGET_MARGIN_Y);
         jsondash.unload(container);
     });
 };
 
 jsondash.handlers.handlePlotly = function(container, config) {
+    'use strict';
     var id = 'plotly-' + config.guid;
     container.selectAll('.plotly-container').remove();
     container.append('div')
         .classed({'plotly-container': true})
-        .attr('id', id)
+        .attr('id', id);
     d3.json(config.dataSource, function(error, data){
-        if(error) throw new Error('Could not load url: ' + config.dataSource);
+        if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         if(config.override) {
             if(data.layout && data.layout.margin) {
                 // Remove margins, they mess up the
