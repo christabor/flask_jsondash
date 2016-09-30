@@ -182,6 +182,7 @@ def dashboard():
     opts.update(limit=pagination.limit, skip=pagination.skip)
     kwargs = dict(
         views=views,
+        view=None,
         paginator=pagination,
         total_modules=sum([len(view['modules']) for view in views]),
     )
