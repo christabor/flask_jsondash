@@ -236,7 +236,6 @@ def update():
         try:
             data = json.loads(request.form.get('config'))
             data = adapter.reformat_data(data, c_id)
-            data.update(**metadata())
             # Update db
             adapter.update(c_id, data=data, fmt_modules=False)
         except (TypeError, ValueError):
