@@ -167,6 +167,10 @@ Below are global app config flags. Their default values are represented in the e
 
 `app.config['JSONDASH_MAX_PERPAGE'] = 50`: The number of results to show per page. Remaining results will be paginated.
 
+## Versioning
+
+This project uses semantic versioning for releases. However, the master branch is considered to be unstable as it represents "bleeding edge" with updates, hotfixes, etc... that eventually get tagged with a release. If you want to use a stable version, make sure to pin the specific release you want to target.
+
 ## FAQs
 
 **Q**: "Why'd you choose to expose library X, Y, or Z?"
