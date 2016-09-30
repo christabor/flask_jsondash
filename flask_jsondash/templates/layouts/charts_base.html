@@ -1,5 +1,11 @@
 {% extends "layouts/base.html" %}
 
+{% if view %}
+    {% block title %}
+        Dashboards > {{ view.name }}
+    {% endblock %}
+{% endif %}
+
 {% block custom_css %}
 {{ super() }}
 <!-- VENDOR CSS -->
