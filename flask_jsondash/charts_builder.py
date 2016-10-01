@@ -166,6 +166,7 @@ def paginator(count=None):
 def dashboard():
     """Load all views."""
     opts = dict()
+    views = []
     if setting('JSONDASH_FILTERUSERS'):
         opts.update(filter=dict(created_by=metadata(key='username')))
         views = list(adapter.read(**opts))
@@ -177,9 +178,9 @@ def dashboard():
         views = list(adapter.read(**opts))
     if views:
         pagination = paginator(count=len(views))
+        opts.update(limit=pagination.limit, skip=pagination.skip)
     else:
         pagination = None
-    opts.update(limit=pagination.limit, skip=pagination.skip)
     kwargs = dict(
         views=views,
         view=None,
