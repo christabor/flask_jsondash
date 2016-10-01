@@ -96,11 +96,27 @@
             {% if paginator.count > paginator.limit %}
                 <div class="text-center">
                     <ul class="pagination pagination-small">
+                        {% if paginator.curr_page > 0 %}
+                            <li>
+                                <a href="{{ url_for('jsondash.dashboard') }}?page={{ paginator.curr_page }}&amp;per_page={{ paginator.limit }}">
+                                    <span class="fa fa-angle-left"></span>
+                                    Previous
+                                </a>
+                            </li>
+                        {% endif %}
                         {% for page in paginator.num_pages %}
                             <li class="{{ 'active' if page == paginator.curr_page + 1 else '' }}">
                                 <a href="{{ url_for('jsondash.dashboard') }}?page={{ page }}&amp;per_page={{ paginator.limit }}">{{ page }}</a>
                             </li>
                         {% endfor %}
+                        {% if paginator.curr_page < paginator.num_pages|length - 1 %}
+                            <li>
+                                <a href="{{ url_for('jsondash.dashboard') }}?page={{ paginator.curr_page + 2 }}&amp;per_page={{ paginator.limit }}">
+                                    Next
+                                    <span class="fa fa-angle-right"></span>
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                     <p>
                         <small>
