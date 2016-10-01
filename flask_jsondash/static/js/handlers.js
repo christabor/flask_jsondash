@@ -1,3 +1,8 @@
+/** global: jsondash */
+/** global: c3 */
+/** global: d3 */
+/** global: venn */
+/** global: Plotly */
 /**
  * Handlers for various widget types. The method signatures are always the same,
  * but each handler can handle them differently.

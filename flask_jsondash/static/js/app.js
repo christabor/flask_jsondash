@@ -1,3 +1,5 @@
+/** global: d3 */
+/** global: freewall */
 /**
  * Bootstrapping functions, event handling, etc... for application.
  */

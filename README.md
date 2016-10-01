@@ -1,5 +1,11 @@
 # Flask JSONDash
 
+[![Code Climate](https://codeclimate.com/github/christabor/flask_jsondash/badges/gpa.svg)](https://codeclimate.com/github/christabor/flask_jsondash)
+
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/christabor/flask_jsondash/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/christabor/flask_jsondash/?branch=master)
+
+[![Build Status](https://scrutinizer-ci.com/g/christabor/flask_jsondash/badges/build.png?b=master)](https://scrutinizer-ci.com/g/christabor/flask_jsondash/build-status/master)
+
 Easily configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
 
 ![kitchensink screenshot 2](examples/screenshots/kitchensink2.png)
