@@ -2,7 +2,7 @@
 
 {%- macro chart(module=None) %}
     {% if module %}
-    <div class="item widget"
+    <div class="hidden item widget"
         data-guid="{{ module.guid }}"
         data-refresh="{{ module.refresh }}"
         data-refresh-interval="{{ module.refreshInterval }}"

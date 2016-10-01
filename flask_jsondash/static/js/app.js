@@ -243,15 +243,15 @@ var jsondash = function() {
         chart_wall = new freewall(container);
         chart_wall.reset({
             selector: '.item',
-            delay: 1,
             fixSize: 1, // Important! Fixes the widgets to their configured size.
-            gutterX: 4,
-            gutterY: 4,
+            gutterX: 2,
+            gutterY: 2,
             draggable: false,
             onResize: function() {
                 chart_wall.fitWidth();
             }
         });
+        $('.item.widget').removeClass('hidden');
         chart_wall.fitWidth();
     }
 
