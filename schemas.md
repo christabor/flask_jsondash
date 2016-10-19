@@ -278,7 +278,7 @@ Supported.
 
 #### Datatables standard
 
-A table with automatic styling, sorting, filtering and pagination. Format is a list of objects, where values can be any key and value, but all elements in the list **must** have matching key names.
+A table with automatic styling, sorting, filtering and pagination. Format is a list of objects, where values can be any key and value, but all elements in the list **must** have matching key names. Also take note of the outside brackets. All objects must be wrapped in `[]`.
 
 ```json
 [
