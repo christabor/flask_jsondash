@@ -108,6 +108,9 @@ body {
     overflow: scroll;
     display: block;
 }
+#charts-builder #save-view-form {
+    padding: 1em;
+}
 #charts-builder .form-inline {
     display: inline-block !important;
 }
