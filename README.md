@@ -221,3 +221,12 @@ A couple observations on stress tests
 * C3.js starts to lag heavily and spends a good 10 seconds and in some cases crashed Google Chrome (with multiple charts on the page) when updwards of 2-300 data points are used per chart (the example config has 10 charts).
 
 Your performance may be better or worse, so just test it out. As always, Your Mileage May Vary.
+
+## Debugging/Troubleshooting
+
+**My chart won't load even though the url is correct!**
+
+If your site is using `https` (it should be), this is likely caused by an issue with third-parties not using it, but instead running an insecure http web server. This is unfortunately not easy to fix, unless you:
+
+A. Make your site insecure by no longer have an SSL certificate (not preferable)
+B. Tell the owner of the endpoint to enforce SSL on their end and provide https.
