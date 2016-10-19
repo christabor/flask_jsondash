@@ -93,7 +93,7 @@ Make sure to start so json configuration can be saved.
 
 #### Mongodb
 
-Start however you'd like, but usually `mongod` will work.
+Start however you'd like, but usually `mongod` will work. *Note: you will need to make sure the collection has been created within your mongo instance, and is specified in the CHARTS_DB_TABLE env var, as well as specify your database name under the CHARTS_DB_NAME env var*
 
 #### Postgresql
 
