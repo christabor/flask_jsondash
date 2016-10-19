@@ -25,9 +25,27 @@ CORS(app)
 app.config['SECRET_KEY'] = 'NOTSECURELOL'
 app.debug = True
 
+STRESS_MAX_POINTS = 300
+
 locale.setlocale(locale.LC_ALL, '')
 
 cwd = os.getcwd()
+
+
+def recursive_d3_data(current=0, max_iters=12, data=None):
+    """Generate d3js data for stress testing.
+    Format is suitable in treemap, circlepack and dendrogram testing.
+    """
+    if current >= max_iters:
+        return data
+    if data is None:
+        data = dict(name='foo', size=rr(10, 10000), children=[])
+    data = dict(name='foo', size=rr(10, 10000),
+                children=[data, data])
+    return recursive_d3_data(
+        current=current + 1,
+        max_iters=max_iters,
+        data=data)
 
 
 def dates_list(max_dates=10):
@@ -124,6 +142,14 @@ def timeline():
 @app.route('/dtable', methods=['GET'])
 def dtable():
     """Fake endpoint."""
+    if 'stress' in request.args:
+        return json.dumps([
+            dict(
+                foo=rr(1, 1000),
+                bar=rr(1, 1000),
+                baz=rr(1, 1000),
+                quux=rr(1, 1000)) for _ in range(STRESS_MAX_POINTS)
+        ])
     fname = 'dtable-override' if 'override' in request.args else 'dtable'
     with open('{}/examples/{}.json'.format(os.getcwd(), fname), 'r') as djson:
         return djson.read()
@@ -195,6 +221,8 @@ def scatter():
 def pie():
     """Fake endpoint."""
     letters = list('abcde')
+    if 'stress' in request.args:
+        letters = range(STRESS_MAX_POINTS)
     return json.dumps({'data {}'.format(name): rr(1, 100) for name in letters})
 
 
@@ -202,6 +230,11 @@ def pie():
 @app.route('/bar')
 def barchart():
     """Fake endpoint."""
+    if 'stress' in request.args:
+        return json.dumps({
+            'bar-{}'.format(k): rr_list(max_range=STRESS_MAX_POINTS)
+            for k in range(STRESS_MAX_POINTS)
+        })
     return json.dumps({
         "bar1": [1, 2, 30, 12, 100],
         "bar2": rr_list(max_range=5),
@@ -213,6 +246,11 @@ def barchart():
 @app.route('/line')
 def linechart():
     """Fake endpoint."""
+    if 'stress' in request.args:
+        return json.dumps({
+            'bar-{}'.format(k): rr_list(max_range=STRESS_MAX_POINTS)
+            for k in range(STRESS_MAX_POINTS)
+        })
     return json.dumps({
         "line1": [1, 4, 3, 10, 12, 14, 18, 10],
         "line2": [1, 2, 10, 20, 30, 6, 10, 12, 18, 2],
@@ -273,6 +311,9 @@ def sparklines():
 @app.route('/circlepack', methods=['GET'])
 def circlepack():
     """Fake endpoint."""
+    if 'stress' in request.args:
+        # Build a very large dataset
+        return json.dumps(recursive_d3_data())
     with open('{}/examples/flare.json'.format(cwd), 'r') as djson:
         return djson.read()
     return json.dumps({})
@@ -282,6 +323,9 @@ def circlepack():
 @app.route('/treemap', methods=['GET'])
 def treemap():
     """Fake endpoint."""
+    if 'stress' in request.args:
+        # Build a very large dataset
+        return json.dumps(recursive_d3_data())
     with open('{}/examples/flare.json'.format(cwd), 'r') as djson:
         return djson.read()
     return json.dumps({})
@@ -298,6 +342,9 @@ def datamap():
 @app.route('/dendrogram', methods=['GET'])
 def dendro():
     """Fake endpoint."""
+    if 'stress' in request.args:
+        # Build a very large dataset
+        return json.dumps(recursive_d3_data())
     filename = 'flare-simple' if 'simple' in request.args else 'flare'
     with open('{}/examples/{}.json'.format(cwd, filename), 'r') as djson:
         return djson.read()
@@ -310,6 +357,8 @@ def voronoi():
     """Fake endpoint."""
     w, h = request.args.get('width', 800), request.args.get('height', 800)
     max_points = int(request.args.get('points', 100))
+    if 'stress' in request.args:
+        max_points = 500
     return json.dumps([[rr(1, h), rr(1, w)] for _ in range(max_points)])
 
 

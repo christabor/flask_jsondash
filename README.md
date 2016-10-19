@@ -208,3 +208,16 @@ could return `{"data": [1, 2, 3, 4]}`, but you could customize the url by updati
 `curl -XGET http://localhost:5002/api/foo?gt=9`
 
 could return `{"data": [10, 20, 30, 40]}` instead!
+
+## Performance
+
+Performance metrics are not available, but you can view some "stress test" examples for the example endpoints. The configuration for these are available in [examples/config/stresstest.json](examples/config/stresstest.json). Also, the comprehensive examples (plotly, kitchensink) above are very complex dashboards (20-30 charts, webgl, etc), and have been tested in the browser.
+
+A couple observations on stress tests
+*(performed on Macbook Pro / 16gb / 2.7ghz i7):*
+
+* Native D3.js handles large datasets very well. It handled 1-2mb json files with no problem.
+* Datatables handles extremely large datasets with no problem. Maximum tested before degradation was around 100,000 rows.
+* C3.js starts to lag heavily and spends a good 10 seconds and in some cases crashed Google Chrome (with multiple charts on the page) when updwards of 2-300 data points are used per chart (the example config has 10 charts).
+
+Your performance may be better or worse, so just test it out. As always, Your Mileage May Vary.
