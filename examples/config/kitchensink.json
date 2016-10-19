@@ -16,7 +16,7 @@
             "name": "circlepack",
             "height": "900",
             "width": "900",
-            "dataSource": "http://localhost:5004/circlepack",
+            "dataSource": "http://127.0.0.1:5004/circlepack",
             "override": false,
             "guid": "79178d58-a690-37ec-3594-84516d263e9e",
             "type": "circlepack"
@@ -25,7 +25,7 @@
             "name": "Spline",
             "height": "400",
             "width": "500",
-            "dataSource": "http://localhost:5004/bar",
+            "dataSource": "http://127.0.0.1:5004/bar",
             "override": false,
             "guid": "1318edad-4fe6-e521-1cb5-c8556bf2f51d",
             "type": "spline"
@@ -34,7 +34,7 @@
             "name": "Scatter",
             "height": "500",
             "width": "500",
-            "dataSource": "http://localhost:5004/scatter",
+            "dataSource": "http://127.0.0.1:5004/scatter",
             "override": false,
             "guid": "f5dc4f3a-9632-d77e-991f-6b3e3047ad7f",
             "type": "scatter"
@@ -43,7 +43,7 @@
             "name": "Gauge",
             "height": "400",
             "width": "500",
-            "dataSource": "http://localhost:5004/gauge",
+            "dataSource": "http://127.0.0.1:5004/gauge",
             "override": false,
             "guid": "c455dfe7-dcac-d24f-2251-dec23ba0bcc5",
             "type": "gauge"
@@ -52,7 +52,7 @@
             "name": "Treemap",
             "height": "800",
             "width": "800",
-            "dataSource": "http://localhost:5004/treemap",
+            "dataSource": "http://127.0.0.1:5004/treemap",
             "override": false,
             "guid": "139b6c94-99ae-4aa3-d525-812642d91b03",
             "type": "treemap"
@@ -61,7 +61,7 @@
             "name": "line",
             "height": "400",
             "width": "500",
-            "dataSource": "http://localhost:5004/line",
+            "dataSource": "http://127.0.0.1:5004/line",
             "override": false,
             "guid": "a6eb10e7-26fa-7814-818a-3699b24415c5",
             "type": "line"
@@ -70,7 +70,7 @@
             "name": "Pie chart",
             "height": "400",
             "width": "500",
-            "dataSource": "http://localhost:5004/pie",
+            "dataSource": "http://127.0.0.1:5004/pie",
             "override": false,
             "guid": "1546e622-8973-62f5-4c10-cf2f2474f9c3",
             "type": "pie"
@@ -79,7 +79,7 @@
             "name": "Area",
             "height": "400",
             "width": "500",
-            "dataSource": "http://localhost:5004/bar",
+            "dataSource": "http://127.0.0.1:5004/bar",
             "override": false,
             "guid": "990fc4cd-8882-2707-f42c-99442e4e88b0",
             "type": "area"
@@ -88,7 +88,7 @@
             "name": "Area spline",
             "height": "400",
             "width": "500",
-            "dataSource": "http://localhost:5004/bar",
+            "dataSource": "http://127.0.0.1:5004/bar",
             "override": false,
             "guid": "7d30f572-c0ca-552f-9db9-696796cab5a0",
             "type": "area-spline"
@@ -97,7 +97,7 @@
             "name": "Combination",
             "height": "550",
             "width": "600",
-            "dataSource": "http://localhost:5004/combination",
+            "dataSource": "http://127.0.0.1:5004/combination",
             "override": true,
             "guid": "31f4b888-b98c-fa4a-770d-6d482609571d",
             "type": "line"
@@ -106,7 +106,7 @@
             "name": "Area custom override",
             "height": "400",
             "width": "500",
-            "dataSource": "http://localhost:5004/area-custom",
+            "dataSource": "http://127.0.0.1:5004/area-custom",
             "override": true,
             "guid": "51a95e30-56ac-7ac1-4a52-5f130e13a879",
             "type": "area-spline"
@@ -115,7 +115,7 @@
             "name": "Scatter override",
             "height": "400",
             "width": "500",
-            "dataSource": "http://localhost:5004/scatter?override=true",
+            "dataSource": "http://127.0.0.1:5004/scatter?override=true",
             "override": true,
             "guid": "5feb235a-3891-c0ec-e25c-2fc49febb83d",
             "type": "scatter"
@@ -124,7 +124,7 @@
             "name": "Timeseries chart",
             "height": "500",
             "width": "600",
-            "dataSource": "http://localhost:5004/timeseries",
+            "dataSource": "http://127.0.0.1:5004/timeseries",
             "override": false,
             "guid": "d4ca76e3-5eb8-fd49-8bc8-13bd55b9bba7",
             "type": "timeseries"
@@ -133,7 +133,7 @@
             "name": "Step chart",
             "height": "500",
             "width": "500",
-            "dataSource": "http://localhost:5004/bar",
+            "dataSource": "http://127.0.0.1:5004/bar",
             "override": false,
             "guid": "3794efeb-213b-67f5-0b1f-7b62be2b9e37",
             "type": "step"
@@ -142,7 +142,7 @@
             "name": "Total sales last month",
             "height": "400",
             "width": "400",
-            "dataSource": "http://localhost:5004/singlenum?sales=1",
+            "dataSource": "http://127.0.0.1:5004/singlenum?sales=1",
             "override": false,
             "guid": "ad3c4d3a-0d31-9952-a298-3a2de96fc579",
             "type": "number"
@@ -151,7 +151,7 @@
             "name": "bar",
             "height": "400",
             "width": "500",
-            "dataSource": "http://localhost:5004/bar",
+            "dataSource": "http://127.0.0.1:5004/bar",
             "override": false,
             "guid": "24b8bd6c-77a8-9548-9232-86d75459a700",
             "type": "bar"
@@ -160,7 +160,7 @@
             "name": "datatable",
             "height": "600",
             "width": "900",
-            "dataSource": "http://localhost:5004/dtable",
+            "dataSource": "http://127.0.0.1:5004/dtable",
             "override": false,
             "guid": "c3a9c36b-edc1-6627-340c-07da627b2175",
             "type": "datatable"
@@ -170,7 +170,7 @@
             "refresh": false,
             "height": "600",
             "width": "700",
-            "dataSource": "http://localhost:5004/dtable?override=1",
+            "dataSource": "http://127.0.0.1:5004/dtable?override=1",
             "override": true,
             "refreshInterval": "10000",
             "guid": "c1a9c36b-edc1-6627-340c-333aaaa",
@@ -180,7 +180,7 @@
             "name": "Donut",
             "height": "400",
             "width": "500",
-            "dataSource": "http://localhost:5004/pie",
+            "dataSource": "http://127.0.0.1:5004/pie",
             "override": false,
             "guid": "661b21fb-3d26-7665-5e96-5510b9382d19",
             "type": "donut"
@@ -189,7 +189,7 @@
             "name": "Voronoi",
             "height": "650",
             "width": "650",
-            "dataSource": "http://localhost:5004/voronoi",
+            "dataSource": "http://127.0.0.1:5004/voronoi",
             "guid": "e139611b-9ce0-8bdd-4de7-d3c15d3ee55c",
             "type": "voronoi"
         },
@@ -197,7 +197,7 @@
             "name": "Stacked bar chart",
             "height": "400",
             "width": "500",
-            "dataSource": "http://localhost:5004/stacked-bar",
+            "dataSource": "http://127.0.0.1:5004/stacked-bar",
             "override": true,
             "guid": "734fc13a-302e-3562-6a63-0cd15e562f71",
             "type": "line"
@@ -206,7 +206,7 @@
             "name": "Custom",
             "height": "250",
             "width": "500",
-            "dataSource": "http://localhost:5004/custom",
+            "dataSource": "http://127.0.0.1:5004/custom",
             "override": false,
             "guid": "1eeb7877-6462-4b00-373b-f01746a71e8b",
             "type": "custom"
@@ -215,7 +215,7 @@
             "name": "Radial dendrogram",
             "height": "900",
             "width": "900",
-            "dataSource": "http://localhost:5004/dendrogram?radial=1&simple=1",
+            "dataSource": "http://127.0.0.1:5004/dendrogram?radial=1&simple=1",
             "override": false,
             "guid": "61dca3d8-c713-2b0b-ce68-5d93fff19fa5",
             "type": "radial-dendrogram"
@@ -224,7 +224,7 @@
             "name": "Dendrogram",
             "height": "900",
             "width": "1200",
-            "dataSource": "http://localhost:5004/dendrogram",
+            "dataSource": "http://127.0.0.1:5004/dendrogram",
             "override": false,
             "guid": "0b7e0c94-e526-4821-706c-b038ec42322b",
             "type": "dendrogram"
@@ -233,7 +233,7 @@
             "name": "Negative sales",
             "height": "300",
             "width": "300",
-            "dataSource": "http://localhost:5004/singlenum?negative=1&sales=1",
+            "dataSource": "http://127.0.0.1:5004/singlenum?negative=1&sales=1",
             "override": false,
             "guid": "9048c165-d8cc-0904-abde-9f0aff4bf029",
             "type": "number"
