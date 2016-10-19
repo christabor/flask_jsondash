@@ -236,3 +236,8 @@ B. Tell the owner of the endpoint to enforce SSL on their end and provide https.
 *javascript issues*
 
 To troubleshoot potential javascript parse errors, open up your browser console (In Chrome for example, it's <kbd>cmd+option+i</kbd> for Mac, and <kbd>ctrl+alt+i</kbd> on Windows) and see if there are any errors. If there are any parse errors, then the format of your json response may be invalid for a given content type. [Make sure to check the schemas page for format requirements](schemas.md)
+
+**My chart is ugly or is flowing outside the container**
+
+This is usually only an issue with datatables, particularly when selecting the number of entries to show. The size of the table will grow, and the layout does not account for that, nor should it. The best case here is to determine what size actually makes sense for you and adjust your chart size accordingly.
+
