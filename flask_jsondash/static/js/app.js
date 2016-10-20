@@ -309,7 +309,8 @@ var jsondash = function() {
     }
 
     function prettyCode(code) {
-        return JSON.stringify(JSON.parse(code), null, 4)
+        if(typeof code === "object") return JSON.stringify(code, null, 4);
+        return JSON.stringify(JSON.parse(code), null, 4);
     }
 
     function addRefreshers(modules) {
