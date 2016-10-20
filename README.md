@@ -36,6 +36,7 @@ The configuration JSON provides core functionality and is at the heart of the pr
             "height": 400,
             "dataSource": "http://localhost:5001/test1"
         }
+    ]
 }
 ```
 
