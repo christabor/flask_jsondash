@@ -26,6 +26,7 @@
                         "type": "number",
                         "name": "range",
                         "default": 10,
+                        "placeholder": "e.g. 10",
                         "validator_regex": null,
                         "input_classes": ["form-control", "input-sm"],
                         "label": "Number of results",
@@ -34,6 +35,7 @@
                     {
                         "type": "number",
                         "name": "entries",
+                        "placeholder": "e.g. 10",
                         "validator_regex": null,
                         "input_classes": ["form-control", "input-sm"],
                         "label": "Number of points",

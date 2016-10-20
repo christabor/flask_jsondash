@@ -34,7 +34,7 @@
                             {% if input.help_text %}
                                 <br><small class="help-text">{{ input.help_text }}</small>
                             {% endif %}
-                            <input type="{{ input.type }}"
+                            <input type="{{ input.type or 'text' }}"
                                 class="{{ input.input_classes|join(' ') or '' }}"
                                 name="{{ input.name }}"
                                 value="{{ input.value }}"
