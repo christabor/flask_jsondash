@@ -285,14 +285,14 @@ Your performance may be better or worse, so just test it out. As always, Your Mi
 
 **My chart won't load even though the url is correct!**
 
-*http issues*
+:x: *http issues*
 
 If your site is using `https` (it should be), this is likely caused by an issue with third-parties not using it, but instead running an insecure http web server. This is unfortunately not easy to fix, unless you:
 
-A. Make your site insecure by no longer have an SSL certificate (not preferable)
-B. Tell the owner of the endpoint to enforce SSL on their end and provide https.
+* Make your site insecure by no longer have an SSL certificate (not preferable)
+* Tell the owner of the endpoint to enforce SSL on their end and provide https.
 
-*javascript issues*
+:x: *javascript issues*
 
 To troubleshoot potential javascript parse errors, open up your browser console (In Chrome for example, it's <kbd>cmd+option+i</kbd> for Mac, and <kbd>ctrl+alt+i</kbd> on Windows) and see if there are any errors. If there are any parse errors, then the format of your json response may be invalid for a given content type. [Make sure to check the schemas page for format requirements](schemas.md)
 
