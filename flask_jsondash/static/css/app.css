@@ -21,18 +21,23 @@ body {
     display: none;
     position: absolute;
     top: 0;
-    right: 40px;
+    right: 60px;
     font-size: 11px;
     background-color: #999;
     padding: 0 0.8em;
     border-radius: 0 0 3px 3px;
-    height: 20px;
-    line-height: 20px;
+    height: 24px;
+    line-height: 24px;
     color: white;
     border-bottom: 2px solid #777;
 }
+#charts-builder .widget .widget-edit:hover {
+    background-color: #444;
+}
 #charts-builder .widget .icon {
     margin-left: 0.5em;
+    font-size: 15px;
+    color: #666;
 }
 #charts-builder .widget .icon:last-of-type {
     margin-left: 0;
@@ -44,6 +49,7 @@ body {
     -o-transition: all .25s ease-in-out;
     transition: all .25s ease-in-out;
     cursor: pointer;
+    color: #222;
 }
 #charts-builder .widget:hover .widget-edit {
     display: block;

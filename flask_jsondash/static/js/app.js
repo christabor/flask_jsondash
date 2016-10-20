@@ -268,22 +268,55 @@ var jsondash = function() {
     }
 
     function handleInputs(widget, config) {
-        console.log('handleInputs', arguments);
+        // TODO: cleanup previous elements...!
+        // TODO: issue with sizing -- the inputs container is not accounted for when drawing chart
+        //  the chart takes up entire size and then pushes input containers down. It should take that into account
+        //  by either subtracting the different, or adding the extra size, whichever makes the most sense for customers.
+        // TODO: fix issues with reloading the widget and not showing original class etc...
+        widget.select('.chart-inputs').remove();
+        widget.select('.chart-inputs-icon').remove();
         var inputs_container = widget.append('div');
-        inputs_container.classed({'chart-inputs': true});
-        // TODO: placement
-        // TODO: order
+        var icon = widget.select('.widget-title').append('span');
+        icon.classed({
+            'icon': true,
+            'pull-right': true,
+            'chart-inputs-icon': true,
+            'fa-plus-square': true,
+            'fa': true,
+        })
+        .attr('title', 'Form options for this chart.')
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '[data-guid="' + config.guid + '"] .chart-inputs');
+        inputs_container.classed({'chart-inputs': true, 'collapse': true});
         $.each(config.inputs, function(k, input){
-            var input_el = [
-                '<form action=".">',
-                '<label>',
-                input.label,
-                '<input class="' + (input.input_class ? input.input_class.join(' ') : '') + '" value="' + input.default + '" name=' + input.name +  ' type="' + input.type + '" />',
-                '</label>',
-                '<button class="' + (input.btn_classes ? input.btn_classes.join(' ') : '') + '">' + input.submit_text + '</button>',
-                '</form>'
-            ].join('');
-            inputs_container.append($(input_el));
+            var form = inputs_container.append('form');
+            var wrapper = form.append('label').text(input.label);
+            var inp = wrapper.append('input')
+                .attr('type', input.type)
+                .attr('name', input.name);
+            var btn = form.append('button').text(input.submit_text);
+            // Handle optional configurations
+            if(input.pattern) {inp.attr('pattern', input.regex);}
+            if(input.default) {inp.attr('value', input.default)};
+            if(input.input_classes) {
+                var input_classes = {};
+                $.each(input.input_classes, function(k, cls){
+                    input_classes[cls] = true;
+                });
+                inp.classed(input_classes);
+            }
+            if(input.btn_classes) {
+                var btn_classes = {};
+                $.each(input.btn_classes, function(k, cls){
+                    btn_classes[cls] = true;
+                });
+                btn.classed(btn_classes);
+            }
+            if(input.help_text) {
+                inp.append('small')
+                    .text(input.help_text)
+                    .classed({'help-text': true});
+            }
         });
     }
 
@@ -293,7 +326,7 @@ var jsondash = function() {
             // Handle any custom inputs the user specified for this module.
             // They map to standard form inputs and correspond to query
             // arguments for this dataSource.
-            // if(config.inputs) {handleInputs(widget, config);}
+            if(config.inputs) {handleInputs(widget, config);}
 
             if(config.type === 'datatable') {
                 jsondash.handlers.handleDataTable(widget, config);
