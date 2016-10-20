@@ -112,6 +112,9 @@ body {
     height: 35px !important;
     line-height: 20px;
     overflow: hidden;
+    background-color: #eee;
+    color: #444;
+    text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
 #charts-builder #view-builder.editing {
     border: 1px solid #ccc;
