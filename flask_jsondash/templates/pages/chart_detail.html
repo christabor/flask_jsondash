@@ -12,10 +12,43 @@
         <span class="widget-loader fa fa-circle-o-notch fa-spin"></span>
         <p class="widget-title">
             {{ module.name }}
-            <span rel="tooltip" title="Refresh the panels url endpoint" class="pull-right icon widget-refresh fa fa-refresh"></span>
+            <span class="pull-right">
+                {% if module.inputs %}
+                    <span rel="tooltip"
+                    data-target='[data-guid="{{ module.guid }}"] .chart-inputs'
+                    data-toggle="collapse"
+                    title="Form options for this chart"
+                    class="icon charts-input-icon fa fa-plus-square"></span>&nbsp;
+                {% endif %}
+                <span rel="tooltip" title="Refresh the panels url endpoint" class="icon widget-refresh fa fa-refresh"></span>
+            </span>
         </p>
         <a href="#chart-options" data-toggle="modal" class="widget-edit"><span class="fa fa-edit"></span> Edit</a>
         <div class="chart-container"></div>
+        {% if module.inputs %}
+            <div class="chart-inputs collapse">
+                <form action="{{ module.dataSoure }}" class="form-horizontal form-group-sm">
+                    {% for input in module.inputs.options %}
+                        <label>
+                            {{ input.label }}
+                            {% if input.help_text %}
+                                <br><small class="help-text">{{ input.help_text }}</small>
+                            {% endif %}
+                            <input type="{{ input.type }}"
+                                class="{{ input.input_classes|join(' ') or '' }}"
+                                name="{{ input.name }}"
+                                value="{{ input.value }}"
+                                placeholder="{{ input.placeholder }}"
+                                pattern="{{ input.validator_regex }}"
+                                >
+                        </label>
+                    {% endfor %}
+                    <button class="{{ module.inputs.btn_classes|join(' ') or '' }}">
+                        {{ module.inputs.submit_text }}
+                    </button>
+                </form>
+            </div>
+        {% endif %}
     {% if module %}</div><!-- end item.widget -->{% endif %}
 {% endmacro -%}
 

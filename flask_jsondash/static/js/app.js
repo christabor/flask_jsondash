@@ -268,58 +268,7 @@ var jsondash = function() {
     }
 
     function handleInputs(widget, config) {
-        // TODO: cleanup previous elements...!
-        // TODO: issue with sizing -- the inputs container is not accounted for when drawing chart
-        //  the chart takes up entire size and then pushes input containers down. It should take that into account
-        //  by either subtracting the different, or adding the extra size, whichever makes the most sense for customers.
-        // TODO: fix issues with reloading the widget and not showing original class etc...
-        widget.select('.chart-inputs').remove();
-        widget.select('.chart-inputs-icon').remove();
-        var inputs_container = widget.append('div');
-        var icon = widget.select('.widget-title').append('span');
         var inputs_selector = '[data-guid="' + config.guid + '"] .chart-inputs';
-        icon.classed({
-            'icon': true,
-            'pull-right': true,
-            'chart-inputs-icon': true,
-            'fa-plus-square': true,
-            'fa': true,
-        })
-        .attr('title', 'Form options for this chart.')
-        .attr('data-toggle', 'collapse')
-        .attr('data-target', inputs_selector);
-        inputs_container.classed({'chart-inputs': true, 'collapse': true});
-        var form = inputs_container.append('form');
-            form.attr('action', config.dataSource);
-        $.each(config.inputs, function(_, input){
-            var wrapper = form.append('label').text(input.label);
-            var inp = wrapper.append('input')
-                .attr('type', input.type)
-                .attr('name', input.name);
-            var btn = form.append('button').text(input.submit_text);
-            // Handle optional configurations
-            if(input.pattern) {inp.attr('pattern', input.regex);}
-            if(input.default) {inp.attr('value', input.default)};
-            if(input.input_classes) {
-                var input_classes = {};
-                $.each(input.input_classes, function(_, cls){
-                    input_classes[cls] = true;
-                });
-                inp.classed(input_classes);
-            }
-            if(input.btn_classes) {
-                var btn_classes = {};
-                $.each(input.btn_classes, function(_, cls){
-                    btn_classes[cls] = true;
-                });
-                btn.classed(btn_classes);
-            }
-            if(input.help_text) {
-                inp.append('small')
-                    .text(input.help_text)
-                    .classed({'help-text': true});
-            }
-        });
         // Load event handlers for these newly created forms.
         $(inputs_selector).find('form').on('submit', function(e){
             e.preventDefault();
@@ -334,6 +283,8 @@ var jsondash = function() {
             });
             // Otherwise reload like normal.
             loadWidgetData(widget, _config);
+            // Hide the form again
+            $(inputs_selector).removeClass('in');
         });
     }
 
