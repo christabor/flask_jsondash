@@ -24,7 +24,7 @@ The dashboard layout and blueprint styles are pre-packaged, and provide only the
 
 ## JSON configurations intro
 
-The configuration JSON provides core functionality and is at the heart of the project. There are several comprehensive examples available in the [examples/config](examples/config) directory to give you an idea of how it works. An simple example:
+The configuration JSON provides core functionality and is at the heart of the project. There are several comprehensive examples available in the [examples/config](examples/config) directory to give you an idea of how it works, as well as the [core configuration documentation](config.md). An simple example:
 
 ```json
 {
