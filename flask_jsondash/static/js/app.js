@@ -267,9 +267,34 @@ var jsondash = function() {
         container.select('.widget-loader').classed({hidden: true});
     }
 
+    function handleInputs(widget, config) {
+        console.log('handleInputs', arguments);
+        var inputs_container = widget.append('div');
+        inputs_container.classed({'chart-inputs': true});
+        // TODO: placement
+        // TODO: order
+        $.each(config.inputs, function(k, input){
+            var input_el = [
+                '<form action=".">',
+                '<label>',
+                input.label,
+                '<input class="' + (input.input_class ? input.input_class.join(' ') : '') + '" value="' + input.default + '" name=' + input.name +  ' type="' + input.type + '" />',
+                '</label>',
+                '<button class="' + (input.btn_classes ? input.btn_classes.join(' ') : '') + '">' + input.submit_text + '</button>',
+                '</form>'
+            ].join('');
+            inputs_container.append($(input_el));
+        });
+    }
+
     function loadWidgetData(widget, config) {
         loader(widget);
         try {
+            // Handle any custom inputs the user specified for this module.
+            // They map to standard form inputs and correspond to query
+            // arguments for this dataSource.
+            // if(config.inputs) {handleInputs(widget, config);}
+
             if(config.type === 'datatable') {
                 jsondash.handlers.handleDataTable(widget, config);
             }

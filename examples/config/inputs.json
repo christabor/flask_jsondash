@@ -1,0 +1,31 @@
+{
+    "date": "2016-09-19 11:01:05.886000",
+    "modules": [
+        {
+            "name": "line",
+            "height": "400",
+            "width": "500",
+            "dataSource": "http://127.0.0.1:5004/line",
+            "override": false,
+            "guid": "a6eb10e7-26fa-7814-818a-3699b24415c5",
+            "type": "line",
+            "inputs": [
+                {
+                    "type": "input",
+                    "name": "num_results",
+                    "default": 100,
+                    "validator_regex": null,
+                    "submit_text": "Update records",
+                    "input_classes": ["form-control"],
+                    "btn_classes": ["btn", "btn-info", "btn-xs"],
+                    "label": "Number of results",
+                    "help_text": "Change the number of results shown",
+                    "placement": "top",
+                    "order": 0
+                }
+            ]
+        }
+    ],
+    "id": "f01fab97-7e92-11e6-b71d-a0999b0aebbf",
+    "name": "Custom inputs demo"
+}
