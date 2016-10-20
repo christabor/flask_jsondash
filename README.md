@@ -16,15 +16,73 @@ Easily configurable, chart dashboards from any arbitrary API endpoint. JSON conf
 
 ![kitchensink screenshot 1](examples/screenshots/plotly.png)
 
-This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/) that allows you to create sleek dashboards without writing any front end code. It saves JSON configurations for declaring arbitrary charts, leveraging popular libraries like C3.js and D3.js. It also supports templates and iframes, as well as other data visualization libraries. The beauty is that it simply requires a very basic configuration and uses any arbitrary json endpoint to get data, so long as the [payload format is correct](schemas.md).
+This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/) that allows you to create sleek dashboards without writing any front end code. It saves JSON configurations for declaring arbitrary charts, leveraging popular libraries like C3.js and D3.js.
+
+It also supports templates and iframes, as well as other data visualization libraries. The beauty of this approach is that only a basic configuration is required. It uses any specified json endpoint to get data from, so long as the [payload format is correct](schemas.md).
 
 The dashboard layout and blueprint styles are pre-packaged, and provide only the essentials, while getting out of the way.
 
-## Example configuration / demos
+## JSON configurations intro
 
-Each chart is very straightforward. Most of the power is leveraged by the various charting libraries. See [schemas](schemas.md) for more detail on how your endpoint json data should be formatted for a given chart.
+The configuration JSON provides core functionality and is at the heart of the project. There are several comprehensive examples available in the [examples/config](examples/config) directory to give you an idea of how it works. An simple example:
+
+```json
+{
+    "modules": [
+        {
+            "type": "timeseries",
+            "name": "name3",
+            "width": 510,
+            "height": 400,
+            "dataSource": "http://localhost:5001/test1"
+        }
+}
+```
+
+*(4.0 and later)* You can even provide custom inputs to allow interactivity on each chart!
+
+E.g.
+
+```json
+{
+    "modules": [
+        {
+            "name": "line",
+            "height": "400",
+            "width": "500",
+            "dataSource": "http://127.0.0.1:5004/custom-inputs",
+            "override": false,
+            "guid": "a6eb10e7-26fa-7814-818a-3699b24415c5",
+            "type": "line",
+            "inputs": {
+                "btn_classes": ["btn", "btn-info", "btn-sm"],
+                "submit_text": "Submit",
+                "options": [
+                    {
+                        "type": "number",
+                        "name": "entries",
+                        "input_classes": ["form-control", "input-sm"],
+                        "label": "Number of points",
+                        "help_text": "Change the number of points per entry shown"
+                    }
+                ]
+            }
+        }
+    ]
+}
+```
+
+Which will map to query parameters (`entries=10` in this example) that you can use to filter or change what your endpoint returns!
+
+See the [examples/config](examples/config) directory for all the supported options.
+
+### Demo
 
 If you want to see all/most charts in action, you'll need to fire up the `endpoints.py` flask app (included), create a new dashboard, then choose the *edit raw json* option, specifying one of the json files found in [examples/config](examples/config). (This has been tested using mongodb).
+
+## Various chart schemas JSON formats
+
+Each chart is very straightforward. Most of the power is leveraged by the various charting libraries that flask-jsondash defers to. See [schemas](schemas.md) for more detail on how your endpoint json data should be formatted for a given chart type, as well as how to find docs for each supported library.
 
 ## Usage
 

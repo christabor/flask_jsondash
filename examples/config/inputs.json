@@ -2,28 +2,45 @@
     "date": "2016-09-19 11:01:05.886000",
     "modules": [
         {
-            "name": "line",
+            "name": "line - no inputs",
             "height": "400",
             "width": "500",
-            "dataSource": "http://127.0.0.1:5004/line",
+            "dataSource": "http://127.0.0.1:5004/custom-inputs",
+            "override": false,
+            "guid": "a6eb10e7-26fa-7814-818a-3010292929c2",
+            "type": "line"
+        },
+        {
+            "name": "line - with inputs",
+            "height": "400",
+            "width": "500",
+            "dataSource": "http://127.0.0.1:5004/custom-inputs",
             "override": false,
             "guid": "a6eb10e7-26fa-7814-818a-3699b24415c5",
             "type": "line",
-            "inputs": [
-                {
-                    "type": "input",
-                    "name": "num_results",
-                    "default": 100,
-                    "validator_regex": null,
-                    "submit_text": "Update records",
-                    "input_classes": ["form-control"],
-                    "btn_classes": ["btn", "btn-info", "btn-xs"],
-                    "label": "Number of results",
-                    "help_text": "Change the number of results shown",
-                    "placement": "top",
-                    "order": 0
-                }
-            ]
+            "inputs": {
+                "btn_classes": ["btn", "btn-info", "btn-sm"],
+                "submit_text": "Submit",
+                "options": [
+                    {
+                        "type": "number",
+                        "name": "range",
+                        "default": 10,
+                        "validator_regex": null,
+                        "input_classes": ["form-control", "input-sm"],
+                        "label": "Number of results",
+                        "help_text": "Change the number of results shown"
+                    },
+                    {
+                        "type": "number",
+                        "name": "entries",
+                        "validator_regex": null,
+                        "input_classes": ["form-control", "input-sm"],
+                        "label": "Number of points",
+                        "help_text": "Change the number of points per entry shown"
+                    }
+                ]
+            }
         }
     ],
     "id": "f01fab97-7e92-11e6-b71d-a0999b0aebbf",
