@@ -83,7 +83,7 @@ var jsondash = function() {
         var module_form = $($MODULE_FORM);
         // If the modal caller was the add modal button, skip populating the field.
         if(isModalButton(e)) {
-            module_form.find('input').each(function(k, input){
+            module_form.find('input').each(function(_, input){
                 $(input).val('');
             });
             $($API_PREVIEW).empty();
@@ -113,7 +113,7 @@ var jsondash = function() {
         var guid = module_form.attr('data-guid');
         var active = getModuleByGUID(guid);
         // Update the modules values to the current input values.
-        module_form.find('input').each(function(k, input){
+        module_form.find('input').each(function(_, input){
             var name = $(input).attr('name');
             if(name) {
                 if(name === 'override' || name === 'refresh') {
@@ -129,9 +129,9 @@ var jsondash = function() {
         active[chart_type.attr('name')] = chart_type.val();
         // Clear out module input values
         $('.modules').empty();
-        $.each(dashboard_data.modules, function(k, module){
+        $.each(dashboard_data.modules, function(i, module){
             var val = JSON.stringify(module, module);
-            var input = $('<input type="text" name="module_' + k + '" class="form-control">');
+            var input = $('<input type="text" name="module_' + i + '" class="form-control">');
             input.val(val);
             $('.modules').append(input);
         });
@@ -277,6 +277,7 @@ var jsondash = function() {
         widget.select('.chart-inputs-icon').remove();
         var inputs_container = widget.append('div');
         var icon = widget.select('.widget-title').append('span');
+        var inputs_selector = '[data-guid="' + config.guid + '"] .chart-inputs';
         icon.classed({
             'icon': true,
             'pull-right': true,
@@ -286,10 +287,11 @@ var jsondash = function() {
         })
         .attr('title', 'Form options for this chart.')
         .attr('data-toggle', 'collapse')
-        .attr('data-target', '[data-guid="' + config.guid + '"] .chart-inputs');
+        .attr('data-target', inputs_selector);
         inputs_container.classed({'chart-inputs': true, 'collapse': true});
-        $.each(config.inputs, function(k, input){
-            var form = inputs_container.append('form');
+        var form = inputs_container.append('form');
+            form.attr('action', config.dataSource);
+        $.each(config.inputs, function(_, input){
             var wrapper = form.append('label').text(input.label);
             var inp = wrapper.append('input')
                 .attr('type', input.type)
@@ -300,14 +302,14 @@ var jsondash = function() {
             if(input.default) {inp.attr('value', input.default)};
             if(input.input_classes) {
                 var input_classes = {};
-                $.each(input.input_classes, function(k, cls){
+                $.each(input.input_classes, function(_, cls){
                     input_classes[cls] = true;
                 });
                 inp.classed(input_classes);
             }
             if(input.btn_classes) {
                 var btn_classes = {};
-                $.each(input.btn_classes, function(k, cls){
+                $.each(input.btn_classes, function(_, cls){
                     btn_classes[cls] = true;
                 });
                 btn.classed(btn_classes);
@@ -318,6 +320,35 @@ var jsondash = function() {
                     .classed({'help-text': true});
             }
         });
+        // Load event handlers for these newly created forms.
+        $(inputs_selector).find('form').on('submit', function(e){
+            e.preventDefault();
+            // Just create a new url for this, but use existing config.
+            // The global object config will not be altered.
+            // The first {} here is important, as it enforces a deep copy,
+            // not a mutation of the original object.
+            var url = config.dataSource;
+            var params = getValidParamString($(this).serializeArray());
+            var _config = $.extend({}, config, {
+                dataSource: url.replace(/\?.+/, '') + '?' + params
+            });
+            // Otherwise reload like normal.
+            loadWidgetData(widget, _config);
+        });
+    }
+
+    function getValidParamString(arr) {
+        // Jquery $.serialize and $.serializeArray will
+        // return empty query parameters, which is undesirable and can
+        // be error prone for RESTFUL endpoints.
+        // e.g. `foo=bar&bar=` becomes `foo=bar`
+        var param_str = '';
+        arr = arr.filter(function(param, i){return param.value !== '';});
+        $.each(arr, function(i, param){
+            param_str += (param.name + '=' + param.value);
+            if(i < arr.length - 1 && arr.length > 1) param_str += '&';
+        });
+        return param_str;
     }
 
     function loadWidgetData(widget, config) {
@@ -372,7 +403,7 @@ var jsondash = function() {
     }
 
     function addRefreshers(modules) {
-        $.each(modules, function(k, module){
+        $.each(modules, function(_, module){
             if(module.refresh && module.refreshInterval) {
                 var container = d3.select('[data-guid="' + module.guid + '"]');
                 setInterval(function(){

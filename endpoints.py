@@ -227,6 +227,17 @@ def pie():
 
 
 @cross_origin()
+@app.route('/custom-inputs')
+def custom_inputs():
+    """Fake endpoint."""
+    _range = int(request.args.get('range', 5))
+    entries = int(request.args.get('entries', 3))
+    return json.dumps({
+        i: rr_list(max_range=_range) for i in range(entries)
+    })
+
+
+@cross_origin()
 @app.route('/bar')
 def barchart():
     """Fake endpoint."""
