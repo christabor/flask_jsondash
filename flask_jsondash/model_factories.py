@@ -36,7 +36,7 @@ def make_fake_dashboard(name='Random chart', max_charts=10):
     )
     return dict(
         name=name,
-        created_by='ctabor',
+        created_by='global',
         date=dt.now(),
         modules=db_adapters._format_modules(charts),
         id=str(uuid1()),
@@ -45,15 +45,17 @@ def make_fake_dashboard(name='Random chart', max_charts=10):
 
 def make_fake_chart_data(**kwargs):
     """Return chart data in required format."""
-    chart = get_random_chart(get_random_group())[0]
     _uuid = str(uuid1())
+    chart = choice(['bar', 'line'])
+    url = 'http://127.0.0.1:5004/{}'.format(chart)
     return (
         'module_{}'.format(_uuid),
         json.dumps(dict(
-            name=kwargs.get('name', chart),
-            width=kwargs.get('width', randrange(100, 2000)),
-            height=kwargs.get('height', randrange(100, 2000)),
-            dataSource=kwargs.get('data_source', 'localhost:5000/'),
+            name=kwargs.get('name'),
+            width=kwargs.get('width', randrange(200, 2000)),
+            height=kwargs.get('height', randrange(200, 2000)),
+            type=chart,
+            dataSource=kwargs.get('data_source', url),
             guid=_uuid,
         ))
     )
@@ -69,7 +71,9 @@ def make_fake_chart_data(**kwargs):
 def insert_dashboards(records, max_charts):
     """Insert a number of dashboard records into the database."""
     for i in range(records):
-        data = make_fake_dashboard(max_charts=max_charts)
+        data = make_fake_dashboard(
+            name='Test chart #{}'.format(i),
+            max_charts=max_charts)
         db_adapters.create(data=data)
 
 
