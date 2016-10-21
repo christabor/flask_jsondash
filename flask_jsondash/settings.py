@@ -50,6 +50,7 @@ CHARTS_CONFIG = {
             ('scatter', 'Scatter chart'),
             ('area-spline', 'Area spline chart'),
         ],
+        'dependencies': ['D3'],
         'js_url': ['cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js'],
         'css_url': ['cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css'],
         'enabled': True,
@@ -63,6 +64,7 @@ CHARTS_CONFIG = {
             ('voronoi', 'Voronoi'),
             ('circlepack', 'Circle Pack'),
         ],
+        'dependencies': None,
         'js_url': ['cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js'],
         'css_url': None,
         'enabled': True,
@@ -75,6 +77,7 @@ CHARTS_CONFIG = {
             ('number', 'A single number representing some aggregate value.'),
             ('youtube', 'An embedded YouTube video.'),
         ],
+        'dependencies': None,
         'js_url': None,
         'css_url': None,
         'enabled': True
@@ -83,6 +86,7 @@ CHARTS_CONFIG = {
         'charts': [
             ('datatable', 'A table of data, with sorting and filtering.'),
         ],
+        'dependencies': None,
         'js_url': [
             ('cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/'
              'jquery.dataTables.min.js'),
@@ -100,6 +104,7 @@ CHARTS_CONFIG = {
         'charts': [
             ('timeline', 'A timeline'),
         ],
+        'dependencies': None,
         'js_url': ['cdn.knightlab.com/libs/timeline3/latest/js/timeline.js'],
         'css_url': [
             'cdn.knightlab.com/libs/timeline3/latest/css/timeline.css'],
@@ -110,6 +115,7 @@ CHARTS_CONFIG = {
         'charts': [
             ('venn', 'A venn diagram'),
         ],
+        'dependencies': ['D3'],
         'js_url': ['cdn.rawgit.com/benfred/venn.js/master/venn.js'],
         'css_url': None,
         'enabled': True,
@@ -125,6 +131,7 @@ CHARTS_CONFIG = {
             ('sparklines-pie', 'Sparkline Pie'),
             ('sparklines-box', 'Sparkline Box'),
         ],
+        'dependencies': None,
         'js_url': [
             ('cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/'
              '2.1.2/jquery.sparkline.min.js')
@@ -137,6 +144,7 @@ CHARTS_CONFIG = {
         'charts': [
             ('plotly-any', 'Any'),
         ],
+        'dependencies': None,
         'js_url': [
             'cdn.plot.ly/plotly-latest.min.js',
         ],

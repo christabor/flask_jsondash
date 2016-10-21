@@ -15,6 +15,16 @@
     <!-- CHART SPECIFIC CSS -->
     {% if active_charts %}
         {% for label, chart_group in charts_config.items() %}
+            {# Load any dependencies from other charts if applicable. #}
+            {% if chart_group.dependencies %}
+                {% for dep in chart_group.dependencies %}
+                    {% if charts_config[dep].css_url %}
+                        {% for url in charts_config[dep].css_url %}
+                            <link rel="stylesheet" href="//{{ url }}">
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
             {% if chart_group.enabled and chart_group.css_url and label in active_charts %}
                 <!-- Chart CSS: {{ label }} -->
                 {% for url in chart_group.css_url %}
@@ -58,6 +68,16 @@
     <!-- CHART SPECIFIC SCRIPTS -->
     {% if active_charts %}
         {% for label, chart_group in charts_config.items() %}
+            {# Load any dependencies from other charts if applicable. #}
+            {% if chart_group.dependencies %}
+                {% for dep in chart_group.dependencies %}
+                    {% if charts_config[dep].js_url %}
+                        {% for url in charts_config[dep].js_url %}
+                            <script src="//{{ url }}"></script>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
             {% if chart_group.enabled and chart_group.js_url and label in active_charts %}
                 <!-- Chart JS: {{ label }} -->
                 {% for url in chart_group.js_url %}
