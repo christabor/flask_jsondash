@@ -140,11 +140,11 @@ Chart requirements depend on what you want to expose to your users. You can conf
 
 Make sure the following env vars are set:
 
-* *CHARTS_DB_HOST* - The DB server hostname (defaults to 'localhost')
-* *CHARTS_DB_PORT* - The DB server port (defaults to 27017)
-* *CHARTS_DB_NAME* - The DB database name (defaults to 'charts')
-* *CHARTS_DB_TABLE* The DB collection name (or sql table name) (defaults to 'views')
-* *CHARTS_ACTIVE_DB* The DB backend to use - options: 'mongo', 'postgres' (defaults to 'mongo')
+* `CHARTS_DB_HOST` - The DB server hostname (defaults to 'localhost')
+* `CHARTS_DB_PORT` - The DB server port (defaults to 27017)
+* `CHARTS_DB_NAME` - The DB database name (defaults to 'charts')
+* `CHARTS_DB_TABLE` The DB collection name (or sql table name) (defaults to 'views')
+* `CHARTS_ACTIVE_DB` The DB backend to use - options: 'mongo', 'postgres' (defaults to 'mongo')
 
 ### Starting DB
 
