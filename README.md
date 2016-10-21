@@ -230,6 +230,23 @@ Below are global app config flags. Their default values are represented in the e
 
 `app.config['JSONDASH_MAX_PERPAGE'] = 50`: The number of results to show per page. Remaining results will be paginated.
 
+## Static assets config flags
+
+By default, all assets (css/js) will be loaded remotely by popular CDNs recommended for the given charting library. However, you might want to ensure assets are always available, or cannot access them because of network/proxy issues. If you would like use your own local assets specified inside of the [settings.py](flask_jsondash/settings.py) file, you can download them, put them in your app somewhere, and then tell jsondash where they should be loaded from (using the standard flask `url_for('static', filename=XXX)` pattern.)
+
+Just add a `static` key in your `JSONDASH` config with these values like so:
+
+```python
+app.config['JSONDASH'] = dict(
+    static=dict(
+        js_path='js/vendor',
+        css_path='css/vendor',
+    )
+)
+```
+
+You can use one or the other, but it's recommended to use both or none.
+
 ## Versioning
 
 This project uses [semantic versioning](http://semver.org) for releases. However, the master branch is considered to be unstable as it represents "bleeding edge" with updates, hotfixes, etc... that eventually get tagged with a release. If you want to use a stable version, make sure to pin the specific release you want to target.
