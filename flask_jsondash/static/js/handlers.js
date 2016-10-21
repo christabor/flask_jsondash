@@ -170,6 +170,7 @@ jsondash.handlers.handleTreemap = function(container, config) {
             .duration(1500)
             .call(position);
         });
+        jsondash.unload(container);
     });
 
     function position() {
