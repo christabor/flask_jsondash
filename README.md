@@ -79,7 +79,7 @@ See the [examples/config](examples/config) directory for all the supported optio
 
 ### Demo
 
-If you want to see all/most charts in action, you'll need to fire up the `endpoints.py` flask app (included), create a new dashboard, then choose the *edit raw json* option, specifying one of the json files found in [examples/config](examples/config). (This has been tested using mongodb).
+If you want to see all/most charts in action, you'll need to fire up the `endpoints.py` flask app (included) alongside your main app that uses the blueprint, create a new dashboard, then choose the *edit raw json* option, specifying one of the json files found in [examples/config](examples/config). (This has been tested using mongodb).
 
 ## Various chart schemas JSON formats
 
