@@ -58,7 +58,7 @@ The DOM id of this chart.
 
 **modules**:**family** - [*String*] auto-generated :no_entry_sign:
 
-The family this chart belongs to. This is generated when saving new modules and is used to optimize the number of static assets loaded on a page.
+The family this chart belongs to. This is generated when saving new modules and is used to optimize the number of static assets loaded on a page. *Note*: if you if edit this manually, it must be set on **all** modules, otherwise some will fail.
 
 **modules**:**type** - [*String*] :heavy_check_mark:
 
