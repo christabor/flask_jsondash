@@ -110,7 +110,7 @@ If you want to import the blueprint into your own existing flask instance:
 pip install flask-jsondash
 ```
 
-Your app will need to import and register the blueprint, as well as have the appropriate template tags. [An example of this can be found here](templates/layouts/base.html).
+Your app will need to import and register the blueprint, as well as have the appropriate template tags. [An example of this can be found here](example_app/templates/layouts/base.html).
 
 ### Requirements
 
