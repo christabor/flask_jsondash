@@ -2,7 +2,7 @@
 
 This documents all options available for the configuration schema use to power jsondash.
 
-And of course, [you can always check out examples here](examples/config).
+And of course, [you can always check out examples here](example_app/examples/config).
 
 (Note: :heavy_exclamation_mark: = required, :no_entry_sign: = not user specified, :heavy_check_mark: = optional)
 
