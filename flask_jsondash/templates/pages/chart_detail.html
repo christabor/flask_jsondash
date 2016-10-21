@@ -44,7 +44,7 @@
                         </label>
                     {% endfor %}
                     <button class="{{ module.inputs.btn_classes|join(' ') or '' }}">
-                        {{ module.inputs.submit_text }}
+                        {{ module.inputs.submit_text or 'Submit' }}
                     </button>
                 </form>
             </div>
