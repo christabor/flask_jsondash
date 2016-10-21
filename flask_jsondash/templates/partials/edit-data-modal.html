@@ -10,22 +10,26 @@
                 <div class="col-md-6">
                     <fieldset>
                         <legend class="lead">Required fields</legend>
+                        <small class="text-danger">All fields marked with a * are required for the chart to work.</small>
                         <label>
-                            Name
-                            <input class="form-control" type="text" name="name" value="" placeholder="name">
+                            Name <small class="text-danger">*</small>
+                            <input class="form-control" type="text" name="name" value="" placeholder="name" required>
                         </label>
                         <label>
-                            Type
+                            Type <small class="text-danger">*</small>
                             {% include "partials/form-diagram-options.html" %}
                         </label>
                         <label>
-                            width <input class="form-control" type="text" name="width" value="" placeholder="e.g. 500">
+                            width <small class="text-danger">*</small>
+                            <input class="form-control" type="text" name="width" value="" placeholder="e.g. 500" required>
                         </label>
                         <label>
-                            height <input class="form-control" type="text" name="height" value="" placeholder="e.g. 400">
+                            height <small class="text-danger">*</small>
+                            <input class="form-control" type="text" name="height" value="" placeholder="e.g. 400" required>
                         </label>
                         <label>
-                            API endpoint (<em>or template path, if using "custom/iframe"</em>) <input class="form-control" type="text" name="dataSource" value="http://" placeholder="e.g. localhost:5000/my/endpoint">
+                            API endpoint <small class="text-danger">*</small>
+                            (<em>or template path, if using "custom/iframe"</em>) <input class="form-control" type="text" name="dataSource" value="http://" placeholder="e.g. localhost:5000/my/endpoint">
                         </label>
                     </fieldset>
                 </div>
