@@ -102,7 +102,16 @@ def setting(name, default=None):
 
 
 def local_static(chart_config, static_config):
-    """Convert remote cdn urls to local urls, based on user provided paths."""
+    """Convert remote cdn urls to local urls, based on user provided paths.
+
+    The filename must be identical to the one specified in the
+    `settings.py` configuration.
+
+    So, for example:
+    '//cdnjs.cloudflare.com/foo/bar/foo.js'
+    becomes
+    '/static/js/vendor/foo.js'
+    """
     js_path = static_config.get('js_path')
     css_path = static_config.get('css_path')
     for family, config in chart_config.items():

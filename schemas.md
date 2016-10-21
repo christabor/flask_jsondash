@@ -165,7 +165,7 @@ D3js is a powerful SVG based "dynamic document" drawing library that can create 
 
 #### Dendrogram
 
-A recursive json config that uses `name` and `children` as its main keys of arbitrary depth. Additional keys can be added as needed.
+A recursive json config that uses `name`, `size`, and `children` as its main keys of arbitrary depth. Additional keys can be added as needed. The `size` key is required to determine sizing of each element (relative to the set, not pixel values).
 
 ```json
 {
@@ -173,6 +173,7 @@ A recursive json config that uses `name` and `children` as its main keys of arbi
     "children": [
         {
             "name": "childelements",
+            "size": 10,
             "children": []
         }
     ]
@@ -181,7 +182,7 @@ A recursive json config that uses `name` and `children` as its main keys of arbi
 
 #### Radial Dendrogram
 
-A recursive json config that uses `name` and `children` as its main keys of arbitrary depth. Additional keys can be added as needed.
+A recursive json config that uses `name`, `size`, and `children` as its main keys of arbitrary depth. Additional keys can be added as needed. The `size` key is required to determine sizing of each element (relative to the set, not pixel values).
 
 ```json
 {
@@ -189,6 +190,7 @@ A recursive json config that uses `name` and `children` as its main keys of arbi
     "children": [
         {
             "name": "childelements",
+            "size": 10,
             "children": []
         }
     ]
@@ -197,7 +199,7 @@ A recursive json config that uses `name` and `children` as its main keys of arbi
 
 #### Treemap
 
-A recursive json config that uses `name` and `children` as its main keys of arbitrary depth. Additional keys can be added as needed.
+A recursive json config that uses `name`, `size`, and `children` as its main keys of arbitrary depth. Additional keys can be added as needed. The `size` key is required to determine sizing of each element (relative to the set, not pixel values).
 
 ```json
 {
@@ -205,6 +207,7 @@ A recursive json config that uses `name` and `children` as its main keys of arbi
     "children": [
         {
             "name": "childelements",
+            "size": 10,
             "children": []
         }
     ]
@@ -223,7 +226,7 @@ An array of arrays, where each array element contains 2 items: the x, y coordina
 
 #### Circlepack
 
-A recursive json config that uses `name` and `children` as its main keys of arbitrary depth. Additional keys can be added as needed.
+A recursive json config that uses `name`, `size`, and `children` as its main keys of arbitrary depth. Additional keys can be added as needed. The `size` key is required to determine sizing of each element (relative to the set, not pixel values).
 
 ```json
 {
@@ -231,12 +234,12 @@ A recursive json config that uses `name` and `children` as its main keys of arbi
     "children": [
         {
             "name": "childelements",
+            "size": 10,
             "children": []
         }
     ]
 }
 ```
-
 ## Basic
 
 One-off, simple, ad-hoc displays.
