@@ -4,6 +4,10 @@ body {
 
 /* Widgets */
 
+#charts-builder {
+    padding-bottom: 1em;
+    margin-bottom: 4em;
+}
 #charts-builder .widget {
     border-radius: 5px;
     border: 1px solid #ddd;
@@ -90,6 +94,7 @@ body {
     background-color: #fff;
     border: 1px solid #ccc;
     border-top-width: 3px;
+    margin-bottom: 1em;
     margin-left: -1px;
     margin-right: -1px;
     margin-top: 5px;
