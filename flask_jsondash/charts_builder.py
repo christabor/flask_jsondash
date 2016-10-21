@@ -65,11 +65,12 @@ def auth(**kwargs):
     if 'auth' not in current_app.config['JSONDASH']:
         return True
     auth_conf = current_app.config.get('JSONDASH').get('auth')
-    if all([authtype is not None, authtype in auth_conf]):
-        # Only perform the user-supplied check
-        # if the authtype is actually enabled.
-        return current_app.config['JSONDASH']['auth'][authtype](**kwargs)
-    return False
+    # If the user didn't supply an auth function, assume true.
+    if authtype not in auth_conf:
+        return True
+    # Only perform the user-supplied check
+    # if the authtype is actually enabled.
+    return auth_conf[authtype](**kwargs)
 
 
 def metadata(key=None):
