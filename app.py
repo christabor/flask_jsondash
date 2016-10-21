@@ -21,7 +21,7 @@ app.register_blueprint(charts)
 
 
 def _can_delete():
-    return False
+    return True
 
 
 def _can_clone():
