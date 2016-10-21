@@ -34,6 +34,15 @@
         {% endfor %}
     {% else %}
         {% for label, chart_group in charts_config.items() %}
+            {% if chart_group.dependencies %}
+                {% for dep in chart_group.dependencies %}
+                    {% if charts_config[dep].css_url %}
+                        {% for url in charts_config[dep].css_url %}
+                            <link rel="stylesheet" href="{{ url }}">
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
             {% if chart_group.enabled and chart_group.css_url %}
                 <!-- Chart CSS: {{ label }} -->
                 {% for url in chart_group.css_url %}
@@ -87,6 +96,15 @@
     {% else %}
         {# Download all if no active charts specified. #}
         {% for label, chart_group in charts_config.items() %}
+            {% if chart_group.dependencies %}
+                {% for dep in chart_group.dependencies %}
+                    {% if charts_config[dep].js_url %}
+                        {% for url in charts_config[dep].js_url %}
+                            <script src="{{ url }}"></script>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
             {% if chart_group.enabled and chart_group.js_url %}
                 <!-- Chart JS: {{ label }} -->
                 {% for url in chart_group.js_url %}
