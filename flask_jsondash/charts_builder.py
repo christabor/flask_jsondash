@@ -101,12 +101,33 @@ def setting(name, default=None):
     return current_app.config.get(name, default)
 
 
+def local_static(chart_config, static_config):
+    """Convert remote cdn urls to local urls, based on user provided paths."""
+    js_path = static_config.get('js_path')
+    css_path = static_config.get('css_path')
+    for family, config in chart_config.items():
+        if config['js_url']:
+            for i, url in enumerate(config['js_url']):
+                url = '{}{}'.format(js_path, url.split('/')[-1])
+                config['js_url'][i] = url_for('static', filename=url)
+        if config['css_url']:
+            for i, url in enumerate(config['css_url']):
+                url = '{}{}'.format(css_path, url.split('/')[-1])
+                config['css_url'][i] = url_for('static', filename=url)
+    return chart_config
+
+
 @charts.context_processor
-def _ctx():
+def ctx():
     """Inject any context needed for this blueprint."""
     filter_user = setting('JSONDASH_FILTERUSERS')
+    static = setting('JSONDASH').get('static')
+    # Rewrite the static config paths to be local if the overrides are set.
+    config = (CHARTS_CONFIG if not static
+              else local_static(CHARTS_CONFIG, static))
     return dict(
-        charts_config=CHARTS_CONFIG,
+        static_config=static,
+        charts_config=config,
         page_title='dashboards',
         global_dashuser=setting('JSONDASH_GLOBAL_USER'),
         global_dashboards=setting('JSONDASH_GLOBALDASH'),

@@ -6,15 +6,15 @@
 
 Easily configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
 
-![kitchensink screenshot 2](examples/screenshots/kitchensink2.png)
+![kitchensink screenshot 2](example_app/examples/screenshots/kitchensink2.png)
 
-![kitchensink screenshot 1](examples/screenshots/kitchensink1.png)
+![kitchensink screenshot 1](example_app/examples/screenshots/kitchensink1.png)
 
-![kitchensink screenshot 1](examples/screenshots/listview.png)
+![kitchensink screenshot 1](example_app/examples/screenshots/listview.png)
 
-![kitchensink screenshot 1](examples/screenshots/addmodule.png)
+![kitchensink screenshot 1](example_app/examples/screenshots/addmodule.png)
 
-![kitchensink screenshot 1](examples/screenshots/plotly.png)
+![kitchensink screenshot 1](example_app/examples/screenshots/plotly.png)
 
 This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/) that allows you to create sleek dashboards without writing any front end code. It saves JSON configurations for declaring arbitrary charts, leveraging popular libraries like C3.js and D3.js.
 
@@ -24,7 +24,7 @@ The dashboard layout and blueprint styles are pre-packaged, and provide only the
 
 ## JSON configurations intro
 
-The configuration JSON provides core functionality and is at the heart of the project. There are several comprehensive examples available in the [examples/config](examples/config) directory to give you an idea of how it works, as well as the [core configuration documentation](config.md). An simple example:
+The configuration JSON provides core functionality and is at the heart of the project. There are several comprehensive examples available in the [examples/config](example_app/examples/config) directory to give you an idea of how it works, as well as the [core configuration documentation](config.md). An simple example:
 
 ```json
 {
@@ -75,11 +75,11 @@ E.g.
 
 Which will map to query parameters (`entries=10` in this example) that you can use to filter or change what your endpoint returns!
 
-See the [examples/config](examples/config) directory for all the supported options.
+See the [examples/config](example_app/examples/config) directory for all the supported options.
 
 ### Demo
 
-If you want to see all/most charts in action, you'll need to fire up the `endpoints.py` flask app (included) alongside your main app that uses the blueprint, create a new dashboard, then choose the *edit raw json* option, specifying one of the json files found in [examples/config](examples/config). (This has been tested using mongodb).
+If you want to see all/most charts in action, you'll need to fire up the `endpoints.py` flask app (included) alongside your main app that uses the blueprint, create a new dashboard, then choose the *edit raw json* option, specifying one of the json files found in [examples/config](example_app/examples/config). (This has been tested using mongodb).
 
 ## Various chart schemas JSON formats
 
@@ -230,6 +230,27 @@ Below are global app config flags. Their default values are represented in the e
 
 `app.config['JSONDASH_MAX_PERPAGE'] = 50`: The number of results to show per page. Remaining results will be paginated.
 
+### Static asset config options
+
+By default, all assets (css/js) will be loaded remotely by popular CDNs recommended for the given charting library.
+
+However, you might want to ensure assets are always available, or cannot access them because of network/proxy issues. If you would like to use your own local assets specified inside of the [settings.py](flask_jsondash/settings.py) file, you can download them, put them in your app somewhere, and then tell jsondash where they should be loaded from (using the standard flask `url_for('static', filename=XXX)` pattern.)
+
+Just add a `static` key in your `JSONDASH` config with these values like so:
+
+```python
+app.config['JSONDASH'] = dict(
+    static=dict(
+        js_path='js/vendor',
+        css_path='css/vendor',
+    )
+)
+```
+
+With default flask static settings, this would resolve the url to `/static/js/vendor/filename.js` for example.
+
+You can use one or the other, but it's recommended to use both or none.
+
 ## Versioning
 
 This project uses [semantic versioning](http://semver.org) for releases. However, the master branch is considered to be unstable as it represents "bleeding edge" with updates, hotfixes, etc... that eventually get tagged with a release. If you want to use a stable version, make sure to pin the specific release you want to target.
@@ -270,7 +291,7 @@ could return `{"data": [10, 20, 30, 40]}` instead!
 
 ## Performance
 
-Performance metrics are not available, but you can view some "stress test" examples for the example endpoints. The configuration for these are available in [examples/config/stresstest.json](examples/config/stresstest.json). Also, the comprehensive examples (plotly, kitchensink) above are very complex dashboards (20-30 charts, webgl, etc), and have been tested in the browser.
+Performance metrics are not available, but you can view some "stress test" examples for the example endpoints. The configuration for these are available in [examples/config/stresstest.json](example_app/examples/config/stresstest.json). Also, the comprehensive examples (plotly, kitchensink) above are very complex dashboards (20-30 charts, webgl, etc), and have been tested in the browser.
 
 A couple observations on stress tests
 *(performed on Macbook Pro / 16gb / 2.7ghz i7):*
@@ -300,3 +321,19 @@ To troubleshoot potential javascript parse errors, open up your browser console 
 
 This is usually only an issue with datatables, particularly when selecting the number of entries to show. The size of the table will grow, and the layout does not account for that, nor should it. The best case here is to determine what size actually makes sense for you and adjust your chart size accordingly.
 
+## Contributing/Development
+
+If you'd like to work on the project, a good place to start is using the example app to develop against. To do this easily, you'll want to setup a virtual environment and setup the package locally, using the `develop` mode of `setuptools`. The below should get you started:
+
+```shell
+git clone github.com/christabor/flask_jsondash.git
+cd flask_jsondash
+virtualenv env
+source env/bin/activate
+git checkout -b YOUR_NEW_BRANCH
+python setup.py develop
+cd example_app
+python app.py
+```
+
+And voila! You can now edit the folder directly, and still use it as a normal pip package without having to reinstall every time you change something.

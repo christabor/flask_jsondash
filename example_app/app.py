@@ -38,6 +38,10 @@ app.config['JSONDASH'] = dict(
         created_by=_get_username,
         username=_get_username,
     ),
+    static=dict(
+        js_path='js/vendor/',
+        css_path='css/vendor/',
+    ),
     auth=dict(
         clone=_can_clone,
         delete=_can_delete,
