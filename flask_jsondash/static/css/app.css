@@ -93,6 +93,8 @@ body {
     margin-left: -1px;
     margin-right: -1px;
     margin-top: 5px;
+    position: relative;
+    z-index: 999;
 }
 #charts-builder .widget .chart-inputs form {
     margin: 0 auto;
