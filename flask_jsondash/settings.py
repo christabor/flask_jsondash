@@ -51,8 +51,8 @@ CHARTS_CONFIG = {
             ('area-spline', 'Area spline chart'),
         ],
         'dependencies': ['D3'],
-        'js_url': ['cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js'],
-        'css_url': ['cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css'],
+        'js_url': ['//cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js'],
+        'css_url': ['//cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css'],
         'enabled': True,
         'help_link': 'http://c3js.org/reference.html',
     },
@@ -65,7 +65,7 @@ CHARTS_CONFIG = {
             ('circlepack', 'Circle Pack'),
         ],
         'dependencies': None,
-        'js_url': ['cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js'],
+        'js_url': ['//cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js'],
         'css_url': None,
         'enabled': True,
         'help_link': 'https://github.com/d3/d3/wiki',
@@ -88,13 +88,13 @@ CHARTS_CONFIG = {
         ],
         'dependencies': None,
         'js_url': [
-            ('cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/'
+            ('//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/'
              'jquery.dataTables.min.js'),
-            ('cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/js/'
+            ('//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/js/'
              'dataTables.bootstrap.min.js')
         ],
         'css_url': [
-            ('cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/css/'
+            ('//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/css/'
              'dataTables.bootstrap.min.css'),
         ],
         'enabled': True,
@@ -105,9 +105,9 @@ CHARTS_CONFIG = {
             ('timeline', 'A timeline'),
         ],
         'dependencies': None,
-        'js_url': ['cdn.knightlab.com/libs/timeline3/latest/js/timeline.js'],
+        'js_url': ['//cdn.knightlab.com/libs/timeline3/latest/js/timeline.js'],
         'css_url': [
-            'cdn.knightlab.com/libs/timeline3/latest/css/timeline.css'],
+            '//cdn.knightlab.com/libs/timeline3/latest/css/timeline.css'],
         'enabled': True,
         'help_link': 'https://timeline.knightlab.com/docs/',
     },
@@ -116,7 +116,7 @@ CHARTS_CONFIG = {
             ('venn', 'A venn diagram'),
         ],
         'dependencies': ['D3'],
-        'js_url': ['cdn.rawgit.com/benfred/venn.js/master/venn.js'],
+        'js_url': ['//cdn.rawgit.com/benfred/venn.js/master/venn.js'],
         'css_url': None,
         'enabled': True,
         'help_link': 'https://github.com/benfred/venn.js/',
@@ -133,7 +133,7 @@ CHARTS_CONFIG = {
         ],
         'dependencies': None,
         'js_url': [
-            ('cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/'
+            ('//cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/'
              '2.1.2/jquery.sparkline.min.js')
         ],
         'css_url': None,
@@ -146,7 +146,7 @@ CHARTS_CONFIG = {
         ],
         'dependencies': None,
         'js_url': [
-            'cdn.plot.ly/plotly-latest.min.js',
+            '//cdn.plot.ly/plotly-latest.min.js',
         ],
         'css_url': None,
         'enabled': True,
