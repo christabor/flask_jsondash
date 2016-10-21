@@ -14,6 +14,7 @@
         },
         {
             "name": "circlepack",
+            "family": "D3",
             "height": "900",
             "width": "900",
             "dataSource": "http://127.0.0.1:5004/circlepack",
@@ -23,6 +24,7 @@
         },
         {
             "name": "Spline",
+            "family": "C3",
             "height": "400",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/bar",
@@ -32,6 +34,7 @@
         },
         {
             "name": "Scatter",
+            "family": "C3",
             "height": "500",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/scatter",
@@ -41,6 +44,7 @@
         },
         {
             "name": "Gauge",
+            "family": "C3",
             "height": "400",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/gauge",
@@ -50,6 +54,7 @@
         },
         {
             "name": "Treemap",
+            "family": "D3",
             "height": "800",
             "width": "800",
             "dataSource": "http://127.0.0.1:5004/treemap",
@@ -59,6 +64,7 @@
         },
         {
             "name": "line",
+            "family": "C3",
             "height": "400",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/line",
@@ -68,6 +74,7 @@
         },
         {
             "name": "Pie chart",
+            "family": "C3",
             "height": "400",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/pie",
@@ -77,6 +84,7 @@
         },
         {
             "name": "Area",
+            "family": "C3",
             "height": "400",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/bar",
@@ -86,6 +94,7 @@
         },
         {
             "name": "Area spline",
+            "family": "C3",
             "height": "400",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/bar",
@@ -95,6 +104,7 @@
         },
         {
             "name": "Combination",
+            "family": "C3",
             "height": "550",
             "width": "600",
             "dataSource": "http://127.0.0.1:5004/combination",
@@ -104,6 +114,7 @@
         },
         {
             "name": "Area custom override",
+            "family": "C3",
             "height": "400",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/area-custom",
@@ -113,6 +124,7 @@
         },
         {
             "name": "Scatter override",
+            "family": "C3",
             "height": "400",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/scatter?override=true",
@@ -122,6 +134,7 @@
         },
         {
             "name": "Timeseries chart",
+            "family": "C3",
             "height": "500",
             "width": "600",
             "dataSource": "http://127.0.0.1:5004/timeseries",
@@ -131,6 +144,7 @@
         },
         {
             "name": "Step chart",
+            "family": "C3",
             "height": "500",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/bar",
@@ -140,6 +154,7 @@
         },
         {
             "name": "Total sales last month",
+            "family": "Basic",
             "height": "400",
             "width": "400",
             "dataSource": "http://127.0.0.1:5004/singlenum?sales=1",
@@ -149,6 +164,7 @@
         },
         {
             "name": "bar",
+            "family": "C3",
             "height": "400",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/bar",
@@ -158,6 +174,7 @@
         },
         {
             "name": "datatable",
+            "family": "DataTable",
             "height": "600",
             "width": "900",
             "dataSource": "http://127.0.0.1:5004/dtable",
@@ -167,6 +184,7 @@
         },
         {
             "name": "Datatable override",
+            "family": "DataTable",
             "refresh": false,
             "height": "600",
             "width": "700",
@@ -178,6 +196,7 @@
         },
         {
             "name": "Donut",
+            "family": "C3",
             "height": "400",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/pie",
@@ -187,6 +206,7 @@
         },
         {
             "name": "Voronoi",
+            "family": "D3",
             "height": "650",
             "width": "650",
             "dataSource": "http://127.0.0.1:5004/voronoi",
@@ -195,6 +215,7 @@
         },
         {
             "name": "Stacked bar chart",
+            "family": "C3",
             "height": "400",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/stacked-bar",
@@ -204,6 +225,7 @@
         },
         {
             "name": "Custom",
+            "family": "Basic",
             "height": "250",
             "width": "500",
             "dataSource": "http://127.0.0.1:5004/custom",
@@ -213,6 +235,7 @@
         },
        {
             "name": "Radial dendrogram",
+            "family": "D3",
             "height": "900",
             "width": "900",
             "dataSource": "http://127.0.0.1:5004/dendrogram?radial=1&simple=1",
@@ -222,6 +245,7 @@
         },
         {
             "name": "Dendrogram",
+            "family": "D3",
             "height": "900",
             "width": "1200",
             "dataSource": "http://127.0.0.1:5004/dendrogram",
@@ -231,6 +255,7 @@
         },
         {
             "name": "Negative sales",
+            "family": "Basic",
             "height": "300",
             "width": "300",
             "dataSource": "http://127.0.0.1:5004/singlenum?negative=1&sales=1",

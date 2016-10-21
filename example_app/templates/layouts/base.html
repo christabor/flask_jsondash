@@ -6,7 +6,7 @@
         {% block title %}My tester app for charts.{% endblock %}
     </title>
     <!-- VENDOR CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/vendor/bootstrap.min.css') }}">
     {% block custom_css %}{% endblock %}
 </head>
 <body>
@@ -31,8 +31,8 @@
         </div>
     </div>
     <!-- VENDOR JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="{{ url_for('static', filename='js/vendor/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/vendor/bootstrap.min.js') }}"></script>
 {% block custom_scripts %}{% endblock %}
 </body>
 </html>

@@ -56,6 +56,10 @@ If `refresh` is true, The number of milliseconds before refreshing this chart. T
 
 The DOM id of this chart.
 
+**modules**:**family** - [*String*] auto-generated :no_entry_sign:
+
+The family this chart belongs to. This is generated when saving new modules and is used to optimize the number of static assets loaded on a page.
+
 **modules**:**type** - [*String*] :heavy_check_mark:
 
 The type of chart. This is typically handled by the charting UI when adding charts, but it can be overriden manually.
