@@ -27,7 +27,6 @@
                         "name": "show_axes",
                         "default": true,
                         "validator_regex": null,
-                        "input_classes": ["form-control", "input-sm"],
                         "label": "Show axes?"
                     },
                     {
@@ -42,7 +41,7 @@
                         "default": 0,
                         "placeholder": "e.g. 10",
                         "validator_regex": null,
-                        "input_classes": ["form-control", "input-sm"],
+                        "input_classes": ["form-control"],
                         "label": "The lowest number to start from"
                     },
                     {

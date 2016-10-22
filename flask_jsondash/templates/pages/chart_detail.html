@@ -41,17 +41,26 @@
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                         {% if input.type == 'select' and input.options %}
-                                            <select name="{{ input.name }}">
+                                            <select
+                                                class="{{ input.input_classes|join(' ') or '' }}"
+                                                name="{{ input.name }}">
                                                 {% for val, name in input.options %}
                                                     <option value="{{ val }}">{{ name }}</option>
                                                 {% endfor %}
                                             </select>
                                         {% elif input.type == 'checkbox' %}
-                                            <input type="checkbox" name="{{ input.name }}" checked="{{ input.default or 'false' }}">
+                                            <input class="{{ input.input_classes|join(' ') or '' }}"
+                                                type="checkbox"
+                                                name="{{ input.name }}"
+                                                checked="{{ input.default or 'false' }}">
                                         {% elif input.type == 'radio' and input.options %}
                                             {% for val, name in input.options %}
                                                 <div class="input-radio">
-                                                    <input type="radio" name="{{ input.name }}" value="{{ val }}" {% if val == input.default %}checked{% endif %} > {{ val }}
+                                                    <input class="{{ input.input_classes|join(' ') or '' }}"
+                                                        type="radio"
+                                                        name="{{ input.name }}"
+                                                        value="{{ val }}"
+                                                        {% if val == input.default %}checked{% endif %}> {{ val }}
                                                 </div>
                                             {% endfor %}
                                         {% else %}
