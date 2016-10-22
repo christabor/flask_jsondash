@@ -89,6 +89,9 @@ body {
 #charts-builder .widget .loadfail {
     font-size: 12px;
 }
+
+/* Custom form inputs */
+
 #charts-builder .widget .chart-inputs {
     padding: 1em;
     background-color: #fff;
@@ -105,9 +108,27 @@ body {
     margin: 0 auto;
 }
 #charts-builder .widget .chart-inputs form label {
+    border-bottom: 1px solid #ccc;
+    display: block;
     margin-right: 0.3em;
+    padding-bottom: 0.5em;
+}
+#charts-builder .widget .chart-inputs form label:last-of-type {
+    border-bottom: none;
 }
 #charts-builder .widget .chart-inputs .help-text {
+    font-weight: 200;
+}
+#charts-builder .widget .chart-inputs .input-radio {
+    margin-right: 0.2em;
+    text-align: center;
+}
+#charts-builder .widget .chart-inputs .input-radio,
+#charts-builder .widget .chart-inputs .input-radio input {
+    display: inline-block;
+}
+#charts-builder .widget .chart-inputs legend {
+    font-size: 16px;
     font-weight: 200;
 }
 #charts-builder .widget .widget-title {

@@ -271,15 +271,18 @@ var jsondash = function() {
         var inputs_selector = '[data-guid="' + config.guid + '"] .chart-inputs';
         // Load event handlers for these newly created forms.
         $(inputs_selector).find('form').on('submit', function(e){
+            e.stopImmediatePropagation();
             e.preventDefault();
             // Just create a new url for this, but use existing config.
             // The global object config will not be altered.
             // The first {} here is important, as it enforces a deep copy,
             // not a mutation of the original object.
             var url = config.dataSource;
+            // Ensure we don't lose params already save on this endpoint url.
+            var existing_params = url.split('?')[1];
             var params = getValidParamString($(this).serializeArray());
             var _config = $.extend({}, config, {
-                dataSource: url.replace(/\?.+/, '') + '?' + params
+                dataSource: url.replace(/\?.+/, '') + '?' + existing_params + '&' + params
             });
             // Otherwise reload like normal.
             loadWidgetData(widget, _config);

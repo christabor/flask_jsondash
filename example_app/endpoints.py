@@ -232,8 +232,26 @@ def custom_inputs():
     """Fake endpoint."""
     _range = int(request.args.get('range', 5))
     entries = int(request.args.get('entries', 3))
+    starting = int(request.args.get('starting_num', 0))
+    prefix = request.args.get('prefix', 'item')
+    if 'override' in request.args:
+        show_axes = request.args.get('show_axes', False)
+        show_axes = show_axes == 'on'
+        data = dict(
+            data=dict(
+                columns=[
+                    ['{} {}'.format(prefix, i)] + rr_list(max_range=entries)
+                    for i in range(starting, _range)
+                ],
+            )
+        )
+        if show_axes:
+            data.update(axis=dict(
+                x=dict(label='This is the X axis'),
+                y=dict(label='This is the Y axis')))
+        return json.dumps(data)
     return json.dumps({
-        i: rr_list(max_range=_range) for i in range(entries)
+        i: rr_list(max_range=_range) for i in range(starting, entries)
     })
 
 

@@ -94,7 +94,45 @@ The list of inputs for this chart's form. E.g:
 
 **modules**:**inputs**:**options**:**type** [*String*] :heavy_check_mark:
 
-The input type. Acceptable values are `number`, `text`, `password` and all html5 input types.
+The input type. Acceptable values are `number`, `select`, `radio`, `checkbox`, `text`, `password` and all html5 input types.
+
+*Note on select* the `select` type (corresponding to a dropdown), you will need to specify `options`, which is an array of arrays., where the first index is the value, and the second index is the name displayed - e.g:
+
+```json
+{
+    "type": "select",
+    "options": [
+        [10, "Show 10 items"],
+        [20, "Show 20 items"]
+    ]
+}
+```
+
+*Note on radio*
+
+Same format as the select type - an array of arrays.
+
+```json
+{
+    "type": "radio",
+    "options": [
+        [10, "Show 10 items"],
+        [20, "Show 20 items"]
+    ]
+}
+```
+
+*Note on checkbox*
+
+Same format as above, but your default should be true or false.
+
+```json
+{
+    "type": "checkbox",
+    "default": true,
+    "label": "Launch missiles?"
+}
+```
 
 **modules**:**inputs**:**options**:**name** [*String*] :heavy_check_mark:
 

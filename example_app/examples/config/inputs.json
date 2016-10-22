@@ -14,8 +14,8 @@
             "name": "line - with inputs",
             "height": "400",
             "width": "500",
-            "dataSource": "http://127.0.0.1:5004/custom-inputs",
-            "override": false,
+            "dataSource": "http://127.0.0.1:5004/custom-inputs?override=true",
+            "override": true,
             "guid": "a6eb10e7-26fa-7814-818a-3699b24415c5",
             "type": "line",
             "inputs": {
@@ -23,14 +23,53 @@
                 "submit_text": "Submit",
                 "options": [
                     {
-                        "type": "number",
+                        "type": "checkbox",
+                        "name": "show_axes",
+                        "default": true,
+                        "validator_regex": null,
+                        "input_classes": ["form-control", "input-sm"],
+                        "label": "Show axes?"
+                    },
+                    {
+                        "type": "radio",
+                        "name": "starting_num",
+                        "options": [
+                            [0, 0],
+                            [10, 10],
+                            [20, 20],
+                            [50, 50]
+                        ],
+                        "default": 0,
+                        "placeholder": "e.g. 10",
+                        "validator_regex": null,
+                        "input_classes": ["form-control", "input-sm"],
+                        "label": "The lowest number to start from"
+                    },
+                    {
+                        "type": "select",
                         "name": "range",
+                        "options": [
+                            [5, "Show 5"],
+                            [10, "Show 10"],
+                            [25, "Show 25"],
+                            [50, "Show 50"],
+                            [100, "Show 100"]
+                        ],
                         "default": 10,
                         "placeholder": "e.g. 10",
                         "validator_regex": null,
                         "input_classes": ["form-control", "input-sm"],
                         "label": "Number of results",
                         "help_text": "Change the number of results shown"
+                    },
+                    {
+                        "type": "text",
+                        "name": "prefix",
+                        "default": 10,
+                        "placeholder": "e.g. item #",
+                        "validator_regex": null,
+                        "input_classes": ["form-control", "input-sm"],
+                        "label": "A prefix to use for each time"
                     },
                     {
                         "type": "number",

@@ -75,6 +75,8 @@ E.g.
 
 Which will map to query parameters (`entries=10` in this example) that you can use to filter or change what your endpoint returns!
 
+Also note that the order of the inputs in the json will determine their order in html.
+
 See the [examples/config](example_app/examples/config) directory for all the supported options.
 
 ### Demo

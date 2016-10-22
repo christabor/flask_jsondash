@@ -20,7 +20,7 @@
                     title="Form options for this chart"
                     class="icon charts-input-icon fa fa-plus-square"></span>&nbsp;
                 {% endif %}
-                <span rel="tooltip" title="Refresh the panels url endpoint" class="icon widget-refresh fa fa-refresh"></span>
+                <span rel="tooltip" title="Refresh the panels url endpoint (will reset any options)" class="icon widget-refresh fa fa-refresh"></span>
             </span>
         </p>
         <a href="#chart-options" data-toggle="modal" class="widget-edit"><span class="fa fa-edit"></span> Edit</a>
@@ -28,21 +28,46 @@
         {% if module.inputs %}
             <div class="chart-inputs collapse">
                 <form action="{{ module.dataSoure }}" class="form-horizontal form-group-sm">
-                    {% for input in module.inputs.options %}
-                        <label>
-                            {{ input.label }}
-                            {% if input.help_text %}
-                                <br><small class="help-text">{{ input.help_text }}</small>
-                            {% endif %}
-                            <input type="{{ input.type or 'text' }}"
-                                class="{{ input.input_classes|join(' ') or '' }}"
-                                name="{{ input.name }}"
-                                value="{{ input.value }}"
-                                placeholder="{{ input.placeholder }}"
-                                pattern="{{ input.validator_regex }}"
-                                >
-                        </label>
-                    {% endfor %}
+                    <fieldset>
+                        <legend>Query override options</legend>
+                        {% for input in module.inputs.options %}
+                            <label>
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
+                                        <span class="label-text">{{ input.label }}</span>
+                                        {% if input.help_text %}
+                                            <br><small class="help-text">{{ input.help_text }}</small>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        {% if input.type == 'select' and input.options %}
+                                            <select name="{{ input.name }}">
+                                                {% for val, name in input.options %}
+                                                    <option value="{{ val }}">{{ name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        {% elif input.type == 'checkbox' %}
+                                            <input type="checkbox" name="{{ input.name }}" checked="{{ input.default or 'false' }}">
+                                        {% elif input.type == 'radio' and input.options %}
+                                            {% for val, name in input.options %}
+                                                <div class="input-radio">
+                                                    <input type="radio" name="{{ input.name }}" value="{{ val }}" {% if val == input.default %}checked{% endif %} > {{ val }}
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <input type="{{ input.type or 'text' }}"
+                                                class="{{ input.input_classes|join(' ') or '' }}"
+                                                name="{{ input.name }}"
+                                                value="{{ input.value }}"
+                                                placeholder="{{ input.placeholder }}"
+                                                {% if pattern %}pattern="{{ input.validator_regex }}"{% endif %}
+                                                >
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </label>
+                        {% endfor %}
+                    </fieldset>
                     <button class="{{ module.inputs.btn_classes|join(' ') or '' }}">
                         {{ module.inputs.submit_text or 'Submit' }}
                     </button>
