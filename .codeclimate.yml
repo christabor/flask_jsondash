@@ -2,8 +2,5 @@ languages:
   JavaScript: true
   Python: true
 exclude_paths:
+- "example_app"
 - "flask_jsondash/static/js/vendor"
-- "examples"
-- "templates"
-- "endpoints.py"
-- "app.py"
