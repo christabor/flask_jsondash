@@ -1,3 +1,10 @@
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        python:
+          mass_threshold: 40
 languages:
   JavaScript: true
   Python: true
