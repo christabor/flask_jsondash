@@ -5,6 +5,8 @@ engines:
       languages:
         python:
           mass_threshold: 40
+        JavaScript:
+          mass_threshold: 100
 languages:
   JavaScript: true
   Python: true
