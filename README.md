@@ -195,7 +195,7 @@ See below for the supported types and their details.
 
 **edit_global**
 
-This determines if a user can create *OR* update a chart with the "global" flag set, which will show the dashboard to all users *if* the appropriate application flags are set ([see global config flags below](/#global-config-flags)) If no flag is set for allowing global dashboards, then this option will not be available.
+This determines if a user can create *OR* update a chart with the "global" flag set, which will show the dashboard to all users *if* the appropriate application flags are set ([see global config flags below](https://github.com/christabor/flask_jsondash#global-config-flags)) If no flag is set for allowing global dashboards, then this option will not be available.
 
 **delete**
 
