@@ -3,6 +3,11 @@
 /** global: d3 */
 /** global: venn */
 /** global: Plotly */
+
+jsondash.getJSON = function(url, callback) {
+    return d3.json(url, callback);
+};
+
 /**
  * Handlers for various widget types. The method signatures are always the same,
  * but each handler can handle them differently.
@@ -42,7 +47,7 @@ jsondash.handlers.handleC3 = function(container, config) {
     };
     if(jsondash.util.isOverride(config)) {
         // Just use the raw payload for this widgets' options.
-        d3.json(config.dataSource, function(error, data){
+        jsondash.getJSON(config.dataSource, function(error, data){
             if(error) { throw new Error("Could not load url: " + config.dataSource); }
             // Keep existing options if not specified.
             config = $.extend(init_config, data);
@@ -91,7 +96,7 @@ jsondash.handlers.handleCirclePack = function(container, config) {
         .attr('height', diameter)
         .append('g');
 
-    d3.json(config.dataSource, function(error, data) {
+    jsondash.getJSON(config.dataSource, function(error, data) {
         if(error) { throw new Error("Could not load url: " + config.dataSource); }
 
         var node = svg.datum(data).selectAll('.node')
@@ -141,7 +146,7 @@ jsondash.handlers.handleTreemap = function(container, config) {
         .style('width', width + 'px')
         .style('height', height + 'px');
 
-    d3.json(config.dataSource, function(error, root) {
+    jsondash.getJSON(config.dataSource, function(error, root) {
         if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         var node = div.datum(root).selectAll('.node')
             .data(treemap.nodes)
@@ -196,7 +201,7 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
         .attr('height', radius * 2)
         .append('g')
         .attr('transform', 'translate(' + radius + ',' + radius + ')');
-    d3.json(config.dataSource, function(error, root) {
+    jsondash.getJSON(config.dataSource, function(error, root) {
         if (error) { throw error; }
         var nodes = cluster.nodes(root);
         var link = svg.selectAll('path.link')
@@ -238,7 +243,7 @@ jsondash.handlers.handleDendrogram = function(container, config) {
         .append('g')
         .attr('transform', 'translate(40,0)');
 
-    d3.json(config.dataSource, function(error, root) {
+    jsondash.getJSON(config.dataSource, function(error, root) {
         if(error) { throw new Error('Could not load url: ' + config.dataSource); }
 
         var nodes = cluster.nodes(root),
@@ -269,7 +274,7 @@ jsondash.handlers.handleDendrogram = function(container, config) {
 
 jsondash.handlers.handleVoronoi = function(container, config) {
     'use strict';
-    d3.json(config.dataSource, function(error, data){
+    jsondash.getJSON(config.dataSource, function(error, data){
         if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         var width = config.width - jsondash.config.WIDGET_MARGIN_X;
         var height = config.height - jsondash.config.WIDGET_MARGIN_Y;
@@ -312,7 +317,7 @@ jsondash.handlers.handleSparkline = function(container, config) {
             'text-center': true
         });
     spark = $(spark[0]);
-    d3.json(config.dataSource, function(data){
+    jsondash.getJSON(config.dataSource, function(data){
         var opts = {
             type: sparkline_type,
             width: config.width - jsondash.config.WIDGET_MARGIN_X,
@@ -327,7 +332,7 @@ jsondash.handlers.handleDataTable = function(container, config) {
     'use strict';
     // Clean up old tables if they exist, during reloading.
     container.selectAll('.dataTables_wrapper').remove();
-    d3.json(config.dataSource, function(error, res) {
+    jsondash.getJSON(config.dataSource, function(error, res) {
         if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         var keys = d3.keys(res[0]).map(function(d){
             return {data: d, title: d};
@@ -349,7 +354,7 @@ jsondash.handlers.handleDataTable = function(container, config) {
 jsondash.handlers.handleSingleNum = function(container, config) {
     'use strict';
     container.selectAll('.singlenum').remove();
-    d3.json(config.dataSource, function(data){
+    jsondash.getJSON(config.dataSource, function(data){
         var num = container.append('div')
             .classed({singlenum: true})
             .text(data);
@@ -379,7 +384,7 @@ jsondash.handlers.handleSingleNum = function(container, config) {
 
 jsondash.handlers.handleTimeline = function(container, config) {
     'use strict';
-    d3.json(config.dataSource, function(data){
+    jsondash.getJSON(config.dataSource, function(data){
         container.append('div').attr('id', 'widget-' + config.guid);
         var timeline = new TL.Timeline('widget-' + config.guid, data);
         jsondash.unload(container);
@@ -411,7 +416,7 @@ jsondash.handlers.handleCustom = function(container, config) {
 jsondash.handlers.handleVenn = function(container, config) {
     'use strict';
     container.selectAll('.venn').remove();
-    d3.json(config.dataSource, function(error, data){
+    jsondash.getJSON(config.dataSource, function(error, data){
         if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         var chart = venn.VennDiagram();
         var cont = container
@@ -432,7 +437,7 @@ jsondash.handlers.handlePlotly = function(container, config) {
     container.append('div')
         .classed({'plotly-container': true})
         .attr('id', id);
-    d3.json(config.dataSource, function(error, data){
+    jsondash.getJSON(config.dataSource, function(error, data){
         if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         if(config.override) {
             if(data.layout && data.layout.margin) {
