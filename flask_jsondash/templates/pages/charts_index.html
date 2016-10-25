@@ -2,7 +2,7 @@
 
 {% block chart_body %}
 {%- macro item(view) %}
-<li class="list-group-item clearfix">
+<li class="list-group-item chart-list-item clearfix">
     <span class="fa fa-bar-chart"></span>
     <a href="{{ url_for('jsondash.view', id=view.id) }}">
         <strong>{{ view.name }}</strong> - Created {{ view.date }}
@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <ul class="list-group">
+        <ul class="list-group chart-list">
             {% for view in views %}
                 {% set is_user_view = username == view.created_by %}
                 {% set in_range = True %}

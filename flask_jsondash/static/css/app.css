@@ -8,6 +8,9 @@ body {
     padding-bottom: 1em;
     margin-bottom: 4em;
 }
+#charts-builder .chart-list .chart-list-item:hover {
+    background-color: #f1f1f1;
+}
 #charts-builder .widget {
     border-radius: 5px;
     border: 1px solid #ddd;
