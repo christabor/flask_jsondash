@@ -216,18 +216,18 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
         .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
     var svg = container.append('svg')
         .attr('width', radius * 2)
-        .attr('height', radius * 2)
-        .append('g')
+        .attr('height', radius * 2);
+    var g = svg.append('g')
         .attr('transform', 'translate(' + radius + ',' + radius + ')');
     jsondash.getJSON(config.dataSource, function(error, root) {
         if (error) { throw error; }
         var nodes = cluster.nodes(root);
-        var link = svg.selectAll('path.link')
+        var link = g.selectAll('path.link')
             .data(cluster.links(nodes))
             .enter().append('path')
             .attr('class', 'link')
             .attr('d', diagonal);
-        var node = svg.selectAll('g.node')
+        var node = g.selectAll('g.node')
             .data(nodes)
             .enter().append('g')
             .attr('class', 'node')
