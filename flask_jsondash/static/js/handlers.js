@@ -209,16 +209,18 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
     container.selectAll('svg').remove();
     // Code taken (and refactored for use here) from:
     // https://bl.ocks.org/mbostock/4339607
-    var radius = (config.width > config.height ? config.width : config.height) / 2;
+    var padding = 50;
+    var radius = (config.width > config.height ? config.width : config.height) - padding;
     var cluster = d3.layout.cluster()
-        .size([360, radius * 0.65]); // reduce size relative to `radius`
+        .size([360, radius / 2 - 150]); // reduce size relative to `radius`
     var diagonal = d3.svg.diagonal.radial()
         .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
     var svg = container.append('svg')
-        .attr('width', radius * 2)
-        .attr('height', radius * 2);
-    var g = svg.append('g')
-        .attr('transform', 'translate(' + radius + ',' + radius + ')');
+        .attr('width', radius)
+        .attr('height', radius);
+    var g = svg.append('g');
+    g.attr('transform', 'translate(' + radius / 2 + ',' + radius / 2 + ')');
+
     jsondash.getJSON(config.dataSource, function(error, root) {
         if (error) { throw error; }
         var nodes = cluster.nodes(root);
