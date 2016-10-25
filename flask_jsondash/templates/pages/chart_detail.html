@@ -2,11 +2,12 @@
 
 {%- macro chart(module=None) %}
     {% if module %}
+        {% set dims = module|get_dims %}
     <div class="hidden item widget"
         data-guid="{{ module.guid }}"
         data-refresh="{{ module.refresh }}"
         data-refresh-interval="{{ module.refreshInterval }}"
-        style="width: {{ module.width }}px;height: {{ module.height }}px;">
+        style="width: {{ dims.width }}px;height: {{ dims.height }}px;">
     {% endif %}
         <div class="loader-overlay"></div>
         <span class="widget-loader fa fa-circle-o-notch fa-spin"></span>

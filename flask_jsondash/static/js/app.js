@@ -5,9 +5,10 @@
  */
 
 var jsondash = function() {
-    var my = {};
+    var my = {
+        chart_wall: null
+    };
     var dashboard_data = null;
-    var chart_wall = null;
     var $API_ROUTE_URL = '[name="dataSource"]';
     var $API_PREVIEW = '#api-output';
     var $API_PREVIEW_BTN = '#api-output-preview';
@@ -72,7 +73,7 @@ var jsondash = function() {
         // Add new visual block to view grid
         addWidget($VIEW_BUILDER, data);
         // Refit the grid
-        chart_wall.fitWidth();
+        my.chart_wall.fitWidth();
     }
 
     function isModalButton(e) {
@@ -138,7 +139,7 @@ var jsondash = function() {
         updateWidget(active);
         $($EDIT_CONTAINER).collapse();
         // Refit the grid
-        setTimeout(chart_wall.fitWidth, 100);
+        setTimeout(my.chart_wall.fitWidth, 100);
     }
 
     function updateWidget(config) {
@@ -160,6 +161,7 @@ var jsondash = function() {
         var config = getModuleByGUID(guid);
         var widget = addWidget($MAIN_CONTAINER, config);
         loadWidgetData(widget, config);
+        my.chart_wall.fitWidth();
     }
 
     function addChartContainers(container, data) {
@@ -174,6 +176,7 @@ var jsondash = function() {
                 loadWidgetData(widget, config);
             })(data.modules[name]);
         }
+        my.chart_wall.fitWidth();
     }
 
     function getModuleWidgetByGUID(guid) {
@@ -194,7 +197,7 @@ var jsondash = function() {
         $('.item.widget[data-guid="' + guid + '"]').remove();
         $($EDIT_MODAL).modal('hide');
         // Redraw wall to replace visual 'hole'
-        chart_wall.fitWidth();
+        my.chart_wall.fitWidth();
         // Trigger update form into view since data is dirty
         $($EDIT_CONTAINER).collapse('in');
     }
@@ -242,19 +245,19 @@ var jsondash = function() {
 
     function initGrid(container) {
         // http://vnjs.net/www/project/freewall/#options
-        chart_wall = new freewall(container);
-        chart_wall.reset({
+        my.chart_wall = new freewall(container);
+        my.chart_wall.reset({
             selector: '.item',
             fixSize: 1, // Important! Fixes the widgets to their configured size.
             gutterX: 2,
             gutterY: 2,
             draggable: false,
             onResize: function() {
-                chart_wall.fitWidth();
+                my.chart_wall.fitWidth();
             }
         });
         $('.item.widget').removeClass('hidden');
-        chart_wall.fitWidth();
+        my.chart_wall.fitWidth();
     }
 
     function loader(container) {

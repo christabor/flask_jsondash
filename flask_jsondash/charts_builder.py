@@ -148,6 +148,26 @@ def ctx():
 
 
 @jinja2.contextfilter
+@charts.app_template_filter('get_dims')
+def get_dims(ctx, config):
+    """Extract the dimensions from config data. This allows
+    for overrides for edge-cases to live in one place.
+    """
+    if config['type'] == 'youtube':
+        # We get the dimensions for the widget from YouTube instead,
+        # which handles aspect ratios, etc... and is likely what the user
+        # wanted to specify since they will be entering in embed code from
+        # Youtube directly.
+        embed = config['dataSource'].split(' ')
+        padding_w = 20
+        padding_h = 60
+        w = int(embed[1].replace('width=', '').replace('"', ''))
+        h = int(embed[2].replace('height=', '').replace('"', ''))
+        return dict(width=w + padding_w, height=h + padding_h)
+    return dict(width=config['width'], height=config['height'])
+
+
+@jinja2.contextfilter
 @charts.app_template_filter('jsonstring')
 def jsonstring(ctx, data):
     """Format view json module data for template use.

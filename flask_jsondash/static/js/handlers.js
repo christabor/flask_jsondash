@@ -15,14 +15,32 @@ jsondash.getJSON = function(url, callback) {
 jsondash.handlers.handleYoutube = function(container, config) {
     // Clean up all previous.
     'use strict';
-    container.selectAll('.chart-container').remove();
-    var iframe = container.select('.chart-container').append('iframe');
-    iframe
-        .attr('width', config.width)
-        .attr('height', config.height)
-        .attr('src', config.dataSource)
-        .attr('allowfullscreen')
+    container.selectAll('iframe').remove();
+
+    function getAttr(prop, props) {
+        // Return the propery from a list of properties for the iframe.
+        // e.g. getAttr('width', ["width="900""]) --> "900"
+        return props.filter(function(k, v){
+            return k.startsWith(prop);
+        })[0];
+    }
+
+    var url = config.dataSource;
+    var parts = config.dataSource.split(' ');
+    var height = parseInt(getAttr('height', parts).split('=')[1].replace(/"/gi, ''), 10);
+    var width = parseInt(getAttr('width', parts).split('=')[1].replace(/"/gi, ''), 10);
+    var url = getAttr('src', parts).replace('src=', '').replace(/"/gi, '');
+
+    // In the case of YouTube, we have to override the config dimensions
+    // as this will be wonky when the aspect ratio is calculated. We will
+    // defer to YouTube calculations instead.
+    container.append('iframe')
+        .attr('width', width)
+        .attr('height', height)
+        .attr('src', url)
+        .attr('allowfullscreen', true)
         .attr('frameborder', 0);
+    jsondash.unload(container);
 };
 
 jsondash.handlers.handleC3 = function(container, config) {
