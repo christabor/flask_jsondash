@@ -20,6 +20,10 @@ app.debug = True
 app.register_blueprint(charts)
 
 
+def _can_make_global():
+    return True
+
+
 def _can_delete():
     return True
 
@@ -43,6 +47,7 @@ app.config['JSONDASH'] = dict(
         css_path='css/vendor/',
     ),
     auth=dict(
+        make_global=_can_make_global,
         clone=_can_clone,
         delete=_can_delete,
     )

@@ -212,6 +212,7 @@ def dashboard():
         views=views,
         view=None,
         paginator=pagination,
+        can_edit_global=auth(authtype='edit_global'),
         total_modules=sum([len(view['modules']) for view in views]),
     )
     return render_template('pages/charts_index.html', **kwargs)
@@ -232,7 +233,13 @@ def view(id):
     # Chart family is encoded in chart type value for lookup.
     active_charts = [v.get('family') for
                      v in viewjson['modules'] if v.get('family')]
-    kwargs = dict(id=id, view=viewjson, active_charts=active_charts)
+    kwargs = dict(
+        id=id,
+        view=viewjson,
+        active_charts=active_charts,
+        can_edit_global=auth(authtype='edit_global'),
+        is_global=is_global_dashboard(viewjson),
+    )
     return render_template('pages/chart_detail.html', **kwargs)
 
 
@@ -254,32 +261,57 @@ def update():
     if not auth(authtype='update'):
         flash('You do not have access to update dashboards.', 'error')
         return redirect(url_for('jsondash.dashboard'))
-    data = request.form
-    c_id = data['id']
+    form_data = request.form
+    c_id = form_data['id']
     view_url = url_for('jsondash.view', id=c_id)
-    if 'edit-raw' in request.form:
+    edit_raw = 'edit-raw' in request.form
+    if edit_raw:
         try:
-            data = json.loads(request.form.get('config'))
+            data = json.loads(form_data.get('config'))
             data = adapter.reformat_data(data, c_id)
-            # Update db
-            adapter.update(c_id, data=data, fmt_modules=False)
         except (TypeError, ValueError):
             flash('Invalid JSON config.', 'error')
             return redirect(view_url)
     else:
-        # Update db
-        d = dict(
-            name=data['name'],
-            modules=adapter._format_modules(data),
+        data = dict(
+            name=form_data['name'],
+            modules=adapter._format_modules(form_data),
             date=dt.now(),
             id=c_id,
         )
-        # Update metadata, but exclude some fields that should never
-        # be overwritten once the view has been created.
-        d.update(**metadata(exclude=['created_by']))
-        adapter.update(c_id, data=d)
+    # Update metadata, but exclude some fields that should never
+    # be overwritten by user, once the view has been created.
+    data.update(**metadata(exclude=['created_by']))
+    # Possibly override global user, if configured and valid.
+    data.update(**check_global())
+    # Update db
+    if edit_raw:
+        adapter.update(c_id, data=data, fmt_modules=False)
+    else:
+        adapter.update(c_id, data=data)
     flash('Updated view "{}"'.format(c_id))
     return redirect(view_url)
+
+
+def is_global_dashboard(view):
+    """Check if a dashboard is considered global."""
+    return all([
+        setting('JSONDASH_GLOBALDASH'),
+        view['created_by'] == setting('JSONDASH_GLOBAL_USER'),
+    ])
+
+
+def check_global():
+    """Allow overriding of the user by making it global.
+    This also checks if the setting is enabled for the app,
+    otherwise it will not allow it.
+    """
+    global_enabled = setting('JSONDASH_GLOBALDASH')
+    global_flag = request.form.get('is_global', '') == 'on'
+    can_make_global = auth(authtype='edit_global')
+    if all([global_flag, global_enabled, can_make_global]):
+        return dict(created_by=setting('JSONDASH_GLOBAL_USER'))
+    return dict()
 
 
 @charts.route('/charts/create', methods=['POST'])
@@ -297,6 +329,8 @@ def create():
         id=new_id,
     )
     d.update(**metadata())
+    # Possibly override global user, if configured and valid.
+    d.update(**check_global())
     # Add to DB
     adapter.create(data=d)
     flash('Created new view "{}"'.format(data['name']))

@@ -189,11 +189,33 @@ charts_config = dict(
 app.config['JSONDASH'] = charts_config
 ```
 
-The following types are supported:
+See below for the supported types and their details.
 
-`delete`, `clone`, `update`, `create`, `view`
+#### Authentication types
 
-Note: `view` is the only function that takes an argument, which is the ID of the dashboard.
+**edit_global**
+
+This determines if a user can create *OR* update a chart with the "global" flag set, which will show the dashboard to all users *if* the appropriate application flags are set ([see global config flags below](#global-config-flags)) If no flag is set for allowing global dashboards, then this option will not be available.
+
+**delete**
+
+Allows deleting of charts.
+
+**clone**
+
+Allows cloning of charts.
+
+**update**
+
+Allows updating of charts.
+
+**create**
+
+Allows creation of new charts.
+
+**view**
+
+Allows viewing of a chart. The provided function will be passed the `id` of the view.
 
 ### Metadata configuration
 
