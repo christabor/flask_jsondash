@@ -73,7 +73,7 @@ def auth(**kwargs):
     return auth_conf[authtype](**kwargs)
 
 
-def metadata(key=None):
+def metadata(key=None, exclude=[]):
     """An abstraction around misc. metadata.
 
     This allows loose coupling for enabling and setting
@@ -90,6 +90,8 @@ def metadata(key=None):
             return None
     # Update all metadata values if the function exists.
     for k, func in conf_metadata.items():
+        if k in exclude:
+            pass
         _metadata[k] = conf_metadata[k]()
     return _metadata
 
@@ -270,9 +272,11 @@ def update():
             name=data['name'],
             modules=adapter._format_modules(data),
             date=dt.now(),
-            id=data['id'],
+            id=c_id,
         )
-        d.update(**metadata())
+        # Update metadata, but exclude some fields that should never
+        # be overwritten once the view has been created.
+        d.update(**metadata(exclude=['created_by']))
         adapter.update(c_id, data=d)
     flash('Updated view "{}"'.format(c_id))
     return redirect(view_url)
