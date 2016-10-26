@@ -1,5 +1,4 @@
 /** global: d3 */
-/** global: freewall */
 /**
  * Bootstrapping functions, event handling, etc... for application.
  */
@@ -73,7 +72,7 @@ var jsondash = function() {
         // Add new visual block to view grid
         addWidget($VIEW_BUILDER, data);
         // Refit the grid
-        my.chart_wall.fitWidth();
+        my.chart_wall.masonry();
     }
 
     function isModalButton(e) {
@@ -139,7 +138,7 @@ var jsondash = function() {
         updateWidget(active);
         $($EDIT_CONTAINER).collapse();
         // Refit the grid
-        setTimeout(my.chart_wall.fitWidth, 100);
+        setTimeout(my.chart_wall.masonry, 100);
     }
 
     function updateWidget(config) {
@@ -161,7 +160,7 @@ var jsondash = function() {
         var config = getModuleByGUID(guid);
         var widget = addWidget($MAIN_CONTAINER, config);
         loadWidgetData(widget, config);
-        my.chart_wall.fitWidth();
+        my.chart_wall.masonry();
     }
 
     function addChartContainers(container, data) {
@@ -176,7 +175,7 @@ var jsondash = function() {
                 loadWidgetData(widget, config);
             })(data.modules[name]);
         }
-        my.chart_wall.fitWidth();
+        my.chart_wall.masonry();
     }
 
     function getModuleWidgetByGUID(guid) {
@@ -197,7 +196,7 @@ var jsondash = function() {
         $('.item.widget[data-guid="' + guid + '"]').remove();
         $($EDIT_MODAL).modal('hide');
         // Redraw wall to replace visual 'hole'
-        my.chart_wall.fitWidth();
+        my.chart_wall.masonry();
         // Trigger update form into view since data is dirty
         $($EDIT_CONTAINER).collapse('in');
     }
@@ -244,20 +243,14 @@ var jsondash = function() {
     }
 
     function initGrid(container) {
-        // http://vnjs.net/www/project/freewall/#options
-        my.chart_wall = new freewall(container);
-        my.chart_wall.reset({
-            selector: '.item',
-            fixSize: 1, // Important! Fixes the widgets to their configured size.
-            gutterX: 2,
-            gutterY: 2,
-            draggable: false,
-            onResize: function() {
-                my.chart_wall.fitWidth();
-            }
+        my.chart_wall = $('#container').masonry({
+            columnWidth: 5,
+            itemSelector: '.item',
+            transitionDuration: 0,
+            fitWidth: true
         });
         $('.item.widget').removeClass('hidden');
-        my.chart_wall.fitWidth();
+        my.chart_wall.masonry();
     }
 
     function loader(container) {

@@ -131,8 +131,7 @@ These are not included, as you are likely going to have them yourself. If you do
 These are necessary and included, based simply on the likelihood they may not already be used:
 
 * JRespond (JS)
-* SugarJS (JS)
-* Freewall (JS)
+* Masonry (JS)
 
 ### Charts
 

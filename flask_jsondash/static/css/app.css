@@ -12,6 +12,8 @@ body {
     background-color: #f1f1f1;
 }
 #charts-builder .widget {
+    margin: 5px;
+    float: left;
     border-radius: 5px;
     border: 1px solid #ddd;
     background-color: #fff;
