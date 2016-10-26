@@ -145,6 +145,7 @@ var jsondash = function() {
         // Trigger update form into view since data is dirty
         // Update visual size to existing widget.
         var widget = getModuleWidgetByGUID(config.guid);
+        loader(widget);
         widget.style({
             height: config.height + 'px',
             width: config.width + 'px'
