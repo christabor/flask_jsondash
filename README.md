@@ -312,6 +312,10 @@ could return `{"data": [1, 2, 3, 4]}`, but you could customize the url by updati
 
 could return `{"data": [10, 20, 30, 40]}` instead!
 
+### Using gist.github.com
+
+While the data is not dynamically generated, you can easily use Github gists (or any raw file from github.com for that matter) to load charts! Check out the [kitchensink dashboard](example_app/examples/config/kitchensink.json) to see a real working chart loaded from via gist!
+
 ## Performance
 
 Performance metrics are not available, but you can view some "stress test" examples for the example endpoints. The configuration for these are available in [examples/config/stresstest.json](example_app/examples/config/stresstest.json). Also, the comprehensive examples (plotly, kitchensink) above are very complex dashboards (20-30 charts, webgl, etc), and have been tested in the browser.
