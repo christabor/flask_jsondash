@@ -138,7 +138,7 @@ var jsondash = function() {
         updateWidget(active);
         $($EDIT_CONTAINER).collapse();
         // Refit the grid
-        setTimeout(my.chart_wall.masonry, 100);
+        my.chart_wall.masonry();
     }
 
     function updateWidget(config) {
