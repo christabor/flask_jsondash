@@ -36,18 +36,18 @@
             <div class="row">
                 <div class="col-md-6 text-right">
                     <h1 class="lead">Showing <strong>{{ "{:,}".format(views|length) }}</strong> {{ 'dashboards' if views|length > 1 else 'dashboard' }} with <strong>{{ "{:,}".format(total_modules) }}</strong> charts.
-                    {% if filter_dashboards and username %}
                         <p>
                             <small>
-                                Only showing <strong>your</strong> dashboards ({{ username }})
-                                {% if global_dashboards %}
-                                    and all <strong>global</strong> dashoards
+                                {% if filter_dashboards and username %}
+                                    Only showing <strong>your</strong> dashboards ({{ username }})
+                                    {% if global_dashboards %}
+                                        and all <strong>global</strong> dashoards
+                                    {% endif %}
+                                {% else %}
+                                    Not filtering any dashboards.
                                 {% endif %}
                             </small>
                         </p>
-                    {% else %}
-                        <p><small>Not filtering any dashboards.</small></p>
-                    {% endif %}
                     </h1>
                 </div>
                 <div class="col-md-6">
