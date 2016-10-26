@@ -199,7 +199,7 @@ var jsondash = function() {
         // Redraw wall to replace visual 'hole'
         my.chart_wall.masonry();
         // Trigger update form into view since data is dirty
-        $($EDIT_CONTAINER).collapse('in');
+        $($EDIT_CONTAINER).collapse('show');
     }
 
     function addDomEvents() {
@@ -346,6 +346,28 @@ var jsondash = function() {
             if(console && console.error) console.error(e);
             unload(widget);
         }
+        addResizeEvent(widget, config);
+    }
+
+    function addResizeEvent(widget, config) {
+        // Add resize event
+        $(widget[0]).resizable({
+            helper: 'resizable-helper',
+            stop: function(event, ui) {
+                var active = getModuleByGUID(config.guid);
+                // Update the configs dimensions.
+                config = $.extend(config, {width: ui.size.width, height: ui.size.height});
+                updateModuleInput(config);
+                loadWidgetData(widget, config);
+                my.chart_wall.masonry();
+                // Open save panel
+                $($EDIT_CONTAINER).collapse('show');
+            }
+        });
+    }
+
+    function updateModuleInput(config) {
+        $('input[id="' + config.guid + '"]').val(JSON.stringify(config));
     }
 
     function prettyCode(code) {

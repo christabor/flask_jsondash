@@ -132,6 +132,7 @@ These are necessary and included, based simply on the likelihood they may not al
 
 * JRespond (JS)
 * Masonry (JS)
+* Jquery UI (CSS/JS)
 
 ### Charts
 

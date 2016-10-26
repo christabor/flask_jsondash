@@ -249,33 +249,36 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
 jsondash.handlers.handleDendrogram = function(container, config) {
     'use strict';
     container.selectAll('svg').remove();
-    var PADDING = 100;
-    var width = config.width - jsondash.config.WIDGET_MARGIN_X;
-    var height = config.height - jsondash.config.WIDGET_MARGIN_Y;
+    // A general padding for the svg inside of the widget.
+    // The cluster dendrogram will also need to have padding itself, so
+    // the bounds are not clipped in the svg.
+    var svg_pad = 20;
+    var width = config.width - svg_pad;
+    var height = config.height - svg_pad;
+    var PADDING = width / 4;
     var cluster = d3.layout.cluster()
-        .size([height, width - PADDING]);
+        .size([height * 0.85, width - PADDING]);
     var diagonal = d3.svg.diagonal()
         .projection(function(d) { return [d.y, d.x]; });
     var svg = container
         .append('svg')
         .attr('width', width)
-        .attr('height', height)
-        .append('g')
-        .attr('transform', 'translate(40,0)');
+        .attr('height', height);
+    var g = svg.append('g')
+        .attr('transform', 'translate(40, 0)');
 
     jsondash.getJSON(config.dataSource, function(error, root) {
         if(error) { throw new Error('Could not load url: ' + config.dataSource); }
 
-        var nodes = cluster.nodes(root),
-        links = cluster.links(nodes);
-
-        var link = svg.selectAll('.link')
+        var nodes = cluster.nodes(root);
+        var links = cluster.links(nodes);
+        var link = g.selectAll('.link')
         .data(links)
         .enter().append('path')
         .attr('class', 'link')
         .attr('d', diagonal);
 
-        var node = svg.selectAll('.node')
+        var node = g.selectAll('.node')
         .data(nodes)
         .enter().append('g')
         .attr('class', 'node')
