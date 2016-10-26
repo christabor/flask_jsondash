@@ -33,7 +33,7 @@ var jsondash = function() {
             .style('width', model.width + 'px')
             .style('height', model.height + 'px')
             .html(d3.select('#chart-template').html())
-            .select('.widget-title').text(model.name);
+            .select('.widget-title .widget-title-text').text(model.name);
     }
 
     function previewAPIRoute(e) {
@@ -150,7 +150,7 @@ var jsondash = function() {
             height: config.height + 'px',
             width: config.width + 'px'
         });
-        widget.select('.widget-title').text(config.name);
+        widget.select('.widget-title .widget-title-text').text(config.name);
         loadWidgetData(widget, config);
     }
 
