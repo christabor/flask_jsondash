@@ -5,8 +5,15 @@
                 <input type="hidden" name="id" value="{{ view.id }}">
             {% endif %}
             <label>
-                View Name <input class="form-control" type="text" name="name" value="{% if view %}{{ view.name }}{% endif %}" placeholder="name">
+                View Name
+                <input class="form-control" type="text" name="name" value="{% if view %}{{ view.name }}{% endif %}" placeholder="name">
             </label>
+            {% if can_edit_global %}
+                <label>
+                    Make global?
+                    <input type="checkbox" name="is_global" {% if view and is_global %}checked{% endif %}>
+                </label>
+            {% endif %}
             <div class="modules hidden">
                 {% if view %}
                 {% for module in view.modules %}

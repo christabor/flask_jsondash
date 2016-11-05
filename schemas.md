@@ -272,6 +272,15 @@ Any number, positive or negative. Prefixes, such as currencies, are also allowed
 2302
 ```
 
+#### YouTube
+
+Takes the html embed code from youtube. For example:
+
+```html
+<iframe width="650" height="366" src="https://www.youtube.com/embed/_hI0qMtdfng?list=RD_hI0qMtdfng&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+```
+
+This will be serialized for JSON and deserialized when rendering.
 
 ## Datatables
 

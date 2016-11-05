@@ -8,13 +8,40 @@ body {
     padding-bottom: 1em;
     margin-bottom: 4em;
 }
+#charts-builder .chart-list .chart-list-item:hover {
+    background-color: #f1f1f1;
+}
 #charts-builder .widget {
+    margin: 5px;
+    float: left;
     border-radius: 5px;
     border: 1px solid #ddd;
     background-color: #fff;
     border-bottom-width: 2px;
     border-bottom-color: #bbb;
 }
+
+/* Resizeable ui */
+
+.ui-resizable-e:hover,
+.ui-resizable-s:hover {
+    background-color: #85C785;
+}
+.ui-resizable-e:hover {
+    border-radius: 0 5px 5px 0;
+}
+.ui-resizable-s:hover {
+    border-radius: 0 0 5px 5px;
+}
+.resizable-helper {
+    border: 2px dotted #85C785;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+#charts-builder .ui-icon-gripsmall-diagonal-se {}
+#charts-builder .ui-icon-gripsmall-diagonal-se:hover {
+    background-color: #85C785;
+}
+
 #charts-builder .widget:hover {
     border-color: #85C785;
 }

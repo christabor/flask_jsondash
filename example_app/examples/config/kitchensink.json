@@ -2,6 +2,30 @@
     "date": "2016-08-23 15:03:49.178000",
     "modules": [
         {
+            "name": "Gist via Github.com",
+            "family": "C3",
+            "refresh": false,
+            "height": "600",
+            "width": "600",
+            "dataSource": "https://gist.githubusercontent.com/christabor/a720944d03cb642dcbe246376b9b8b20/raw/4e908d30481455d2ae35df20cbbca80bd678c844/jsondash.json",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "efc500ee-dfb1-4ecb-960e-b852fc0155e0",
+            "type": "scatter"
+        },
+        {
+            "name": "Youtube test",
+            "family": "Basic",
+            "refresh": false,
+            "height": "400",
+            "width": "500",
+            "dataSource": "<iframe width=\"650\" height=\"366\" src=\"https://www.youtube.com/embed/_hI0qMtdfng?list=RD_hI0qMtdfng&amp;controls=0&amp;showinfo=0\" frameborder=\"0\" allowfullscreen></iframe>",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "b92b5994-417d-49e8-207e-fe5a830fad7f",
+            "type": "youtube"
+        },
+        {
             "name": "Iframe test",
             "refresh": true,
             "height": "400",

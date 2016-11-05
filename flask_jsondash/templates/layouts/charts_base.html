@@ -9,6 +9,7 @@
 {% block custom_css %}
 {{ super() }}
 <!-- VENDOR CSS -->
+<link rel="stylesheet" href="{{ url_for('jsondash._static', filename='css/vendor/jquery-ui.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('jsondash._static', filename='css/vendor/font-awesome.css') }}">
 
 {% if view %}
@@ -70,7 +71,8 @@
 {{ super() }}
 {% if view %}
     <!-- CORE VENDOR JS -->
-    <script src="{{ url_for('jsondash._static', filename='js/vendor/freewall.js') }}"></script>
+    <script src="{{ url_for('jsondash._static', filename='js/vendor/masonry.pkgd.min.js') }}"></script>
+    <script src="{{ url_for('jsondash._static', filename='js/vendor/jquery-ui.min.js') }}"></script>
     <script src="{{ url_for('jsondash._static', filename='js/vendor/jRespond.min.js') }}"></script>
 
     <!-- CHART SPECIFIC SCRIPTS -->

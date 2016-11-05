@@ -1,15 +1,6 @@
-engines:
-  duplication:
-    enabled: true
-    config:
-      languages:
-        python:
-          mass_threshold: 40
-        JavaScript:
-          mass_threshold: 100
 languages:
-  JavaScript: true
-  Python: true
+  javascript: true
+  python: true
 exclude_paths:
 - "example_app"
 - "flask_jsondash/static/js/vendor"

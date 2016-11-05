@@ -131,8 +131,8 @@ These are not included, as you are likely going to have them yourself. If you do
 These are necessary and included, based simply on the likelihood they may not already be used:
 
 * JRespond (JS)
-* SugarJS (JS)
-* Freewall (JS)
+* Masonry (JS)
+* Jquery UI (CSS/JS)
 
 ### Charts
 
@@ -189,11 +189,33 @@ charts_config = dict(
 app.config['JSONDASH'] = charts_config
 ```
 
-The following types are supported:
+See below for the supported types and their details.
 
-`delete`, `clone`, `update`, `create`, `view`
+#### Authentication types
 
-Note: `view` is the only function that takes an argument, which is the ID of the dashboard.
+**edit_global**
+
+This determines if a user can create *OR* update a chart with the "global" flag set, which will show the dashboard to all users *if* the appropriate application flags are set ([see global config flags below](https://github.com/christabor/flask_jsondash#global-config-flags)) If no flag is set for allowing global dashboards, then this option will not be available.
+
+**delete**
+
+Allows deleting of charts.
+
+**clone**
+
+Allows cloning of charts.
+
+**update**
+
+Allows updating of charts.
+
+**create**
+
+Allows creation of new charts.
+
+**view**
+
+Allows viewing of a chart. The provided function will be passed the `id` of the view.
 
 ### Metadata configuration
 
@@ -290,6 +312,10 @@ could return `{"data": [1, 2, 3, 4]}`, but you could customize the url by updati
 `curl -XGET http://localhost:5002/api/foo?gt=9`
 
 could return `{"data": [10, 20, 30, 40]}` instead!
+
+### Using gist.github.com
+
+While the data is not dynamically generated, you can easily use Github gists (or any raw file from github.com for that matter) to load charts! Check out the [kitchensink dashboard](example_app/examples/config/kitchensink.json) to see a real working chart loaded from via gist!
 
 ## Performance
 

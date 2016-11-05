@@ -3,6 +3,11 @@
 /** global: d3 */
 /** global: venn */
 /** global: Plotly */
+
+jsondash.getJSON = function(url, callback) {
+    return d3.json(url, callback);
+};
+
 /**
  * Handlers for various widget types. The method signatures are always the same,
  * but each handler can handle them differently.
@@ -10,14 +15,32 @@
 jsondash.handlers.handleYoutube = function(container, config) {
     // Clean up all previous.
     'use strict';
-    container.selectAll('.chart-container').remove();
-    var iframe = container.select('.chart-container').append('iframe');
-    iframe
-        .attr('width', config.width)
-        .attr('height', config.height)
-        .attr('src', config.dataSource)
-        .attr('allowfullscreen')
+    container.selectAll('iframe').remove();
+
+    function getAttr(prop, props) {
+        // Return the propery from a list of properties for the iframe.
+        // e.g. getAttr('width', ["width="900""]) --> "900"
+        return props.filter(function(k, v){
+            return k.startsWith(prop);
+        })[0];
+    }
+
+    var url = config.dataSource;
+    var parts = config.dataSource.split(' ');
+    var height = parseInt(getAttr('height', parts).split('=')[1].replace(/"/gi, ''), 10);
+    var width = parseInt(getAttr('width', parts).split('=')[1].replace(/"/gi, ''), 10);
+    var url = getAttr('src', parts).replace('src=', '').replace(/"/gi, '');
+
+    // In the case of YouTube, we have to override the config dimensions
+    // as this will be wonky when the aspect ratio is calculated. We will
+    // defer to YouTube calculations instead.
+    container.append('iframe')
+        .attr('width', width)
+        .attr('height', height)
+        .attr('src', url)
+        .attr('allowfullscreen', true)
         .attr('frameborder', 0);
+    jsondash.unload(container);
 };
 
 jsondash.handlers.handleC3 = function(container, config) {
@@ -42,7 +65,7 @@ jsondash.handlers.handleC3 = function(container, config) {
     };
     if(jsondash.util.isOverride(config)) {
         // Just use the raw payload for this widgets' options.
-        d3.json(config.dataSource, function(error, data){
+        jsondash.getJSON(config.dataSource, function(error, data){
             if(error) { throw new Error("Could not load url: " + config.dataSource); }
             // Keep existing options if not specified.
             config = $.extend(init_config, data);
@@ -91,7 +114,7 @@ jsondash.handlers.handleCirclePack = function(container, config) {
         .attr('height', diameter)
         .append('g');
 
-    d3.json(config.dataSource, function(error, data) {
+    jsondash.getJSON(config.dataSource, function(error, data) {
         if(error) { throw new Error("Could not load url: " + config.dataSource); }
 
         var node = svg.datum(data).selectAll('.node')
@@ -141,7 +164,7 @@ jsondash.handlers.handleTreemap = function(container, config) {
         .style('width', width + 'px')
         .style('height', height + 'px');
 
-    d3.json(config.dataSource, function(error, root) {
+    jsondash.getJSON(config.dataSource, function(error, root) {
         if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         var node = div.datum(root).selectAll('.node')
             .data(treemap.nodes)
@@ -186,25 +209,27 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
     container.selectAll('svg').remove();
     // Code taken (and refactored for use here) from:
     // https://bl.ocks.org/mbostock/4339607
-    var radius = (config.width > config.height ? config.width : config.height) / 2;
+    var padding = 50;
+    var radius = (config.width > config.height ? config.width : config.height) - padding;
     var cluster = d3.layout.cluster()
-        .size([360, radius * 0.65]); // reduce size relative to `radius`
+        .size([360, radius / 2 - 150]); // reduce size relative to `radius`
     var diagonal = d3.svg.diagonal.radial()
         .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
     var svg = container.append('svg')
-        .attr('width', radius * 2)
-        .attr('height', radius * 2)
-        .append('g')
-        .attr('transform', 'translate(' + radius + ',' + radius + ')');
-    d3.json(config.dataSource, function(error, root) {
+        .attr('width', radius)
+        .attr('height', radius);
+    var g = svg.append('g');
+    g.attr('transform', 'translate(' + radius / 2 + ',' + radius / 2 + ')');
+
+    jsondash.getJSON(config.dataSource, function(error, root) {
         if (error) { throw error; }
         var nodes = cluster.nodes(root);
-        var link = svg.selectAll('path.link')
+        var link = g.selectAll('path.link')
             .data(cluster.links(nodes))
             .enter().append('path')
             .attr('class', 'link')
             .attr('d', diagonal);
-        var node = svg.selectAll('g.node')
+        var node = g.selectAll('g.node')
             .data(nodes)
             .enter().append('g')
             .attr('class', 'node')
@@ -224,33 +249,36 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
 jsondash.handlers.handleDendrogram = function(container, config) {
     'use strict';
     container.selectAll('svg').remove();
-    var PADDING = 100;
-    var width = config.width - jsondash.config.WIDGET_MARGIN_X;
-    var height = config.height - jsondash.config.WIDGET_MARGIN_Y;
+    // A general padding for the svg inside of the widget.
+    // The cluster dendrogram will also need to have padding itself, so
+    // the bounds are not clipped in the svg.
+    var svg_pad = 20;
+    var width = config.width - svg_pad;
+    var height = config.height - svg_pad;
+    var PADDING = width / 4;
     var cluster = d3.layout.cluster()
-        .size([height, width - PADDING]);
+        .size([height * 0.85, width - PADDING]);
     var diagonal = d3.svg.diagonal()
         .projection(function(d) { return [d.y, d.x]; });
     var svg = container
         .append('svg')
         .attr('width', width)
-        .attr('height', height)
-        .append('g')
-        .attr('transform', 'translate(40,0)');
+        .attr('height', height);
+    var g = svg.append('g')
+        .attr('transform', 'translate(40, 0)');
 
-    d3.json(config.dataSource, function(error, root) {
+    jsondash.getJSON(config.dataSource, function(error, root) {
         if(error) { throw new Error('Could not load url: ' + config.dataSource); }
 
-        var nodes = cluster.nodes(root),
-        links = cluster.links(nodes);
-
-        var link = svg.selectAll('.link')
+        var nodes = cluster.nodes(root);
+        var links = cluster.links(nodes);
+        var link = g.selectAll('.link')
         .data(links)
         .enter().append('path')
         .attr('class', 'link')
         .attr('d', diagonal);
 
-        var node = svg.selectAll('.node')
+        var node = g.selectAll('.node')
         .data(nodes)
         .enter().append('g')
         .attr('class', 'node')
@@ -269,7 +297,7 @@ jsondash.handlers.handleDendrogram = function(container, config) {
 
 jsondash.handlers.handleVoronoi = function(container, config) {
     'use strict';
-    d3.json(config.dataSource, function(error, data){
+    jsondash.getJSON(config.dataSource, function(error, data){
         if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         var width = config.width - jsondash.config.WIDGET_MARGIN_X;
         var height = config.height - jsondash.config.WIDGET_MARGIN_Y;
@@ -312,7 +340,7 @@ jsondash.handlers.handleSparkline = function(container, config) {
             'text-center': true
         });
     spark = $(spark[0]);
-    d3.json(config.dataSource, function(data){
+    jsondash.getJSON(config.dataSource, function(data){
         var opts = {
             type: sparkline_type,
             width: config.width - jsondash.config.WIDGET_MARGIN_X,
@@ -327,7 +355,7 @@ jsondash.handlers.handleDataTable = function(container, config) {
     'use strict';
     // Clean up old tables if they exist, during reloading.
     container.selectAll('.dataTables_wrapper').remove();
-    d3.json(config.dataSource, function(error, res) {
+    jsondash.getJSON(config.dataSource, function(error, res) {
         if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         var keys = d3.keys(res[0]).map(function(d){
             return {data: d, title: d};
@@ -349,7 +377,7 @@ jsondash.handlers.handleDataTable = function(container, config) {
 jsondash.handlers.handleSingleNum = function(container, config) {
     'use strict';
     container.selectAll('.singlenum').remove();
-    d3.json(config.dataSource, function(data){
+    jsondash.getJSON(config.dataSource, function(data){
         var num = container.append('div')
             .classed({singlenum: true})
             .text(data);
@@ -379,7 +407,7 @@ jsondash.handlers.handleSingleNum = function(container, config) {
 
 jsondash.handlers.handleTimeline = function(container, config) {
     'use strict';
-    d3.json(config.dataSource, function(data){
+    jsondash.getJSON(config.dataSource, function(data){
         container.append('div').attr('id', 'widget-' + config.guid);
         var timeline = new TL.Timeline('widget-' + config.guid, data);
         jsondash.unload(container);
@@ -411,7 +439,7 @@ jsondash.handlers.handleCustom = function(container, config) {
 jsondash.handlers.handleVenn = function(container, config) {
     'use strict';
     container.selectAll('.venn').remove();
-    d3.json(config.dataSource, function(error, data){
+    jsondash.getJSON(config.dataSource, function(error, data){
         if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         var chart = venn.VennDiagram();
         var cont = container
@@ -432,7 +460,7 @@ jsondash.handlers.handlePlotly = function(container, config) {
     container.append('div')
         .classed({'plotly-container': true})
         .attr('id', id);
-    d3.json(config.dataSource, function(error, data){
+    jsondash.getJSON(config.dataSource, function(error, data){
         if(error) { throw new Error('Could not load url: ' + config.dataSource); }
         if(config.override) {
             if(data.layout && data.layout.margin) {
