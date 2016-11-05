@@ -339,3 +339,7 @@ python app.py
 ```
 
 And voila! You can now edit the folder directly, and still use it as a normal pip package without having to reinstall every time you change something.
+
+## Tests
+
+Tests are limited at the moment to Python (small, but existant). JavaScript unit tests are forthcoming. You can run these tests using pytest (`pip install -U pytest`) and then running it in the tests folder: `pytest`.

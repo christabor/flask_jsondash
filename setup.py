@@ -1,6 +1,7 @@
 """Setup for Flask Jsondash."""
 
 import os
+
 from setuptools import setup
 
 SRCDIR = '.'
