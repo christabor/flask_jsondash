@@ -1,0 +1,10 @@
+test:
+    tox
+sudo: false
+python:
+  - "2.7"
+language: python
+install:
+    - pip install -U pytest
+    - python setup.py install
+script: tox
