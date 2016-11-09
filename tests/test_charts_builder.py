@@ -4,6 +4,7 @@ from datetime import datetime as dt
 from flask import Flask, current_app
 import pytest
 
+from flask_jsondash import settings
 from flask_jsondash import charts_builder
 
 

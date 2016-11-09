@@ -13,6 +13,18 @@ def test_reformat_data():
 
 
 def test_format_modules():
-    data = {'module_': json.dumps(dict())}
+    data = {'module_': json.dumps(dict()), 'name': 'foo'}
     res = db_adapters._format_modules(data)
     assert isinstance(res, list)
+    assert res != []
+    assert len(res) == 1
+
+
+def test_format_modules_invalid():
+    data = {'Foo': json.dumps(dict())}
+    res = db_adapters._format_modules(data)
+    assert res == []
+
+
+def test_create_none():
+    assert db_adapters.create() is None
