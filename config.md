@@ -12,7 +12,7 @@ The date for the schema. This is automatically generated, so you don't need to e
 
 **name** - [*String*] :heavy_exclamation_mark:
 
-The date for the schema. This is automatically generated, so you don't need to edit it.
+The name of the dashboard.
 
 **modules** - [*Array of Object*s] :heavy_exclamation_mark:
 
