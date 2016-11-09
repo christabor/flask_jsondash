@@ -1,7 +1,7 @@
 import json
 from datetime import datetime as dt
 
-from flask import Flask
+from flask import Flask, current_app
 import pytest
 
 from flask_jsondash import charts_builder
@@ -20,8 +20,8 @@ def _authtest():
     return False
 
 
-@pytest.fixture
-def client(request):
+@pytest.fixture(scope='module')
+def client():
     app.config.update(
         JSONDASH_GLOBALDASH=False,
         JSONDASH_FILTERUSERS=False,
@@ -63,3 +63,13 @@ def test_metadata(client):
     with app.app_context():
         assert charts_builder.metadata(key='created_by') == 'Username'
         assert charts_builder.metadata(key='username') == 'Username'
+
+
+def test_metadata_bad(client):
+    with app.app_context():
+        assert charts_builder.metadata(key='foo') is None
+
+
+def test_app_redirect(client):
+    resp = client.get('/charts')
+    assert 'You should be redirected automatically' in resp.data
