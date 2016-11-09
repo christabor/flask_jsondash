@@ -2,6 +2,8 @@
  * Utility functions.
  */
 
+jsondash = jsondash || {util: {}};
+
 jsondash.util.serializeToJSON = function(arr) {
     // Convert form data to a proper json value
     var json = {};
@@ -62,3 +64,7 @@ jsondash.util.getDigitSize = function() {
     window.scale = scale;
     return scale;
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = jsondash;
+}

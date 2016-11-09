@@ -369,4 +369,10 @@ And voila! You can now edit the folder directly, and still use it as a normal pi
 
 ## Tests
 
-Tests are limited at the moment to Python (small, but existant). JavaScript unit tests are forthcoming. You can run these tests using pytest (`pip install -U pytest`) and then running it in the tests folder: `pytest`.
+### Python
+
+You can run these tests using pytest (`pip install -U pytest`) and then run it in the tests folder: `pytest`.
+
+### Javascript
+
+JS tests are run using the node library Jasmine. To install and run it, you'll need nodejs installed, then the package: `npm install -g jasmine`. You can then `cd` into the `tests_js` folder and run the provided python script `python runner.py`
