@@ -100,6 +100,7 @@ cd flask_jsondash
 virtualenv env
 source env/bin/activate
 python setup.py install
+cd example_app
 python app.py
 ```
 
