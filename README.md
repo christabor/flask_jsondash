@@ -374,6 +374,8 @@ And voila! You can now edit the folder directly, and still use it as a normal pi
 
 You can run these tests using pytest (`pip install -U pytest`) and then run it in the tests folder: `pytest`.
 
+If you are having issues with this approach, an alternative would be to install pytest within the projects' virtualenv (assuming you've created one), and then running it like so: `cd tests ; python -m pytest`.
+
 ### Javascript
 
 JS tests are run using the node library Jasmine. To install and run it, you'll need nodejs installed, then the package: `npm install -g jasmine`. You can then `cd` into the `tests_js` folder and run the provided python script `python runner.py`

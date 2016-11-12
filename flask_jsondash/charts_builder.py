@@ -91,7 +91,7 @@ def metadata(key=None, exclude=[]):
     # Update all metadata values if the function exists.
     for k, func in conf_metadata.items():
         if k in exclude:
-            pass
+            continue
         _metadata[k] = conf_metadata[k]()
     return _metadata
 
