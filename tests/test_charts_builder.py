@@ -130,3 +130,22 @@ def test_metadata():
         assert charts_builder.metadata(exclude='username') == dict(
             created_by='Username'
         )
+
+
+def test_getdims_normal():
+    with app.app_context():
+        data = dict(width=100, height=100, type='foo')
+        expected = dict(width=100, height=100)
+        assert charts_builder.get_dims(object, data) == expected
+
+
+def test_getdims_youtube():
+    with app.app_context():
+        yt = ('<iframe width="650" height="366" '
+              'src="https://www.youtube.com/embed/'
+              '_hI0qMtdfng?list=RD_hI0qMtdfng&amp;'
+              'controls=0&amp;showinfo=0" frameborder="0"'
+              ' allowfullscreen></iframe>')
+        data = dict(type='youtube', dataSource=yt, width=100, height=100)
+        expected = dict(width=650 + 20, height=366 + 60)
+        assert charts_builder.get_dims(object, data) == expected
