@@ -62,17 +62,6 @@ def test_setting(client):
         assert _get('JSONDASH_GLOBAL_USER') == 'global-test'
 
 
-def test_metadata(client):
-    with app.app_context():
-        assert charts_builder.metadata(key='created_by') == 'Username'
-        assert charts_builder.metadata(key='username') == 'Username'
-
-
-def test_metadata_bad(client):
-    with app.app_context():
-        assert charts_builder.metadata(key='foo') is None
-
-
 def test_app_redirect(client):
     resp = client.get('/charts')
     assert 'You should be redirected automatically' in resp.data
@@ -124,6 +113,7 @@ def test_auth_true_fakeauth():
     with app.app_context():
         assert charts_builder.auth(authtype=None)
         assert charts_builder.auth(authtype='foo')
+        assert charts_builder.metadata(key='foo') is None
 
 
 def test_metadata():
