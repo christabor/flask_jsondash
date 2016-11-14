@@ -116,6 +116,17 @@ pip install flask-jsondash
 
 Your app will need to import and register the blueprint, as well as have the appropriate template tags. [An example of this can be found here](example_app/templates/layouts/base.html).
 
+#### Python 3.x usage
+
+The above should work, but you'll need to use the python 3.x equivalent for all of the operations; e.g.:
+
+```
+...
+virtualenv -p python3 env
+python3 setup.py install
+python3 app.py
+```
+
 ### Requirements
 
 ### Core
