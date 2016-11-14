@@ -12,6 +12,7 @@ jsondash.getJSON = function(url, callback) {
  * Handlers for various widget types. The method signatures are always the same,
  * but each handler can handle them differently.
  */
+
 jsondash.handlers.handleYoutube = function(container, config) {
     // Clean up all previous.
     'use strict';
@@ -41,6 +42,35 @@ jsondash.handlers.handleYoutube = function(container, config) {
         .attr('allowfullscreen', true)
         .attr('frameborder', 0);
     jsondash.unload(container);
+};
+
+/**
+ * [handleGraph creates graphs using the dot format
+ * spec with d3 and dagre-d3]
+ */
+jsondash.handlers.handleGraph = function(container, config) {
+    'use strict';
+    jsondash.getJSON(config.dataSource, function(error, data){
+        if(error) {
+            jsondash.unload(container);
+            throw new Error("Could not load url: " + config.dataSource);
+        }
+        container.selectAll('.chart-graph').remove();
+        var h = config.height - jsondash.config.WIDGET_MARGIN_Y;
+        var w = config.width - jsondash.config.WIDGET_MARGIN_X;
+        var svg = container.append('svg').classed({'chart-graph': true});
+        var svg_group = svg.append('g');
+        var g = graphlibDot.read(data.graph);
+        var bbox = null;
+        // Create the renderer
+        var render = new dagreD3.render();
+        svg.attr('width', w).attr('height', h);
+        svg_group.attr('transform', jsondash.util.translateStr(20, 20));
+        render(svg_group, g);
+        bbox = svg.node().getBBox();
+        svg.attr('width', bbox.width + 30).attr('height', bbox.height + 30);
+        jsondash.unload(container);
+    });
 };
 
 jsondash.handlers.handleC3 = function(container, config) {
