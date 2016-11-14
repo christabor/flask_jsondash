@@ -16,7 +16,7 @@ from datetime import datetime as dt
 
 from pymongo import MongoClient
 
-import settings
+from . import settings
 
 DB_NAME = settings.ACTIVE_DB
 

@@ -27,11 +27,10 @@ from flask import (
 )
 import jinja2
 
-import db_adapters as adapter
-from settings import (
+from . import db_adapters as adapter
+from .settings import (
     CHARTS_CONFIG,
 )
-
 template_dir = os.path.dirname(templates.__file__)
 static_dir = os.path.dirname(static.__file__)
 
@@ -317,7 +316,7 @@ def is_global_dashboard(view):
     """Check if a dashboard is considered global."""
     return all([
         setting('JSONDASH_GLOBALDASH'),
-        view['created_by'] == setting('JSONDASH_GLOBAL_USER'),
+        view.get('created_by') == setting('JSONDASH_GLOBAL_USER'),
     ])
 
 
