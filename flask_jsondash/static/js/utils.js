@@ -32,6 +32,14 @@ jsondash.util.polygon = function(d) {
     return "M" + d.join("L") + "Z";
 };
 
+jsondash.util.scaleStr = function(x, y) {
+    return 'scale(' + x + ',' + y + ')';
+};
+
+jsondash.util.translateStr = function(x, y) {
+    return 'translate(' + x + ',' + y + ')';
+};
+
 jsondash.util.isD3Subtype = function(config) {
     // Handle specific D3 types that aren't necessarily referenced under
     // the D3 namespace in a select field.

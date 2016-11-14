@@ -391,5 +391,32 @@ def voronoi():
     return json.dumps([[rr(1, h), rr(1, w)] for _ in range(max_points)])
 
 
+@cross_origin()
+@app.route('/digraph', methods=['GET'])
+def graphdata():
+    """Fake endpoint."""
+    if 'simple' in request.args:
+        graphdata = """
+        digraph {
+            a -> b;
+            a -> c;
+            b -> c;
+            b -> a;
+            b -> b;
+        }
+        """
+        return json.dumps(dict(graph=graphdata))
+    nodes = list('abcdefghijkl')
+    node_data = '\n'.join([
+        '{0} -> {1};'.format(choice(nodes), choice(nodes))
+        for _ in range(10)
+    ])
+    graphdata = """digraph {lb} {nodes} {rb}""".format(
+        lb='{', rb='}', nodes=node_data)
+    return json.dumps(dict(
+        graph=graphdata,
+    ))
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5004)

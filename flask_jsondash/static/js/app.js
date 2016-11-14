@@ -331,6 +331,9 @@ var jsondash = function() {
             else if(config.type === 'youtube') {
                 jsondash.handlers.handleYoutube(widget, config);
             }
+            else if(config.type === 'graph'){
+                jsondash.handlers.handleGraph(widget, config);
+            }
             else if(config.type === 'custom') {
                 jsondash.handlers.handleCustom(widget, config);
             }
@@ -353,6 +356,8 @@ var jsondash = function() {
         // Add resize event
         $(widget[0]).resizable({
             helper: 'resizable-helper',
+            minWidth: 200,
+            minHeight: 200,
             stop: function(event, ui) {
                 var active = getModuleByGUID(config.guid);
                 // Update the configs dimensions.

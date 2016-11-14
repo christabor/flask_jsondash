@@ -121,6 +121,21 @@ CHARTS_CONFIG = {
         'enabled': True,
         'help_link': 'https://github.com/benfred/venn.js/',
     },
+    'Graph': {
+        'charts': [
+            ('graph', 'Graph'),
+        ],
+        'dependencies': ['D3'],
+        'js_url': [
+            ('//cdnjs.cloudflare.com/ajax/libs/'
+             'dagre-d3/0.4.17/dagre-d3.min.js'),
+            ('//raw.githubusercontent.com/cpettitt/graphlib-dot/'
+             'master/dist/graphlib-dot.min.js'),
+        ],
+        'css_url': None,
+        'enabled': True,
+        'help_link': 'https://github.com/cpettitt/dagre-d3/wiki'
+    },
     'Sparklines': {
         'charts': [
             ('sparklines-line', 'Sparkline Line'),
@@ -134,7 +149,7 @@ CHARTS_CONFIG = {
         'dependencies': None,
         'js_url': [
             ('//cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/'
-             '2.1.2/jquery.sparkline.min.js')
+             '2.1.2/jquery.sparkline.min.js'),
         ],
         'css_url': None,
         'enabled': True,
