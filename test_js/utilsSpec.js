@@ -50,3 +50,17 @@ describe('getDigitSize', function(){
         // TODO!
     });
 });
+
+describe('translateStr', function(){
+    it('should create the string for a svg translation value', function(){
+        expect(jsondash.util.translateStr(10, 20)).toBe('translate(10,20)');
+        expect(jsondash.util.translateStr('50%', '50%')).toBe('translate(50%,50%)');
+    });
+});
+
+describe('scaleStr', function(){
+    it('should create the string for a svg scale value', function(){
+        expect(jsondash.util.scaleStr(10, 20)).toBe('scale(10,20)');
+        expect(jsondash.util.scaleStr('50%', '50%')).toBe('scale(50%,50%)');
+    });
+});
