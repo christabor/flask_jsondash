@@ -282,6 +282,36 @@ Takes the html embed code from youtube. For example:
 
 This will be serialized for JSON and deserialized when rendering.
 
+## Graph
+
+A graph is an abstract structure that uses nodes and edges to represent relationships. The actual implementation here utilizes the graphviz digraph (directed graph) DOT specification.
+
+The graph/digraph format is like the following simple example:
+
+```
+digraph {
+    a -> b;
+    b -> a;
+    a -> c;
+    b -> c;
+    c -> c;
+}
+```
+
+Which must be encoded as json like so:
+
+```json
+{
+    "graph": "..."
+}
+```
+
+Where `...` is the digraph string. You can find the [dot specificiation here](http://www.graphviz.org/content/dot-language) and the actual [javascript implementation here](https://github.com/cpettitt/graphlib/wiki/API-Reference). 
+
+### Overrides
+
+Not supported/relevant.
+
 ## Datatables
 
 ### Overrides
