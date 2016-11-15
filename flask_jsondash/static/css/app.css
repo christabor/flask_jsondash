@@ -205,24 +205,29 @@ body {
  * SVG for graphlib.
  */
 
-#charts-builder .chart-graph .node {
+#charts-builder .widget .chart-graph {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    overflow: visible !important;
+}
+#charts-builder .widget .chart-graph .node {
     fill: none;
 }
 
 /* Containers */
 
-#charts-builder .chart-graph .nodes .node rect {
+#charts-builder .widget .chart-graph .nodes .node rect {
     fill: #f1f1f1;
     stroke: black;
     stroke-width: 2px;
 }
-#charts-builder .chart-graph .nodes .node text {
+#charts-builder .widget .chart-graph .nodes .node text {
     fill: black;
 }
 
 /* Arrows */
 
-#charts-builder .chart-graph .edgePath path {
+#charts-builder .widget .chart-graph .edgePath path {
     stroke: black;
     fill: black;
 }

@@ -64,11 +64,10 @@ jsondash.handlers.handleGraph = function(container, config) {
         var bbox = null;
         // Create the renderer
         var render = new dagreD3.render();
-        svg.attr('width', w).attr('height', h);
-        svg_group.attr('transform', jsondash.util.translateStr(20, 20));
         render(svg_group, g);
         bbox = svg.node().getBBox();
-        svg.attr('width', bbox.width + 30).attr('height', bbox.height + 30);
+        svg.attr('width', bbox.width)
+            .attr('height', bbox.height);
         jsondash.unload(container);
     });
 };
