@@ -51,21 +51,20 @@ var jsondash = function() {
     }
 
     function refreshableType(type) {
-        if(type === 'youtube') return false;
+        if(type === 'youtube') {return false;}
         return true;
     }
 
     function saveModule(e){
         var data     = jsondash.util.serializeToJSON($($MODULE_FORM).serializeArray());
-        var last     = $('.modules').find('input').last();
         var newfield = $('<input class="form-control" type="text">');
         var id       = jsondash.util.guid();
         // Add a unique guid for referencing later.
         data['guid'] = id;
         // Add family for lookups
         data['family'] = $($MODULE_FORM).find('select option:selected').data().family;
-        if(!data.refresh || !refreshableType(data.type)) data['refresh'] = false;
-        if(!data.override) data['override'] = false;
+        if(!data.refresh || !refreshableType(data.type)) {data['refresh'] = false;}
+        if(!data.override) {data['override'] = false;}
         newfield.attr('name', 'module_' + id);
         newfield.val(JSON.stringify(data));
         $('.modules').append(newfield);
@@ -189,9 +188,8 @@ var jsondash = function() {
 
     function deleteModule(e) {
         e.preventDefault();
-        if(!confirm('Are you sure?')) return;
+        if(!confirm('Are you sure?')) {return;}
         var guid = $($MODULE_FORM).attr('data-guid');
-        var module = getModuleByGUID(guid);
         // Remove form input and visual widget
         $('.modules').find('#' + guid).remove();
         $('.item.widget[data-guid="' + guid + '"]').remove();
@@ -235,12 +233,6 @@ var jsondash = function() {
         $($DELETE_DASHBOARD).on('submit.charts', function(e){
             if(!confirm('Are you sure?')) e.preventDefault();
         });
-    }
-
-    function togglePanel(e) {
-        e.preventDefault();
-        var el = $(this).attr('href');
-        $(el).toggleClass('open');
     }
 
     function initGrid(container) {
@@ -359,7 +351,6 @@ var jsondash = function() {
             minWidth: 200,
             minHeight: 200,
             stop: function(event, ui) {
-                var active = getModuleByGUID(config.guid);
                 // Update the configs dimensions.
                 config = $.extend(config, {width: ui.size.width, height: ui.size.height});
                 updateModuleInput(config);
