@@ -2,6 +2,18 @@
     "date": "2016-08-23 15:03:49.178000",
     "modules": [
         {
+            "name": "Graph",
+            "family": "Graph",
+            "refresh": false,
+            "height": "500",
+            "width": "500",
+            "dataSource": "http://127.0.0.1:5004/digraph",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "a1c0b305-2340-211a-dc6e-a0d956bd9315",
+            "type": "graph"
+        },
+        {
             "name": "Gist via Github.com",
             "family": "C3",
             "refresh": false,
