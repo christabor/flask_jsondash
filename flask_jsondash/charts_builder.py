@@ -80,7 +80,7 @@ def metadata(key=None, exclude=[]):
     """
     _metadata = dict()
     conf = current_app.config
-    conf_metadata = conf.get('JSONDASH', {}).get('metadata', None)
+    conf_metadata = conf.get('JSONDASH', {}).get('metadata')
     # Also useful for getting arbitrary configuration keys.
     if key is not None:
         if key in conf_metadata:

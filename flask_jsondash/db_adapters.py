@@ -57,7 +57,7 @@ def count(**kwargs):
 def read(**kwargs):
     """Read a record."""
     if DB_NAME == 'mongo':
-        if kwargs.get('c_id', None) is None:
+        if kwargs.get('c_id') is None:
             return coll.find(**kwargs)
         else:
             return coll.find_one(dict(id=kwargs.pop('c_id')))
