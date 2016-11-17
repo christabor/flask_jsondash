@@ -49,16 +49,16 @@ def client():
 
 
 def test_no_config_sanity_test(client):
-    assert app.config.get('JSONDASH_GLOBALDASH') == False
-    assert app.config.get('JSONDASH_FILTERUSERS') == False
+    assert not app.config.get('JSONDASH_GLOBALDASH')
+    assert not app.config.get('JSONDASH_FILTERUSERS')
     assert app.config.get('JSONDASH_GLOBAL_USER') == 'global-test'
 
 
 def test_setting(client):
     with app.app_context():
         _get = charts_builder.setting
-        assert _get('JSONDASH_GLOBALDASH') == False
-        assert _get('JSONDASH_FILTERUSERS') == False
+        assert not _get('JSONDASH_GLOBALDASH')
+        assert not _get('JSONDASH_FILTERUSERS')
         assert _get('JSONDASH_GLOBAL_USER') == 'global-test'
 
 
