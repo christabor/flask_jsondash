@@ -20,6 +20,9 @@ body {
     border-bottom-width: 2px;
     border-bottom-color: #bbb;
 }
+#charts-builder small {
+    font-weight: 400;
+}
 
 /* Resizeable ui */
 
