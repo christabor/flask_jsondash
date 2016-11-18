@@ -240,7 +240,7 @@ def dashboard():
 @charts.route('/charts/<id>', methods=['GET'])
 def view(id):
     """Load a json view config from the DB."""
-    if not auth(authtype='view'):
+    if not auth(authtype='view', view_id=id):
         flash('You do not have access to view this dashboard.', 'error')
         return redirect(url_for('jsondash.dashboard'))
     viewjson = adapter.read(c_id=id)
