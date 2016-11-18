@@ -406,16 +406,23 @@ jsondash.handlers.handleDataTable = function(container, config) {
 jsondash.handlers.handleSingleNum = function(container, config) {
     'use strict';
     container.selectAll('.singlenum').remove();
-    jsondash.getJSON(config.dataSource, function(data){
+    jsondash.getJSON(config.dataSource, function(resp){
+        var data = resp.data.data ? resp.data.data : resp.data;
         var num = container.append('div')
             .classed({singlenum: true})
             .text(data);
         data = String(data);
         // Add red or green, depending on if the number appears to be pos/neg.
-        num.classed({
-            'text-danger': data.startsWith('-'),
-            'text-success': !data.startsWith('-')
-        });
+        if(!resp.noformat) {
+            num.classed({
+                'text-danger': data.startsWith('-'),
+                'text-success': !data.startsWith('-')
+            });
+        }
+        // Allow custom colors.
+        if(resp.color && resp.noformat) {
+            num.style('color', resp.color);
+        }
         // Get title height to offset box.
         var title_h = container
             .select('.widget-title')
@@ -423,7 +430,7 @@ jsondash.handlers.handleSingleNum = function(container, config) {
             .getBoundingClientRect()
             .height;
         var inner_box_height = config.height - title_h; // factor in rough height of title.
-        container.style({
+        num.style({
             'line-height': inner_box_height + 'px',
             height: inner_box_height + 'px'
         });
