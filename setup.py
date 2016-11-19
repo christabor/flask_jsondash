@@ -8,6 +8,10 @@ SRCDIR = '.'
 folder = os.path.abspath(os.path.dirname(__file__))
 template_start = '{}/flask_jsondash/templates'.format(folder)
 static_start = '{}/flask_jsondash/static'.format(folder)
+test_requirements = [
+    'pytest==3.0',
+    'mock==2.0',
+]
 requirements = [
     'click==6.6',
     'Flask==0.10.1',
@@ -53,6 +57,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
+    tests_require=test_requirements,
     install_requires=requirements,
     package_dir={'flask_jsondash': 'flask_jsondash'},
     packages=['flask_jsondash'],

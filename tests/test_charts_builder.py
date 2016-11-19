@@ -1,3 +1,4 @@
+from contextlib import nested
 import json
 from datetime import datetime as dt
 
@@ -6,9 +7,9 @@ from flask import (
     current_app,
     url_for,
 )
+import mock
 import pytest
 
-from flask_jsondash import settings
 from flask_jsondash import charts_builder
 
 
@@ -195,3 +196,22 @@ def test_routes(client):
         # Create
         url = '{}/charts/create'.format(URL_BASE)
         assert url_for('jsondash.create') == url
+
+
+def test_paginator_default():
+    with app.app_context():
+        def count(*args, **kwargs): return 1000
+        def setting(*args, **kwargs): return 30
+        # Need context for 2 different patch operations.
+        with nested(
+            mock.patch.object(charts_builder, 'setting', setting),
+            mock.patch.object(charts_builder.adapter, 'count', count),
+        ):
+            paginator = charts_builder.paginator(0)
+            assert isinstance(paginator, charts_builder.Paginator)
+            assert paginator.limit == 30
+            assert paginator.per_page == 30
+            assert paginator.curr_page == 0
+            assert paginator.skip == 0
+            assert paginator.num_pages == range(1, 35)
+            assert paginator.count == 1000

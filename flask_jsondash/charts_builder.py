@@ -185,15 +185,15 @@ def _static(filename):
     return send_from_directory(static_dir, filename)
 
 
-def paginator(count=None):
+def paginator(page=0, per_page=None, count=None):
     """Get pagination calculations in a compact format."""
     if count is None:
         count = adapter.count()
-    per_page = setting('JSONDASH_PERPAGE')
+    default_per_page = setting('JSONDASH_PERPAGE')
     # Allow query parameter overrides.
-    per_page = int(request.args.get('per_page', 0)) or per_page
+    per_page = per_page if per_page is not None else default_per_page
     per_page = per_page if per_page > 2 else 2  # Prevent division errors etc
-    curr_page = int(request.args.get('page', 1)) - 1
+    curr_page = page - 1 if page > 0 else 0
     num_pages = count // per_page
     rem = count % per_page
     extra_pages = 2 if rem else 1
@@ -223,7 +223,14 @@ def dashboard():
     else:
         views = list(adapter.read(**opts))
     if views:
-        pagination = paginator(count=len(views))
+        page = request.args.get('page')
+        per_page = request.args.get('per_page')
+        paginator_args = dict(count=len(views))
+        if per_page is not None:
+            paginator_args.update(per_page=int(per_page))
+        if page is not None:
+            paginator_args.update(page=int(page))
+        pagination = paginator(**paginator_args)
         opts.update(limit=pagination.limit, skip=pagination.skip)
     else:
         pagination = None
