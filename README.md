@@ -394,7 +394,7 @@ And voila! You can now edit the folder directly, and still use it as a normal pi
 
 ### Python
 
-You can run these tests using pytest (`pip install -U pytest`) and then run it in the tests folder: `pytest`.
+You can run these tests using pytest (`pip install -U pytest`) and then in the existing virtualenv, run `pytest tests`.
 
 If you are having issues with this approach, an alternative would be to install pytest within the projects' virtualenv (assuming you've created one), and then running it like so: `cd tests ; python -m pytest`.
 

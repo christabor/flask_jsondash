@@ -2,6 +2,7 @@ import json
 from datetime import datetime as dt
 
 from flask_jsondash import db_adapters
+from flask_jsondash import settings
 
 
 def test_reformat_data():
@@ -28,3 +29,15 @@ def test_format_modules_invalid():
 
 def test_create_none():
     assert db_adapters.create() is None
+
+
+def test_default_dbname():
+    assert db_adapters.DB_NAME == 'mongo'
+
+
+def test_default_settings():
+    assert settings.DB_URI == 'localhost'
+    assert settings.DB_PORT == 27017
+    assert settings.DB_NAME == 'charts'
+    assert settings.DB_TABLE == 'views'
+    assert settings.ACTIVE_DB == 'mongo'

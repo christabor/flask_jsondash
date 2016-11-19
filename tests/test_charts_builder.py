@@ -158,8 +158,8 @@ def test_getdims_youtube():
 
 
 def test_app_redirects(client):
-    resp = client.get('/charts')
-    assert 'You should be redirected automatically' in resp.data
+    res = client.get('/charts')
+    assert 'You should be redirected automatically' in res.data
 
 
 def test_routes(client):
