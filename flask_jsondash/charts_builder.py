@@ -289,7 +289,7 @@ def update(c_id):
         flash('You do not have access to update dashboards.', 'error')
         return redirect(url_for('jsondash.dashboard'))
     form_data = request.form
-    view_url = url_for('jsondash.view', id=c_id)
+    view_url = url_for('jsondash.view', c_id=c_id)
     edit_raw = 'edit-raw' in request.form
     if edit_raw:
         try:
@@ -360,7 +360,7 @@ def create():
     # Add to DB
     adapter.create(data=d)
     flash('Created new view "{}"'.format(data['name']))
-    return redirect(url_for('jsondash.view', id=new_id))
+    return redirect(url_for('jsondash.view', c_id=new_id))
 
 
 @charts.route('/charts/<c_id>/clone', methods=['POST'])
@@ -383,4 +383,4 @@ def clone(c_id):
     data.update(**metadata())
     # Add to DB
     adapter.create(data=data)
-    return redirect(url_for('jsondash.view', id=data['id']))
+    return redirect(url_for('jsondash.view', c_id=data['id']))
