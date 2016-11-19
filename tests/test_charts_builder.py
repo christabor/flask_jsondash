@@ -157,6 +157,18 @@ def test_getdims_youtube():
         assert charts_builder.get_dims(object, data) == expected
 
 
+@pytest.mark.filters
+def test_jsonstring():
+    with app.app_context():
+        now = dt.now()
+        data = dict(date=now, foo='bar')
+        res = charts_builder.jsonstring(object, data)
+        assert 'foo' in res
+        assert isinstance(res, str)
+        d = json.loads(res)
+        assert isinstance(d['date'], unicode)
+
+
 def test_app_redirects(client):
     res = client.get('/charts')
     assert 'You should be redirected automatically' in res.data
