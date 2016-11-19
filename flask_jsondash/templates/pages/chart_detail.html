@@ -24,9 +24,11 @@
                 <span rel="tooltip" title="Refresh the panels url endpoint (will reset any options)" class="icon widget-refresh fa fa-refresh"></span>
             </span>
         </p>
-        <a href="#chart-options" data-toggle="modal" class="widget-edit"><span class="fa fa-edit"></span> Edit</a>
+        {% if can_edit %}
+            <a href="#chart-options" data-toggle="modal" class="widget-edit"><span class="fa fa-edit"></span> Edit</a>
+        {% endif %}
         <div class="chart-container"></div>
-        {% if module.inputs %}
+        {% if module.inputs and can_edit %}
             <div class="chart-inputs collapse">
                 <form action="{{ module.dataSoure }}" class="form-horizontal form-group-sm">
                     <fieldset>
@@ -97,21 +99,25 @@
                 </a>
             </small>
             {{ view.name }}
-            <small>
-                {% include "partials/dashboard-options.html" %}
-            </small>
-        </h2>
-        <div class="{{ 'collapse' if view.modules|length else '' }}" id="edit-view-container">
-            {% if not view.modules|length %}
-                <div class="alert alert-warning text-center">
-                    <p>
-                        It looks like this dashboard has no modules - add some below.
-                    </p>
-                </div>
+            {% if can_edit %}
+                <small>
+                    {% include "partials/dashboard-options.html" %}
+                </small>
             {% endif %}
-            {% include "partials/form-view.html" %}
-        </div>
-        {% include "partials/form-json.html" %}
+        </h2>
+        {% if can_edit %}
+            <div class="{{ 'collapse' if view.modules|length else '' }}" id="edit-view-container">
+                {% if not view.modules|length %}
+                    <div class="alert alert-warning text-center">
+                        <p>
+                            It looks like this dashboard has no modules - add some below.
+                        </p>
+                    </div>
+                {% endif %}
+                {% include "partials/form-view.html" %}
+            </div>
+            {% include "partials/form-json.html" %}
+        {% endif %}
         <div class="layout" id="view-builder">
             <div id="container">
                 {% for module in view.modules %}

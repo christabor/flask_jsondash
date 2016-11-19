@@ -192,11 +192,17 @@ By default, no authentication is performed for a given action. However, supporti
 
 ```python
 
+def can_edit_others(view_id=None):
+    if view_id == '...' and session.get('user')['name'] in SECRET_ADMINS:
+        return True
+    return False
+
 def can_delete_charts():
     return session.get('user')['name'] in SECRET_ADMINS
 
 charts_config = dict(
     auth=dict(
+        edit_others=can_edit_others,
         delete=can_delete_charts,
     ),
 )
@@ -229,7 +235,11 @@ Allows creation of new charts.
 
 **view**
 
-Allows viewing of a chart. The provided function will be passed the `id` of the view.
+Allows viewing of a chart. The provided function will be passed the `id` of the view as a `view_id` kwarg.
+
+**edit_others**
+
+Allow editing of other creators' charts. The provided function will be passed the `id` of the view as a `view_id` kwarg. If the created_by matches the logged in user, it will automatically be allowed, regardless of the auth override.
 
 ### Metadata configuration
 

@@ -252,10 +252,18 @@ def view(id):
     # Chart family is encoded in chart type value for lookup.
     active_charts = [v.get('family') for
                      v in viewjson['modules'] if v.get('family')]
+    # If the logged in user is also the creator of this dashboard,
+    # let me edit it. Otherwise, defer to any user-supplied auth function
+    # for this specific view.
+    if metadata(key='username') == viewjson.get('created_by'):
+        can_edit = True
+    else:
+        can_edit = auth(authtype='edit_others', view_id=id)
     kwargs = dict(
         id=id,
         view=viewjson,
         active_charts=active_charts,
+        can_edit=can_edit,
         can_edit_global=auth(authtype='edit_global'),
         is_global=is_global_dashboard(viewjson),
     )
