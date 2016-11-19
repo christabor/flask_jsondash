@@ -90,6 +90,7 @@ def test_auth_false_realauth():
         assert not charts_builder.auth(authtype='delete')
         assert not charts_builder.auth(authtype='clone')
         assert not charts_builder.auth(authtype='edit_global')
+        assert not charts_builder.auth(authtype='edit_others')
 
 
 def test_auth_true_realauth():
@@ -109,6 +110,7 @@ def test_auth_true_realauth():
         assert charts_builder.auth(authtype='delete')
         assert charts_builder.auth(authtype='clone')
         assert charts_builder.auth(authtype='edit_global')
+        assert charts_builder.auth(authtype='edit_others')
 
 
 def test_auth_true_fakeauth():
