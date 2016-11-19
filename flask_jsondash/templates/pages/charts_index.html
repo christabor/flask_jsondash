@@ -4,7 +4,7 @@
 {%- macro item(view) %}
 <li class="list-group-item chart-list-item clearfix">
     <span class="fa fa-bar-chart"></span>
-    <a href="{{ url_for('jsondash.view', id=view.id) }}">
+    <a href="{{ url_for('jsondash.view', c_id=view.id) }}">
         <strong>{{ view.name }}</strong> - Created {{ view.date }}
         {% if view.created_by %} by {{ view.created_by }}{% endif %}
         ({{ view.modules|length }} modules)

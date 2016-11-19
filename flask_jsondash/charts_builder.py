@@ -237,15 +237,15 @@ def dashboard():
     return render_template('pages/charts_index.html', **kwargs)
 
 
-@charts.route('/charts/<id>', methods=['GET'])
-def view(id):
+@charts.route('/charts/<c_id>', methods=['GET'])
+def view(c_id):
     """Load a json view config from the DB."""
-    if not auth(authtype='view', view_id=id):
+    if not auth(authtype='view', view_id=c_id):
         flash('You do not have access to view this dashboard.', 'error')
         return redirect(url_for('jsondash.dashboard'))
-    viewjson = adapter.read(c_id=id)
+    viewjson = adapter.read(c_id=c_id)
     if not viewjson:
-        flash('Could not find view: {}'.format(id), 'error')
+        flash('Could not find view: {}'.format(c_id), 'error')
         return redirect(url_for('jsondash.dashboard'))
     # Remove _id, it's not JSON serializeable.
     viewjson.pop('_id')
@@ -258,9 +258,9 @@ def view(id):
     if metadata(key='username') == viewjson.get('created_by'):
         can_edit = True
     else:
-        can_edit = auth(authtype='edit_others', view_id=id)
+        can_edit = auth(authtype='edit_others', view_id=c_id)
     kwargs = dict(
-        id=id,
+        id=c_id,
         view=viewjson,
         active_charts=active_charts,
         can_edit=can_edit,
@@ -282,14 +282,13 @@ def delete(c_id):
     return redirect(dash_url)
 
 
-@charts.route('/charts/update', methods=['POST'])
-def update():
+@charts.route('/charts/<c_id>/update', methods=['POST'])
+def update(c_id):
     """Normalize the form POST and setup the json view config object."""
     if not auth(authtype='update'):
         flash('You do not have access to update dashboards.', 'error')
         return redirect(url_for('jsondash.dashboard'))
     form_data = request.form
-    c_id = form_data['id']
     view_url = url_for('jsondash.view', id=c_id)
     edit_raw = 'edit-raw' in request.form
     if edit_raw:
@@ -364,7 +363,7 @@ def create():
     return redirect(url_for('jsondash.view', id=new_id))
 
 
-@charts.route('/charts/clone/<c_id>', methods=['POST'])
+@charts.route('/charts/<c_id>/clone', methods=['POST'])
 def clone(c_id):
     """Clone a json view config from the DB."""
     if not auth(authtype='clone'):

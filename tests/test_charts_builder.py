@@ -1,14 +1,20 @@
 import json
 from datetime import datetime as dt
 
-from flask import Flask, current_app
+from flask import (
+    Flask,
+    current_app,
+    url_for,
+)
 import pytest
 
 from flask_jsondash import settings
 from flask_jsondash import charts_builder
 
 
+URL_BASE = 'http://127.0.0.1:80'
 app = Flask('test_flask_jsondash')
+app.secret_key = '123'
 app.debug = True
 app.register_blueprint(charts_builder.charts)
 
@@ -17,11 +23,11 @@ def _username():
     return 'Username'
 
 
-def _authtest():
+def _authtest(**kwargs):
     return False
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture()
 def client():
     app.config.update(
         JSONDASH_GLOBALDASH=False,
@@ -38,6 +44,7 @@ def client():
             css_path='css/vendor/',
         ),
         auth=dict(
+            edit_others=_authtest,
             edit_global=_authtest,
             create=_authtest,
             view=_authtest,
@@ -60,11 +67,6 @@ def test_setting(client):
         assert not _get('JSONDASH_GLOBALDASH')
         assert not _get('JSONDASH_FILTERUSERS')
         assert _get('JSONDASH_GLOBAL_USER') == 'global-test'
-
-
-def test_app_redirect(client):
-    resp = client.get('/charts')
-    assert 'You should be redirected automatically' in resp.data
 
 
 def test_is_global_dashboard_true(client):
@@ -132,6 +134,7 @@ def test_metadata():
         )
 
 
+@pytest.mark.filters
 def test_getdims_normal():
     with app.app_context():
         data = dict(width=100, height=100, type='foo')
@@ -139,6 +142,7 @@ def test_getdims_normal():
         assert charts_builder.get_dims(object, data) == expected
 
 
+@pytest.mark.filters
 def test_getdims_youtube():
     with app.app_context():
         yt = ('<iframe width="650" height="366" '
@@ -149,3 +153,31 @@ def test_getdims_youtube():
         data = dict(type='youtube', dataSource=yt, width=100, height=100)
         expected = dict(width=650 + 20, height=366 + 60)
         assert charts_builder.get_dims(object, data) == expected
+
+
+def test_app_redirects(client):
+    resp = client.get('/charts')
+    assert 'You should be redirected automatically' in resp.data
+
+
+def test_routes(client):
+    app.config['SERVER_NAME'] = '127.0.0.1:80'
+    with app.app_context():
+        # Index
+        url = '{}/charts/'.format(URL_BASE)
+        assert url_for('jsondash.dashboard') == url
+        # View
+        url = '{}/charts/foo'.format(URL_BASE)
+        assert url_for('jsondash.view', c_id='foo') == url
+        # Update
+        url = '{}/charts/foo/update'.format(URL_BASE)
+        assert url_for('jsondash.update', c_id='foo') == url
+        # Clone
+        url = '{}/charts/foo/clone'.format(URL_BASE)
+        assert url_for('jsondash.clone', c_id='foo') == url
+        # Delete
+        url = '{}/charts/foo/delete'.format(URL_BASE)
+        assert url_for('jsondash.delete', c_id='foo') == url
+        # Create
+        url = '{}/charts/create'.format(URL_BASE)
+        assert url_for('jsondash.create') == url
