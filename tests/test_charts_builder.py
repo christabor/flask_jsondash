@@ -12,6 +12,7 @@ from conftest import URL_BASE
 from flask_jsondash import charts_builder
 
 
+@pytest.mark.globalflag
 def test_no_config_sanity_test(client):
     app, test = client
     assert not app.config.get('JSONDASH_GLOBALDASH')
@@ -19,6 +20,7 @@ def test_no_config_sanity_test(client):
     assert app.config.get('JSONDASH_GLOBAL_USER') == 'global-test'
 
 
+@pytest.mark.globalflag
 def test_setting(client):
     app, test = client
     with app.app_context():
@@ -28,6 +30,7 @@ def test_setting(client):
         assert _get('JSONDASH_GLOBAL_USER') == 'global-test'
 
 
+@pytest.mark.globalflag
 def test_is_global_dashboard_true(client):
     app, test = client
     with app.app_context():
@@ -36,6 +39,7 @@ def test_is_global_dashboard_true(client):
             dict(created_by='global-test'))
 
 
+@pytest.mark.globalflag
 def test_is_global_dashboard_false(client):
     app, test = client
     with app.app_context():
@@ -44,6 +48,7 @@ def test_is_global_dashboard_false(client):
         assert not is_global(dict(created_by='Username'))
 
 
+@pytest.mark.auth
 def test_auth_false_realauth(client):
     app, test = client
     with app.app_context():
@@ -55,6 +60,7 @@ def test_auth_false_realauth(client):
         assert not charts_builder.auth(authtype='edit_others')
 
 
+@pytest.mark.auth
 def test_auth_true_realauth(client):
     app, test = client
     with app.app_context():
@@ -76,6 +82,7 @@ def test_auth_true_realauth(client):
         assert charts_builder.auth(authtype='edit_others')
 
 
+@pytest.mark.auth
 def test_auth_true_fakeauth(client):
     app, test = client
     with app.app_context():
