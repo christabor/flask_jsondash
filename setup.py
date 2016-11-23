@@ -10,6 +10,7 @@ template_start = '{}/flask_jsondash/templates'.format(folder)
 static_start = '{}/flask_jsondash/static'.format(folder)
 test_requirements = [
     'pytest==3.0',
+    'pytest-cov==2.4',
 ]
 requirements = [
     'click==6.6',
