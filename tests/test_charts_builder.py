@@ -144,21 +144,9 @@ def test_routes(ctx, client):
     app, test = client
     app.config['SERVER_NAME'] = '127.0.0.1:80'
     app, test = client
-    # Index
-    url = '/charts/'
-    assert url_for('jsondash.dashboard') == url
-    # View
-    url = '/charts/foo'
-    assert url_for('jsondash.view', c_id='foo') == url
-    # Update
-    url = '/charts/foo/update'
-    assert url_for('jsondash.update', c_id='foo') == url
-    # Clone
-    url = '/charts/foo/clone'
-    assert url_for('jsondash.clone', c_id='foo') == url
-    # Delete
-    url = '/charts/foo/delete'
-    assert url_for('jsondash.delete', c_id='foo') == url
-    # Create
-    url = '/charts/create'
-    assert url_for('jsondash.create') == url
+    assert url_for('jsondash.dashboard') == '/charts/'
+    assert url_for('jsondash.view', c_id='foo') == '/charts/foo'
+    assert url_for('jsondash.update', c_id='foo') == '/charts/foo/update'
+    assert url_for('jsondash.clone', c_id='foo') == '/charts/foo/clone'
+    assert url_for('jsondash.delete', c_id='foo') == '/charts/foo/delete'
+    assert url_for('jsondash.create') == '/charts/create'
