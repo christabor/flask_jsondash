@@ -31,36 +31,32 @@ def check_values(paginator, limit, perpage, currpage, skip, numpages, count):
 
 def test_paginator_default_usage(monkeypatch, client):
     app, test = client
-    with app.app_context():
-        monkeypatch.setattr(charts_builder, 'setting', make_setting(30))
-        monkeypatch.setattr(charts_builder.adapter, 'count', make_count(1000))
-        paginator = charts_builder.paginator(page=0)
-        check_values(paginator, 30, 30, 0, 0, range(1, 35), 1000)
+    monkeypatch.setattr(charts_builder, 'setting', make_setting(30))
+    monkeypatch.setattr(charts_builder.adapter, 'count', make_count(1000))
+    paginator = charts_builder.paginator(page=0)
+    check_values(paginator, 30, 30, 0, 0, range(1, 35), 1000)
 
 
 def test_paginator_norecords(monkeypatch, client):
     app, test = client
-    with app.app_context():
-        monkeypatch.setattr(charts_builder, 'setting', make_setting(30))
-        monkeypatch.setattr(charts_builder.adapter, 'count', make_count(0))
-        paginator = charts_builder.paginator(page=0)
-        check_values(paginator, 30, 30, 0, 0, [], 0)
+    monkeypatch.setattr(charts_builder, 'setting', make_setting(30))
+    monkeypatch.setattr(charts_builder.adapter, 'count', make_count(0))
+    paginator = charts_builder.paginator(page=0)
+    check_values(paginator, 30, 30, 0, 0, [], 0)
 
 
 def test_paginator_default_fallback_data(monkeypatch, client):
     app, test = client
-    with app.app_context():
-        monkeypatch.setattr(charts_builder, 'setting', make_setting(0))
-        monkeypatch.setattr(charts_builder.adapter, 'count', make_count(0))
-        paginator = charts_builder.paginator(page=None, per_page=1, count=None)
-        check_values(paginator, 2, 2, 0, 0, [], 0)
+    monkeypatch.setattr(charts_builder, 'setting', make_setting(0))
+    monkeypatch.setattr(charts_builder.adapter, 'count', make_count(0))
+    paginator = charts_builder.paginator(page=None, per_page=1, count=None)
+    check_values(paginator, 2, 2, 0, 0, [], 0)
 
 
 def test_paginator_bad_kwargs(monkeypatch, client):
     app, test = client
-    with app.app_context():
-        monkeypatch.setattr(charts_builder, 'setting', make_setting(0))
-        monkeypatch.setattr(charts_builder.adapter, 'count', make_count(0))
-        paginator = charts_builder.paginator(
-            page=None, per_page=None, count=None)
-        check_values(paginator, 30, 30, 0, 0, [], 0)
+    monkeypatch.setattr(charts_builder, 'setting', make_setting(0))
+    monkeypatch.setattr(charts_builder.adapter, 'count', make_count(0))
+    paginator = charts_builder.paginator(
+        page=None, per_page=None, count=None)
+    check_values(paginator, 30, 30, 0, 0, [], 0)

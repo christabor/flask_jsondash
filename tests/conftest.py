@@ -27,6 +27,12 @@ def _authtest(**kwargs):
 
 
 @pytest.fixture()
+def ctx(request):
+    with app.test_request_context() as req_ctx:
+        yield req_ctx
+
+
+@pytest.fixture()
 def client():
     app.config.update(
         JSONDASH_GLOBALDASH=False,
