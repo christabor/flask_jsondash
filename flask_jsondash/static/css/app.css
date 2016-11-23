@@ -4,14 +4,14 @@ body {
 
 /* Widgets */
 
-#charts-builder {
+.dashboard-charts {
     padding-bottom: 1em;
     margin-bottom: 4em;
 }
-#charts-builder .chart-list .chart-list-item:hover {
+.dashboard-charts .chart-list .chart-list-item:hover {
     background-color: #f1f1f1;
 }
-#charts-builder .widget {
+.dashboard-charts .widget {
     margin: 5px;
     float: left;
     border-radius: 5px;
@@ -20,7 +20,7 @@ body {
     border-bottom-width: 2px;
     border-bottom-color: #bbb;
 }
-#charts-builder small {
+.dashboard-charts small {
     font-weight: 400;
 }
 
@@ -40,18 +40,18 @@ body {
     border: 2px dotted #85C785;
     background-color: rgba(255, 255, 255, 0.8);
 }
-#charts-builder .ui-icon-gripsmall-diagonal-se {}
-#charts-builder .ui-icon-gripsmall-diagonal-se:hover {
+.dashboard-charts .ui-icon-gripsmall-diagonal-se {}
+.dashboard-charts .ui-icon-gripsmall-diagonal-se:hover {
     background-color: #85C785;
 }
 
-#charts-builder .widget:hover {
+.dashboard-charts .widget:hover {
     border-color: #85C785;
 }
-#charts-builder .widget iframe {
+.dashboard-charts .widget iframe {
     border: 0;
 }
-#charts-builder .widget .widget-edit {
+.dashboard-charts .widget .widget-edit {
     display: none;
     position: absolute;
     top: 0;
@@ -65,18 +65,18 @@ body {
     color: white;
     border-bottom: 2px solid #777;
 }
-#charts-builder .widget .widget-edit:hover {
+.dashboard-charts .widget .widget-edit:hover {
     background-color: #444;
 }
-#charts-builder .widget .icon {
+.dashboard-charts .widget .icon {
     margin-left: 0.5em;
     font-size: 15px;
     color: #666;
 }
-#charts-builder .widget .icon:last-of-type {
+.dashboard-charts .widget .icon:last-of-type {
     margin-left: 0;
 }
-#charts-builder .widget .icon:hover {
+.dashboard-charts .widget .icon:hover {
     -webkit-transition: all .25s ease-in-out;
     -moz-transition: all .25s ease-in-out;
     -ms-transition: all .25s ease-in-out;
@@ -85,14 +85,14 @@ body {
     cursor: pointer;
     color: #222;
 }
-#charts-builder .widget:hover .widget-edit {
+.dashboard-charts .widget:hover .widget-edit {
     display: block;
 }
-#charts-builder .widget .widget-refresh:hover {
+.dashboard-charts .widget .widget-refresh:hover {
     transform: rotate(60deg);
 }
-#charts-builder .widget .widget-loader,
-#charts-builder .widget .loadfail {
+.dashboard-charts .widget .widget-loader,
+.dashboard-charts .widget .loadfail {
     position: absolute;
     font-size: 30px;
     color: #333;
@@ -101,7 +101,7 @@ body {
     margin-left: -50%;
     z-index: 999;
 }
-#charts-builder .loader-overlay {
+.dashboard-charts .loader-overlay {
     position: absolute;
     top: 0;
     z-index:998;
@@ -110,19 +110,19 @@ body {
     height: 100%;
     background-color: rgba(255, 255, 255, 0.8);
 }
-#charts-builder [data-failed="true"] {
+.dashboard-charts [data-failed="true"] {
     opacity: 0.5 !important;
 }
-#charts-builder [data-failed="true"]:hover {
+.dashboard-charts [data-failed="true"]:hover {
     opacity: 1 !important;
 }
-#charts-builder .widget .loadfail {
+.dashboard-charts .widget .loadfail {
     font-size: 12px;
 }
 
 /* Custom form inputs */
 
-#charts-builder .widget .chart-inputs {
+.dashboard-charts .widget .chart-inputs {
     padding: 1em;
     background-color: #fff;
     border: 1px solid #ccc;
@@ -134,34 +134,34 @@ body {
     position: relative;
     z-index: 999;
 }
-#charts-builder .widget .chart-inputs form {
+.dashboard-charts .widget .chart-inputs form {
     margin: 0 auto;
 }
-#charts-builder .widget .chart-inputs form label {
+.dashboard-charts .widget .chart-inputs form label {
     border-bottom: 1px solid #ccc;
     display: block;
     margin-right: 0.3em;
     padding-bottom: 0.5em;
 }
-#charts-builder .widget .chart-inputs form label:last-of-type {
+.dashboard-charts .widget .chart-inputs form label:last-of-type {
     border-bottom: none;
 }
-#charts-builder .widget .chart-inputs .help-text {
+.dashboard-charts .widget .chart-inputs .help-text {
     font-weight: 200;
 }
-#charts-builder .widget .chart-inputs .input-radio {
+.dashboard-charts .widget .chart-inputs .input-radio {
     margin-right: 0.2em;
     text-align: center;
 }
-#charts-builder .widget .chart-inputs .input-radio,
-#charts-builder .widget .chart-inputs .input-radio input {
+.dashboard-charts .widget .chart-inputs .input-radio,
+.dashboard-charts .widget .chart-inputs .input-radio input {
     display: inline-block;
 }
-#charts-builder .widget .chart-inputs legend {
+.dashboard-charts .widget .chart-inputs legend {
     font-size: 16px;
     font-weight: 200;
 }
-#charts-builder .widget .widget-title {
+.dashboard-charts .widget .widget-title {
     display: block;
     font-weight: 200;
     font-size: 0.9em;
@@ -174,7 +174,7 @@ body {
     color: #444;
     text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
-#charts-builder #view-builder.editing {
+.dashboard-charts #view-builder.editing {
     border: 1px solid #ccc;
     background-color: #fff;
     min-width: 800px;
@@ -182,9 +182,9 @@ body {
     /*http://www.patternify.com/*/
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAALUlEQVQYV2M8fvz4fwYiACNIoaWlJSMhtaMK8YYQOHgsLCxMQKoYGRnP4lINANSKKF9X4C8fAAAAAElFTkSuQmCC);
 }
-#charts-builder .widget iframe,
-#charts-builder .widget svg,
-#charts-builder .widget .chart-centered {
+.dashboard-charts .widget iframe,
+.dashboard-charts .widget svg,
+.dashboard-charts .widget .chart-centered {
     margin: 0 auto;
     display: block;
 }
@@ -193,14 +193,14 @@ body {
     overflow: scroll;
     display: block;
 }
-#charts-builder #save-view-form {
+.dashboard-charts #save-view-form {
     padding: 1em;
 }
-#charts-builder .form-inline {
+.dashboard-charts .form-inline {
     display: inline-block !important;
 }
-#charts-builder .form-inline input,
-#charts-builder .form-inline button {
+.dashboard-charts .form-inline input,
+.dashboard-charts .form-inline button {
     display: inline-block;
 }
 
@@ -208,29 +208,29 @@ body {
  * SVG for graphlib.
  */
 
-#charts-builder .widget .chart-graph {
+.dashboard-charts .widget .chart-graph {
     margin-top: 2em;
     margin-bottom: 2em;
     overflow: visible !important;
 }
-#charts-builder .widget .chart-graph .node {
+.dashboard-charts .widget .chart-graph .node {
     fill: none;
 }
 
 /* Containers */
 
-#charts-builder .widget .chart-graph .nodes .node rect {
+.dashboard-charts .widget .chart-graph .nodes .node rect {
     fill: #f1f1f1;
     stroke: black;
     stroke-width: 2px;
 }
-#charts-builder .widget .chart-graph .nodes .node text {
+.dashboard-charts .widget .chart-graph .nodes .node text {
     fill: black;
 }
 
 /* Arrows */
 
-#charts-builder .widget .chart-graph .edgePath path {
+.dashboard-charts .widget .chart-graph .edgePath path {
     stroke: black;
     fill: black;
 }
