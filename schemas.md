@@ -261,15 +261,21 @@ No schema; you can load whatever page you want. This will not affect the dashboa
 Any number, positive or negative. Prefixes, such as currencies, are also allowed (there is no real limit to the string, but it is typically shown as a number, and styled accordingly).
 
 ```json
-"$12,300"
+{"data": "$12,300"}
 ```
 
 ```json
-"-12,300"
+{"data": "-12,300"}
 ```
 
 ```json
-2302
+{"data": 2302}
+```
+
+You can also override the color and/or disable negative/positive formatting like so:
+
+```json
+{"data": 12, "color": "purple", "noformat": "true"}
 ```
 
 #### YouTube
