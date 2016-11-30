@@ -134,6 +134,14 @@ def test_jsonstring(ctx, client):
     assert isinstance(d['date'], unicode)
 
 
+@pytest.mark.utils
+def test_order_sort():
+    item = dict()
+    assert charts_builder.order_sort(item) == item
+    item = dict(order=1)
+    assert charts_builder.order_sort(item) == 1
+
+
 def test_app_redirects(ctx, client):
     app, test = client
     res = test.get('/charts')

@@ -21,12 +21,13 @@
                     title="Form options for this chart"
                     class="icon charts-input-icon fa fa-plus-square"></span>&nbsp;
                 {% endif %}
+                {% if can_edit %}
+                    <span rel="tooltip" title="Edit panel configuration" data-target="#chart-options" data-toggle="modal" class="icon fa fa-cog widget-edit"></span>
+                {% endif %}
+                <span rel="tooltip" title="Drag to move this panel around"  class="dragger icon fa fa-arrows"></span>
                 <span rel="tooltip" title="Refresh the panels url endpoint (will reset any options)" class="icon widget-refresh fa fa-refresh"></span>
             </span>
         </p>
-        {% if can_edit %}
-            <a href="#chart-options" data-toggle="modal" class="widget-edit"><span class="fa fa-edit"></span> Edit</a>
-        {% endif %}
         <div class="chart-container"></div>
         {% if module.inputs and can_edit %}
             <div class="chart-inputs collapse">
@@ -120,7 +121,7 @@
         {% endif %}
         <div class="layout" id="view-builder">
             <div id="container">
-                {% for module in view.modules %}
+                {% for module in modules %}
                     {{ chart(module=module) }}
                 {% endfor %}
             </div>

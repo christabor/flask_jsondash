@@ -208,6 +208,13 @@ def paginator(page=0, per_page=None, count=None):
     )
 
 
+def order_sort(item):
+    """Attempt to sort modules by order keys."""
+    if 'order' in item:
+        return item['order']
+    return item
+
+
 @charts.route('/charts/', methods=['GET'])
 def dashboard():
     """Load all views."""
@@ -269,6 +276,7 @@ def view(c_id):
     kwargs = dict(
         id=c_id,
         view=viewjson,
+        modules=sorted(viewjson['modules'], key=order_sort),
         active_charts=active_charts,
         can_edit=can_edit,
         can_edit_global=auth(authtype='edit_global'),

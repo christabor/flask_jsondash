@@ -45,36 +45,41 @@ body {
     background-color: #85C785;
 }
 
+/**
+ * Draggable
+ */
+
+/* Draggabilly adds is-dragging */
+.item.is-dragging,
+.item.is-positioning-post-drag {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    z-index: 2; /* keep dragged item on top */
+}
+
+/* Packer jq-ui-draggable integration */
+
+.packery-drop-placeholder {
+  outline: 2px dashed rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.3);
+  -webkit-transition: -webkit-transform 0.2s;
+          transition: transform 0.2s;
+}
+
 .dashboard-charts .widget:hover {
     border-color: #85C785;
 }
 .dashboard-charts .widget iframe {
     border: 0;
 }
-.dashboard-charts .widget .widget-edit {
-    display: none;
-    position: absolute;
-    top: 0;
-    right: 60px;
-    font-size: 11px;
-    background-color: #999;
-    padding: 0 0.8em;
-    border-radius: 0 0 3px 3px;
-    height: 24px;
-    line-height: 24px;
-    color: white;
-    border-bottom: 2px solid #777;
-}
-.dashboard-charts .widget .widget-edit:hover {
-    background-color: #444;
-}
+
 .dashboard-charts .widget .icon {
-    margin-left: 0.5em;
-    font-size: 15px;
-    color: #666;
+    display: none;
+    margin-left: 0.3em;
+    font-size: 16px;
+    color: #999;
 }
-.dashboard-charts .widget .icon:last-of-type {
-    margin-left: 0;
+.dashboard-charts .widget:hover .icon {
+    display: inline-block;
 }
 .dashboard-charts .widget .icon:hover {
     -webkit-transition: all .25s ease-in-out;
@@ -83,10 +88,10 @@ body {
     -o-transition: all .25s ease-in-out;
     transition: all .25s ease-in-out;
     cursor: pointer;
-    color: #222;
+    color: #444;
 }
-.dashboard-charts .widget:hover .widget-edit {
-    display: block;
+.dashboard-charts .widget .icon.dragger:hover {
+    cursor: move;
 }
 .dashboard-charts .widget .widget-refresh:hover {
     transform: rotate(60deg);

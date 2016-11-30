@@ -62,7 +62,7 @@ var jsondash = function() {
         // Add a unique guid for referencing later.
         data['guid'] = id;
         // Add family for lookups
-        data['family'] = $($MODULE_FORM).find('select option:selected').data().family;
+        data['family'] = $($MODULE_FORM).find('[name="type"]').find('option:selected').data().family;
         if(!data.refresh || !refreshableType(data.type)) {data['refresh'] = false;}
         if(!data.override) {data['override'] = false;}
         newfield.attr('name', 'module_' + id);
@@ -104,12 +104,28 @@ var jsondash = function() {
         });
         // Update with current guid for referencing the module.
         module_form.attr('data-guid', guid);
+        populateOrderField(module);
+    }
+
+    function populateOrderField(module) {
+        var module_form = $($MODULE_FORM);
+        // Add the number of items to order field.
+        var order_field = module_form.find('[name="order"]');
+        order_field.find('option').remove();
+        order_field.append('<option value=""></option>');
+        $('.item.widget').each(function(i, _){
+            var option = $('<option></option>');
+            option.val(i).text(i);
+            order_field.append(option);
+        });
+        order_field.val(module.order || '');
     }
 
     function updateModule(e){
         var module_form = $($MODULE_FORM);
         // Updates the module input fields with new data by rewriting them all.
-        var active = getModule(module_form);
+        var guid = module_form.attr('data-guid');
+        var active = getModuleByGUID(guid);
         // Update the modules values to the current input values.
         module_form.find('input').each(function(_, input){
             var name = $(input).attr('name');
@@ -123,8 +139,9 @@ var jsondash = function() {
             }
         });
         // Update bar chart type
-        var chart_type = module_form.find('select');
-        active[chart_type.attr('name')] = chart_type.val();
+        active['type'] = module_form.find('[name="type"]').val();
+        // Update order
+        active['order'] = parseInt(module_form.find('[name="order"]').val(), 10);
         // Clear out module input values
         $('.modules').empty();
         $.each(dashboard_data.modules, function(i, module){
@@ -247,9 +264,29 @@ var jsondash = function() {
         var options = $.extend({}, opts, {});
         if(init) {
             my.chart_wall = $('#container').packery(options);
+            items = my.chart_wall.find('.item').draggable({
+                scroll: true,
+                handle: '.dragger',
+                stop: function(){
+                    $($EDIT_CONTAINER).collapse('show');
+                    updateModuleOrder();
+                    my.chart_wall.packery(options);
+                }
+            });
+            my.chart_wall.packery('bindUIDraggableEvents', items);
         } else {
             my.chart_wall.packery(options);
         }
+    }
+
+    function updateModuleOrder() {
+        var items = my.chart_wall.packery('getItemElements');
+        // Update module order
+        $.each(items, function(i, el){
+            var module = getModule($(this));
+            var config = $.extend(module, {order: i});
+            updateModuleInput(config);
+        });
     }
 
     function getModule(el) {

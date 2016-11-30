@@ -36,7 +36,8 @@ The configuration JSON provides core functionality and is at the heart of the pr
             "name": "name3",
             "width": 510,
             "height": 400,
-            "dataSource": "http://localhost:5001/test1"
+            "dataSource": "http://localhost:5001/test1",
+            "order": 0
         }
     ]
 }

@@ -36,6 +36,12 @@ The height of the chart in pixels.
 
 The width of the chart in pixels.
 
+**modules**:**order** - [*Number*] :heavy_check_mark:
+
+The order of the chart in the layout. Best effort will be made to ensure layout ordering if these are specified, but in some cases, the layout packing algorithm may order things slightly different for optimal space filling.
+
+For optimal results, make all your charts the same size or maintain a reasonably similar aspect ratio.
+
 **modules**:**dataSource** - [*String*] :heavy_exclamation_mark:
 
 The API endpoint to get data from.
