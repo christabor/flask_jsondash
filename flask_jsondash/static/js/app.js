@@ -91,9 +91,9 @@ var jsondash = function() {
         }
         $($DELETE_BTN).show();
         // Updates the fields in the edit form to the active widgets values.
-        var data = $(e.relatedTarget).closest('.item.widget').data();
-        var guid = data.guid;
-        var module = getModuleByGUID(guid);
+        var item = $(e.relatedTarget).closest('.item.widget');
+        var guid = item.data().guid;
+        var module = getModule(item);
         // Update the modal window fields with this one's value.
         $.each(module, function(field, val){
             if(field === 'override' || field === 'refresh') {
@@ -109,8 +109,7 @@ var jsondash = function() {
     function updateModule(e){
         var module_form = $($MODULE_FORM);
         // Updates the module input fields with new data by rewriting them all.
-        var guid = module_form.attr('data-guid');
-        var active = getModuleByGUID(guid);
+        var active = getModule(module_form);
         // Update the modules values to the current input values.
         module_form.find('input').each(function(_, input){
             var name = $(input).attr('name');
@@ -155,9 +154,7 @@ var jsondash = function() {
 
     function refreshWidget(e) {
         e.preventDefault();
-        var container = $(this).closest('.widget');
-        var guid = container.attr('data-guid');
-        var config = getModuleByGUID(guid);
+        var config = getModule($(this).closest('.widget'));
         var widget = addWidget($MAIN_CONTAINER, config);
         loadWidgetData(widget, config);
         fitGrid();
@@ -253,6 +250,14 @@ var jsondash = function() {
         } else {
             my.chart_wall.packery(options);
         }
+    }
+
+    function getModule(el) {
+        // Return module by element
+        var data = el.data();
+        var guid = data.guid;
+        var module = getModuleByGUID(guid);
+        return module;
     }
 
     function loader(container) {
