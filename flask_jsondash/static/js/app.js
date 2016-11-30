@@ -71,7 +71,7 @@ var jsondash = function() {
         // Add new visual block to view grid
         addWidget($VIEW_BUILDER, data);
         // Refit the grid
-        my.chart_wall.masonry();
+        fitGrid();
     }
 
     function isModalButton(e) {
@@ -137,7 +137,7 @@ var jsondash = function() {
         updateWidget(active);
         $($EDIT_CONTAINER).collapse();
         // Refit the grid
-        my.chart_wall.masonry();
+        fitGrid();
     }
 
     function updateWidget(config) {
@@ -160,7 +160,7 @@ var jsondash = function() {
         var config = getModuleByGUID(guid);
         var widget = addWidget($MAIN_CONTAINER, config);
         loadWidgetData(widget, config);
-        my.chart_wall.masonry();
+        fitGrid();
     }
 
     function addChartContainers(container, data) {
@@ -175,7 +175,7 @@ var jsondash = function() {
                 loadWidgetData(widget, config);
             })(data.modules[name]);
         }
-        my.chart_wall.masonry();
+        fitGrid();
     }
 
     function getModuleWidgetByGUID(guid) {
@@ -195,7 +195,7 @@ var jsondash = function() {
         $('.item.widget[data-guid="' + guid + '"]').remove();
         $($EDIT_MODAL).modal('hide');
         // Redraw wall to replace visual 'hole'
-        my.chart_wall.masonry();
+        fitGrid();
         // Trigger update form into view since data is dirty
         $($EDIT_CONTAINER).collapse('show');
     }
@@ -236,14 +236,23 @@ var jsondash = function() {
     }
 
     function initGrid(container) {
-        my.chart_wall = $('#container').masonry({
+        fitGrid({
             columnWidth: 5,
             itemSelector: '.item',
             transitionDuration: 0,
             fitWidth: true
-        });
+        }, true);
         $('.item.widget').removeClass('hidden');
-        my.chart_wall.masonry();
+    }
+
+    function fitGrid(opts, init) {
+        var valid_options = $.isPlainObject(opts);
+        var options = $.extend({}, opts, {});
+        if(init) {
+            my.chart_wall = $('#container').packery(options);
+        } else {
+            my.chart_wall.packery(options);
+        }
     }
 
     function loader(container) {
@@ -355,7 +364,7 @@ var jsondash = function() {
                 config = $.extend(config, {width: ui.size.width, height: ui.size.height});
                 updateModuleInput(config);
                 loadWidgetData(widget, config);
-                my.chart_wall.masonry();
+                fitGrid();
                 // Open save panel
                 $($EDIT_CONTAINER).collapse('show');
             }
