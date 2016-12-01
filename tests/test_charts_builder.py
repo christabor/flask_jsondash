@@ -242,3 +242,19 @@ def test_clone_invalid_id_redirect(monkeypatch, ctx, client):
     res = test.post(
         url_for('jsondash.clone', c_id='123'))
     assert REDIRECT_MSG in res.data
+
+
+def test_delete_invalid_id_redirect(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    res = test.post(
+        url_for('jsondash.delete', c_id='123'))
+    assert REDIRECT_MSG in res.data
+
+
+def test_update_invalid_id_redirect(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    res = test.post(
+        url_for('jsondash.update', c_id='123'))
+    assert REDIRECT_MSG in res.data

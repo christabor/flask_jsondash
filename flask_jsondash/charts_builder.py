@@ -306,6 +306,10 @@ def update(c_id):
     if not auth(authtype='update'):
         flash('You do not have access to update dashboards.', 'error')
         return redirect(url_for('jsondash.dashboard'))
+    viewjson = adapter.read(c_id=c_id)
+    if not viewjson:
+        flash('Could not find view: {}'.format(c_id), 'error')
+        return redirect(url_for('jsondash.dashboard'))
     form_data = request.form
     view_url = url_for('jsondash.view', c_id=c_id)
     edit_raw = 'edit-raw' in request.form
