@@ -372,7 +372,9 @@ To troubleshoot potential javascript parse errors, open up your browser console 
 
 **My chart is ugly or is flowing outside the container**
 
-This is usually only an issue with datatables, particularly when selecting the number of entries to show. The size of the table will grow, and the layout does not account for that, nor should it. The best case here is to determine what size actually makes sense for you and adjust your chart size accordingly.
+This is usually only an issue with datatables, particularly when selecting the number of entries to show. The size of the table will grow, and the layout does not account for that, nor should it. The best case here is to determine what size actually makes sense for you and adjust your chart size accordingly. 
+
+You can also use the override option supported by this chart, and specify the number of results per page, and the number of entries that can be shown. See the [datatables schema docs](schemas.md#datatables) for more.
 
 ## Contributing/Development
 
