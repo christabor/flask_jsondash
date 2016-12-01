@@ -15,6 +15,7 @@ from conftest import (
 )
 
 from flask_jsondash import charts_builder
+from flask_jsondash import settings
 
 REDIRECT_MSG = 'You should be redirected automatically'
 
@@ -169,3 +170,13 @@ def test_get_view_invalid_id_redirect(monkeypatch, ctx, client):
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
     res = test.get(url_for('jsondash.view', c_id='123'))
     assert REDIRECT_MSG in res.data
+
+
+def test_get_dashboard_contains_all_chart_types_list(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    res = test.get(url_for('jsondash.dashboard'))
+    for family, config in settings.CHARTS_CONFIG.items():
+        for chart in config['charts']:
+            _, label = chart
+            assert label in res.data
