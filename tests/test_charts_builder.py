@@ -267,6 +267,20 @@ def test_delete_invalid_id_redirect(monkeypatch, ctx, client):
     assert REDIRECT_MSG in res.data
 
 
+def test_delete_valid(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    view = get_json_config('inputs.json')
+    readfunc = read(override=dict(view))
+    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    res = test.post(
+        url_for('jsondash.delete', c_id=view['id']),
+        follow_redirects=True)
+    dom = pq(res.data)
+    flash_msg = 'Deleted dashboard "{}"'.format(view['id'])
+    assert dom.find('.alert-info').text() == flash_msg
+
+
 @pytest.mark.invalid_id_redirect
 def test_update_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client

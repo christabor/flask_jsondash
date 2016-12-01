@@ -46,6 +46,10 @@ def read(*args, **kwargs):
     return dict()
 
 
+def delete(*args, **kwargs):
+    pass
+
+
 def update(*args, **kwargs):
     return dict()
 
@@ -54,6 +58,7 @@ def update(*args, **kwargs):
 def ctx(monkeypatch, request):
     with app.test_request_context() as req_ctx:
         monkeypatch.setattr(charts_builder.adapter, 'read', read)
+        monkeypatch.setattr(charts_builder.adapter, 'delete', update)
         monkeypatch.setattr(charts_builder.adapter, 'update', update)
         yield req_ctx
 

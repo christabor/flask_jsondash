@@ -302,7 +302,7 @@ def delete(c_id):
         flash('You do not have access to delete dashboards.', 'error')
         return redirect(dash_url)
     adapter.delete(c_id)
-    flash('Deleted dashboard {}'.format(c_id))
+    flash('Deleted dashboard "{}"'.format(c_id))
     return redirect(dash_url)
 
 
