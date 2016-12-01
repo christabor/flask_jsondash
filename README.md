@@ -323,6 +323,8 @@ You can just check out the [example app](example_app/templates/layouts/base.html
 
 #### Custom callbacks
 
+While the point of jsondash is to make front-end coding completely unnecessary, and use serializable declarative configurations for making dashboards, sometimes you need to do one off stuff that requires scripting. A callback module exists to allow this very easily without getting in the way of existing configurations.
+
 You can customize individual charts by adding your own javascript files alongside your existing app that uses this blueprint and then register call backs on a *per-chart id basis*. All callbacks will be run in the order you register them, after the chart has been loaded and rendered completely.
 
 To get started: override the template block in your template to allow javascript to be executed, and register a callback with your own arguments.
