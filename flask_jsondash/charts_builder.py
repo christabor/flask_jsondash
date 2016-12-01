@@ -387,7 +387,7 @@ def create():
     d.update(**check_global())
     # Add to DB
     adapter.create(data=d)
-    flash('Created new view "{}"'.format(data['name']))
+    flash('Created new dashboard "{}"'.format(data['name']))
     return redirect(url_for('jsondash.view', c_id=new_id))
 
 

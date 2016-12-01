@@ -249,6 +249,18 @@ def test_get_view_invalid_id_redirect(monkeypatch, ctx, client):
     assert REDIRECT_MSG in res.data
 
 
+def test_create_valid(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    res = test.post(
+        url_for('jsondash.create'),
+        data=dict(name='mydash', modules=[]),
+        follow_redirects=True)
+    dom = pq(res.data)
+    flash_msg = 'Created new dashboard "mydash"'
+    assert dom.find('.alert-info').text() == flash_msg
+
+
 @pytest.mark.invalid_id_redirect
 def test_clone_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
