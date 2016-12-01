@@ -152,7 +152,9 @@ def get_dims(ctx, config):
     """Extract the dimensions from config data. This allows
     for overrides for edge-cases to live in one place.
     """
-    if config['type'] == 'youtube':
+    if not all(['width' in config, 'height' in config]):
+        raise ValueError('Invalid config!')
+    if config.get('type') == 'youtube':
         # We get the dimensions for the widget from YouTube instead,
         # which handles aspect ratios, etc... and is likely what the user
         # wanted to specify since they will be entering in embed code from

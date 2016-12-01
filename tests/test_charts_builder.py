@@ -180,3 +180,21 @@ def test_get_dashboard_contains_all_chart_types_list(monkeypatch, ctx, client):
         for chart in config['charts']:
             _, label = chart
             assert label in res.data
+
+
+def test_get_dashboard_contains_no_chart_msg(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    res = test.get(url_for('jsondash.dashboard'))
+    assert 'No dashboards exist. Create one below to get started.' in res.data
+
+
+def test_get_view_valid_id_invalid_config(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    view = dict(modules=[dict(foo='bar')])
+    readfunc = read(override=dict(view))
+    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    with pytest.raises(ValueError):
+        res = test.get(url_for('jsondash.view', c_id='123'))
+        assert 'Invalid config!' in res.data

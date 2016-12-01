@@ -14,6 +14,9 @@ URL_BASE = 'http://127.0.0.1:80'
 app = Flask('test_flask_jsondash',
             template_folder='../flask_jsondash/example_app/templates')
 app.config.update(
+    # Required to fix context errors.
+    # See https://github.com/jarus/flask-testing/issues/21
+    PRESERVE_CONTEXT_ON_EXCEPTION=False,
     SECRET_KEY='123',
 )
 app.debug = True
@@ -33,6 +36,11 @@ def _authtest(**kwargs):
 
 
 def read(*args, **kwargs):
+    if 'override' in kwargs:
+        newkwargs = kwargs.pop('override')
+        def _read(*args, **kwargs):
+            return dict(**newkwargs)
+        return _read
     return dict()
 
 
