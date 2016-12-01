@@ -402,8 +402,9 @@ def clone(c_id):
         flash('Could not find view: {}'.format(id), 'error')
         return redirect(url_for('jsondash.dashboard'))
     # Update some fields.
+    newname = 'Clone of {}'.format(viewjson['name'])
     data = dict(
-        name='Clone of {}'.format(viewjson['name']),
+        name=newname,
         modules=viewjson['modules'],
         date=dt.now(),
         id=str(uuid.uuid1()),
@@ -411,4 +412,5 @@ def clone(c_id):
     data.update(**metadata())
     # Add to DB
     adapter.create(data=data)
+    flash('Created new dashboard clone "{}"'.format(newname))
     return redirect(url_for('jsondash.view', c_id=data['id']))
