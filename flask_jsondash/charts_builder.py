@@ -262,7 +262,8 @@ def view(c_id):
         flash('Could not find view: {}'.format(c_id), 'error')
         return redirect(url_for('jsondash.dashboard'))
     # Remove _id, it's not JSON serializeable.
-    viewjson.pop('_id')
+    if '_id' in viewjson:
+        viewjson.pop('_id')
     # Chart family is encoded in chart type value for lookup.
     active_charts = [v.get('family') for
                      v in viewjson['modules'] if v.get('family')]
