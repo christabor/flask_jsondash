@@ -213,7 +213,7 @@ def test_get_view_valid_id_invalid_config(monkeypatch, ctx, client):
         assert 'Invalid config!' in res.data
 
 
-def test_get_view_valid_modules_count(monkeypatch, ctx, client):
+def test_get_view_valid_modules_count_and_inputs(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
     view = get_json_config('inputs.json')
@@ -222,3 +222,23 @@ def test_get_view_valid_modules_count(monkeypatch, ctx, client):
     res = test.get(url_for('jsondash.view', c_id=view['id']))
     dom = pq(res.data)
     assert len(dom.find('.item')) == len(view['modules'])
+    assert len(dom.find('.charts-input-icon')) == 1
+
+
+def test_get_view_valid_modules_valid_dash_title(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    view = get_json_config('inputs.json')
+    readfunc = read(override=dict(view))
+    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    res = test.get(url_for('jsondash.view', c_id=view['id']))
+    dom = pq(res.data)
+    assert dom.find('.dashboard-title').text() == view['name']
+
+
+def test_clone_invalid_id_redirect(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    res = test.post(
+        url_for('jsondash.clone', c_id='123'))
+    assert REDIRECT_MSG in res.data
