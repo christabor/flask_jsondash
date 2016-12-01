@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'NOTSECURELOL'
 app.config.update(
     JSONDASH_FILTERUSERS=False,
-    JSONDASH_GLOBALDASH=False,
+    JSONDASH_GLOBALDASH=True,
     JSONDASH_GLOBAL_USER='global',
 )
 app.debug = True
