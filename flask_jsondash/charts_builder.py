@@ -330,7 +330,7 @@ def update(c_id):
         data = dict(
             name=form_data['name'],
             modules=adapter._format_modules(form_data),
-            date=dt.now(),
+            date=str(dt.now()),
             id=c_id,
         )
     # Update metadata, but exclude some fields that should never
@@ -399,14 +399,14 @@ def clone(c_id):
         return redirect(url_for('jsondash.dashboard'))
     viewjson = adapter.read(c_id=c_id)
     if not viewjson:
-        flash('Could not find view: {}'.format(id), 'error')
+        flash('Could not find view: {}'.format(c_id), 'error')
         return redirect(url_for('jsondash.dashboard'))
     # Update some fields.
     newname = 'Clone of {}'.format(viewjson['name'])
     data = dict(
         name=newname,
         modules=viewjson['modules'],
-        date=dt.now(),
+        date=str(dt.now()),
         id=str(uuid.uuid1()),
     )
     data.update(**metadata())

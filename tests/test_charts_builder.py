@@ -254,10 +254,10 @@ def test_create_valid(monkeypatch, ctx, client):
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
     res = test.post(
         url_for('jsondash.create'),
-        data=dict(name='mydash', modules=[]),
+        data=dict(name='mydash-valid'),
         follow_redirects=True)
     dom = pq(res.data)
-    flash_msg = 'Created new dashboard "mydash"'
+    flash_msg = 'Created new dashboard "mydash-valid"'
     assert dom.find('.alert-info').text() == flash_msg
 
 
@@ -265,24 +265,31 @@ def test_create_valid(monkeypatch, ctx, client):
 def test_clone_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
-    res = test.post(
-        url_for('jsondash.clone', c_id='123'))
+    res = test.post(url_for('jsondash.clone', c_id='123'))
     assert REDIRECT_MSG in res.data
 
 
 def test_clone_valid(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
-    view = get_json_config('inputs.json')
-    readfunc = read(override=dict(view))
-    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    assert len(read()) == 0
+    res = test.post(url_for('jsondash.create'),
+                    data=dict(name='mydash', modules=[]),
+                    follow_redirects=True)
+    dom = pq(res.data)
+    new_id = read()[0]['id']
+    assert read()[0]['name'] == 'mydash'
+    flash_msg = 'Created new dashboard "mydash"'
+    assert dom.find('.alert-info').text() == flash_msg
+    assert len(read()) == 1
+    assert read()[0]['name'] == 'mydash'
     res = test.post(
-        url_for('jsondash.clone', c_id=view['id']),
+        url_for('jsondash.clone', c_id=new_id),
         follow_redirects=True)
     dom = pq(res.data)
-    flash_msg = 'Created new dashboard clone "Clone of {}"'.format(
-                 view['name'])
-    assert dom.find('.alert-info').text() == flash_msg
+    flash_msg = 'Created new dashboard clone "Clone of mydash"'
+    assert flash_msg in dom.find('.alert').text()
+    assert len(read()) == 2
 
 
 @pytest.mark.invalid_id_redirect
@@ -297,23 +304,33 @@ def test_delete_invalid_id_redirect(monkeypatch, ctx, client):
 def test_delete_valid(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
-    view = get_json_config('inputs.json')
+    view = dict(name='mydash', modules=[])
     readfunc = read(override=dict(view))
     monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
-    res = test.post(
-        url_for('jsondash.delete', c_id=view['id']),
-        follow_redirects=True)
+    assert not read()
+    # Create first one.
+    res = test.post(url_for('jsondash.create'),
+                    data=view,
+                    follow_redirects=True)
+    assert len(read()) == 1
+    view_id = read()[0]['id']
     dom = pq(res.data)
-    flash_msg = 'Deleted dashboard "{}"'.format(view['id'])
+    flash_msg = 'Created new dashboard "mydash"'
     assert dom.find('.alert-info').text() == flash_msg
+    assert len(read()) == 1
+    res = test.post(url_for('jsondash.delete', c_id=view_id),
+                    follow_redirects=True)
+    dom = pq(res.data)
+    flash_msg = 'Deleted dashboard "{}"'.format(view_id)
+    assert dom.find('.alert-info').text() == flash_msg
+    assert len(read()) == 0
 
 
 @pytest.mark.invalid_id_redirect
 def test_update_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
-    res = test.post(
-        url_for('jsondash.update', c_id='123'))
+    res = test.post(url_for('jsondash.update', c_id='123'))
     assert REDIRECT_MSG in res.data
 
 
@@ -334,13 +351,18 @@ def test_update_invalid_config(monkeypatch, ctx, client):
 def test_update_valid(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
-    view = get_json_config('inputs.json')
-    readfunc = read(override=dict(view))
-    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    assert not read()
     res = test.post(
-        url_for('jsondash.update', c_id=view['id']),
+        url_for('jsondash.create'),
+        data=dict(name='newname', modules=[]),
+        follow_redirects=True)
+    assert len(read()) == 1
+    view_id = read()[0]['id']
+    res = test.post(
+        url_for('jsondash.update', c_id=view_id),
         data=dict(name='newname'),
         follow_redirects=True)
     dom = pq(res.data)
-    flash_msg = 'Updated view "{}"'.format(view['id'])
+    flash_msg = 'Updated view "{}"'.format(view_id)
     assert dom.find('.alert-info').text() == flash_msg
+    assert len(read()) == 1

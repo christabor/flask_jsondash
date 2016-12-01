@@ -22,6 +22,7 @@ app.config.update(
 app.debug = True
 app.register_blueprint(charts_builder.charts)
 
+fake_db = []
 
 def _username():
     return 'Username'
@@ -41,26 +42,39 @@ def read(*args, **kwargs):
         def _read(*args, **kwargs):
             return dict(**newkwargs)
         return _read
-    if kwargs.get('c_id') is None:
-        return []
-    return dict()
+    if 'c_id' not in kwargs:
+        return fake_db
+    for i, dash in enumerate(fake_db):
+        if dash['id'] == kwargs.get('c_id'):
+            return dash
 
 
-def delete(*args, **kwargs):
-    pass
+def delete(c_id, **kwargs):
+    global fake_db
+    for i, dash in enumerate(fake_db):
+        if dash['id'] == c_id:
+            del fake_db[i]
+            break
 
 
 def create(*args, **kwargs):
-    pass
+    global fake_db
+    fake_db.append(dict(**kwargs.get('data')))
 
 
-def update(*args, **kwargs):
-    return dict()
+def update(c_id, **kwargs):
+    global fake_db
+    for i, dash in enumerate(fake_db):
+        if dash['id'] == c_id:
+            fake_db[i].update(**kwargs)
+            break
 
 
 @pytest.fixture()
 def ctx(monkeypatch, request):
     with app.test_request_context() as req_ctx:
+        global fake_db
+        fake_db = []
         monkeypatch.setattr(charts_builder.adapter, 'read', read)
         monkeypatch.setattr(charts_builder.adapter, 'create', create)
         monkeypatch.setattr(charts_builder.adapter, 'delete', delete)
