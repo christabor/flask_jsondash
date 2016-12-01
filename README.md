@@ -317,7 +317,7 @@ The following blocks are used in the master template:
 5. `jsondash_init`: required to initialize the dashboards :heavy_exclamation_mark:
 6. `jsondash_title`: optional if you want to override or augment your page title. :heavy_check_mark:
 
-You can just check out the [example app](examples_app/templates/layouts/base.html) to see how it all should work.
+You can just check out the [example app](example_app/templates/layouts/base.html) to see how it all should work.
 
 ### JavaScript configuration
 
