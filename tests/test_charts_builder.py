@@ -206,6 +206,18 @@ def test_get_view_valid_id_invalid_config(monkeypatch, ctx, client):
         assert 'Invalid config!' in res.data
 
 
+def test_get_view_valid_id_invalid_modules(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    view = dict(id='123')
+    readfunc = read(override=dict(view))
+    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    res = test.get(
+        url_for('jsondash.view', c_id='123'),
+        follow_redirects=True)
+    assert 'Invalid configuration - missing modules.' in res.data
+
+
 def test_get_view_valid_modules_count_and_inputs(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
@@ -262,6 +274,20 @@ def test_update_invalid_id_redirect(monkeypatch, ctx, client):
     res = test.post(
         url_for('jsondash.update', c_id='123'))
     assert REDIRECT_MSG in res.data
+
+
+def test_update_invalid_config(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    view = get_json_config('inputs.json')
+    readfunc = read(override=dict(view))
+    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    res = test.post(
+        url_for('jsondash.update', c_id=view['id']),
+        data={'edit-raw': 'on'},
+        follow_redirects=True)
+    dom = pq(res.data)
+    assert dom.find('.alert-danger').text() == 'Error: Invalid JSON config.'
 
 
 def test_update_valid(monkeypatch, ctx, client):

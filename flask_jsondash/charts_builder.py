@@ -248,7 +248,10 @@ def dashboard():
         view=None,
         paginator=pagination,
         can_edit_global=auth(authtype='edit_global'),
-        total_modules=sum([len(view['modules']) for view in views]),
+        total_modules=sum([
+            len(view.get('modules', [])) for view in views
+            if isinstance(view, dict)
+        ]),
     )
     return render_template('pages/charts_index.html', **kwargs)
 
@@ -266,6 +269,9 @@ def view(c_id):
     # Remove _id, it's not JSON serializeable.
     if '_id' in viewjson:
         viewjson.pop('_id')
+    if 'modules' not in viewjson:
+        flash('Invalid configuration - missing modules.', 'error')
+        return redirect(url_for('jsondash.dashboard'))
     # Chart family is encoded in chart type value for lookup.
     active_charts = [v.get('family') for
                      v in viewjson['modules'] if v.get('family')]

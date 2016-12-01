@@ -41,6 +41,8 @@ def read(*args, **kwargs):
         def _read(*args, **kwargs):
             return dict(**newkwargs)
         return _read
+    if kwargs.get('c_id') is None:
+        return []
     return dict()
 
 
