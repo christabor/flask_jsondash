@@ -178,13 +178,6 @@ def test_routes(ctx, client):
     assert url_for('jsondash.create') == '/charts/create'
 
 
-def test_get_view_invalid_id_redirect(monkeypatch, ctx, client):
-    app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
-    res = test.get(url_for('jsondash.view', c_id='123'))
-    assert REDIRECT_MSG in res.data
-
-
 def test_get_dashboard_contains_all_chart_types_list(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
@@ -236,6 +229,15 @@ def test_get_view_valid_modules_valid_dash_title(monkeypatch, ctx, client):
     assert dom.find('.dashboard-title').text() == view['name']
 
 
+@pytest.mark.invalid_id_redirect
+def test_get_view_invalid_id_redirect(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    res = test.get(url_for('jsondash.view', c_id='123'))
+    assert REDIRECT_MSG in res.data
+
+
+@pytest.mark.invalid_id_redirect
 def test_clone_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
@@ -244,6 +246,7 @@ def test_clone_invalid_id_redirect(monkeypatch, ctx, client):
     assert REDIRECT_MSG in res.data
 
 
+@pytest.mark.invalid_id_redirect
 def test_delete_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
@@ -252,9 +255,25 @@ def test_delete_invalid_id_redirect(monkeypatch, ctx, client):
     assert REDIRECT_MSG in res.data
 
 
+@pytest.mark.invalid_id_redirect
 def test_update_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
     res = test.post(
         url_for('jsondash.update', c_id='123'))
     assert REDIRECT_MSG in res.data
+
+
+def test_update_valid(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    view = get_json_config('inputs.json')
+    readfunc = read(override=dict(view))
+    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    res = test.post(
+        url_for('jsondash.update', c_id=view['id']),
+        data=dict(name='newname'),
+        follow_redirects=True)
+    dom = pq(res.data)
+    flash_msg = 'Updated view "{}"'.format(view['id'])
+    assert dom.find('.alert-info').text() == flash_msg
