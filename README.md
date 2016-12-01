@@ -82,11 +82,11 @@ Also note that the order of the inputs in the json will determine their order in
 
 See the [examples/config](example_app/examples/config) directory for all the supported options.
 
-### Demo
+## Demo
 
 If you want to see all/most charts in action, you'll need to fire up the `endpoints.py` flask app (included) alongside your main app that uses the blueprint, create a new dashboard, then choose the *edit raw json* option, specifying one of the json files found in [examples/config](example_app/examples/config). (This has been tested using mongodb).
 
-## Various chart schemas JSON formats
+### Various chart schemas JSON formats
 
 Each chart is very straightforward. Most of the power is leveraged by the various charting libraries that flask-jsondash defers to. See [schemas](schemas.md) for more detail on how your endpoint json data should be formatted for a given chart type, as well as how to find docs for each supported library.
 
@@ -131,12 +131,12 @@ python3 app.py
 
 ### Requirements
 
-### Core
+#### Core
 
 * Flask
 * Jinja2
 
-### Javascript/CSS
+#### Javascript/CSS
 
 These are not included, as you are likely going to have them yourself. If you don't, you'll need to add them:
 
@@ -149,7 +149,7 @@ These are necessary and included, based simply on the likelihood they may not al
 * Masonry (JS)
 * Jquery UI (CSS/JS)
 
-### Charts
+#### Chart specific assets
 
 Chart requirements depend on what you want to expose to your users. You can configure these in the CHARTS_CONFIG dictionary in the `settings.py` file. You can override these settings by adding your own file, called `settings_override.py`
 
@@ -187,7 +187,13 @@ Run `endpoints.py` if you'd like to test out existing endpoints to link your cha
 
 See `endpoints.py` for examples on how to achieve this. If you do not allow CORS on the server-side, all ajax requests will fail.
 
-### Authentication configuration
+## Customization
+
+Beyond the above outlined configurations that power the core of jsondash, there are more ways to control how the application works.
+
+### Flask configuration
+
+#### Authentication
 
 By default, no authentication is performed for a given action. However, supporting your own custom auth for each type is just a simple config away. Using the flask pattern of injecting configurations into the `app.config` namespace (in this case, `JSONDASH` must be specified), you can put whichever functions you want, and only those specified will be checked. Here is a working example:
 
@@ -212,7 +218,7 @@ app.config['JSONDASH'] = charts_config
 
 See below for the supported types and their details.
 
-#### Authentication types
+##### Authentication types
 
 **edit_global**
 
@@ -242,7 +248,7 @@ Allows viewing of a chart. The provided function will be passed the `id` of the 
 
 Allow editing of other creators' charts. The provided function will be passed the `id` of the view as a `view_id` kwarg. If the created_by matches the logged in user, it will automatically be allowed, regardless of the auth override.
 
-### Metadata configuration
+#### Metadata configuration
 
 Metadata can be added to the json configuration for further customization purposes. All arbitrary values will expect an accompanying function to be populated with, in the exact same way as the auth functions listed above. They will all be namespaced under the `metadata` key inside of the `app.config['JSONDASH']` dictionary, if specified.
 
@@ -267,7 +273,7 @@ This is used to organize views on the front-page by user, if there is such a key
 
 This is the current logged in user. This is required for filtering dashboards by user. You must also set the `JSONDASH_FILTERUSERS` flag to `True` in `app.config`.
 
-### Global config flags
+#### Global config flags
 
 Below are global app config flags. Their default values are represented in the example working Python code.
 
@@ -279,7 +285,7 @@ Below are global app config flags. Their default values are represented in the e
 
 `app.config['JSONDASH_MAX_PERPAGE'] = 50`: The number of results to show per page. Remaining results will be paginated.
 
-### Static asset config options
+#### Static asset config options
 
 By default, all assets (css/js) will be loaded remotely by popular CDNs recommended for the given charting library.
 
@@ -299,6 +305,53 @@ app.config['JSONDASH'] = dict(
 With default flask static settings, this would resolve the url to `/static/js/vendor/filename.js` for example.
 
 You can use one or the other, but it's recommended to use both or none.
+
+### Jinja template configuration
+
+The following blocks are used in the master template: 
+
+1. `jsondash_body`: required for the entire layout :heavy_exclamation_mark:
+2. `jsondash_css`: required for loading the css :heavy_exclamation_mark:
+3. `jsondash_js`: required for loading the js :heavy_exclamation_mark:
+4. `jsondash_api_scripts`: optional if you want to register callbacks (see below) :heavy_check_mark:
+5. `jsondash_init`: required to initialize the dashboards :heavy_exclamation_mark:
+6. `jsondash_title`: optional if you want to override or augment your page title. :heavy_check_mark:
+
+You can just check out the [example app](examples_app/templates/layouts/base.html) to see how it all should work.
+
+### JavaScript configuration
+
+#### Custom callbacks
+
+You can customize individual charts by adding your own javascript files alongside your existing app that uses this blueprint and then register call backs on a *per-chart id basis*. All callbacks will be run in the order you register them, after the chart has been loaded and rendered completely.
+
+To get started: override the template block in your template to allow javascript to be executed, and register a callback with your own arguments.
+
+```html
+{% block jsondash_api_scripts %}
+<script>
+    jsondash.api.registerCallback('my-chart-guid', function(container, config, myargs){
+            console.log('Running FIRST callbacK!');
+            console.log(myargs[0]);
+            console.log(myargs[1]);
+            container.style('background-color', 'green');
+            console.log(config.guid);
+    }, ['all', 'my', 'optional', 'arguments']);
+    // Register a second one, which ones after.
+    jsondash.api.registerCallback('my-chart-guid', function(container, config){
+            console.log('Running SECOND callbacK!');
+    });
+</script>
+{% endblock %}
+```
+
+All callbacks will be passed the following arguments order:
+
+1. `container`: The d3 selector for the chart container.
+2. `config`: The json object configuration for this chart.
+3. `args`: The array of arguments you supplied when registering the callback.
+
+To see a list of all your callbacks by chart, you can call `jsondash.api.listCallbacks()`;
 
 ## Versioning
 

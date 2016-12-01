@@ -41,6 +41,8 @@ jsondash.handlers.handleYoutube = function(container, config) {
         .attr('src', url)
         .attr('allowfullscreen', true)
         .attr('frameborder', 0);
+    // Look for callbacks potentially registered for third party code.
+    jsondash.api.runCallbacks(container, config);
     jsondash.unload(container);
 };
 
@@ -68,6 +70,8 @@ jsondash.handlers.handleGraph = function(container, config) {
         bbox = svg.node().getBBox();
         svg.attr('width', bbox.width)
             .attr('height', bbox.height);
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
 };
@@ -89,6 +93,8 @@ jsondash.handlers.handleC3 = function(container, config) {
             mimeType: 'json'
         },
         onrendered: function(){
+            // Look for callbacks potentially registered for third party code.
+            jsondash.api.runCallbacks(container, config);
             jsondash.unload(container);
         }
     };
@@ -162,6 +168,8 @@ jsondash.handlers.handleCirclePack = function(container, config) {
         .attr('dy', '.3em')
         .style('text-anchor', 'middle')
         .text(function(d) { return d.name.substring(0, d.r / 3); });
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
 
@@ -222,6 +230,8 @@ jsondash.handlers.handleTreemap = function(container, config) {
             .duration(1500)
             .call(position);
         });
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
 
@@ -270,6 +280,8 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
             .attr('text-anchor', function(d) { return d.x < 180 ? 'start' : 'end'; })
             .attr('transform', function(d) { return d.x < 180 ? 'translate(8)' : 'rotate(180)translate(-8)'; })
             .text(function(d) { return d.name; });
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
     d3.select(self.frameElement).style('height', radius * 2 + 'px');
@@ -320,6 +332,8 @@ jsondash.handlers.handleDendrogram = function(container, config) {
         .style('text-anchor', function(d) { return d.children ? 'end' : 'start'; })
         .text(function(d) { return d.name; });
 
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
 };
@@ -353,6 +367,8 @@ jsondash.handlers.handleVoronoi = function(container, config) {
             .attr('d', jsondash.util.polygon);
             path.order();
         }
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
 };
@@ -376,6 +392,8 @@ jsondash.handlers.handleSparkline = function(container, config) {
             height: config.height - jsondash.config.WIDGET_MARGIN_Y
         };
         spark.sparkline(data, opts);
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
 };
@@ -399,6 +417,8 @@ jsondash.handlers.handleDataTable = function(container, config) {
             });
         var opts = config.override ? res : {data: res, columns: keys};
         $(container.select('table')[0]).dataTable(opts).css({width: 'auto'});
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
 };
@@ -437,6 +457,8 @@ jsondash.handlers.handleSingleNum = function(container, config) {
         var digits = String(data).length;
         var size = jsondash.util.getDigitSize()(digits);
         num.style('font-size', size + 'px');
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
 };
@@ -446,6 +468,8 @@ jsondash.handlers.handleTimeline = function(container, config) {
     jsondash.getJSON(config.dataSource, function(data){
         container.append('div').attr('id', 'widget-' + config.guid);
         var timeline = new TL.Timeline('widget-' + config.guid, data);
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
 };
@@ -460,6 +484,8 @@ jsondash.handlers.handleIframe = function(container, config) {
         height: '100%',
         width: '100%'
     });
+    // Look for callbacks potentially registered for third party code.
+    jsondash.api.runCallbacks(container, config);
     jsondash.unload(container);
 };
 
@@ -468,6 +494,8 @@ jsondash.handlers.handleCustom = function(container, config) {
     container.selectAll('.custom-container').remove();
     $.get(config.dataSource, function(html){
         container.append('div').classed({'custom-container': true}).html(html);
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
 };
@@ -485,6 +513,8 @@ jsondash.handlers.handleVenn = function(container, config) {
         cont.select('svg')
             .attr('width', config.width - jsondash.config.WIDGET_MARGIN_X)
             .attr('height', config.height - jsondash.config.WIDGET_MARGIN_Y);
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
 };
@@ -509,6 +539,8 @@ jsondash.handlers.handlePlotly = function(container, config) {
             Plotly.plot(id, data);
         }
         d3.select('#' + id).select('.svg-container').style({'margin': '0 auto'})
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
 };

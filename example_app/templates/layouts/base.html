@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        {% block title %}My tester app for charts.{% endblock %}
+        {% block title %}
+            My app | {% block jsondash_title %}{% endblock %}
+        {% endblock %}
     </title>
     <!-- VENDOR CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/vendor/bootstrap.min.css') }}">
-    {% block custom_css %}{% endblock %}
+    {% block jsondash_css %}{% endblock %}
 </head>
 <body>
     <div class="container-fluid">
@@ -25,13 +27,25 @@
                         {% endfor %}
                     {% endif %}
                 {% endwith %}
-                {% block body %}{% endblock %}
+                {% block jsondash_body %}{% endblock %}
             </div>
         </div>
     </div>
     <!-- VENDOR JS -->
 <script src="{{ url_for('static', filename='js/vendor/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/vendor/bootstrap.min.js') }}"></script>
-{% block custom_scripts %}{% endblock %}
+{% block jsondash_scripts %}{% endblock %}
+{% block jsondash_init %}{% endblock %}}
+{% block jsondash_api_scripts %}
+{#
+<script>
+    $(document).ready(function(){
+        if(!window.jsondash) return;
+        jsondash.api.registerCallback('chart-id-here', function(container, config, myargs){
+        }, ['Hello world']);
+    });
+</script>
+#}
+{% endblock %}
 </body>
 </html>

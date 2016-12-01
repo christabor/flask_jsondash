@@ -1,12 +1,12 @@
 {% extends "layouts/base.html" %}
 
 {% if view %}
-    {% block title %}
+    {% block jsondash_title %}
         Dashboards > {{ view.name }}
     {% endblock %}
 {% endif %}
 
-{% block custom_css %}
+{% block jsondash_css %}
 {{ super() }}
 <!-- VENDOR CSS -->
 <link rel="stylesheet" href="{{ url_for('jsondash._static', filename='css/vendor/jquery-ui.min.css') }}">
@@ -60,14 +60,14 @@
 
 {% endblock %}
 
-{% block body %}
+{% block jsondash_body %}
 {{ super() }}
 <div id="charts-builder" class="dashboard-charts">
     {% block chart_body %}{% endblock %}
 </div>
 {% endblock %}
 
-{% block custom_scripts %}
+{% block jsondash_scripts %}
 {{ super() }}
 {% if view %}
     <!-- CORE VENDOR JS -->
@@ -119,8 +119,14 @@
 
 <!-- APP JS -->
 <script src="{{ url_for('jsondash._static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('jsondash._static', filename='js/api.js') }}"></script>
 <script src="{{ url_for('jsondash._static', filename='js/handlers.js') }}"></script>
 <script src="{{ url_for('jsondash._static', filename='js/utils.js') }}"></script>
+{% endblock %}
+
+{% block jsondash_api_scripts %}{{ super() }}{% endblock %}
+
+{% block jsondash_init %}
 <script>
     $(document).ready(function(){
         jsondash.addDomEvents();
@@ -130,3 +136,4 @@
     });
 </script>
 {% endblock %}
+
