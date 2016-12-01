@@ -11,6 +11,7 @@ static_start = '{}/flask_jsondash/static'.format(folder)
 test_requirements = [
     'pytest==3.0',
     'pytest-cov==2.4',
+    'pyquery==1.2',
 ]
 requirements = [
     'click==6.6',

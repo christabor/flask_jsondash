@@ -1,4 +1,5 @@
 import json
+import os
 from datetime import datetime as dt
 
 from flask import (
@@ -6,7 +7,11 @@ from flask import (
     current_app,
     url_for,
 )
+
+from pyquery import PyQuery as pq
+
 import pytest
+
 from conftest import (
     URL_BASE,
     auth_ok,
@@ -18,6 +23,14 @@ from flask_jsondash import charts_builder
 from flask_jsondash import settings
 
 REDIRECT_MSG = 'You should be redirected automatically'
+cwd = os.getcwd()
+
+
+def get_json_config(name):
+    parent = cwd.replace('tests/', '')
+    path = '{0}/example_app/examples/config/{1}'.format(parent, name)
+    view = json.load(open(path, 'rb+'))
+    return view
 
 
 @pytest.mark.globalflag
@@ -198,3 +211,14 @@ def test_get_view_valid_id_invalid_config(monkeypatch, ctx, client):
     with pytest.raises(ValueError):
         res = test.get(url_for('jsondash.view', c_id='123'))
         assert 'Invalid config!' in res.data
+
+
+def test_get_view_valid_modules_count(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    view = get_json_config('inputs.json')
+    readfunc = read(override=dict(view))
+    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    res = test.get(url_for('jsondash.view', c_id=view['id']))
+    dom = pq(res.data)
+    assert len(dom.find('.item')) == len(view['modules'])

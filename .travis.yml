@@ -6,6 +6,6 @@ python:
 language: python
 install:
     - pip install -U pytest
-    - pip install -U mock
+    - pip install -U pyquery
     - python setup.py install
 script: pytest tests
