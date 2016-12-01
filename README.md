@@ -399,6 +399,10 @@ You can run these tests using pytest (`pip install -U pytest`) and then in the e
 
 If you are having issues with this approach, an alternative would be to install pytest within the projects' virtualenv (assuming you've created one), and then running it like so: `cd tests ; python -m pytest`.
 
+#### Test coverage
+
+To find coverage information (assuming `pytest-cov` is installed), you can run: `pytest tests -s --cov=flask_jsondash`.
+
 ### Javascript
 
 JS tests are run using the node library Jasmine. To install and run it, you'll need nodejs installed, then the package: `npm install -g jasmine`. You can then `cd` into the `tests_js` folder and run the provided python script `python runner.py`
