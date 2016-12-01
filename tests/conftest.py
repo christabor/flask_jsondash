@@ -10,10 +10,12 @@ import pytest
 
 from flask_jsondash import charts_builder
 
-
 URL_BASE = 'http://127.0.0.1:80'
-app = Flask('test_flask_jsondash')
-app.secret_key = '123'
+app = Flask('test_flask_jsondash',
+            template_folder='../flask_jsondash/example_app/templates')
+app.config.update(
+    SECRET_KEY='123',
+)
 app.debug = True
 app.register_blueprint(charts_builder.charts)
 
@@ -22,13 +24,27 @@ def _username():
     return 'Username'
 
 
+def auth_ok(**kwargs):
+    return True
+
+
 def _authtest(**kwargs):
     return False
 
 
+def read(*args, **kwargs):
+    return dict()
+
+
+def update(*args, **kwargs):
+    return dict()
+
+
 @pytest.fixture()
-def ctx(request):
+def ctx(monkeypatch, request):
     with app.test_request_context() as req_ctx:
+        monkeypatch.setattr(charts_builder.adapter, 'read', read)
+        monkeypatch.setattr(charts_builder.adapter, 'update', update)
         yield req_ctx
 
 

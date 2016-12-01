@@ -7,9 +7,16 @@ from flask import (
     url_for,
 )
 import pytest
-from conftest import URL_BASE
+from conftest import (
+    URL_BASE,
+    auth_ok,
+    read,
+    update,
+)
 
 from flask_jsondash import charts_builder
+
+REDIRECT_MSG = 'You should be redirected automatically'
 
 
 @pytest.mark.globalflag
@@ -145,16 +152,20 @@ def test_order_sort():
 def test_app_redirects(ctx, client):
     app, test = client
     res = test.get('/charts')
-    assert 'You should be redirected automatically' in res.data
+    assert REDIRECT_MSG in res.data
 
 
 def test_routes(ctx, client):
-    app, test = client
-    app.config['SERVER_NAME'] = '127.0.0.1:80'
-    app, test = client
     assert url_for('jsondash.dashboard') == '/charts/'
     assert url_for('jsondash.view', c_id='foo') == '/charts/foo'
     assert url_for('jsondash.update', c_id='foo') == '/charts/foo/update'
     assert url_for('jsondash.clone', c_id='foo') == '/charts/foo/clone'
     assert url_for('jsondash.delete', c_id='foo') == '/charts/foo/delete'
     assert url_for('jsondash.create') == '/charts/create'
+
+
+def test_get_view_invalid_id_redirect(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    res = test.get(url_for('jsondash.view', c_id='123'))
+    assert REDIRECT_MSG in res.data
