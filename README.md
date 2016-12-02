@@ -5,6 +5,7 @@
 [![Build Status](https://scrutinizer-ci.com/g/christabor/flask_jsondash/badges/build.png?b=master)](https://scrutinizer-ci.com/g/christabor/flask_jsondash/build-status/master)
 [![Build Status](https://travis-ci.org/christabor/flask_jsondash.svg?branch=master)](https://travis-ci.org/christabor/flask_jsondash)
 [![Code Issues](https://www.quantifiedcode.com/api/v1/project/df272477c0ff423ca51fa4106c1e9ebc/badge.svg)](https://www.quantifiedcode.com/app/project/df272477c0ff423ca51fa4106c1e9ebc)
+[![Code Health](https://landscape.io/github/christabor/flask_jsondash/master/landscape.svg?style=flat)](https://landscape.io/github/christabor/flask_jsondash/master)
 
 Easily configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
 
