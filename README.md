@@ -81,6 +81,10 @@ Which will map to query parameters (`entries=10` in this example) that you can u
 
 Also note that the order of the inputs in the json will determine their order in html.
 
+Below is an example of just some of what you can configure:
+
+![inputs example](example_app/examples/screenshots/inputs.png)
+
 See the [examples/config](example_app/examples/config) directory for all the supported options.
 
 ## Demo
