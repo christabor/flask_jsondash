@@ -223,7 +223,7 @@ app.config['JSONDASH'] = charts_config
 
 See below for the supported types and their details.
 
-##### Authentication types
+#### Authentication types
 
 **edit_global**
 
