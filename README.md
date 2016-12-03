@@ -83,7 +83,7 @@ Also note that the order of the inputs in the json will determine their order in
 
 Below is an example of just some of what you can configure:
 
-![inputs example](example_app/examples/screenshots/inputs.png)
+<img src="example_app/examples/screenshots/inputs.png" alt="inputs example" width="414" height="479">
 
 See the [examples/config](example_app/examples/config) directory for all the supported options.
 
