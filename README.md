@@ -21,7 +21,7 @@ Easily configurable, chart dashboards from any arbitrary API endpoint. JSON conf
 
 This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/) that allows you to create sleek dashboards without writing any front end code. It saves JSON configurations for declaring arbitrary charts, leveraging popular libraries like C3.js and D3.js.
 
-It also supports templates and iframes, as well as other data visualization libraries. The beauty of this approach is that only a basic configuration is required. It uses any specified json endpoint to get data from, so long as the [payload format is correct](schemas.md).
+It also supports templates and iframes, as well as other data visualization libraries. The beauty of this approach is that only a basic configuration is required. It uses any specified json endpoint to get data from, so long as the [payload format is correct](docs/schemas.md).
 
 The dashboard layout and blueprint styles are pre-packaged, and provide only the essentials, while getting out of the way.
 
@@ -93,7 +93,7 @@ If you want to see all/most charts in action, you'll need to fire up the `endpoi
 
 ### Various chart schemas JSON formats
 
-Each chart is very straightforward. Most of the power is leveraged by the various charting libraries that flask-jsondash defers to. See [schemas](schemas.md) for more detail on how your endpoint json data should be formatted for a given chart type, as well as how to find docs for each supported library.
+Each chart is very straightforward. Most of the power is leveraged by the various charting libraries that flask-jsondash defers to. See [schemas](docs/schemas.md) for more detail on how your endpoint json data should be formatted for a given chart type, as well as how to find docs for each supported library.
 
 ## Usage
 
@@ -376,7 +376,7 @@ This project uses [semantic versioning](http://semver.org) for releases. However
 
 The goal here is to use intelligent defaults as much as possible, and then allow the most universal aspects to be customized through a common interface.
 
-However, you can inject raw json-friendly configurations if your chart has the `override` flag set. This will not work for all charts. See [configuration options](schemas.md) for more.
+However, you can inject raw json-friendly configurations if your chart has the `override` flag set. This will not work for all charts. See [configuration options](docs/schemas.md) for more.
 
 Keep in mind, many *stylistic* customizations can be overridden in css, since most all charts are html and/or SVG. And, as mentioned above, you can always use override option, or the iframe/custom option and make your `dataSource` endpoint return whatever you want, including a full html/js/css pre-rendered template.
 
@@ -385,6 +385,10 @@ Keep in mind, many *stylistic* customizations can be overridden in css, since mo
 *A*: One way this can be done is using the `@app.before_request decorator`, and populating the `g` variable with metadata. The problem is that it creates extremely unnecessary overhead.
 
 ## Tips & tricks
+
+### Using the included data utils
+
+Check out [data utils](docs/data_utils.md) for more.
 
 ### Using endpoints dynamically
 
@@ -428,13 +432,13 @@ If your site is using `https` (it should be), this is likely caused by an issue 
 
 :x: *javascript issues*
 
-To troubleshoot potential javascript parse errors, open up your browser console (In Chrome for example, it's <kbd>cmd+option+i</kbd> for Mac, and <kbd>ctrl+alt+i</kbd> on Windows) and see if there are any errors. If there are any parse errors, then the format of your json response may be invalid for a given content type. [Make sure to check the schemas page for format requirements](schemas.md)
+To troubleshoot potential javascript parse errors, open up your browser console (In Chrome for example, it's <kbd>cmd+option+i</kbd> for Mac, and <kbd>ctrl+alt+i</kbd> on Windows) and see if there are any errors. If there are any parse errors, then the format of your json response may be invalid for a given content type. [Make sure to check the schemas page for format requirements](docs/schemas.md)
 
 **My chart is ugly or is flowing outside the container**
 
 This is usually only an issue with datatables, particularly when selecting the number of entries to show. The size of the table will grow, and the layout does not account for that, nor should it. The best case here is to determine what size actually makes sense for you and adjust your chart size accordingly. 
 
-You can also use the override option supported by this chart, and specify the number of results per page, and the number of entries that can be shown. See the [datatables schema docs](schemas.md#datatables) for more.
+You can also use the override option supported by this chart, and specify the number of results per page, and the number of entries that can be shown. See the [datatables schema docs](docs/schemas.md#datatables) for more.
 
 ## Contributing/Development
 
