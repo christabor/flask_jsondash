@@ -44,7 +44,7 @@ def path_hierarchy(path):
 
 
 @click.command()
-@click.option('--ppr',
+@click.option('--ppr/--no-ppr',
               default=False,
               help='Pretty-print results.')
 @click.option('--jsonfile', '-j',
