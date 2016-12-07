@@ -4,7 +4,7 @@ Python scripts for generating schema appropriate data from various contexts.
 
 ## Python modules
 
-Below is a list of python modules and their methods. When in doubt, check the `data_utils` module for more.
+Below is a list of python modules and their methods. When in doubt, check the overall [data utils](../flask_jsondash/data_utils/) module for more.
 
 ### `filetree.py`
 
