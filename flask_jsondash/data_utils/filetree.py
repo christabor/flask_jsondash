@@ -47,21 +47,24 @@ def path_hierarchy(path):
 @click.option('--ppr/--no-ppr',
               default=False,
               help='Pretty-print results.')
+@click.option('--indent', '-i',
+              default=4,
+              help='How far to indent if using json.')
 @click.option('--jsonfile', '-j',
               default=None,
               help='Output specified file as json.')
 @click.option('--path', '-p',
               default='.',
               help='The starting path')
-def get_tree(path, jsonfile, ppr):
+def get_tree(path, jsonfile, ppr, indent):
     """CLI wrapper for recursive function."""
     res = path_hierarchy(path)
     if jsonfile is not None:
         with open(jsonfile, 'wb+') as jsonfile:
-            jsonfile.write(json.dumps(res, indent=4))
+            jsonfile.write(json.dumps(res, indent=indent))
         return
     if ppr:
-        pprint(res)
+        pprint(res, indent=indent)
     else:
         print(res)
 
