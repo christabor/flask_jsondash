@@ -109,16 +109,19 @@ var jsondash = function() {
 
     function populateOrderField(module) {
         var module_form = $($MODULE_FORM);
+        var widgets = $('.item.widget');
         // Add the number of items to order field.
         var order_field = module_form.find('[name="order"]');
+        var max_options = widgets.length > 0 ? widgets.length + 1 : 2;
         order_field.find('option').remove();
+        // Add empty option.
         order_field.append('<option value=""></option>');
-        $('.item.widget').each(function(i, _){
+        d3.map(d3.range(1, max_options), function(i){
             var option = $('<option></option>');
             option.val(i).text(i);
             order_field.append(option);
         });
-        order_field.val(module.order || '');
+        order_field.val(module && module.order ? module.order : '');
     }
 
     function updateModule(e){
@@ -475,6 +478,7 @@ var jsondash = function() {
                 });
             }
         });
+        populateOrderField();
     }
     my.config = {
         WIDGET_MARGIN_X: 20,

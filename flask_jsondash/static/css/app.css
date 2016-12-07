@@ -19,6 +19,11 @@ body {
     background-color: #fff;
     border-bottom-width: 2px;
     border-bottom-color: #bbb;
+    /*
+    set to relative initially, before layout is calculated.
+    this ensures any elements positioned absolutely work as expected.
+    */
+    position: relative;
 }
 .dashboard-charts small {
     font-weight: 400;
