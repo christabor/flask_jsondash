@@ -218,7 +218,7 @@ def test_get_view_valid_id_invalid_modules(monkeypatch, ctx, client):
     assert 'Invalid configuration - missing modules.' in res.data
 
 
-def test_get_view_valid_modules_count_and_inputs(monkeypatch, ctx, client):
+def test_view_valid_dashboard_count_and_inputs(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
     view = get_json_config('inputs.json')
@@ -228,6 +228,49 @@ def test_get_view_valid_modules_count_and_inputs(monkeypatch, ctx, client):
     dom = pq(res.data)
     assert len(dom.find('.item')) == len(view['modules'])
     assert len(dom.find('.charts-input-icon')) == 1
+
+
+def test_view_valid_dashboard_inputs_form(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    view = get_json_config('inputs.json')
+    readfunc = read(override=dict(view))
+    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    res = test.get(url_for('jsondash.view', c_id=view['id']))
+    dom = pq(res.data)
+    charts_with_inputs = [m for m in view['modules'] if 'inputs' in m]
+    num_config_inputs = len(charts_with_inputs[0]['inputs']['options'])
+    assert num_config_inputs == 5  # Sanity check
+    assert len(charts_with_inputs) == 1
+    assert len(dom.find('.chart-inputs')) == 1
+    assert dom.find('.chart-inputs').hasClass('collapse')
+    # There are 7 input fields generated for this particular json file.
+    assert len(dom.find('.chart-inputs form input')) == 7
+
+
+def test_view_valid_dashboard_inputs_form_counts(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    view = get_json_config('inputs.json')
+    readfunc = read(override=dict(view))
+    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    res = test.get(url_for('jsondash.view', c_id=view['id']))
+    dom = pq(res.data)
+    charts_with_inputs = [m for m in view['modules'] if 'inputs' in m]
+    input_options = charts_with_inputs[0]['inputs']['options']
+    radio_opts = [o for o in input_options if o['type'] == 'radio'][0]
+    radio_opts = radio_opts['options']
+    assert len(dom.find('.chart-inputs form .input-radio')) == len(radio_opts)
+    select = [o for o in input_options if o['type'] == 'select']
+    assert len(dom.find('.chart-inputs form select')) == len(select)
+    options = select[0]['options']
+    assert len(dom.find('.chart-inputs form select option')) == len(options)
+    numbers = [inp for inp in input_options if inp['type'] == 'number']
+    assert len(dom.find('.chart-inputs [type="number"]')) == len(numbers)
+    text = [inp for inp in input_options if inp['type'] == 'text']
+    assert len(dom.find('.chart-inputs [type="text"]')) == len(text)
+    checkbox = [inp for inp in input_options if inp['type'] == 'checkbox']
+    assert len(dom.find('.chart-inputs [type="checkbox"]')) == len(checkbox)
 
 
 def test_get_view_valid_modules_valid_dash_title(monkeypatch, ctx, client):
