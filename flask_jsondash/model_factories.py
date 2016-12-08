@@ -22,12 +22,12 @@ from . import settings
 
 def get_random_group():
     """Return a random namespaced group of charts."""
-    return choice(settings.CHARTS_CONFIG.values())
+    return choice(list(settings.CHARTS_CONFIG.values()))
 
 
 def get_random_chart(group):
     """Get a random chart from a specific chart sub-group."""
-    return choice(group['charts'])
+    return choice(list(group['charts']))
 
 
 def make_fake_dashboard(name='Random chart', max_charts=10):

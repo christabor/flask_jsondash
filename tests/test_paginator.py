@@ -25,7 +25,7 @@ def check_values(paginator, limit, perpage, currpage, skip, numpages, count):
     assert paginator.per_page == perpage
     assert paginator.curr_page == currpage
     assert paginator.skip == skip
-    assert paginator.num_pages == numpages
+    assert paginator.num_pages == list(numpages)
     assert paginator.count == count
 
 

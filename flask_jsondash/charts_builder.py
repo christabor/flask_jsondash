@@ -199,7 +199,7 @@ def paginator(page=0, per_page=None, count=None):
     num_pages = count // per_page
     rem = count % per_page
     extra_pages = 2 if rem else 1
-    pages = range(1, num_pages + extra_pages)
+    pages = list(range(1, num_pages + extra_pages))
     return Paginator(
         limit=per_page,
         per_page=per_page,
