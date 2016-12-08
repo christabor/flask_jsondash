@@ -37,7 +37,7 @@ except NameError:
 def get_json_config(name):
     parent = cwd.replace('tests/', '')
     path = '{0}/example_app/examples/config/{1}'.format(parent, name)
-    view = json.load(open(path, 'rb+'))
+    view = json.load(open(path, 'r'))
     return view
 
 
