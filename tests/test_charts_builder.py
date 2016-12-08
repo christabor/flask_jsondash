@@ -177,7 +177,7 @@ def test_order_sort_valid_key():
 
 @pytest.mark.utils
 def test_order_shuffled_sort_multiple_valid_key():
-    orders = range(0, 10)
+    orders = list(range(0, 10))
     shuffle(orders)
     modules = [dict(order=i, foo='bar') for i in orders]
     res = sorted(modules, key=charts_builder.order_sort)
@@ -187,7 +187,7 @@ def test_order_shuffled_sort_multiple_valid_key():
 
 @pytest.mark.utils
 def test_order_shuffled_sort_multiple_valid_key_one_invalid_key():
-    orders = range(0, 10)
+    orders = list(range(0, 10))
     shuffle(orders)
     modules = [dict(order=i, foo='bar') for i in orders]
     # Add one w/o order key.
