@@ -223,6 +223,7 @@ def order_sort(item):
     return -1
 
 
+@charts.route('/charts', methods=['GET'])
 @charts.route('/charts/', methods=['GET'])
 def dashboard():
     """Load all views."""

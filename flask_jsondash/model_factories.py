@@ -7,16 +7,17 @@ flask_jsondash.model_factories
 Data generation utilities for all charts and dashboards.
 """
 
-from datetime import datetime as dt
 import json
+from datetime import datetime as dt
 from random import choice, randrange
 from uuid import uuid1
 
 import click
+
 from werkzeug.datastructures import ImmutableMultiDict
 
-import db_adapters
-import settings
+from . import db_adapters
+from . import settings
 
 
 def get_random_group():

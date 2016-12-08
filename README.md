@@ -313,7 +313,7 @@ You can use one or the other, but it's recommended to use both or none.
 
 ### Jinja template configuration
 
-The following blocks are used in the master template: 
+The following blocks are used in the master template:
 
 1. `jsondash_body`: required for the entire layout :heavy_exclamation_mark:
 2. `jsondash_css`: required for loading the css :heavy_exclamation_mark:
@@ -402,6 +402,10 @@ could return `{"data": [1, 2, 3, 4]}`, but you could customize the url by updati
 
 could return `{"data": [10, 20, 30, 40]}` instead!
 
+### Generating test data
+
+Included are CLI utilities for generating fake charts, etc. You will need to run them like a python package due to their relative import style which is required for py2/p3 compatibility. To run, for example, the model factory generator, run `python -m flask_jsondash.model_factories --records 10`. For python3.x, just replace that with `python3 -m ...`.
+
 ### Using gist.github.com
 
 While the data is not dynamically generated, you can easily use Github gists (or any raw file from github.com for that matter) to load charts! Check out the [kitchensink dashboard](example_app/examples/config/kitchensink.json) to see a real working chart loaded from via gist!
@@ -436,7 +440,7 @@ To troubleshoot potential javascript parse errors, open up your browser console 
 
 **My chart is ugly or is flowing outside the container**
 
-This is usually only an issue with datatables, particularly when selecting the number of entries to show. The size of the table will grow, and the layout does not account for that, nor should it. The best case here is to determine what size actually makes sense for you and adjust your chart size accordingly. 
+This is usually only an issue with datatables, particularly when selecting the number of entries to show. The size of the table will grow, and the layout does not account for that, nor should it. The best case here is to determine what size actually makes sense for you and adjust your chart size accordingly.
 
 You can also use the override option supported by this chart, and specify the number of results per page, and the number of entries that can be shown. See the [datatables schema docs](docs/schemas.md#datatables) for more.
 
@@ -463,7 +467,7 @@ And voila! You can now edit the folder directly, and still use it as a normal pi
 
 You can run these tests using pytest (`pip install -U pytest`) and then in the existing virtualenv, run `pytest tests`.
 
-If you are having issues with this approach, an alternative would be to install pytest within the projects' virtualenv (assuming you've created one), and then running it like so: `cd tests ; python -m pytest`.
+If you are having issues with this approach, an alternative would be to install pytest within the projects' virtualenv (assuming you've created one), and then running it like so: `python -m pytest tests`.
 
 #### Test coverage
 
