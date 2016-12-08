@@ -70,7 +70,7 @@ def update(c_id, **kwargs):
             break
 
 
-@pytest.fixture()
+@pytest.yield_fixture
 def ctx(monkeypatch, request):
     with app.test_request_context() as req_ctx:
         global fake_db
