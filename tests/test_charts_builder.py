@@ -27,6 +27,13 @@ REDIRECT_MSG = 'You should be redirected automatically'
 cwd = os.getcwd()
 
 
+# Py2/3 compat.
+try:
+    _unicode = unicode
+except NameError:
+    _unicode = str
+
+
 def get_json_config(name):
     parent = cwd.replace('tests/', '')
     path = '{0}/example_app/examples/config/{1}'.format(parent, name)
@@ -153,7 +160,7 @@ def test_jsonstring(ctx, client):
     assert 'foo' in res
     assert isinstance(res, str)
     d = json.loads(res)
-    assert isinstance(d['date'], unicode)
+    assert isinstance(d['date'], _unicode)
 
 
 @pytest.mark.utils
