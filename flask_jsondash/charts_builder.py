@@ -211,10 +211,16 @@ def paginator(page=0, per_page=None, count=None):
 
 
 def order_sort(item):
-    """Attempt to sort modules by order keys."""
-    if 'order' in item:
-        return item['order']
-    return item
+    """Attempt to sort modules by order keys.
+
+    Always returns an integer for compatibility.
+    """
+    if item.get('order') is not None:
+        try:
+            return int(item['order'])
+        except ValueError:
+            return -1
+    return -1
 
 
 @charts.route('/charts/', methods=['GET'])

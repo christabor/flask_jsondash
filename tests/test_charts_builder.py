@@ -156,9 +156,13 @@ def test_jsonstring(ctx, client):
 
 
 @pytest.mark.utils
-def test_order_sort():
+def test_order_sort_invalid_key():
     item = dict()
-    assert charts_builder.order_sort(item) == item
+    assert charts_builder.order_sort(item) == -1
+
+
+@pytest.mark.utils
+def test_order_sort_valid_key():
     item = dict(order=1)
     assert charts_builder.order_sort(item) == 1
 
