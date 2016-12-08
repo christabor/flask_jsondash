@@ -204,7 +204,7 @@ def test_order_shuffled_sort_multiple_valid_key_one_invalid_key():
 def test_app_redirects(ctx, client):
     app, test = client
     res = test.get('/charts')
-    assert REDIRECT_MSG in res.data
+    assert REDIRECT_MSG in str(res.data)
 
 
 def test_routes(ctx, client):
@@ -223,14 +223,14 @@ def test_get_dashboard_contains_all_chart_types_list(monkeypatch, ctx, client):
     for family, config in settings.CHARTS_CONFIG.items():
         for chart in config['charts']:
             _, label = chart
-            assert label in res.data
+            assert label in str(res.data)
 
 
 def test_get_dashboard_contains_no_chart_msg(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
     res = test.get(url_for('jsondash.dashboard'))
-    assert 'No dashboards exist. Create one below to get started.' in res.data
+    assert 'No dashboards exist. Create one below to get started.' in str(res.data)
 
 
 def test_get_view_valid_id_invalid_config(monkeypatch, ctx, client):
@@ -241,7 +241,7 @@ def test_get_view_valid_id_invalid_config(monkeypatch, ctx, client):
     monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
     with pytest.raises(ValueError):
         res = test.get(url_for('jsondash.view', c_id='123'))
-        assert 'Invalid config!' in res.data
+        assert 'Invalid config!' in str(res.data)
 
 
 def test_get_view_valid_id_invalid_modules(monkeypatch, ctx, client):
@@ -253,7 +253,7 @@ def test_get_view_valid_id_invalid_modules(monkeypatch, ctx, client):
     res = test.get(
         url_for('jsondash.view', c_id='123'),
         follow_redirects=True)
-    assert 'Invalid configuration - missing modules.' in res.data
+    assert 'Invalid configuration - missing modules.' in str(res.data)
 
 
 def test_view_valid_dashboard_count_and_inputs(monkeypatch, ctx, client):
@@ -327,7 +327,7 @@ def test_get_view_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
     res = test.get(url_for('jsondash.view', c_id='123'))
-    assert REDIRECT_MSG in res.data
+    assert REDIRECT_MSG in str(res.data)
 
 
 def test_create_valid(monkeypatch, ctx, client):
@@ -347,7 +347,7 @@ def test_clone_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
     res = test.post(url_for('jsondash.clone', c_id='123'))
-    assert REDIRECT_MSG in res.data
+    assert REDIRECT_MSG in str(res.data)
 
 
 def test_clone_valid(monkeypatch, ctx, client):
@@ -379,7 +379,7 @@ def test_delete_invalid_id_redirect(monkeypatch, ctx, client):
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
     res = test.post(
         url_for('jsondash.delete', c_id='123'))
-    assert REDIRECT_MSG in res.data
+    assert REDIRECT_MSG in str(res.data)
 
 
 def test_delete_valid(monkeypatch, ctx, client):
@@ -412,7 +412,7 @@ def test_update_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
     res = test.post(url_for('jsondash.update', c_id='123'))
-    assert REDIRECT_MSG in res.data
+    assert REDIRECT_MSG in str(res.data)
 
 
 def test_update_invalid_config(monkeypatch, ctx, client):
