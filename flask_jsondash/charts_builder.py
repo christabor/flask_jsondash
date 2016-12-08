@@ -191,6 +191,8 @@ def paginator(page=0, per_page=None, count=None):
     """Get pagination calculations in a compact format."""
     if count is None:
         count = adapter.count()
+    if page is None:
+        page = 0
     default_per_page = setting('JSONDASH_PERPAGE')
     # Allow query parameter overrides.
     per_page = per_page if per_page is not None else default_per_page
