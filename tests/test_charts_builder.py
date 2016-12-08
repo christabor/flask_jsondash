@@ -233,6 +233,18 @@ def test_get_dashboard_contains_no_chart_msg(monkeypatch, ctx, client):
     assert 'No dashboards exist. Create one below to get started.' in str(res.data)
 
 
+def test_create_dashboards_check_index_count(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    for i in range(10):
+        data = dict(name=i, modules=[])
+        res = test.post(url_for('jsondash.create'), data=data)
+    res = test.get(url_for('jsondash.dashboard'))
+    assert len(read()) == 10
+    heading = pq(res.data).find('h1.lead').text()
+    assert 'Showing 10 dashboards with 0 charts' in heading
+
+
 def test_get_view_valid_id_invalid_config(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_ok)
