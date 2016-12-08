@@ -17,7 +17,7 @@ import click
 
 
 def path_hierarchy(path):
-    """Create a json representation of a file tree.
+    """Create a json representation of a filesystem tree.
 
     Format is suitable for d3.js application.
 

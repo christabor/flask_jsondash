@@ -1,0 +1,324 @@
+{
+    "path": "flask_jsondash", 
+    "type": "folder", 
+    "name": "flask_jsondash", 
+    "children": [
+        {
+            "path": "flask_jsondash/__init__.py", 
+            "type": "file", 
+            "name": "__init__.py"
+        }, 
+        {
+            "path": "flask_jsondash/__init__.pyc", 
+            "type": "file", 
+            "name": "__init__.pyc"
+        }, 
+        {
+            "path": "flask_jsondash/charts_builder.py", 
+            "type": "file", 
+            "name": "charts_builder.py"
+        }, 
+        {
+            "path": "flask_jsondash/charts_builder.pyc", 
+            "type": "file", 
+            "name": "charts_builder.pyc"
+        }, 
+        {
+            "path": "flask_jsondash/db_adapters.py", 
+            "type": "file", 
+            "name": "db_adapters.py"
+        }, 
+        {
+            "path": "flask_jsondash/db_adapters.pyc", 
+            "type": "file", 
+            "name": "db_adapters.pyc"
+        }, 
+        {
+            "path": "flask_jsondash/model_factories.py", 
+            "type": "file", 
+            "name": "model_factories.py"
+        }, 
+        {
+            "path": "flask_jsondash/model_factories.pyc", 
+            "type": "file", 
+            "name": "model_factories.pyc"
+        }, 
+        {
+            "path": "flask_jsondash/settings.py", 
+            "type": "file", 
+            "name": "settings.py"
+        }, 
+        {
+            "path": "flask_jsondash/settings.pyc", 
+            "type": "file", 
+            "name": "settings.pyc"
+        }, 
+        {
+            "path": "flask_jsondash/static", 
+            "type": "folder", 
+            "name": "static", 
+            "children": [
+                {
+                    "path": "flask_jsondash/static/.DS_Store", 
+                    "type": "file", 
+                    "name": ".DS_Store"
+                }, 
+                {
+                    "path": "flask_jsondash/static/__init__.py", 
+                    "type": "file", 
+                    "name": "__init__.py"
+                }, 
+                {
+                    "path": "flask_jsondash/static/__init__.pyc", 
+                    "type": "file", 
+                    "name": "__init__.pyc"
+                }, 
+                {
+                    "path": "flask_jsondash/static/css", 
+                    "type": "folder", 
+                    "name": "css", 
+                    "children": [
+                        {
+                            "path": "flask_jsondash/static/css/.DS_Store", 
+                            "type": "file", 
+                            "name": ".DS_Store"
+                        }, 
+                        {
+                            "path": "flask_jsondash/static/css/app.css", 
+                            "type": "file", 
+                            "name": "app.css"
+                        }, 
+                        {
+                            "path": "flask_jsondash/static/css/fonts", 
+                            "type": "folder", 
+                            "name": "fonts", 
+                            "children": [
+                                {
+                                    "path": "flask_jsondash/static/css/fonts/fontawesome-webfont.eot", 
+                                    "type": "file", 
+                                    "name": "fontawesome-webfont.eot"
+                                }, 
+                                {
+                                    "path": "flask_jsondash/static/css/fonts/fontawesome-webfont.svg", 
+                                    "type": "file", 
+                                    "name": "fontawesome-webfont.svg"
+                                }, 
+                                {
+                                    "path": "flask_jsondash/static/css/fonts/fontawesome-webfont.ttf", 
+                                    "type": "file", 
+                                    "name": "fontawesome-webfont.ttf"
+                                }, 
+                                {
+                                    "path": "flask_jsondash/static/css/fonts/fontawesome-webfont.woff", 
+                                    "type": "file", 
+                                    "name": "fontawesome-webfont.woff"
+                                }, 
+                                {
+                                    "path": "flask_jsondash/static/css/fonts/fontawesome-webfont.woff2", 
+                                    "type": "file", 
+                                    "name": "fontawesome-webfont.woff2"
+                                }
+                            ]
+                        }, 
+                        {
+                            "path": "flask_jsondash/static/css/overrides.css", 
+                            "type": "file", 
+                            "name": "overrides.css"
+                        }, 
+                        {
+                            "path": "flask_jsondash/static/css/vendor", 
+                            "type": "folder", 
+                            "name": "vendor", 
+                            "children": [
+                                {
+                                    "path": "flask_jsondash/static/css/vendor/.DS_Store", 
+                                    "type": "file", 
+                                    "name": ".DS_Store"
+                                }, 
+                                {
+                                    "path": "flask_jsondash/static/css/vendor/font-awesome.css", 
+                                    "type": "file", 
+                                    "name": "font-awesome.css"
+                                }, 
+                                {
+                                    "path": "flask_jsondash/static/css/vendor/images", 
+                                    "type": "folder", 
+                                    "name": "images", 
+                                    "children": [
+                                        {
+                                            "path": "flask_jsondash/static/css/vendor/images/ui-icons_444444_256x240.png", 
+                                            "type": "file", 
+                                            "name": "ui-icons_444444_256x240.png"
+                                        }, 
+                                        {
+                                            "path": "flask_jsondash/static/css/vendor/images/ui-icons_555555_256x240.png", 
+                                            "type": "file", 
+                                            "name": "ui-icons_555555_256x240.png"
+                                        }, 
+                                        {
+                                            "path": "flask_jsondash/static/css/vendor/images/ui-icons_777620_256x240.png", 
+                                            "type": "file", 
+                                            "name": "ui-icons_777620_256x240.png"
+                                        }, 
+                                        {
+                                            "path": "flask_jsondash/static/css/vendor/images/ui-icons_777777_256x240.png", 
+                                            "type": "file", 
+                                            "name": "ui-icons_777777_256x240.png"
+                                        }, 
+                                        {
+                                            "path": "flask_jsondash/static/css/vendor/images/ui-icons_cc0000_256x240.png", 
+                                            "type": "file", 
+                                            "name": "ui-icons_cc0000_256x240.png"
+                                        }, 
+                                        {
+                                            "path": "flask_jsondash/static/css/vendor/images/ui-icons_ffffff_256x240.png", 
+                                            "type": "file", 
+                                            "name": "ui-icons_ffffff_256x240.png"
+                                        }
+                                    ]
+                                }, 
+                                {
+                                    "path": "flask_jsondash/static/css/vendor/jquery-ui.min.css", 
+                                    "type": "file", 
+                                    "name": "jquery-ui.min.css"
+                                }, 
+                                {
+                                    "path": "flask_jsondash/static/css/vendor/timeline.css", 
+                                    "type": "file", 
+                                    "name": "timeline.css"
+                                }
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "path": "flask_jsondash/static/js", 
+                    "type": "folder", 
+                    "name": "js", 
+                    "children": [
+                        {
+                            "path": "flask_jsondash/static/js/api.js", 
+                            "type": "file", 
+                            "name": "api.js"
+                        }, 
+                        {
+                            "path": "flask_jsondash/static/js/app.js", 
+                            "type": "file", 
+                            "name": "app.js"
+                        }, 
+                        {
+                            "path": "flask_jsondash/static/js/handlers.js", 
+                            "type": "file", 
+                            "name": "handlers.js"
+                        }, 
+                        {
+                            "path": "flask_jsondash/static/js/utils.js", 
+                            "type": "file", 
+                            "name": "utils.js"
+                        }, 
+                        {
+                            "path": "flask_jsondash/static/js/vendor", 
+                            "type": "folder", 
+                            "name": "vendor", 
+                            "children": [
+                                {
+                                    "path": "flask_jsondash/static/js/vendor/jquery-ui.min.js", 
+                                    "type": "file", 
+                                    "name": "jquery-ui.min.js"
+                                }, 
+                                {
+                                    "path": "flask_jsondash/static/js/vendor/jRespond.min.js", 
+                                    "type": "file", 
+                                    "name": "jRespond.min.js"
+                                }, 
+                                {
+                                    "path": "flask_jsondash/static/js/vendor/packery.pkgd.min.js", 
+                                    "type": "file", 
+                                    "name": "packery.pkgd.min.js"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }, 
+        {
+            "path": "flask_jsondash/templates", 
+            "type": "folder", 
+            "name": "templates", 
+            "children": [
+                {
+                    "path": "flask_jsondash/templates/__init__.py", 
+                    "type": "file", 
+                    "name": "__init__.py"
+                }, 
+                {
+                    "path": "flask_jsondash/templates/__init__.pyc", 
+                    "type": "file", 
+                    "name": "__init__.pyc"
+                }, 
+                {
+                    "path": "flask_jsondash/templates/layouts", 
+                    "type": "folder", 
+                    "name": "layouts", 
+                    "children": [
+                        {
+                            "path": "flask_jsondash/templates/layouts/charts_base.html", 
+                            "type": "file", 
+                            "name": "charts_base.html"
+                        }
+                    ]
+                }, 
+                {
+                    "path": "flask_jsondash/templates/pages", 
+                    "type": "folder", 
+                    "name": "pages", 
+                    "children": [
+                        {
+                            "path": "flask_jsondash/templates/pages/chart_detail.html", 
+                            "type": "file", 
+                            "name": "chart_detail.html"
+                        }, 
+                        {
+                            "path": "flask_jsondash/templates/pages/charts_index.html", 
+                            "type": "file", 
+                            "name": "charts_index.html"
+                        }
+                    ]
+                }, 
+                {
+                    "path": "flask_jsondash/templates/partials", 
+                    "type": "folder", 
+                    "name": "partials", 
+                    "children": [
+                        {
+                            "path": "flask_jsondash/templates/partials/dashboard-options.html", 
+                            "type": "file", 
+                            "name": "dashboard-options.html"
+                        }, 
+                        {
+                            "path": "flask_jsondash/templates/partials/edit-data-modal.html", 
+                            "type": "file", 
+                            "name": "edit-data-modal.html"
+                        }, 
+                        {
+                            "path": "flask_jsondash/templates/partials/form-diagram-options.html", 
+                            "type": "file", 
+                            "name": "form-diagram-options.html"
+                        }, 
+                        {
+                            "path": "flask_jsondash/templates/partials/form-json.html", 
+                            "type": "file", 
+                            "name": "form-json.html"
+                        }, 
+                        {
+                            "path": "flask_jsondash/templates/partials/form-view.html", 
+                            "type": "file", 
+                            "name": "form-view.html"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

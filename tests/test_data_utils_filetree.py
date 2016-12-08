@@ -8,8 +8,8 @@ from flask_jsondash.data_utils import filetree
 
 def test_path_hierarchy(tmpdir):
     uid = uuid1()
-    tmpfile = tmpdir.mkdir('{}'.format(uid))
-    data = filetree.path_hierarchy(tmpfile.strpath)
+    tmp = tmpdir.mkdir('{}'.format(uid))
+    data = filetree.path_hierarchy(tmp.strpath)
     assert json.dumps(data)
     for key in ['type', 'name', 'path']:
         assert key in data

@@ -1,0 +1,46 @@
+{
+    "username": "global",
+    "name": "Digraph examples",
+    "modules": [
+        {
+            "name": "Digraph example",
+            "family": "Graph",
+            "refresh": false,
+            "height": 332,
+            "width": 383,
+            "dataSource": "http://localhost:5004/digraph?simple=true",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "541ebad2-dfbe-2c51-ac4a-b960f992ed06",
+            "type": "graph",
+            "order": 0
+        },
+        {
+            "name": "Simple graph",
+            "family": "Graph",
+            "refresh": false,
+            "height": 414,
+            "width": 550,
+            "dataSource": "http://localhost:5004/digraph",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "6070041f-fd39-7c80-2889-05f524644533",
+            "type": "graph",
+            "order": 1
+        },
+        {
+            "name": "digraph file example",
+            "family": "Graph",
+            "refresh": false,
+            "height": 241,
+            "width": 488,
+            "dataSource": "http://localhost:5004/digraph?filetree=1",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "61dafd6e-cb25-f247-3a0b-3b2f47fcb173",
+            "type": "graph",
+            "order": 2
+        }
+    ],
+    "created_by": "global",
+}

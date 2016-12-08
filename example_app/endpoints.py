@@ -395,6 +395,9 @@ def voronoi():
 @app.route('/digraph', methods=['GET'])
 def graphdata():
     """Fake endpoint."""
+    if 'filetree' in request.args:
+        with open('{}/examples/filetree_digraph.dot'.format(cwd), 'r') as dot:
+            return json.dumps(dict(graph=dot.read()))
     if 'simple' in request.args:
         graphdata = """
         digraph {
