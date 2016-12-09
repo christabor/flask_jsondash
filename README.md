@@ -406,6 +406,10 @@ could return `{"data": [10, 20, 30, 40]}` instead!
 
 Included are CLI utilities for generating fake charts, etc. You will need to run them like a python package due to their relative import style which is required for py2/p3 compatibility. To run, for example, the model factory generator, run `python -m flask_jsondash.model_factories --records 10`. For python3.x, just replace that with `python3 -m ...`.
 
+### Using the demo mode
+
+If you append the query argument `jsondash_demo_mode` to your url (e.g. `...?jsondash_demo_mode`, the UI will automatically hide any dashboard edit buttons and back button. This can be used for example, for displaying on a mounted screen to hide extraneous details.
+
 ### Using gist.github.com
 
 While the data is not dynamically generated, you can easily use Github gists (or any raw file from github.com for that matter) to load charts! Check out the [kitchensink dashboard](example_app/examples/config/kitchensink.json) to see a real working chart loaded from via gist!
