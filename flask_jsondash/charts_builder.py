@@ -139,6 +139,7 @@ def ctx():
         static_config=static,
         charts_config=config,
         page_title='dashboards',
+        demo_mode=request.args.get('jsondash_demo_mode', False),
         global_dashuser=setting('JSONDASH_GLOBAL_USER'),
         global_dashboards=setting('JSONDASH_GLOBALDASH'),
         username=metadata(key='username') if filter_user else None,

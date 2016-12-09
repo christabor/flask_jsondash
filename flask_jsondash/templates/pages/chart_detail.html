@@ -94,13 +94,15 @@
 <div class="row">
     <div class="col-md-12">
         <h2 class="lead text-center">
-            <small>
-                <a href="{{ url_for('jsondash.dashboard') }}" class="btn-xs btn-default pull-left">
-                    <span class="fa fa-angle-left"></span> Back
-                </a>
-            </small>
+            {% if not demo_mode %}
+                <small>
+                    <a href="{{ url_for('jsondash.dashboard') }}" class="btn-xs btn-default pull-left">
+                        <span class="fa fa-angle-left"></span> Back
+                    </a>
+                </small>
+            {% endif %}
             <span class="dashboard-title">{{ view.name }}</span>
-            {% if can_edit %}
+            {% if can_edit and not demo_mode %}
                 <small>
                     {% include "partials/dashboard-options.html" %}
                 </small>
