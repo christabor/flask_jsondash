@@ -408,7 +408,7 @@ Included are CLI utilities for generating fake charts, etc. You will need to run
 
 ### Using the demo mode
 
-If you append the query argument `jsondash_demo_mode` to your url (e.g. `...?jsondash_demo_mode`, the UI will automatically hide any dashboard edit buttons and back button. This can be used for example, for displaying on a mounted screen to hide extraneous details.
+If you append the query argument `jsondash_demo_mode=1` to your url (e.g. `...?jsondash_demo_mode=1`, the UI will automatically hide any dashboard edit buttons and back button. This can be used for example, for displaying on a mounted screen to hide extraneous details.
 
 ### Using gist.github.com
 
