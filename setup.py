@@ -6,8 +6,6 @@ from setuptools import setup
 
 SRCDIR = '.'
 folder = os.path.abspath(os.path.dirname(__file__))
-template_start = '{}/flask_jsondash/templates'.format(folder)
-static_start = '{}/flask_jsondash/static'.format(folder)
 test_requirements = [
     'pytest==3.0',
     'pytest-cov==2.4',
