@@ -4,6 +4,14 @@ sudo: false
 python:
   - "2.7"
 language: python
+cache:
+  pip
+notifications:
+  email:
+    recipients:
+      - dxdstudio@gmail.com
+    on_failure: always
+    on_success: always
 install:
     - pip install -U pytest
     - pip install -U pyquery
