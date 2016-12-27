@@ -111,7 +111,7 @@ cd example_app
 python app.py
 ```
 
-This will setup the app in a virtual environment and run the included test app (`app.py`) immediately on port `5002`.
+This will setup the app in a virtual environment and run the included test app (`app.py`) immediately on port `8080`.
 
 If you want to import the blueprint into your own existing flask instance:
 
@@ -122,6 +122,23 @@ pip install flask-jsondash
 ```
 
 Your app will need to import and register the blueprint, as well as have the appropriate template tags. [An example of this can be found here](example_app/templates/layouts/base.html).
+
+**Method 3 - Docker**
+
+Assuming you have docker *and* docker-compose installed:
+
+```shell
+git clone https://github.com/christabor/flask_jsondash.git
+cd flask_jsondash
+docker build --tag jsondash_base:latest -f BaseDockerfile .
+docker-compose build ; docker-compose up
+```
+
+This will build the base and services images, setup your docker services and link them together. The endpoints will run on `0.0.0.0:5004` by default, and your app is available at `0.0.0.0:8080`.
+
+*Note that there are three docker files, a base and then inheriting ones. This is a way to speed up subsequent app-specific builds without having to reinstall python and update apt repos*
+
+*Note, for any serious usage, you'll always want to configure external volumes for mongodb, so that your data is persisted OUTSIDE of docker.*
 
 #### Python 3.x usage
 
@@ -394,11 +411,11 @@ Check out [data utils](docs/data_utils.md) for more.
 
 Because the chart builder utilizes simple endpoints, you can use the power of REST to create more complicated views. For example:
 
-`curl -XGET http://localhost:5002/api/foo/`
+`curl -XGET http://localhost:8080/api/foo/`
 
 could return `{"data": [1, 2, 3, 4]}`, but you could customize the url by updating the url saved in your dashboard to support query arguments:
 
-`curl -XGET http://localhost:5002/api/foo?gt=9`
+`curl -XGET http://localhost:8080/api/foo?gt=9`
 
 could return `{"data": [10, 20, 30, 40]}` instead!
 

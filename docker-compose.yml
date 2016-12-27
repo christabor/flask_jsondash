@@ -1,0 +1,31 @@
+version: '2'
+services:
+  mongodb:
+    container_name: 'jsondash-db'
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+  endpoints:
+    container_name: 'endpoints-web'
+    build:
+      context: .
+      dockerfile: EndpointsDockerfile
+    ports:
+      - "5004:5004"
+    environment:
+      - PORT=5004
+      - HOST=0.0.0.0
+  jsondash:
+    container_name: 'jsondash-web'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - HOST=0.0.0.0
+      - CHARTS_DB_HOST=jsondash-db
+    links:
+      - endpoints
+      - mongodb

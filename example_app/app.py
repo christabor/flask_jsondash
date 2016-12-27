@@ -58,5 +58,6 @@ def index():
 
 
 if __name__ == '__main__':
-    PORT = int(os.getenv('PORT', 5002))
-    app.run(debug=True, port=PORT)
+    PORT = int(os.getenv('PORT', 8080))
+    HOST = os.getenv('HOST', '0.0.0.0')
+    app.run(debug=True, host=HOST, port=PORT)

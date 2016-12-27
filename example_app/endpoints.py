@@ -17,8 +17,8 @@ from flask import (
     request,
     render_template,
 )
-from flask.ext.cors import CORS
-from flask.ext.cors import cross_origin
+from flask_cors import CORS
+from flask_cors import cross_origin
 
 app = Flask('endpoints_test')
 CORS(app)
@@ -422,4 +422,6 @@ def graphdata():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5004)
+    PORT = int(os.getenv('PORT', 5004))
+    HOST = os.getenv('HOST', '0.0.0.0')
+    app.run(debug=True, host=HOST, port=PORT)
