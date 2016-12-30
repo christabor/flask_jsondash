@@ -1,4 +1,4 @@
-.PHONY: cleanpyc clean tests coverage dockerize help pypi
+.PHONY: cleanpyc clean tests coverage dockerize help pypi testdata
 all: clean cleanpyc tests
 clean:
 	rm -rf coverage_report
@@ -15,6 +15,8 @@ cleanpyc:
 	find . -name '*~' -exec rm -f {} +
 pypi:
 	python setup.py sdist upload -r pypi
+testdata:
+	python -m flask_jsondash.model_factories --records 10
 help:
 	@echo "all ......... Runs cleanup and tests"
 	@echo "clean ....... Cleanup coverage"
@@ -22,3 +24,4 @@ help:
 	@echo "coverage .... Generate coverage statistics and html"
 	@echo "dockerize ... Setup docker containers and initialize example apps"
 	@echo "cleanpyc .... Remove .pyc files."
+	@echo "testdata .... Generate some test data"

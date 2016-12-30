@@ -13,6 +13,11 @@ def test_create_none(adapter):
     assert adapter.create() is None
 
 
+def test_count(monkeypatch, adapter):
+    monkeypatch.setattr(adapter.coll, 'count', lambda *args, **kwargs: [])
+    assert adapter.count() == []
+
+
 def test_update_normal(monkeypatch, adapter):
     records = []
     monkeypatch.setattr(

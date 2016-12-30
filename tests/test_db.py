@@ -1,7 +1,10 @@
 import json
 
+import pytest
+
 from flask_jsondash import db
 from flask_jsondash import settings
+from flask_jsondash import mongo_adapter
 
 
 def test_reformat_data():
@@ -37,3 +40,13 @@ def test_default_settings():
     assert settings.DB_TABLE == 'views'
     assert settings.ACTIVE_DB == 'mongo'
     assert db.DB_NAME == settings.ACTIVE_DB
+
+
+def test_get_db_handler_mongo():
+    assert isinstance(db.get_db_handler(), mongo_adapter.Db)
+
+
+def test_get_db_handler_invalid(monkeypatch):
+    monkeypatch.setattr(db, 'DB_NAME', 'invaliddb')
+    with pytest.raises(NotImplementedError):
+        db.get_db_handler()

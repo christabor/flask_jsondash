@@ -48,6 +48,19 @@ def test_get_dashboard_contains_no_chart_msg(monkeypatch, ctx, client):
     assert 'No dashboards exist. Create one below to get started.' in res
 
 
+def test_dashboards_override_perpage_pagination(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
+    for i in range(10):
+        data = dict(name=i, modules=[])
+        res = test.post(url_for('jsondash.create'), data=data)
+    res = test.get(url_for('jsondash.dashboard') + '?per_page=2')
+    # Ensure 10 exist, but only 5 are shown
+    assert len(read()) == 10
+    dom = pq(res.data)
+    assert len(dom.find('.pagination').find('li:not(.active)')) == 5
+
+
 def test_create_dashboards_check_index_count(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)

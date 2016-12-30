@@ -20,6 +20,9 @@ from . import db
 from . import settings
 
 
+adapter = db.get_db_handler()
+
+
 def get_random_group():
     """Return a random namespaced group of charts."""
     return choice(list(settings.CHARTS_CONFIG.values()))
@@ -89,12 +92,12 @@ def insert_dashboards(records, max_charts):
         data = make_fake_dashboard(
             name='Test chart #{}'.format(i),
             max_charts=max_charts)
-        db.create(data=data)
+        adapter.create(data=data)
 
 
 def delete_all():
     """Delete all dashboards."""
-    db.delete_all()
+    adapter.delete_all()
 
 
 if __name__ == '__main__':
