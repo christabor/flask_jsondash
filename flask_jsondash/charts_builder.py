@@ -149,7 +149,7 @@ def ctx():
 
 @jinja2.contextfilter
 @charts.app_template_filter('get_dims')
-def get_dims(ctx, config):
+def get_dims(_, config):
     """Extract the dimensions from config data. This allows
     for overrides for edge-cases to live in one place.
     """

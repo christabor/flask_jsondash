@@ -168,9 +168,3 @@ CHARTS_CONFIG = {
         'help_link': 'https://plot.ly/javascript/',
     },
 }
-
-# Import optional chart overrides.
-try:
-    from settings_override import *
-except ImportError:
-    print('Could not find override settings. Using default settings.')

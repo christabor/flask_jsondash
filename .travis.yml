@@ -18,8 +18,11 @@ notifications:
     on_failure: always
     on_success: always
 install:
+    - pip install -U coveralls
     - pip install -U tox
     - pip install -U pytest
     - pip install -U pyquery
     - python setup.py install
 script: tox -e $TOXENV
+after_success:
+  coveralls
