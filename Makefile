@@ -1,4 +1,4 @@
-.PHONY: cleanpyc clean tests coverage dockerize
+.PHONY: cleanpyc clean tests coverage dockerize help
 all: clean cleanpyc tests
 clean:
 	rm -rf coverage_report
@@ -13,3 +13,10 @@ cleanpyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
+help:
+	@echo "all ......... Runs cleanup and tests"
+	@echo "clean ....... Cleanup coverage"
+	@echo "tests ....... Run all tests"
+	@echo "coverage .... Generate coverage statistics and html"
+	@echo "dockerize ... Setup docker containers and initialize example apps"
+	@echo "cleanpyc .... Remove .pyc files."
