@@ -339,7 +339,7 @@ def update(c_id):
     else:
         data = dict(
             name=form_data['name'],
-            modules=adapter._format_modules(form_data),
+            modules=adapter.format_charts(form_data),
             date=str(dt.now()),
             id=c_id,
         )
@@ -350,7 +350,7 @@ def update(c_id):
     data.update(**check_global())
     # Update db
     if edit_raw:
-        adapter.update(c_id, data=data, fmt_modules=False)
+        adapter.update(c_id, data=data, fmt_charts=False)
     else:
         adapter.update(c_id, data=data)
     flash('Updated view "{}"'.format(c_id))
@@ -388,7 +388,7 @@ def create():
     new_id = str(uuid.uuid1())
     d = dict(
         name=data['name'],
-        modules=adapter._format_modules(data),
+        modules=adapter.format_charts(data),
         date=dt.now(),
         id=new_id,
     )

@@ -13,7 +13,8 @@ notifications:
     on_failure: always
     on_success: always
 install:
+    - pip install -U tox
     - pip install -U pytest
     - pip install -U pyquery
     - python setup.py install
-script: pytest tests
+script: tox

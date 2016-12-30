@@ -10,12 +10,20 @@ import errno
 
 import click
 
+# Py2/3 compat.
+try:
+    _unicode = unicode
+except NameError:
+    _unicode = str
+
 
 def path_hierarchy(path, hierarchy=[], prev=None):
     """Create a dotfile representation of a filesystem tree.
 
     Format is suitable for graphviz applications.
     """
+    valid_path = any([isinstance(path, _unicode), isinstance(path, str)])
+    assert valid_path, 'Requires a valid path!'
     name = os.path.basename(path)
     if prev is not None:
         prev = str(prev)

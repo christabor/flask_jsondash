@@ -15,6 +15,12 @@ import json
 
 import click
 
+# Py2/3 compat.
+try:
+    _unicode = unicode
+except NameError:
+    _unicode = str
+
 
 def path_hierarchy(path):
     """Create a json representation of a filesystem tree.
@@ -25,6 +31,8 @@ def path_hierarchy(path):
     http://unix.stackexchange.com/questions/164602/
         how-to-output-the-directory-structure-to-json-format
     """
+    valid_path = any([isinstance(path, _unicode), isinstance(path, str)])
+    assert valid_path, 'Requires a valid path!'
     name = os.path.basename(path)
     hierarchy = {
         'type': 'folder',
@@ -60,7 +68,7 @@ def get_tree(path, jsonfile, ppr, indent):
     """CLI wrapper for recursive function."""
     res = path_hierarchy(path)
     if jsonfile is not None:
-        with open(jsonfile, 'wb+') as jsonfile:
+        with open(jsonfile, 'w') as jsonfile:
             jsonfile.write(json.dumps(res, indent=indent))
         return
     if ppr:

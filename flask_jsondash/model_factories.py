@@ -39,7 +39,7 @@ def make_fake_dashboard(name='Random chart', max_charts=10):
         name=name,
         created_by='global',
         date=dt.now(),
-        modules=db_adapters._format_modules(charts),
+        modules=db_adapters.format_charts(charts),
         id=str(uuid1()),
     )
 

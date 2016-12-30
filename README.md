@@ -484,6 +484,8 @@ And voila! You can now edit the folder directly, and still use it as a normal pi
 
 ## Tests
 
+To run all tests for python 2.7 and 3.x, with coverage, just run `tox` (assuming tox is installed.)
+
 ### Python
 
 You can run these tests using pytest (`pip install -U pytest`) and then in the existing virtualenv, run `pytest tests`.

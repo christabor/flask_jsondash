@@ -26,7 +26,8 @@ if DB_NAME == 'mongo':
     conn = client[settings.DB_NAME]
     coll = conn[settings.DB_TABLE]
 else:
-    raise NotImplemented('PostgreSQL is not yet supported.')
+    raise NotImplementedError(
+        'Mongodb is the only supported database right now.')
 
 
 def reformat_data(data, c_id):
@@ -35,10 +36,9 @@ def reformat_data(data, c_id):
     return data
 
 
-def _format_modules(data):
-    """Form module data for JSON."""
+def format_charts(data):
+    """Form chart POST data for JSON usage within db."""
     modules = []
-    # Format modules data for json usage
     for item in data:
         if item.startswith('module_'):
             val_json = json.loads(data[item])
@@ -65,16 +65,16 @@ def read(**kwargs):
         raise NotImplemented('{} is not supported.'.format(DB_NAME))
 
 
-def update(c_id, data=None, fmt_modules=True):
+def update(c_id, data=None, fmt_charts=True):
     """Update a record."""
     if data is None:
         return
     if DB_NAME == 'mongo':
-        modules = _format_modules(data) if fmt_modules else data.get('modules')
+        charts = format_charts(data) if fmt_charts else data.get('modules')
         save_conf = {
             '$set': {
                 'name': data.get('name', 'NONAME'),
-                'modules': modules,
+                'modules': charts,
                 'date': dt.now()
             }
         }
