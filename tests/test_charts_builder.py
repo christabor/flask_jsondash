@@ -1,7 +1,3 @@
-import json
-from datetime import datetime as dt
-from random import shuffle
-
 from flask import url_for
 
 from pyquery import PyQuery as pq
@@ -18,182 +14,6 @@ from flask_jsondash import charts_builder
 from flask_jsondash import settings
 
 REDIRECT_MSG = 'You should be redirected automatically'
-
-
-# Py2/3 compat.
-try:
-    _unicode = unicode
-except NameError:
-    _unicode = str
-
-
-@pytest.mark.globalflag
-def test_noset_global_flag_when_creating_dashboard(ctx, client, monkeypatch):
-    app, test = client
-    app.config['JSONDASH_GLOBALDASH'] = True
-    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
-    data = dict(name='global-check')
-    test.post('/charts/create', data=data).data
-    assert len(read()) == 1
-    assert read()[0]['name'] == 'global-check'
-    assert read()[0]['created_by'] == 'Username'
-
-
-@pytest.mark.globalflag
-def test_set_global_flag_when_creating_dashboard(ctx, client, monkeypatch):
-    app, test = client
-    app.config['JSONDASH_GLOBALDASH'] = True
-    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
-    data = dict(name='global-check', is_global='on')
-    test.post('/charts/create', data=data).data
-    assert len(read()) == 1
-    assert read()[0]['name'] == 'global-check'
-    assert read()[0]['created_by'] == app.config.get('JSONDASH_GLOBAL_USER')
-
-
-@pytest.mark.globalflag
-def test_no_config_sanity_test(ctx, client):
-    app, test = client
-    assert not app.config.get('JSONDASH_GLOBALDASH')
-    assert not app.config.get('JSONDASH_FILTERUSERS')
-    assert app.config.get('JSONDASH_GLOBAL_USER') == 'global-test'
-
-
-@pytest.mark.globalflag
-def test_setting(ctx, client):
-    app, test = client
-    _get = charts_builder.setting
-    assert not _get('JSONDASH_GLOBALDASH')
-    assert not _get('JSONDASH_FILTERUSERS')
-    assert _get('JSONDASH_GLOBAL_USER') == 'global-test'
-
-
-@pytest.mark.globalflag
-def test_is_global_dashboard_true(ctx, client):
-    app, test = client
-    app.config.update(JSONDASH_GLOBALDASH=True)
-    assert charts_builder.is_global_dashboard(
-        dict(created_by='global-test'))
-
-
-@pytest.mark.globalflag
-def test_is_global_dashboard_false(ctx, client):
-    app, test = client
-    is_global = charts_builder.is_global_dashboard
-    assert not is_global(dict(created_by='foo'))
-    assert not is_global(dict(created_by='Username'))
-
-
-@pytest.mark.auth
-@pytest.mark.metadata
-def test_auth_true_fakeauth(ctx, client):
-    app, test = client
-    assert charts_builder.auth(authtype=None)
-    assert charts_builder.auth(authtype='foo')
-    assert charts_builder.metadata(key='foo') is None
-
-
-@pytest.mark.metadata
-def test_metadata(ctx, client):
-    app, test = client
-    assert charts_builder.metadata() == dict(
-        username='Username',
-        created_by='Username',
-    )
-    assert charts_builder.metadata(key='username') == 'Username'
-    assert charts_builder.metadata(key='created_by') == 'Username'
-
-
-@pytest.mark.metadata
-def test_metadata_exclude(ctx, client):
-    app, test = client
-    assert charts_builder.metadata() == dict(
-        username='Username',
-        created_by='Username',
-    )
-    assert charts_builder.metadata(exclude='created_by') == dict(
-        username='Username'
-    )
-    assert charts_builder.metadata(exclude='username') == dict(
-        created_by='Username'
-    )
-
-
-@pytest.mark.filters
-def test_getdims_normal(ctx, client):
-    app, test = client
-    data = dict(width=100, height=100, type='foo')
-    expected = dict(width=100, height=100)
-    assert charts_builder.get_dims(object, data) == expected
-
-
-@pytest.mark.filters
-def test_getdims_youtube(ctx, client):
-    app, test = client
-    yt = ('<iframe width="650" height="366" '
-          'src="https://www.youtube.com/embed/'
-          '_hI0qMtdfng?list=RD_hI0qMtdfng&amp;'
-          'controls=0&amp;showinfo=0" frameborder="0"'
-          ' allowfullscreen></iframe>')
-    data = dict(type='youtube', dataSource=yt, width=100, height=100)
-    expected = dict(width=650 + 20, height=366 + 60)
-    assert charts_builder.get_dims(object, data) == expected
-
-
-@pytest.mark.filters
-def test_jsonstring(ctx, client):
-    app, test = client
-    now = dt.now()
-    data = dict(date=now, foo='bar')
-    res = charts_builder.jsonstring(object, data)
-    assert 'foo' in res
-    assert isinstance(res, str)
-    d = json.loads(res)
-    assert isinstance(d['date'], _unicode)
-
-
-@pytest.mark.utils
-def test_order_sort_force_valueerror():
-    item = dict(order='NaN')
-    assert charts_builder.order_sort(item) == -1
-
-
-@pytest.mark.utils
-def test_order_sort_invalid_key():
-    item = dict()
-    assert charts_builder.order_sort(item) == -1
-
-
-@pytest.mark.utils
-def test_order_sort_valid_key():
-    item = dict(order=1)
-    assert charts_builder.order_sort(item) == 1
-
-
-@pytest.mark.utils
-def test_order_shuffled_sort_multiple_valid_key():
-    orders = list(range(0, 10))
-    shuffle(orders)
-    modules = [dict(order=i, foo='bar') for i in orders]
-    res = sorted(modules, key=charts_builder.order_sort)
-    for i in range(0, 10):
-        assert res[i]['order'] == i
-
-
-@pytest.mark.utils
-def test_order_shuffled_sort_multiple_valid_key_one_invalid_key():
-    orders = list(range(0, 10))
-    shuffle(orders)
-    modules = [dict(order=i, foo='bar') for i in orders]
-    # Add one w/o order key.
-    modules.append(dict(foo='bar'))
-    res = sorted(modules, key=charts_builder.order_sort)
-    # The invalid key goes first.
-    assert 'order' not in res[0]
-    # The remaining will be offset since the first one has no key.
-    for i in range(0, 10):
-        if 'order' in res[i]:
-            assert res[i]['order'] == i - 1
 
 
 def test_app_redirects(ctx, client):
@@ -342,14 +162,6 @@ def test_get_view_valid_modules_valid_dash_title(monkeypatch, ctx, client):
     assert dom.find('.dashboard-title').text() == view['name']
 
 
-@pytest.mark.invalid_id_redirect
-def test_get_view_invalid_id_redirect(monkeypatch, ctx, client):
-    app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
-    res = test.get(url_for('jsondash.view', c_id='123'))
-    assert REDIRECT_MSG in str(res.data)
-
-
 def test_create_valid(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
@@ -363,10 +175,35 @@ def test_create_valid(monkeypatch, ctx, client):
 
 
 @pytest.mark.invalid_id_redirect
+def test_get_view_invalid_id_redirect(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
+    res = test.get(url_for('jsondash.view', c_id='123'))
+    assert REDIRECT_MSG in str(res.data)
+
+
+@pytest.mark.invalid_id_redirect
 def test_clone_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     res = test.post(url_for('jsondash.clone', c_id='123'))
+    assert REDIRECT_MSG in str(res.data)
+
+
+@pytest.mark.invalid_id_redirect
+def test_delete_invalid_id_redirect(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
+    res = test.post(
+        url_for('jsondash.delete', c_id='123'))
+    assert REDIRECT_MSG in str(res.data)
+
+
+@pytest.mark.invalid_id_redirect
+def test_update_invalid_id_redirect(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
+    res = test.post(url_for('jsondash.update', c_id='123'))
     assert REDIRECT_MSG in str(res.data)
 
 
@@ -393,15 +230,6 @@ def test_clone_valid(monkeypatch, ctx, client):
     assert len(read()) == 2
 
 
-@pytest.mark.invalid_id_redirect
-def test_delete_invalid_id_redirect(monkeypatch, ctx, client):
-    app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
-    res = test.post(
-        url_for('jsondash.delete', c_id='123'))
-    assert REDIRECT_MSG in str(res.data)
-
-
 def test_delete_valid(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
@@ -425,14 +253,6 @@ def test_delete_valid(monkeypatch, ctx, client):
     flash_msg = 'Deleted dashboard "{}"'.format(view_id)
     assert dom.find('.alert-info').text() == flash_msg
     assert len(read()) == 0
-
-
-@pytest.mark.invalid_id_redirect
-def test_update_invalid_id_redirect(monkeypatch, ctx, client):
-    app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
-    res = test.post(url_for('jsondash.update', c_id='123'))
-    assert REDIRECT_MSG in str(res.data)
 
 
 def test_update_invalid_config(monkeypatch, ctx, client):
