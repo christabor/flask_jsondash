@@ -130,9 +130,7 @@ Assuming you have docker *and* docker-compose installed:
 
 ```shell
 git clone https://github.com/christabor/flask_jsondash.git
-cd flask_jsondash
-docker build --tag jsondash_base:latest -f BaseDockerfile .
-docker-compose build ; docker-compose up
+make dockerize
 ```
 
 This will build the base and services images, setup your docker services and link them together. The endpoints will run on `0.0.0.0:5004` by default, and your app is available at `0.0.0.0:8080`.
