@@ -5,8 +5,12 @@ python:
   - "2.7"
   - "3.5"
 language: python
-cache:
-  pip
+cache: pip
+matrix:
+  include:
+    - python: 3.5
+      env:
+      - TOXENV=py35
 notifications:
   email:
     recipients:
