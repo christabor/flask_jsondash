@@ -1,4 +1,4 @@
-.PHONY: cleanpyc clean tests coverage dockerize help
+.PHONY: cleanpyc clean tests coverage dockerize help pypi
 all: clean cleanpyc tests
 clean:
 	rm -rf coverage_report
@@ -13,6 +13,8 @@ cleanpyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
+pypi:
+	python setup.py sdist upload -r pypi
 help:
 	@echo "all ......... Runs cleanup and tests"
 	@echo "clean ....... Cleanup coverage"
