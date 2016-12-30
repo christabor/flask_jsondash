@@ -1,11 +1,7 @@
+import os
 import json
-from datetime import datetime as dt
 
-from flask import (
-    Flask,
-    current_app,
-    url_for,
-)
+from flask import Flask
 import pytest
 
 from flask_jsondash import charts_builder, db
@@ -35,6 +31,13 @@ def auth_valid(**kwargs):
 
 def auth_invalid(**kwargs):
     return False
+
+
+def get_json_config(name):
+    parent = os.getcwd().replace('tests/', '')
+    path = '{0}/example_app/examples/config/{1}'.format(parent, name)
+    view = json.load(open(path, 'r'))
+    return view
 
 
 def read(*args, **kwargs):

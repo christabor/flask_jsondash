@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-flask_jsondash.adapters.dbmongo
+flask_jsondash.mongo_adapter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Adapters for various storage engines.
