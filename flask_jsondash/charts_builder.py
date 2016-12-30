@@ -58,11 +58,11 @@ def auth(**kwargs):
     Checks for either a global auth (if authtype is None), or
     an action specific auth (specified by authtype).
     """
-    authtype = kwargs.pop('authtype')
     if 'JSONDASH' not in current_app.config:
         return True
     if 'auth' not in current_app.config['JSONDASH']:
         return True
+    authtype = kwargs.pop('authtype')
     auth_conf = current_app.config.get('JSONDASH').get('auth')
     # If the user didn't supply an auth function, assume true.
     if authtype not in auth_conf:

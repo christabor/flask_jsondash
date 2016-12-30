@@ -24,21 +24,23 @@ app.register_blueprint(charts_builder.charts)
 
 fake_db = []
 
+
 def _username():
     return 'Username'
 
 
-def auth_ok(**kwargs):
+def auth_valid(**kwargs):
     return True
 
 
-def _authtest(**kwargs):
+def auth_invalid(**kwargs):
     return False
 
 
 def read(*args, **kwargs):
     if 'override' in kwargs:
         newkwargs = kwargs.pop('override')
+
         def _read(*args, **kwargs):
             return dict(**newkwargs)
         return _read
@@ -99,12 +101,12 @@ def client():
             css_path='css/vendor/',
         ),
         auth=dict(
-            edit_others=_authtest,
-            edit_global=_authtest,
-            create=_authtest,
-            view=_authtest,
-            clone=_authtest,
-            delete=_authtest,
+            edit_others=auth_invalid,
+            edit_global=auth_invalid,
+            create=auth_invalid,
+            view=auth_invalid,
+            clone=auth_invalid,
+            delete=auth_invalid,
         )
     )
     return app, app.test_client()

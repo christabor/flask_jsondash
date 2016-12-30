@@ -15,7 +15,8 @@ import pytest
 
 from conftest import (
     URL_BASE,
-    auth_ok,
+    auth_invalid,
+    auth_valid,
     read,
     update,
 )
@@ -39,6 +40,30 @@ def get_json_config(name):
     path = '{0}/example_app/examples/config/{1}'.format(parent, name)
     view = json.load(open(path, 'r'))
     return view
+
+
+@pytest.mark.globalflag
+def test_noset_global_flag_when_creating_dashboard(ctx, client, monkeypatch):
+    app, test = client
+    app.config['JSONDASH_GLOBALDASH'] = True
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
+    data = dict(name='global-check')
+    test.post('/charts/create', data=data).data
+    assert len(read()) == 1
+    assert read()[0]['name'] == 'global-check'
+    assert read()[0]['created_by'] == 'Username'
+
+
+@pytest.mark.globalflag
+def test_set_global_flag_when_creating_dashboard(ctx, client, monkeypatch):
+    app, test = client
+    app.config['JSONDASH_GLOBALDASH'] = True
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
+    data = dict(name='global-check', is_global='on')
+    test.post('/charts/create', data=data).data
+    assert len(read()) == 1
+    assert read()[0]['name'] == 'global-check'
+    assert read()[0]['created_by'] == app.config.get('JSONDASH_GLOBAL_USER')
 
 
 @pytest.mark.globalflag
@@ -75,6 +100,20 @@ def test_is_global_dashboard_false(ctx, client):
 
 
 @pytest.mark.auth
+def test_auth_no_appconfig(ctx, client):
+    app, test = client
+    del app.config['JSONDASH']
+    assert charts_builder.auth()
+
+
+@pytest.mark.auth
+def test_auth_no_authconfig(ctx, client):
+    app, test = client
+    del app.config['JSONDASH']['auth']
+    assert charts_builder.auth()
+
+
+@pytest.mark.auth
 def test_auth_false_realauth(ctx, client):
     app, test = client
     assert not charts_builder.auth(authtype='create')
@@ -86,8 +125,57 @@ def test_auth_false_realauth(ctx, client):
 
 
 @pytest.mark.auth
+def test_no_auth_view(ctx, client, monkeypatch):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_invalid)
+    res = str(test.get('/charts/foo', follow_redirects=True).data)
+    alerts = pq(res).find('.alert-danger').text()
+    assert 'You do not have access to view this dashboard.' in alerts
+
+
+@pytest.mark.auth
+def test_no_auth_delete(ctx, client, monkeypatch):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_invalid)
+    res = str(test.post('/charts/foo/delete',
+              data=dict(), follow_redirects=True).data)
+    alerts = pq(res).find('.alert-danger').text()
+    assert 'You do not have access to delete dashboards.' in alerts
+
+
+@pytest.mark.auth
+def test_no_auth_update(ctx, client, monkeypatch):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_invalid)
+    res = str(test.post('/charts/foo/update',
+              data=dict(), follow_redirects=True).data)
+    alerts = pq(res).find('.alert-danger').text()
+    assert 'You do not have access to update dashboards.' in alerts
+
+
+@pytest.mark.auth
+def test_no_auth_create(ctx, client, monkeypatch):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_invalid)
+    res = str(test.post('/charts/create',
+              data=dict(), follow_redirects=True).data)
+    alerts = pq(res).find('.alert-danger').text()
+    assert 'You do not have access to create dashboards.' in alerts
+
+
+@pytest.mark.auth
+def test_no_auth_clone(ctx, client, monkeypatch):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_invalid)
+    res = str(test.post('/charts/foo/clone', follow_redirects=True).data)
+    alerts = pq(res).find('.alert-danger').text()
+    assert 'You do not have access to clone dashboards.' in alerts
+
+
+@pytest.mark.auth
 def test_auth_true_realauth(ctx, client):
     app, test = client
+
     def authfunc(*args):
         return True
 
@@ -107,6 +195,7 @@ def test_auth_true_realauth(ctx, client):
 
 
 @pytest.mark.auth
+@pytest.mark.metadata
 def test_auth_true_fakeauth(ctx, client):
     app, test = client
     assert charts_builder.auth(authtype=None)
@@ -114,6 +203,7 @@ def test_auth_true_fakeauth(ctx, client):
     assert charts_builder.metadata(key='foo') is None
 
 
+@pytest.mark.metadata
 def test_metadata(ctx, client):
     app, test = client
     assert charts_builder.metadata() == dict(
@@ -122,6 +212,15 @@ def test_metadata(ctx, client):
     )
     assert charts_builder.metadata(key='username') == 'Username'
     assert charts_builder.metadata(key='created_by') == 'Username'
+
+
+@pytest.mark.metadata
+def test_metadata_exclude(ctx, client):
+    app, test = client
+    assert charts_builder.metadata() == dict(
+        username='Username',
+        created_by='Username',
+    )
     assert charts_builder.metadata(exclude='created_by') == dict(
         username='Username'
     )
@@ -161,6 +260,12 @@ def test_jsonstring(ctx, client):
     assert isinstance(res, str)
     d = json.loads(res)
     assert isinstance(d['date'], _unicode)
+
+
+@pytest.mark.utils
+def test_order_sort_force_valueerror():
+    item = dict(order='NaN')
+    assert charts_builder.order_sort(item) == -1
 
 
 @pytest.mark.utils
@@ -218,7 +323,7 @@ def test_routes(ctx, client):
 
 def test_get_dashboard_contains_all_chart_types_list(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     res = test.get(url_for('jsondash.dashboard'))
     for family, config in settings.CHARTS_CONFIG.items():
         for chart in config['charts']:
@@ -228,14 +333,14 @@ def test_get_dashboard_contains_all_chart_types_list(monkeypatch, ctx, client):
 
 def test_get_dashboard_contains_no_chart_msg(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
-    res = test.get(url_for('jsondash.dashboard'))
-    assert 'No dashboards exist. Create one below to get started.' in str(res.data)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
+    res = str(test.get(url_for('jsondash.dashboard')).data)
+    assert 'No dashboards exist. Create one below to get started.' in res
 
 
 def test_create_dashboards_check_index_count(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     for i in range(10):
         data = dict(name=i, modules=[])
         res = test.post(url_for('jsondash.create'), data=data)
@@ -247,7 +352,7 @@ def test_create_dashboards_check_index_count(monkeypatch, ctx, client):
 
 def test_get_view_valid_id_invalid_config(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = dict(modules=[dict(foo='bar')])
     readfunc = read(override=dict(view))
     monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
@@ -258,7 +363,7 @@ def test_get_view_valid_id_invalid_config(monkeypatch, ctx, client):
 
 def test_get_view_valid_id_invalid_modules(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = dict(id='123')
     readfunc = read(override=dict(view))
     monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
@@ -268,9 +373,22 @@ def test_get_view_valid_id_invalid_modules(monkeypatch, ctx, client):
     assert 'Invalid configuration - missing modules.' in str(res.data)
 
 
+def test_get_view_valid_id_ensure__id_popped(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
+    view = get_json_config('inputs.json')
+    view = dict(view)
+    view.update(_id='foo')
+    readfunc = read(override=view)
+    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    res = test.get(url_for('jsondash.view', c_id=view['id']))
+    dom = pq(res.data)
+    assert len(dom.find('.item')) == len(view['modules'])
+
+
 def test_view_valid_dashboard_count_and_inputs(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
     readfunc = read(override=dict(view))
     monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
@@ -282,7 +400,7 @@ def test_view_valid_dashboard_count_and_inputs(monkeypatch, ctx, client):
 
 def test_view_valid_dashboard_inputs_form(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
     readfunc = read(override=dict(view))
     monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
@@ -300,7 +418,7 @@ def test_view_valid_dashboard_inputs_form(monkeypatch, ctx, client):
 
 def test_view_valid_dashboard_inputs_form_counts(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
     readfunc = read(override=dict(view))
     monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
@@ -325,7 +443,7 @@ def test_view_valid_dashboard_inputs_form_counts(monkeypatch, ctx, client):
 
 def test_get_view_valid_modules_valid_dash_title(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
     readfunc = read(override=dict(view))
     monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
@@ -337,14 +455,14 @@ def test_get_view_valid_modules_valid_dash_title(monkeypatch, ctx, client):
 @pytest.mark.invalid_id_redirect
 def test_get_view_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     res = test.get(url_for('jsondash.view', c_id='123'))
     assert REDIRECT_MSG in str(res.data)
 
 
 def test_create_valid(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     res = test.post(
         url_for('jsondash.create'),
         data=dict(name='mydash-valid'),
@@ -357,14 +475,14 @@ def test_create_valid(monkeypatch, ctx, client):
 @pytest.mark.invalid_id_redirect
 def test_clone_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     res = test.post(url_for('jsondash.clone', c_id='123'))
     assert REDIRECT_MSG in str(res.data)
 
 
 def test_clone_valid(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     assert len(read()) == 0
     res = test.post(url_for('jsondash.create'),
                     data=dict(name='mydash', modules=[]),
@@ -388,7 +506,7 @@ def test_clone_valid(monkeypatch, ctx, client):
 @pytest.mark.invalid_id_redirect
 def test_delete_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     res = test.post(
         url_for('jsondash.delete', c_id='123'))
     assert REDIRECT_MSG in str(res.data)
@@ -396,7 +514,7 @@ def test_delete_invalid_id_redirect(monkeypatch, ctx, client):
 
 def test_delete_valid(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = dict(name='mydash', modules=[])
     readfunc = read(override=dict(view))
     monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
@@ -422,14 +540,14 @@ def test_delete_valid(monkeypatch, ctx, client):
 @pytest.mark.invalid_id_redirect
 def test_update_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     res = test.post(url_for('jsondash.update', c_id='123'))
     assert REDIRECT_MSG in str(res.data)
 
 
 def test_update_invalid_config(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
     readfunc = read(override=dict(view))
     monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
@@ -443,7 +561,7 @@ def test_update_invalid_config(monkeypatch, ctx, client):
 
 def test_update_valid(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     assert not read()
     res = test.post(
         url_for('jsondash.create'),

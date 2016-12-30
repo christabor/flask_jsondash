@@ -10,7 +10,7 @@ from flask_jsondash import charts_builder
 
 from conftest import (
     URL_BASE,
-    auth_ok,
+    auth_valid,
     read,
     update,
 )
@@ -73,7 +73,7 @@ def test_paginator_bad_kwargs(monkeypatch, client):
 
 def test_create_dashboards_check_paginator_html(monkeypatch, ctx, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'auth', auth_ok)
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     for i in range(100):
         data = dict(name=i, modules=[])
         res = test.post(url_for('jsondash.create'), data=data)
