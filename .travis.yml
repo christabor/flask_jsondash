@@ -8,6 +8,9 @@ language: python
 cache: pip
 matrix:
   include:
+    - python: 2.7
+      env:
+      - TOXENV=py27
     - python: 3.5
       env:
       - TOXENV=py35
@@ -22,4 +25,4 @@ install:
     - pip install -U pytest
     - pip install -U pyquery
     - python setup.py install
-script: tox
+script: tox -e $TOXENV
