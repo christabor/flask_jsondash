@@ -27,7 +27,7 @@ from flask import (
 )
 import jinja2
 
-from . import db_adapters as adapter
+from . import db
 from .settings import (
     CHARTS_CONFIG,
 )
@@ -50,6 +50,7 @@ default_config = dict(
     JSONDASH_GLOBAL_USER='global',
     JSONDASH_PERPAGE=25,
 )
+adapter = db.get_db_handler()
 
 
 def auth(**kwargs):
@@ -332,14 +333,14 @@ def update(c_id):
     if edit_raw:
         try:
             data = json.loads(form_data.get('config'))
-            data = adapter.reformat_data(data, c_id)
+            data = db.reformat_data(data, c_id)
         except (TypeError, ValueError):
             flash('Invalid JSON config.', 'error')
             return redirect(view_url)
     else:
         data = dict(
             name=form_data['name'],
-            modules=adapter.format_charts(form_data),
+            modules=db.format_charts(form_data),
             date=str(dt.now()),
             id=c_id,
         )
@@ -388,7 +389,7 @@ def create():
     new_id = str(uuid.uuid1())
     d = dict(
         name=data['name'],
-        modules=adapter.format_charts(data),
+        modules=db.format_charts(data),
         date=dt.now(),
         id=new_id,
     )

@@ -8,7 +8,7 @@ from flask import (
 )
 import pytest
 
-from flask_jsondash import charts_builder
+from flask_jsondash import charts_builder, db
 
 URL_BASE = 'http://127.0.0.1:80'
 app = Flask('test_flask_jsondash',
@@ -82,6 +82,11 @@ def ctx(monkeypatch, request):
         monkeypatch.setattr(charts_builder.adapter, 'delete', delete)
         monkeypatch.setattr(charts_builder.adapter, 'update', update)
         yield req_ctx
+
+
+@pytest.fixture()
+def adapter():
+    return db.get_db_handler()
 
 
 @pytest.fixture()

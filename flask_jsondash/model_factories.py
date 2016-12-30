@@ -16,7 +16,7 @@ import click
 
 from werkzeug.datastructures import ImmutableMultiDict
 
-from . import db_adapters
+from . import db
 from . import settings
 
 
@@ -39,7 +39,7 @@ def make_fake_dashboard(name='Random chart', max_charts=10):
         name=name,
         created_by='global',
         date=dt.now(),
-        modules=db_adapters.format_charts(charts),
+        modules=db.format_charts(charts),
         id=str(uuid1()),
     )
 
@@ -89,12 +89,12 @@ def insert_dashboards(records, max_charts):
         data = make_fake_dashboard(
             name='Test chart #{}'.format(i),
             max_charts=max_charts)
-        db_adapters.create(data=data)
+        db.create(data=data)
 
 
 def delete_all():
     """Delete all dashboards."""
-    db_adapters.delete_all()
+    db.delete_all()
 
 
 if __name__ == '__main__':
