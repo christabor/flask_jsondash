@@ -189,6 +189,48 @@ def _static(filename):
     return send_from_directory(static_dir, filename)
 
 
+def get_all_assets():
+    """Load ALL asset files for css/js from config."""
+    cssfiles, jsfiles = [], []
+    for c in CHARTS_CONFIG.values():
+        if c['css_url'] is not None:
+            cssfiles += c['css_url']
+        if c['js_url'] is not None:
+            jsfiles += c['js_url']
+    return dict(
+        css=cssfiles,
+        js=jsfiles
+    )
+
+
+def get_active_assets(families):
+    """Given a list of chart families, determine what needs to be loaded."""
+    if not families:
+        # Load ALL assets for backwards compat.
+        return get_all_assets()
+    assets = dict(
+        css=set(),
+        js=set()
+    )
+    families = set(families)
+    for family, data in CHARTS_CONFIG.items():
+        if family in families:
+            for cssfile in data['css_url']:
+                assets['css'].add(cssfile)
+            for jsfile in data['js_url']:
+                assets['js'].add(jsfile)
+            # Also add all dependency assets.
+            if data['dependencies']:
+                for dep in data['dependencies']:
+                    for cssfile in CHARTS_CONFIG[dep]['css_url']:
+                        assets['css'].add(cssfile)
+                    for jsfile in CHARTS_CONFIG[dep]['js_url']:
+                        assets['js'].add(jsfile)
+    assets['css'] = list(assets['css'])
+    assets['js'] = list(assets['js'])
+    return assets
+
+
 def paginator(page=0, per_page=None, count=None):
     """Get pagination calculations in a compact format."""
     if count is None:
@@ -297,7 +339,7 @@ def view(c_id):
         id=c_id,
         view=viewjson,
         modules=sorted(viewjson['modules'], key=order_sort),
-        active_charts=active_charts,
+        assets=get_active_assets(active_charts),
         can_edit=can_edit,
         can_edit_global=auth(authtype='edit_global'),
         is_global=is_global_dashboard(viewjson),

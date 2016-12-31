@@ -9,14 +9,8 @@ def test_settings_have_url_keys_specified():
 
 def test_settings_have_urls_list_or_none():
     for family, config in settings.CHARTS_CONFIG.items():
-        assert any([
-            isinstance(config['js_url'], list),
-            config['js_url'] is None,
-        ])
-        assert any([
-            isinstance(config['css_url'], list),
-            config['css_url'] is None,
-        ])
+        assert isinstance(config['js_url'], list)
+        assert isinstance(config['css_url'], list)
 
 
 def test_all_enabled_by_default():
@@ -28,3 +22,11 @@ def test_valid_helplink():
     for family, config in settings.CHARTS_CONFIG.items():
         if 'help_link' in config:
             assert config['help_link'].startswith('http')
+
+
+def test_families_with_dependencies_are_valid_in_config():
+    families = settings.CHARTS_CONFIG.keys()
+    for family, config in settings.CHARTS_CONFIG.items():
+        if config['dependencies']:
+            for dep in config['dependencies']:
+                assert dep in families

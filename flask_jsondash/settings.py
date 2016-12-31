@@ -64,9 +64,9 @@ CHARTS_CONFIG = {
             ('voronoi', 'Voronoi'),
             ('circlepack', 'Circle Pack'),
         ],
-        'dependencies': None,
+        'dependencies': [],
         'js_url': ['//cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js'],
-        'css_url': None,
+        'css_url': [],
         'enabled': True,
         'help_link': 'https://github.com/d3/d3/wiki',
     },
@@ -77,16 +77,16 @@ CHARTS_CONFIG = {
             ('number', 'A single number representing some aggregate value.'),
             ('youtube', 'An embedded YouTube video.'),
         ],
-        'dependencies': None,
-        'js_url': None,
-        'css_url': None,
+        'dependencies': [],
+        'js_url': [],
+        'css_url': [],
         'enabled': True
     },
     'DataTable': {
         'charts': [
             ('datatable', 'A table of data, with sorting and filtering.'),
         ],
-        'dependencies': None,
+        'dependencies': [],
         'js_url': [
             ('//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/'
              'jquery.dataTables.min.js'),
@@ -104,7 +104,7 @@ CHARTS_CONFIG = {
         'charts': [
             ('timeline', 'A timeline'),
         ],
-        'dependencies': None,
+        'dependencies': [],
         'js_url': ['//cdn.knightlab.com/libs/timeline3/latest/js/timeline.js'],
         'css_url': [
             '//cdn.knightlab.com/libs/timeline3/latest/css/timeline.css'],
@@ -117,7 +117,7 @@ CHARTS_CONFIG = {
         ],
         'dependencies': ['D3'],
         'js_url': ['//cdn.rawgit.com/benfred/venn.js/master/venn.js'],
-        'css_url': None,
+        'css_url': [],
         'enabled': True,
         'help_link': 'https://github.com/benfred/venn.js/',
     },
@@ -132,7 +132,7 @@ CHARTS_CONFIG = {
             ('//raw.githubusercontent.com/cpettitt/graphlib-dot/'
              'master/dist/graphlib-dot.min.js'),
         ],
-        'css_url': None,
+        'css_url': [],
         'enabled': True,
         'help_link': 'https://github.com/cpettitt/dagre-d3/wiki'
     },
@@ -146,12 +146,12 @@ CHARTS_CONFIG = {
             ('sparklines-pie', 'Sparkline Pie'),
             ('sparklines-box', 'Sparkline Box'),
         ],
-        'dependencies': None,
+        'dependencies': [],
         'js_url': [
             ('//cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/'
              '2.1.2/jquery.sparkline.min.js'),
         ],
-        'css_url': None,
+        'css_url': [],
         'enabled': True,
         'help_link': 'http://omnipotent.net/jquery.sparkline/#s-docs',
     },
@@ -159,11 +159,11 @@ CHARTS_CONFIG = {
         'charts': [
             ('plotly-any', 'Any'),
         ],
-        'dependencies': None,
+        'dependencies': [],
         'js_url': [
             '//cdn.plot.ly/plotly-latest.min.js',
         ],
-        'css_url': None,
+        'css_url': [],
         'enabled': True,
         'help_link': 'https://plot.ly/javascript/',
     },

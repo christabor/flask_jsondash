@@ -59,6 +59,7 @@ def make_fake_chart_data(**kwargs):
         width=kwargs.get('width', randrange(200, 2000)),
         height=kwargs.get('height', randrange(200, 2000)),
         type=chart,
+        family='C3',
         dataSource=kwargs.get('data_source', url),
         guid=_uuid,
     )
