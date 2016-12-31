@@ -1,3 +1,5 @@
+import json
+
 from flask import url_for
 
 from pyquery import PyQuery as pq
@@ -268,7 +270,7 @@ def test_delete_valid(monkeypatch, ctx, client):
     assert len(read()) == 0
 
 
-def test_update_invalid_config(monkeypatch, ctx, client):
+def test_update_edit_raw_invalid(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
@@ -280,6 +282,30 @@ def test_update_invalid_config(monkeypatch, ctx, client):
         follow_redirects=True)
     dom = pq(res.data)
     assert dom.find('.alert-danger').text() == 'Error: Invalid JSON config.'
+
+
+def test_update_edit_raw_valid(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
+    assert not read()
+    res = test.post(
+        url_for('jsondash.create'),
+        data=dict(name='newname', modules=[]),
+        follow_redirects=True)
+    assert len(read()) == 1
+    view_id = read()[0]['id']
+    data = {'name': 'foo', 'modules': []}
+    view = json.dumps(data)
+    readfunc = read(override=dict(data))
+    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    res = test.post(
+        url_for('jsondash.update', c_id=view_id),
+        data={'config': view, 'edit-raw': 'on'},
+        follow_redirects=True)
+    dom = pq(res.data)
+    flash_msg = 'Updated view "{}"'.format(view_id)
+    assert dom.find('.alert-info').text() == flash_msg
+    assert len(read()) == 1
 
 
 def test_update_valid(monkeypatch, ctx, client):
