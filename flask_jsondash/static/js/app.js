@@ -163,7 +163,7 @@ var jsondash = function() {
     function updateWidget(config) {
         // Trigger update form into view since data is dirty
         // Update visual size to existing widget.
-        var widget = getModuleWidgetByGUID(config.guid);
+        var widget = my.widgets[config.guid].el;
         loader(widget);
         widget.style({
             height: config.height + 'px',
@@ -199,12 +199,8 @@ var jsondash = function() {
         }
     }
 
-    function getModuleWidgetByGUID(guid) {
-        return d3.select('.item.widget[data-guid="' + guid + '"]');
-    }
-
     function getModuleByGUID(guid) {
-        return dashboard_data.modules.find(function(n){return n['guid'] === guid});
+        return my.widgets[guid].config;
     }
 
     function deleteModule(e) {
@@ -300,8 +296,7 @@ var jsondash = function() {
         // Return module by element
         var data = el.data();
         var guid = data.guid;
-        var module = getModuleByGUID(guid);
-        return module;
+        return getModuleByGUID(guid);
     }
 
     function loader(container) {
