@@ -5,7 +5,8 @@
 
 var jsondash = function() {
     var my = {
-        chart_wall: null
+        chart_wall: null,
+        widgets: {}
     };
     var dashboard_data = null;
     var $API_ROUTE_URL = '[name="dataSource"]';
@@ -188,11 +189,14 @@ var jsondash = function() {
                 // Add div wrappers for js grid layout library,
                 // and add title, icons, and buttons
                 var widget = addWidget(container, config);
-                // Determine how to load this widget
-                loadWidgetData(widget, config);
+                my.widgets[config.guid] = {el: widget, config: config};
             })(data.modules[name]);
         }
         fitGrid();
+        for(var guid in my.widgets){
+            var widg = my.widgets[guid];
+            loadWidgetData(widg.el, widg.config);
+        }
     }
 
     function getModuleWidgetByGUID(guid) {
@@ -350,6 +354,7 @@ var jsondash = function() {
 
     function loadWidgetData(widget, config) {
         loader(widget);
+
         try {
             // Handle any custom inputs the user specified for this module.
             // They map to standard form inputs and correspond to query
