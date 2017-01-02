@@ -7,8 +7,9 @@ flask_jsondash.json_db_adapter
 Adapters for various storage engines.
 """
 
+import os
+import json
 from datetime import datetime as dt
-
 
 class Db(object):
     """Adapter for all mongo operations."""
@@ -17,10 +18,16 @@ class Db(object):
         """Setup connection."""
         self.path = path
         self.allow_write = allow_write
+        if not os.path.exists(path):
+            raise ValueError("'" + path + "' not found")
+        self.folder_mode = os.path.isdir(path)
 
     def count(self, **kwargs):
         """Standard db count."""
-        return self.coll.count(**kwargs)
+        if self.folder_mode:
+            return len(os.listdir(path))
+        #else
+        return 1
 
     def read(self, **kwargs):
         """Read a record."""
