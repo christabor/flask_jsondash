@@ -41,6 +41,8 @@ def get_db_handler():
         conn = client[settings.DB_NAME]
         coll = conn[settings.DB_TABLE]
         return mongo_adapter.Db(client, conn, coll, format_charts)
+    elif DB_NAME == 'json':
+        return json_db_adabter.Db(path=settings.DB_URI)
     else:
         raise NotImplementedError(
             'Mongodb is the only supported database right now.')
