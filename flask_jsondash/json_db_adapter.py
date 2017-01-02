@@ -13,7 +13,7 @@ from datetime import datetime as dt
 class Db(object):
     """Adapter for all mongo operations."""
 
-    def __init__(self, path):
+    def __init__(self, path, allow_write = False):
         """Setup connection."""
         self.client = client
         self.conn = conn
