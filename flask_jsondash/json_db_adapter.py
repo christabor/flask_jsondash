@@ -15,10 +15,8 @@ class Db(object):
 
     def __init__(self, path, allow_write = False):
         """Setup connection."""
-        self.client = client
-        self.conn = conn
-        self.coll = coll
-        self.formatter = formatter
+        self.path = path
+        self.allow_write = allow_write
 
     def count(self, **kwargs):
         """Standard db count."""
@@ -35,30 +33,33 @@ class Db(object):
         """Update a record."""
         if data is None:
             return
-        charts = self.formatter(data) if fmt_charts else data.get('modules')
-        save_conf = {
-            '$set': {
-                'name': data.get('name', 'NONAME'),
-                'modules': charts,
-                'date': dt.now()
-            }
-        }
-        save_conf['$set'].update(**data)
-        self.coll.update(dict(id=c_id), save_conf)
+        if not self.allow_write:
+            raise ValueError('Updating not allowed.')   
+        # else
+        raise NotImplementedError('Updating not implemented.')
 
     def create(self, data=None):
         """Add a new record."""
         if data is None:
             return
-        self.coll.insert(data)
+        if not self.allow_write:
+            raise ValueError('Creating not allowed.')   
+        # else
+        raise NotImplementedError('Creating not implemented.')
 
     def delete(self, c_id):
         """Delete a record."""
-        self.coll.delete_one(dict(id=c_id))
+        if not self.allow_write:
+            raise ValueError('Deleting not allowed.')   
+        # else
+        raise NotImplementedError('Deleting not implemented.')
 
     def delete_all(self):
         """Delete ALL records. Separated function for safety.
 
         This should never be used for production.
         """
-        self.coll.remove()
+        if not self.allow_write:
+            raise ValueError('Deleting not allowed.')   
+        # else
+        raise NotImplementedError('Deleting not implemented.')
