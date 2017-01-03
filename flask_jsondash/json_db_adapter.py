@@ -20,21 +20,28 @@ class Db(object):
         self.allow_write = allow_write
         if not os.path.exists(path):
             raise ValueError("'" + path + "' not found")
-        self.folder_mode = os.path.isdir(path)
+        #self.folder_mode = os.path.isdir(path)
 
     def count(self, **kwargs):
         """Standard db count."""
-        if self.folder_mode:
-            return len(os.listdir(path))
+        #if self.folder_mode:
+        return len(os.listdir(path))
         #else
-        return 1
+        #return 1
 
     def read(self, **kwargs):
         """Read a record."""
         if kwargs.get('c_id') is None:
-            return [json.load(open(fil)) for fil in os.path.isdir(path)]
+            res = []
+            for index,fil in enumerate(os.path.listdir(path)):
+                d = json.load(fil)
+                d['id'] = index
+                res.append(d)
+            return res
         else:
-            return json.load(open(os.path.isdir(path)[kwargs.get('c_id')]))
+            d = json.load(open(os.path.listdir(path)[kwargs.get('c_id')]))
+            d['id'] = kwargs.get('c_id')
+            return d
 
     def update(self, c_id, data=None, fmt_charts=True):
         """Update a record."""
