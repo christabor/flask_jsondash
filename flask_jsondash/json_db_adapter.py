@@ -12,7 +12,7 @@ import json
 from datetime import datetime as dt
 
 class Db(object):
-    """Adapter for all mongo operations."""
+    """Adapter for json folder operations."""
 
     def __init__(self, path, allow_write = False):
         """Setup connection."""
