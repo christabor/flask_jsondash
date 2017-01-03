@@ -326,3 +326,31 @@ def test_update_valid(monkeypatch, ctx, client):
     flash_msg = 'Updated view "{}"'.format(view_id)
     assert dom.find('.alert-info').text() == flash_msg
     assert len(read()) == 1
+
+
+def test_no_demo_mode(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
+    data = dict(name='newname', modules=[])
+    test.post(url_for('jsondash.create'), data=data, follow_redirects=True)
+    view_id = read()[0]['id']
+    url = url_for('jsondash.view', c_id=view_id)
+    res = test.get(url)
+    dom = pq(res.data)
+    assert dom.find('.chart-header small > .btn')
+    assert dom.find('.chart-header small > .btn').text().strip() == 'Back'
+    assert dom.find('.chart-header .dropdown-toggle')
+
+
+def test_demo_mode(monkeypatch, ctx, client):
+    # Test that certain UI elements are removed when in demo mode.
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
+    data = dict(name='newname', modules=[])
+    test.post(url_for('jsondash.create'), data=data, follow_redirects=True)
+    view_id = read()[0]['id']
+    url = url_for('jsondash.view', c_id=view_id) + '?jsondash_demo_mode=1'
+    res = test.get(url)
+    dom = pq(res.data)
+    assert not dom.find('.chart-header > small .btn')
+    assert not dom.find('.chart-header .dropdown-toggle')
