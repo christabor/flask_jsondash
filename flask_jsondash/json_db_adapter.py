@@ -32,9 +32,9 @@ class Db(object):
     def read(self, **kwargs):
         """Read a record."""
         if kwargs.get('c_id') is None:
-            return self.coll.find(**kwargs)
+            return [json.load(open(fil)) for fil in os.path.isdir(path)]
         else:
-            return self.coll.find_one(dict(id=kwargs.pop('c_id')))
+            return json.load(open(os.path.isdir(path)[kwargs.get('c_id')]))
 
     def update(self, c_id, data=None, fmt_charts=True):
         """Update a record."""
