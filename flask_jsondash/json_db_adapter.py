@@ -4,7 +4,6 @@
 flask_jsondash.json_db_adapter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Adapters for various storage engines.
 """
 
 import os
