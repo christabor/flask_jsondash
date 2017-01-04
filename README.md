@@ -352,7 +352,7 @@ To get started: override the template block in your template to allow javascript
             container.style('background-color', 'green');
             console.log(config.guid);
     }, ['all', 'my', 'optional', 'arguments']);
-    // Register a second one, which ones after.
+    // Register a second one, which runs after.
     jsondash.api.registerCallback('my-chart-guid', function(container, config){
             console.log('Running SECOND callbacK!');
     });
@@ -370,7 +370,7 @@ To see a list of all your callbacks by chart, you can call `jsondash.api.listCal
 
 ## Versioning
 
-This project uses [semantic versioning](http://semver.org) for releases. However, the master branch is considered to be unstable as it represents "bleeding edge" with updates, hotfixes, etc... that eventually get tagged with a release. If you want to use a stable version, make sure to pin the specific release you want to target.
+This project uses [semantic versioning](http://semver.org) for releases. However, the **master branch is considered to be unstable** as it represents "bleeding edge", with updates, hotfixes, etc... which will eventually get tagged with a release. If you want to use a stable version, *make sure to pin the specific release* you want to target.
 
 ## FAQs
 
