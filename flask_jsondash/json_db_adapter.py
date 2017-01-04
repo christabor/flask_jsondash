@@ -24,7 +24,7 @@ class Db(object):
     def count(self, **kwargs):
         """Standard db count."""
         #if self.folder_mode:
-        return len(os.listdir(path))
+        return len(os.listdir(self.path))
         #else
         #return 1
 
@@ -32,13 +32,15 @@ class Db(object):
         """Read a record."""
         if kwargs.get('c_id') is None:
             res = []
-            for index,fil in enumerate(os.path.listdir(path)):
-                d = json.load(fil)
+            for index,fil in enumerate(os.listdir(self.path)):
+                print os.path.join(self.path,fil)
+                d = json.load(open(os.path.join(self.path,fil)))
                 d['id'] = index
                 res.append(d)
             return res
         else:
-            d = json.load(open(os.path.listdir(path)[kwargs.get('c_id')]))
+            #print kwargs.get('c_id')
+            d = json.load(open(os.path.join(self.path,os.listdir(self.path)[int(kwargs.get('c_id'))])))
             d['id'] = kwargs.get('c_id')
             return d
 

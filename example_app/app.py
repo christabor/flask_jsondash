@@ -4,6 +4,9 @@ import os
 
 from flask import Flask
 
+os.environ['CHARTS_ACTIVE_DB']= 'json'
+os.environ['CHARTS_DB_HOST']= r'C:\Users\n1jsdp\Documents\my_jsondash\src\flask_jsondash\example_app\examples\config'
+
 from flask_jsondash.charts_builder import charts
 
 app = Flask(__name__)
@@ -12,9 +15,11 @@ app.config.update(
     JSONDASH_FILTERUSERS=False,
     JSONDASH_GLOBALDASH=True,
     JSONDASH_GLOBAL_USER='global',
+    # JSONDASH_DB_NAME = 'json',
+    # JSONDASH_DB_URI = r'C:\Users\n1jsdp\Documents\my_jsondash\src\flask_jsondash\example_app\examples\config',
 )
 app.debug = True
-app.register_blueprint(charts)
+app.register_blueprint(charts, url_prefix = '/charts')
 
 
 def _can_edit_global():
