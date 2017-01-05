@@ -5,6 +5,9 @@ flask_jsondash.charts_builder
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The chart blueprint that houses all functionality.
+
+:copyright: (c) 2016 by Chris Tabor.
+:license: MIT, see LICENSE for more details.
 """
 
 import json
@@ -13,24 +16,15 @@ import uuid
 from collections import namedtuple
 from datetime import datetime as dt
 
+import jinja2
+from flask import (Blueprint, current_app, flash, redirect, render_template,
+                   request, send_from_directory, url_for)
+
 from flask_jsondash import static, templates
 
-from flask import (
-    Blueprint,
-    current_app,
-    flash,
-    redirect,
-    render_template,
-    request,
-    send_from_directory,
-    url_for,
-)
-import jinja2
-
 from . import db
-from .settings import (
-    CHARTS_CONFIG,
-)
+from .settings import CHARTS_CONFIG
+
 template_dir = os.path.dirname(templates.__file__)
 static_dir = os.path.dirname(static.__file__)
 

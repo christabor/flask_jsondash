@@ -5,11 +5,16 @@ flask_jsondash.model_factories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Data generation utilities for all charts and dashboards.
+
+:copyright: (c) 2016 by Chris Tabor.
+:license: MIT, see LICENSE for more details.
 """
 
 import json
+
 from datetime import datetime as dt
-from random import choice, randrange
+from random import choice
+from random import randrange
 from uuid import uuid1
 
 import click
@@ -18,7 +23,6 @@ from werkzeug.datastructures import ImmutableMultiDict
 
 from . import db
 from . import settings
-
 
 adapter = db.get_db_handler()
 
