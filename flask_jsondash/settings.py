@@ -5,6 +5,9 @@ flask_jsondash.settings
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 App/blueprint wide settings.
+
+:copyright: (c) 2016 by Chris Tabor.
+:license: MIT, see LICENSE for more details.
 """
 
 import os

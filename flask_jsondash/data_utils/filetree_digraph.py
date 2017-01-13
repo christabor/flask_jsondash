@@ -1,12 +1,19 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
+flask_jsondash.data_utils.filetree_digraph
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 A utility for getting digraph friendly data structures
 from the list of files and directories on a given path.
+
+:copyright: (c) 2016 by Chris Tabor.
+:license: MIT, see LICENSE for more details.
 """
 
-import os
 import errno
+import os
 
 import click
 

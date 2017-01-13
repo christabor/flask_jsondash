@@ -5,16 +5,21 @@ flask_jsondash.db
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A translation adapter for transparent operations between storage types.
+
+:copyright: (c) 2016 by Chris Tabor.
+:license: MIT, see LICENSE for more details.
 """
 
 import json
+
 from datetime import datetime as dt
 
 from pymongo import MongoClient
 
-from . import settings
 from . import mongo_adapter
 from . import json_db_adapter
+from . import settings
+
 
 DB_NAME = settings.ACTIVE_DB
 

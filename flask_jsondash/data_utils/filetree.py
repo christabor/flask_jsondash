@@ -1,17 +1,24 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
+flask_jsondash.data_utils.filetree
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 A utility for getting d3 friendly hierarchical data structures
 from the list of files and directories on a given path.
 
-Re-purposed from:
-github.com/christabor/MoAL/blob/master/MOAL/get_file_tree.py
+Re-purposed from: github.com/christabor/MoAL/blob/master/MOAL/get_file_tree.py
+
+:copyright: (c) 2016 by Chris Tabor.
+:license: MIT, see LICENSE for more details.
 """
 
-import os
-from pprint import pprint
 import errno
 import json
+import os
+
+from pprint import pprint
 
 import click
 

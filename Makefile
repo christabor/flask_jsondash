@@ -15,6 +15,9 @@ cleanpyc:
 	find . -name '*~' -exec rm -f {} +
 pypi:
 	python setup.py sdist upload -r pypi
+sort:
+	# https://github.com/timothycrosley/isort
+	isort -rc flask_jsondash
 testdata:
 	python -m flask_jsondash.model_factories --records 10
 help:

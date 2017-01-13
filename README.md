@@ -178,7 +178,7 @@ Make sure the following env vars are set:
 * `CHARTS_DB_PORT` - The DB server port (defaults to 27017)
 * `CHARTS_DB_NAME` - The DB database name (defaults to 'charts')
 * `CHARTS_DB_TABLE` The DB collection name (or sql table name) (defaults to 'views')
-* `CHARTS_ACTIVE_DB` The DB backend to use - options: 'mongo', 'postgres' (defaults to 'mongo')
+* `CHARTS_ACTIVE_DB` The DB backend to use - options: 'mongo' (default)
 
 ### Starting DB
 
@@ -187,10 +187,6 @@ Make sure to start so json configuration can be saved.
 #### Mongodb
 
 Start however you'd like, but usually `mongod` will work. *Note: you will need to make sure the collection has been created within your mongo instance, and is specified in the CHARTS_DB_TABLE env var, as well as specify your database name under the CHARTS_DB_NAME env var*
-
-#### Postgresql
-
-Start however you'd like, but usually `postgres -D /path/to/data/` will work.
 
 ### Starting flask app
 
@@ -356,7 +352,7 @@ To get started: override the template block in your template to allow javascript
             container.style('background-color', 'green');
             console.log(config.guid);
     }, ['all', 'my', 'optional', 'arguments']);
-    // Register a second one, which ones after.
+    // Register a second one, which runs after.
     jsondash.api.registerCallback('my-chart-guid', function(container, config){
             console.log('Running SECOND callbacK!');
     });
@@ -374,7 +370,7 @@ To see a list of all your callbacks by chart, you can call `jsondash.api.listCal
 
 ## Versioning
 
-This project uses [semantic versioning](http://semver.org) for releases. However, the master branch is considered to be unstable as it represents "bleeding edge" with updates, hotfixes, etc... that eventually get tagged with a release. If you want to use a stable version, make sure to pin the specific release you want to target.
+This project uses [semantic versioning](http://semver.org) for releases. However, the **master branch is considered to be unstable** as it represents "bleeding edge", with updates, hotfixes, etc... which will eventually get tagged with a release. If you want to use a stable version, *make sure to pin the specific release* you want to target.
 
 ## FAQs
 
