@@ -1,7 +1,9 @@
-.PHONY: cleanpyc clean tests coverage dockerize help pypi testdata
+.PHONY: cleanpyc clean tests coverage dockerize help pypi testdata analysis
 all: clean cleanpyc tests
 clean:
 	rm -rf coverage_report
+analysis:
+	prospector -s veryhigh flask_jsondash
 tests:
 	tox
 coverage: clean
