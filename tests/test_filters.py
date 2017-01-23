@@ -1,5 +1,6 @@
-from datetime import datetime as dt
 import json
+
+from datetime import datetime as dt
 
 import pytest
 

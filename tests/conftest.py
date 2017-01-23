@@ -1,10 +1,12 @@
-import os
 import json
+import os
 
-from flask import Flask
 import pytest
 
-from flask_jsondash import charts_builder, db
+from flask import Flask
+
+from flask_jsondash import charts_builder
+from flask_jsondash import db
 
 URL_BASE = 'http://127.0.0.1:80'
 app = Flask('test_flask_jsondash',

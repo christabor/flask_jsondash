@@ -1,4 +1,5 @@
 import json
+
 from datetime import datetime
 
 from pymongo.cursor import Cursor as MongoCursor

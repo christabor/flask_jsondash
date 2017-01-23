@@ -1,7 +1,9 @@
-from uuid import uuid1
 import json
 
+from uuid import uuid1
+
 import pytest
+
 from click.testing import CliRunner
 
 from flask_jsondash.data_utils import filetree

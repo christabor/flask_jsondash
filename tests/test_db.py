@@ -3,8 +3,8 @@ import json
 import pytest
 
 from flask_jsondash import db
-from flask_jsondash import settings
 from flask_jsondash import mongo_adapter
+from flask_jsondash import settings
 
 
 def test_reformat_data():
