@@ -8,32 +8,33 @@ var jsondash = function() {
         chart_wall: null,
         widgets: {}
     };
-    var dashboard_data = null;
-    var $API_ROUTE_URL = '[name="dataSource"]';
-    var $API_PREVIEW = '#api-output';
-    var $API_PREVIEW_BTN = '#api-output-preview';
-    var $MODULE_FORM = '#module-form';
-    var $VIEW_BUILDER = '#view-builder';
-    var $ADD_MODULE = '#add-module';
-    var $MAIN_CONTAINER = '#container';
-    var $EDIT_MODAL = '#chart-options';
-    var $DELETE_BTN = '#delete-widget';
+    var dashboard_data    = null;
+    var $API_ROUTE_URL    = '[name="dataSource"]';
+    var $API_PREVIEW      = '#api-output';
+    var $API_PREVIEW_BTN  = '#api-output-preview';
+    var $MODULE_FORM      = '#module-form';
+    var $VIEW_BUILDER     = '#view-builder';
+    var $ADD_MODULE       = '#add-module';
+    var $MAIN_CONTAINER   = '#container';
+    var $EDIT_MODAL       = '#chart-options';
+    var $DELETE_BTN       = '#delete-widget';
     var $DELETE_DASHBOARD = '.delete-dashboard';
-    var $SAVE_MODULE = '#save-module';
-    var $EDIT_CONTAINER = '#edit-view-container';
+    var $SAVE_MODULE      = '#save-module';
+    var $EDIT_CONTAINER   = '#edit-view-container';
+    var $MAIN_FORM        = '#save-view-form';
 
-    function addWidget(container, model) {
-        if(document.querySelector('[data-guid="' + model.guid + '"]')) return d3.select('[data-guid="' + model.guid + '"]');
+    function addWidget(container, config) {
+        if(document.querySelector('[data-guid="' + config.guid + '"]')) return d3.select('[data-guid="' + config.guid + '"]');
         return d3.select(container).select('div')
             .append('div')
             .classed({item: true, widget: true})
-            .attr('data-guid', model.guid)
-            .attr('data-refresh', model.refresh)
-            .attr('data-refresh-interval', model.refreshInterval)
-            .style('width', model.width + 'px')
-            .style('height', model.height + 'px')
+            .attr('data-guid', config.guid)
+            .attr('data-refresh', config.refresh)
+            .attr('data-refresh-interval', config.refreshInterval)
+            .style('width', config.width + 'px')
+            .style('height', config.height + 'px')
             .html(d3.select('#chart-template').html())
-            .select('.widget-title .widget-title-text').text(model.name);
+            .select('.widget-title .widget-title-text').text(config.name);
     }
 
     function previewAPIRoute(e) {
@@ -57,22 +58,20 @@ var jsondash = function() {
     }
 
     function saveModule(e){
-        var data     = jsondash.util.serializeToJSON($($MODULE_FORM).serializeArray());
+        var config   = jsondash.util.serializeToJSON($($MODULE_FORM).serializeArray());
         var newfield = $('<input class="form-control" type="text">');
         var id       = jsondash.util.guid();
         // Add a unique guid for referencing later.
-        data['guid'] = id;
+        config['guid'] = id;
         // Add family for lookups
-        data['family'] = $($MODULE_FORM).find('[name="type"]').find('option:selected').data().family;
-        if(!data.refresh || !refreshableType(data.type)) {data['refresh'] = false;}
-        if(!data.override) {data['override'] = false;}
+        config['family'] = $($MODULE_FORM).find('[name="type"]').find('option:selected').data().family;
+        if(!config.refresh || !refreshableType(config.type)) {config['refresh'] = false;}
+        if(!config.override) {config['override'] = false;}
         newfield.attr('name', 'module_' + id);
-        newfield.val(JSON.stringify(data));
+        newfield.val(JSON.stringify(config));
         $('.modules').append(newfield);
-        // Add new visual block to view grid
-        addWidget($VIEW_BUILDER, data);
-        // Refit the grid
-        fitGrid();
+        // Save immediately.
+        $($MAIN_FORM).submit();
     }
 
     function isModalButton(e) {
