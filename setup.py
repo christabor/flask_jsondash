@@ -12,15 +12,10 @@ test_requirements = [
     'pyquery==1.2',
 ]
 requirements = [
-    'click==6.6',
     'Flask==0.10.1',
-    'Flask-WTF==0.12',
-    'itsdangerous==0.24',
-    'Jinja2==2.8',
-    'MarkupSafe==0.23',
+    'Flask-WTF',
     'pymongo==3.3.0',
-    'Werkzeug==0.11.10',
-    'WTForms==2.1',
+    'WTForms',
 ]
 
 
@@ -39,7 +34,7 @@ def readme():
 
 setup(
     name='flask_jsondash',
-    version='5.0.1',
+    version='5.0.2',
     description=('Easily configurable, chart dashboards from any '
                  'arbitrary API endpoint. JSON config only. Ready to go.'),
     long_description=readme(),
