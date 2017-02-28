@@ -1,33 +1,28 @@
-<form action="{{ url_for('jsondash.update', c_id=view.id) if view else url_for('jsondash.create') }}" class="well" id="save-view-form" method="POST" role="form">
-    <div class="row">
-        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+<form action="{{ url_for('jsondash.update', c_id=view.id) if view else url_for('jsondash.create') }}" class="form-inline" id="save-view-form" method="POST" role="form">
+    <div class="form-group">
+        <label>
+            View Name <input class="form-control input-md" type="text" name="name" value="{% if view %}{{ view.name }}{% endif %}" placeholder="name">
+        </label>
+        {% if can_edit_global %}
+            &nbsp;
             <label>
-                View Name
-                <input class="form-control" type="text" name="name" value="{% if view %}{{ view.name }}{% endif %}" placeholder="name">
+                Make global?
+                <input type="checkbox" name="is_global" {% if view and is_global %}checked{% endif %}>
             </label>
-            {% if can_edit_global %}
-                <label>
-                    Make global?
-                    <input type="checkbox" name="is_global" {% if view and is_global %}checked{% endif %}>
-                </label>
-            {% endif %}
-            <div class="modules hidden">
-                {% if view %}
-                {% for module in view.modules %}
-                <input type="text" id="{{ module.guid }}" class="form-control" name="module_{{ module.name }}" value="{{ module|jsonstring }}">
-                {% endfor %}
-                {% endif %}
-            </div>
-        </div>
-        <div class="text-right col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <br>
-            {% if view %}
-            <a href="#chart-options" id="add-module" class="btn btn-md btn-success" data-toggle="modal">
-                <span class="fa fa-plus"></span> Add module
-            </a>
-            &nbsp;<em>or</em>&nbsp;
-            {% endif %}
-            <button class="btn btn-md btn-primary"><span class="fa fa-check"></span> {% if view %}update{% else %}save{% endif %}</button>
-        </div>
+        {% endif %}
     </div>
+    <div class="modules hidden">
+        {% if view %}
+        {% for module in view.modules %}
+        <input type="text" id="{{ module.guid }}" class="form-control" name="module_{{ module.name }}" value="{{ module|jsonstring }}">
+        {% endfor %}
+        {% endif %}
+    </div>
+    {% if view %}
+    <a href="#chart-options" id="add-module" class="btn btn-md btn-success" data-toggle="modal">
+        <span class="fa fa-plus"></span> Add module
+    </a>
+    &nbsp;<em>or</em>&nbsp;
+    {% endif %}
+    <button class="btn btn-md btn-primary"><span class="fa fa-check"></span> {% if view %}update{% else %}save{% endif %}</button>
 </form>
