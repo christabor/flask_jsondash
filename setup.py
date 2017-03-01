@@ -12,6 +12,7 @@ test_requirements = [
     'pyquery==1.2',
 ]
 requirements = [
+    'click==6.6',
     'Flask==0.10.1',
     'Flask-WTF',
     'pymongo==3.3.0',
