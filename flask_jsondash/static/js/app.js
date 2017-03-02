@@ -22,6 +22,7 @@ var jsondash = function() {
     var $SAVE_MODULE      = '#save-module';
     var $EDIT_CONTAINER   = '#edit-view-container';
     var $MAIN_FORM        = '#save-view-form';
+    var $JSON_DATA        = '#raw-config';
 
     function addWidget(container, config) {
         if(document.querySelector('[data-guid="' + config.guid + '"]')) return d3.select('[data-guid="' + config.guid + '"]');
@@ -455,9 +456,20 @@ var jsondash = function() {
             $(this).find('code').text(prettyCode(code));
         });
 
+        // Add event for downloading json config raw.
+        // Will provide decent support but still not major: http://caniuse.com/#search=download
+        $('[href="#download-json"]').on('click', function(e){
+            var datestr = new Date().toString().replace(/ /gi, '-');
+            var json_data = $($JSON_DATA).val();
+            var data = encodeURIComponent(JSON.stringify(json_data, null, 4));
+            data = "data:text/json;charset=utf-8," + data;
+            $(this).attr('href', data);
+            $(this).attr('download', 'charts-config-raw-' + datestr + '.json');
+        });
+
         // Reformat the code inside of the raw json field, to pretty print
         // for the user.
-        $('#raw-config').text(prettyCode($('#raw-config').text()));
+        $($JSON_DATA).text(prettyCode($($JSON_DATA).text()));
 
         // Setup responsive handlers
         var jres = jRespond([
