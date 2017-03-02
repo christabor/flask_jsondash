@@ -81,11 +81,11 @@ var jsondash = function() {
     function updateEditForm(e) {
         var module_form = $($MODULE_FORM);
         // If the modal caller was the add modal button, skip populating the field.
+        $($API_PREVIEW).text('...');
         if(isModalButton(e)) {
             module_form.find('input').each(function(_, input){
                 $(input).val('');
             });
-            $($API_PREVIEW).empty();
             $($DELETE_BTN).hide();
             return;
         }
