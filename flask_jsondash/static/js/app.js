@@ -490,6 +490,7 @@ var jsondash = function() {
             }
         });
         populateOrderField();
+        fitGrid();
     }
     my.config = {
         WIDGET_MARGIN_X: 20,
