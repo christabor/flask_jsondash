@@ -209,10 +209,6 @@ def get_active_assets(families):
     families = set(families)
     for family, data in CHARTS_CONFIG.items():
         if family in families:
-            for cssfile in data['css_url']:
-                assets['css'].add(cssfile)
-            for jsfile in data['js_url']:
-                assets['js'].add(jsfile)
             # Also add all dependency assets.
             if data['dependencies']:
                 for dep in data['dependencies']:
@@ -220,6 +216,10 @@ def get_active_assets(families):
                         assets['css'].add(cssfile)
                     for jsfile in CHARTS_CONFIG[dep]['js_url']:
                         assets['js'].add(jsfile)
+            for cssfile in data['css_url']:
+                assets['css'].add(cssfile)
+            for jsfile in data['js_url']:
+                assets['js'].add(jsfile)
     assets['css'] = list(assets['css'])
     assets['js'] = list(assets['js'])
     return assets

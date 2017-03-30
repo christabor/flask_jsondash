@@ -50,6 +50,7 @@ def test_order_shuffled_sort_multiple_valid_key_one_invalid_key():
 
 
 def test_get_all_assets():
+    # Test that all assets are simply the right filetype and that they exist.
     res = charts_builder.get_all_assets()
     assert isinstance(res['css'], list)
     assert isinstance(res['js'], list)
@@ -79,3 +80,13 @@ def test_get_active_assets_ensure_no_duplicates():
     families = ['D3', 'D3', 'C3', 'C3']
     active_res = charts_builder.get_active_assets(families)
     assert all_res != active_res
+
+
+def test_get_active_assets_ensure_deps_loaded_first():
+    # Ensure that assets that require dependencies have the deps
+    # loaded FIRST.
+    active_res = charts_builder.get_active_assets(['D3', 'C3'])
+    assert active_res['css'][0].endswith('c3.min.css')
+    assert active_res['js'][0].endswith('d3.min.js')
+    # c3 depends on d3.
+    assert active_res['js'][1].endswith('c3.min.js')
