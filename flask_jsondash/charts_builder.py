@@ -203,8 +203,8 @@ def get_active_assets(families):
         # Load ALL assets for backwards compat.
         return get_all_assets()
     assets = dict(
-        css=set(),
-        js=set()
+        css=[],
+        js=[]
     )
     families = set(families)
     for family, data in CHARTS_CONFIG.items():
@@ -213,13 +213,21 @@ def get_active_assets(families):
             if data['dependencies']:
                 for dep in data['dependencies']:
                     for cssfile in CHARTS_CONFIG[dep]['css_url']:
-                        assets['css'].add(cssfile)
+                        if cssfile not in assets['css']:
+                            assets['css'].append(cssfile)
+
                     for jsfile in CHARTS_CONFIG[dep]['js_url']:
-                        assets['js'].add(jsfile)
+                        if jsfile not in assets['js']:
+                            assets['js'].append(jsfile)
+
             for cssfile in data['css_url']:
-                assets['css'].add(cssfile)
+                assets['css'].append(cssfile)
+                if cssfile not in assets['css']:
+                    assets['css'].append(cssfile)
+
             for jsfile in data['js_url']:
-                assets['js'].add(jsfile)
+                if jsfile not in assets['js']:
+                    assets['js'].append(jsfile)
     assets['css'] = list(assets['css'])
     assets['js'] = list(assets['js'])
     return assets
