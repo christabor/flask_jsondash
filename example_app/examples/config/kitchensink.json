@@ -2,6 +2,18 @@
     "date": "2016-08-23 15:03:49.178000",
     "modules": [
         {
+            "name": "Wordcloud example",
+            "family": "WordCloud",
+            "refresh": false,
+            "height": 500,
+            "width": 550,
+            "dataSource": "http://localhost:5004/wordcloud",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "46c99420-a500-185b-dcbc-013d93ca8de1",
+            "type": "wordcloud",
+        },
+        {
             "name": "Graph",
             "family": "Graph",
             "refresh": false,

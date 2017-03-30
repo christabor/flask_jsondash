@@ -76,6 +76,60 @@ jsondash.handlers.handleGraph = function(container, config) {
     });
 };
 
+/**
+ * [handleWordCloud create word clouds using the d3-cloud extension.]
+ */
+jsondash.handlers.handleWordCloud = function(container, config) {
+    'use strict';
+    jsondash.getJSON(config.dataSource, function(error, data){
+        if(error) {
+            jsondash.unload(container);
+            throw new Error("Could not load url: " + config.dataSource);
+        }
+        container.selectAll('.wordcloud').remove();
+        var h     = config.height - jsondash.config.WIDGET_MARGIN_Y;
+        var w     = config.width - jsondash.config.WIDGET_MARGIN_X;
+        var svg   = container.append('svg').classed({'wordcloud': true});
+        var fill  = d3.scale.category20();
+        var cloud = d3.layout.cloud;
+        var words = data.map(function(d) {
+            return {text: d.text, size: d.size};
+        });
+        var layout = cloud()
+            .size([w, h])
+            .words(words)
+            .padding(4)
+            .rotate(function() {return ~~(Math.random() * 1) * 90;})
+            .font('Arial')
+            .fontSize(function(d) {return d.size;})
+            .on('end', draw);
+
+        layout.start();
+
+        function draw(words) {
+          svg
+              .attr('width', layout.size()[0])
+              .attr('height', layout.size()[1])
+            .append('g')
+              .attr('transform', 'translate(' + layout.size()[0] / 2 + ',' + layout.size()[1] / 2 + ')')
+            .selectAll('text').data(words)
+            .enter().append('text')
+              .style('font-size', function(d) { return d.size + 'px'; })
+              .style('font-family', 'arial')
+              .style('fill', function(d, i) { return "#000"; })
+              .attr('text-anchor', 'middle')
+              .attr('transform', function(d) {
+                return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')';
+              })
+              .text(function(d) { return d.text; });
+        }
+
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
+        jsondash.unload(container);
+    });
+};
+
 jsondash.handlers.handleC3 = function(container, config) {
     'use strict';
     var init_config = {

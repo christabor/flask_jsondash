@@ -8,7 +8,7 @@ import os
 from datetime import timedelta as td
 from datetime import datetime as dt
 from random import randrange as rr
-from random import choice, random
+from random import choice, random, randint
 import time
 
 from flask import (
@@ -107,6 +107,20 @@ def stackedbar():
             }
         }
     })
+
+
+@cross_origin()
+@app.route('/wordcloud')
+def wordcloud():
+    """Fake endpoint."""
+    words = [
+        'awesome', 'rad', 'neato', 'the', 'flask', 'jsondash', 'graphs',
+        'charts', 'd3', 'js', 'dashboards', 'c3',
+    ]
+    sizes = range(len(words))
+    return json.dumps([
+        {'text': word, 'size': sizes[i] * 12} for i, word in enumerate(words)
+    ])
 
 
 @cross_origin()

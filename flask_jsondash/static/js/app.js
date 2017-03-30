@@ -383,6 +383,9 @@ var jsondash = function() {
             else if(config.type === 'custom') {
                 jsondash.handlers.handleCustom(widget, config);
             }
+            else if(config.type === 'wordcloud') {
+                jsondash.handlers.handleWordCloud(widget, config);
+            }
             else if(config.type === 'plotly-any') {
                 jsondash.handlers.handlePlotly(widget, config);
             }

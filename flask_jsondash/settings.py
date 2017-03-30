@@ -73,6 +73,19 @@ CHARTS_CONFIG = {
         'enabled': True,
         'help_link': 'https://github.com/d3/d3/wiki',
     },
+    'WordCloud': {
+        'charts': [
+            ('wordcloud', 'Word Cloud'),
+        ],
+        'js_url': [
+            ('//cdnjs.cloudflare.com/ajax/libs/d3-cloud/1.2.4/'
+             'd3.layout.cloud.min.js'),
+        ],
+        'css_url': [],
+        'enabled': True,
+        'dependencies': ['D3'],
+        'help_link': 'https://github.com/jasondavies/d3-cloud'
+    },
     'Basic': {
         'charts': [
             ('custom', 'Custom embed of any arbitrary code.'),
