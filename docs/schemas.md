@@ -136,6 +136,26 @@ An object with each key corresponding to the line label, and a list of integer v
 }
 ```
 
+## WordCloud
+
+D3-cloud is a 3rd-party module that leverages d3 to create word clouds. Visit [https://github.com/jasondavies/d3-cloud](https://github.com/jasondavies/d3-cloud) for more.
+
+### Overrides
+
+Not Supported.
+
+#### Word Cloud
+
+A list of objects with `text` and `size` keys denoting the word and relative size, respectively.
+
+```json
+{
+    "text": "foo", "size": 10,
+    "text": "bar", "size": 20,
+    "text": "baz", "size": 100,
+}
+```
+
 ## Plotly
 
 Plotly is an extremely diverse, powerful and now open source charting library that supports a wide range of formats, including webGL and 3d charting/visualization. See [https://plot.ly/](https://plot.ly/) for more.
