@@ -439,6 +439,12 @@ var jsondash = function() {
         });
     }
 
+    function prettifyJSONPreview() {
+        // Reformat the code inside of the raw json field,
+        // to pretty print for the user.
+        $($JSON_DATA).text(prettyCode($($JSON_DATA).text()));
+    }
+
     function loadDashboard(data) {
         // Load the grid before rendering the ajax, since the DOM
         // is rendered server side.
@@ -470,9 +476,7 @@ var jsondash = function() {
             $(this).attr('download', 'charts-config-raw-' + datestr + '.json');
         });
 
-        // Reformat the code inside of the raw json field, to pretty print
-        // for the user.
-        $($JSON_DATA).text(prettyCode($($JSON_DATA).text()));
+        prettifyJSONPreview();
 
         // Setup responsive handlers
         var jres = jRespond([
