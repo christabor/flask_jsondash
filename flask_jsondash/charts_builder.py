@@ -134,6 +134,8 @@ def ctx():
         static_config=static,
         charts_config=config,
         page_title='dashboards',
+        docs_url=('https://github.com/christabor/flask_jsondash/'
+                  'blob/master/docs/'),
         demo_mode=request.args.get('jsondash_demo_mode', False),
         global_dashuser=setting('JSONDASH_GLOBAL_USER'),
         global_dashboards=setting('JSONDASH_GLOBALDASH'),
