@@ -74,6 +74,8 @@ The type of chart. This is typically handled by the charting UI when adding char
 
 An object specifying a form and user inputs to use for optional filtering/interactivity with a given chart.
 
+Example inputs configuration [can be found here](https://github.com/christabor/flask_jsondash/blob/master/example_app/examples/config/inputs.json).
+
 **modules**:**inputs**:**btn_classes** [*Array of Strings*] :heavy_check_mark:
 
 The button classes to apply to this chart's form.
