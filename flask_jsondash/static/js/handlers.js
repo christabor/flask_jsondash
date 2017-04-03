@@ -482,7 +482,7 @@ jsondash.handlers.handleSingleNum = function(container, config) {
     container.selectAll('.singlenum').remove();
     jsondash.getJSON(config.dataSource, function(resp){
         var data = resp.data.data ? resp.data.data : resp.data;
-        var num = container.append('div')
+        var num = container.select('.chart-container').append('div')
             .classed({singlenum: true})
             .text(data);
         data = String(data);
@@ -503,10 +503,11 @@ jsondash.handlers.handleSingleNum = function(container, config) {
             .node()
             .getBoundingClientRect()
             .height;
-        var inner_box_height = config.height - title_h; // factor in rough height of title.
+        var h = config.height - jsondash.config.WIDGET_MARGIN_Y;
         num.style({
-            'line-height': inner_box_height + 'px',
-            height: inner_box_height + 'px'
+            'line-height': h + 'px',
+            height: h + 'px',
+            width: config.width - jsondash.config.WIDGET_MARGIN_X
         });
         var digits = String(data).length;
         var size = jsondash.util.getDigitSize()(digits);
