@@ -96,7 +96,9 @@ CHARTS_CONFIG = {
         'dependencies': [],
         'js_url': [],
         'css_url': [],
-        'enabled': True
+        'enabled': True,
+        'help_link': ('https://github.com/christabor/flask_jsondash/blob/'
+                      'master/docs/schemas.md'),
     },
     'DataTable': {
         'charts': [
