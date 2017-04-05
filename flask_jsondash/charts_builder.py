@@ -214,22 +214,18 @@ def get_active_assets(families):
             # Also add all dependency assets.
             if data['dependencies']:
                 for dep in data['dependencies']:
-                    for cssfile in CHARTS_CONFIG[dep]['css_url']:
-                        if cssfile not in assets['css']:
-                            assets['css'].append(cssfile)
+                    assets['css'] += [
+                        css for css in CHARTS_CONFIG[dep]['css_url']
+                        if css not in assets['css']]
 
-                    for jsfile in CHARTS_CONFIG[dep]['js_url']:
-                        if jsfile not in assets['js']:
-                            assets['js'].append(jsfile)
-
-            for cssfile in data['css_url']:
-                assets['css'].append(cssfile)
-                if cssfile not in assets['css']:
-                    assets['css'].append(cssfile)
-
-            for jsfile in data['js_url']:
-                if jsfile not in assets['js']:
-                    assets['js'].append(jsfile)
+                    assets['js'] += [
+                        js for js in CHARTS_CONFIG[dep]['js_url']
+                        if js not in assets['js']
+                    ]
+            assets['css'] += [
+                css for css in data['css_url'] if css not in assets['css']]
+            assets['js'] += [
+                js for js in data['js_url'] if js not in assets['js']]
     assets['css'] = list(assets['css'])
     assets['js'] = list(assets['js'])
     return assets
