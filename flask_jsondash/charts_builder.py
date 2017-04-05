@@ -264,7 +264,7 @@ def order_sort(item):
     if item.get('order') is not None:
         try:
             return int(item['order'])
-        except ValueError:
+        except (ValueError, TypeError):
             return -1
     return -1
 

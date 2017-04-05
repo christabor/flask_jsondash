@@ -12,6 +12,18 @@ def test_order_sort_force_valueerror():
 
 
 @pytest.mark.utils
+def test_order_sort_force_valueerror_func():
+    item = dict(order=lambda x: x)
+    assert charts_builder.order_sort(item) == -1
+
+
+@pytest.mark.utils
+def test_order_sort_force_valueerror_none():
+    item = dict(order=None)
+    assert charts_builder.order_sort(item) == -1
+
+
+@pytest.mark.utils
 def test_order_sort_invalid_key():
     item = dict()
     assert charts_builder.order_sort(item) == -1
