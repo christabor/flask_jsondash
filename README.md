@@ -422,6 +422,10 @@ If you append the query argument `jsondash_demo_mode=1` to your url (e.g. `...?j
 
 While the data is not dynamically generated, you can easily use Github gists (or any raw file from github.com for that matter) to load charts! Check out the [kitchensink dashboard](example_app/examples/config/kitchensink.json) to see a real working chart loaded from via gist!
 
+#### Embedding graphs from other resources
+
+For example, the build tool Jenkins provides a [plugin for build statistics](https://wiki.jenkins-ci.org/display/JENKINS/Global+Build+Stats+Plugin). The raw generated png (url is typically of the format https://{JENKINS_SERVER}/view/{VIEW_NAME}/job/{JOB_NAME}/buildTimeGraph/png) can be directly embedded using the `iframe` chart option.
+
 ## Performance
 
 Performance metrics are not available, but you can view some "stress test" examples for the example endpoints. The configuration for these are available in [examples/config/stresstest.json](example_app/examples/config/stresstest.json). Also, the comprehensive examples (plotly, kitchensink) above are very complex dashboards (20-30 charts, webgl, etc), and have been tested in the browser.
