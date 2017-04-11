@@ -119,6 +119,10 @@ var jsondash = function() {
         // Update with current guid for referencing the module.
         module_form.attr('data-guid', guid);
         populateOrderField(module);
+
+        // Trigger event for select dropdown to ensure any UI is consistent.
+        // This is done AFTER the fields have been pre-populated.
+        $($MODULE_FORM).find('[name="type"]').change();
     }
 
     function populateOrderField(module) {
