@@ -12,6 +12,7 @@ var jsondash = function() {
     var $API_ROUTE_URL    = '[name="dataSource"]';
     var $API_PREVIEW      = '#api-output';
     var $API_PREVIEW_BTN  = '#api-output-preview';
+    var $API_PREVIEW_CONT = '.api-preview-container';
     var $MODULE_FORM      = '#module-form';
     var $VIEW_BUILDER     = '#view-builder';
     var $ADD_MODULE       = '#add-module';
@@ -38,16 +39,28 @@ var jsondash = function() {
             .select('.widget-title .widget-title-text').text(config.name);
     }
 
+    function getFormConfig() {
+        return jsondash.util.serializeToJSON($($MODULE_FORM).serializeArray());
+    }
+
+    function togglePreviewOutput(is_on) {
+        if(is_on) {
+            $($API_PREVIEW_CONT).show();
+            return;
+        }
+        $($API_PREVIEW_CONT).hide();
+    }
+
     function previewAPIRoute(e) {
         e.preventDefault();
         // Shows the response of the API field as a json payload, inline.
         $.ajax({
             type: 'get',
             url: $($API_ROUTE_URL).val().trim(),
-            success: function(d) {
-               $($API_PREVIEW).html(prettyCode(d));
+            success: function(data) {
+                $($API_PREVIEW).html(prettyCode(data));
             },
-            error: function(d, status, error) {
+            error: function(data, status, error) {
                 $($API_PREVIEW).html(error);
             }
         });
@@ -59,7 +72,7 @@ var jsondash = function() {
     }
 
     function saveModule(e){
-        var config   = jsondash.util.serializeToJSON($($MODULE_FORM).serializeArray());
+        var config   = getFormConfig();
         var newfield = $('<input class="form-control" type="text">');
         var id       = jsondash.util.guid();
         // Add a unique guid for referencing later.
@@ -217,7 +230,22 @@ var jsondash = function() {
         $($EDIT_CONTAINER).collapse('show');
     }
 
+    function isPreviewableType(type) {
+        if(type === 'iframe') {return false;}
+        if(type === 'youtube') {return false;}
+        if(type === 'custom') {return false;}
+        return true;
+    }
+
+    function chartsTypeChanged(e) {
+        var active_conf = getFormConfig();
+        var previewable = isPreviewableType(active_conf.type);
+        togglePreviewOutput(previewable);
+    }
+
     function addDomEvents() {
+        // Chart type change
+        $($MODULE_FORM).find('[name="type"]').on('change.charts.type', chartsTypeChanged);
         // TODO: debounce/throttle
         $($API_ROUTE_URL).on('change.charts', previewAPIRoute);
         $($API_PREVIEW_BTN).on('click.charts', previewAPIRoute);
