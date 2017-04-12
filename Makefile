@@ -9,7 +9,7 @@ cleanpyc:
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 coverage: clean
-	pytest -s -v --cov-report html --cov=flask_jsondash tests
+	pytest -s -v --cov-report html --cov=flask_jsondash tests ; open coverage_report/index.html
 dockerize:
 	docker build --tag jsondash_base:latest -f BaseDockerfile .
 	docker-compose build ; docker-compose up
