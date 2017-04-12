@@ -8,22 +8,22 @@ var jsondash = function() {
         chart_wall: null,
         widgets: {}
     };
-    var dashboard_data    = null;
-    var $API_ROUTE_URL    = '[name="dataSource"]';
-    var $API_PREVIEW      = '#api-output';
-    var $API_PREVIEW_BTN  = '#api-output-preview';
-    var $API_PREVIEW_CONT = '.api-preview-container';
-    var $MODULE_FORM      = '#module-form';
-    var $VIEW_BUILDER     = '#view-builder';
-    var $ADD_MODULE       = '#add-module';
-    var $MAIN_CONTAINER   = '#container';
-    var $EDIT_MODAL       = '#chart-options';
-    var $DELETE_BTN       = '#delete-widget';
-    var $DELETE_DASHBOARD = '.delete-dashboard';
-    var $SAVE_MODULE      = '#save-module';
-    var $EDIT_CONTAINER   = '#edit-view-container';
-    var $MAIN_FORM        = '#save-view-form';
-    var $JSON_DATA        = '#raw-config';
+    var dashboard_data   = null;
+    var API_ROUTE_URL    = $('[name="dataSource"]');
+    var API_PREVIEW      = $('#api-output');
+    var API_PREVIEW_BTN  = $('#api-output-preview');
+    var API_PREVIEW_CONT = $('.api-preview-container');
+    var MODULE_FORM      = $('#module-form');
+    var VIEW_BUILDER     = $('#view-builder');
+    var ADD_MODULE       = $('#add-module');
+    var MAIN_CONTAINER   = $('#container');
+    var EDIT_MODAL       = $('#chart-options');
+    var DELETE_BTN       = $('#delete-widget');
+    var DELETE_DASHBOARD = $('.delete-dashboard');
+    var SAVE_MODULE      = $('#save-module');
+    var EDIT_CONTAINER   = $('#edit-view-container');
+    var MAIN_FORM        = $('#save-view-form');
+    var JSON_DATA        = $('#raw-config');
 
     function addWidget(container, config) {
         if(document.querySelector('[data-guid="' + config.guid + '"]')) return d3.select('[data-guid="' + config.guid + '"]');
@@ -40,15 +40,15 @@ var jsondash = function() {
     }
 
     function getFormConfig() {
-        return jsondash.util.serializeToJSON($($MODULE_FORM).serializeArray());
+        return jsondash.util.serializeToJSON(MODULE_FORM.serializeArray());
     }
 
     function togglePreviewOutput(is_on) {
         if(is_on) {
-            $($API_PREVIEW_CONT).show();
+            API_PREVIEW_CONT.show();
             return;
         }
-        $($API_PREVIEW_CONT).hide();
+        API_PREVIEW_CONT.hide();
     }
 
     function previewAPIRoute(e) {
@@ -56,12 +56,12 @@ var jsondash = function() {
         // Shows the response of the API field as a json payload, inline.
         $.ajax({
             type: 'get',
-            url: $($API_ROUTE_URL).val().trim(),
+            url: API_ROUTE_URL.val().trim(),
             success: function(data) {
-                $($API_PREVIEW).html(prettyCode(data));
+                API_PREVIEW.html(prettyCode(data));
             },
             error: function(data, status, error) {
-                $($API_PREVIEW).html(error);
+                API_PREVIEW.html(error);
             }
         });
     }
@@ -78,32 +78,31 @@ var jsondash = function() {
         // Add a unique guid for referencing later.
         config['guid'] = id;
         // Add family for lookups
-        config['family'] = $($MODULE_FORM).find('[name="type"]').find('option:selected').data().family;
+        config['family'] = MODULE_FORM.find('[name="type"]').find('option:selected').data().family;
         if(!config.refresh || !refreshableType(config.type)) {config['refresh'] = false;}
         if(!config.override) {config['override'] = false;}
         newfield.attr('name', 'module_' + id);
         newfield.val(JSON.stringify(config));
         $('.modules').append(newfield);
         // Save immediately.
-        $($MAIN_FORM).submit();
+        MAIN_FORM.submit();
     }
 
     function isModalButton(e) {
-        return e.relatedTarget.id === $ADD_MODULE.replace('#', '');
+        return e.relatedTarget.id === ADD_MODULE.selector.replace('#', '');
     }
 
     function updateEditForm(e) {
-        var module_form = $($MODULE_FORM);
         // If the modal caller was the add modal button, skip populating the field.
-        $($API_PREVIEW).text('...');
+        API_PREVIEW.text('...');
         if(isModalButton(e)) {
-            module_form.find('input').each(function(_, input){
+            MODULE_FORM.find('input').each(function(_, input){
                 $(input).val('');
             });
-            $($DELETE_BTN).hide();
+            DELETE_BTN.hide();
             return;
         }
-        $($DELETE_BTN).show();
+        DELETE_BTN.show();
         // Updates the fields in the edit form to the active widgets values.
         var item = $(e.relatedTarget).closest('.item.widget');
         var guid = item.data().guid;
@@ -111,25 +110,24 @@ var jsondash = function() {
         // Update the modal window fields with this one's value.
         $.each(module, function(field, val){
             if(field === 'override' || field === 'refresh') {
-                module_form.find('[name="' + field + '"]').prop('checked', val);
+                MODULE_FORM.find('[name="' + field + '"]').prop('checked', val);
             } else {
-                module_form.find('[name="' + field + '"]').val(val);
+                MODULE_FORM.find('[name="' + field + '"]').val(val);
             }
         });
         // Update with current guid for referencing the module.
-        module_form.attr('data-guid', guid);
+        MODULE_FORM.attr('data-guid', guid);
         populateOrderField(module);
 
         // Trigger event for select dropdown to ensure any UI is consistent.
         // This is done AFTER the fields have been pre-populated.
-        $($MODULE_FORM).find('[name="type"]').change();
+        MODULE_FORM.find('[name="type"]').change();
     }
 
     function populateOrderField(module) {
-        var module_form = $($MODULE_FORM);
         var widgets = $('.item.widget');
         // Add the number of items to order field.
-        var order_field = module_form.find('[name="order"]');
+        var order_field = MODULE_FORM.find('[name="order"]');
         var max_options = widgets.length > 0 ? widgets.length + 1 : 2;
         order_field.find('option').remove();
         // Add empty option.
@@ -143,12 +141,11 @@ var jsondash = function() {
     }
 
     function updateModule(e){
-        var module_form = $($MODULE_FORM);
         // Updates the module input fields with new data by rewriting them all.
-        var guid = module_form.attr('data-guid');
+        var guid = MODULE_FORM.attr('data-guid');
         var active = getModuleByGUID(guid);
         // Update the modules values to the current input values.
-        module_form.find('input').each(function(_, input){
+        MODULE_FORM.find('input').each(function(_, input){
             var name = $(input).attr('name');
             if(name) {
                 if(name === 'override' || name === 'refresh') {
@@ -160,9 +157,9 @@ var jsondash = function() {
             }
         });
         // Update bar chart type
-        active['type'] = module_form.find('[name="type"]').val();
+        active['type'] = MODULE_FORM.find('[name="type"]').val();
         // Update order
-        active['order'] = parseInt(module_form.find('[name="order"]').val(), 10);
+        active['order'] = parseInt(MODULE_FORM.find('[name="order"]').val(), 10);
         // Clear out module input values
         $('.modules').empty();
         $.each(dashboard_data.modules, function(i, module){
@@ -172,7 +169,7 @@ var jsondash = function() {
             $('.modules').append(input);
         });
         updateWidget(active);
-        $($EDIT_CONTAINER).collapse();
+        EDIT_CONTAINER.collapse();
         // Refit the grid
         fitGrid();
     }
@@ -193,7 +190,7 @@ var jsondash = function() {
     function refreshWidget(e) {
         e.preventDefault();
         var config = getModule($(this).closest('.widget'));
-        var widget = addWidget($MAIN_CONTAINER, config);
+        var widget = addWidget(MAIN_CONTAINER, config);
         loadWidgetData(widget, config);
         fitGrid();
     }
@@ -223,15 +220,15 @@ var jsondash = function() {
     function deleteModule(e) {
         e.preventDefault();
         if(!confirm('Are you sure?')) {return;}
-        var guid = $($MODULE_FORM).attr('data-guid');
+        var guid = MODULE_FORM.attr('data-guid');
         // Remove form input and visual widget
         $('.modules').find('#' + guid).remove();
         $('.item.widget[data-guid="' + guid + '"]').remove();
-        $($EDIT_MODAL).modal('hide');
+        EDIT_MODAL.modal('hide');
         // Redraw wall to replace visual 'hole'
         fitGrid();
         // Trigger update form into view since data is dirty
-        $($EDIT_CONTAINER).collapse('show');
+        EDIT_CONTAINER.collapse('show');
     }
 
     function isPreviewableType(type) {
@@ -249,20 +246,20 @@ var jsondash = function() {
 
     function addDomEvents() {
         // Chart type change
-        $($MODULE_FORM).find('[name="type"]').on('change.charts.type', chartsTypeChanged);
+        MODULE_FORM.find('[name="type"]').on('change.charts.type', chartsTypeChanged);
         // TODO: debounce/throttle
-        $($API_ROUTE_URL).on('change.charts', previewAPIRoute);
-        $($API_PREVIEW_BTN).on('click.charts', previewAPIRoute);
+        API_ROUTE_URL.on('change.charts', previewAPIRoute);
+        API_PREVIEW_BTN.on('click.charts', previewAPIRoute);
         // Save module popup form
-        $($SAVE_MODULE).on('click.charts.module', saveModule);
+        SAVE_MODULE.on('click.charts.module', saveModule);
         // Edit existing modules
-        $($EDIT_MODAL).on('show.bs.modal', updateEditForm);
+        EDIT_MODAL.on('show.bs.modal', updateEditForm);
         $('#update-module').on('click.charts.module', updateModule);
         // Allow swapping of edit/update events
         // for the add module button and form modal
-        $($ADD_MODULE).on('click.charts', function(){
+        ADD_MODULE.on('click.charts', function(){
             $('#update-module')
-            .attr('id', $SAVE_MODULE.replace('#', ''))
+            .attr('id', SAVE_MODULE.selector.replace('#', ''))
             .text('Save module')
             .off('click.charts.module')
             .on('click.charts', saveModule);
@@ -270,16 +267,16 @@ var jsondash = function() {
         // Allow swapping of edit/update events
         // for the edit button and form modal
         $('.widget-edit').on('click.charts', function(){
-            $($SAVE_MODULE)
+            SAVE_MODULE
             .attr('id', 'update-module')
             .text('Update module')
             .off('click.charts.module')
             .on('click.charts', updateModule);
         });
         // Add delete button for existing widgets.
-        $($DELETE_BTN).on('click.charts', deleteModule);
+        DELETE_BTN.on('click.charts', deleteModule);
         // Add delete confirm for dashboards.
-        $($DELETE_DASHBOARD).on('submit.charts', function(e){
+        DELETE_DASHBOARD.on('submit.charts', function(e){
             if(!confirm('Are you sure?')) e.preventDefault();
         });
     }
@@ -303,7 +300,7 @@ var jsondash = function() {
                 scroll: true,
                 handle: '.dragger',
                 stop: function(){
-                    $($EDIT_CONTAINER).collapse('show');
+                    EDIT_CONTAINER.collapse('show');
                     updateModuleOrder();
                     my.chart_wall.packery(options);
                 }
@@ -446,7 +443,7 @@ var jsondash = function() {
                 loadWidgetData(widget, config);
                 fitGrid();
                 // Open save panel
-                $($EDIT_CONTAINER).collapse('show');
+                EDIT_CONTAINER.collapse('show');
             }
         });
     }
@@ -474,15 +471,15 @@ var jsondash = function() {
     function prettifyJSONPreview() {
         // Reformat the code inside of the raw json field,
         // to pretty print for the user.
-        $($JSON_DATA).text(prettyCode($($JSON_DATA).text()));
+        JSON_DATA.text(prettyCode(JSON_DATA.text()));
     }
 
     function loadDashboard(data) {
         // Load the grid before rendering the ajax, since the DOM
         // is rendered server side.
-        initGrid($MAIN_CONTAINER);
+        initGrid(MAIN_CONTAINER);
         // Add actual ajax data.
-        addChartContainers($MAIN_CONTAINER, data);
+        addChartContainers(MAIN_CONTAINER, data);
         dashboard_data = data;
 
         // Add event handlers for widget UI
@@ -501,8 +498,7 @@ var jsondash = function() {
         // Will provide decent support but still not major: http://caniuse.com/#search=download
         $('[href="#download-json"]').on('click', function(e){
             var datestr = new Date().toString().replace(/ /gi, '-');
-            var json_data = $($JSON_DATA).val();
-            var data = encodeURIComponent(JSON.stringify(json_data, null, 4));
+            var data = encodeURIComponent(JSON.stringify(JSON_DATA.val(), null, 4));
             data = "data:text/json;charset=utf-8," + data;
             $(this).attr('href', data);
             $(this).attr('download', 'charts-config-raw-' + datestr + '.json');
