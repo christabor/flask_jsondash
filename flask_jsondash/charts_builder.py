@@ -28,6 +28,12 @@ from .settings import CHARTS_CONFIG
 template_dir = os.path.dirname(templates.__file__)
 static_dir = os.path.dirname(static.__file__)
 
+# Internally required libs that are also shared in `settings.py` for charts.
+# These follow the same format as what is loaded in `get_active_assets`
+# so that shared libraries are loaded in the same manner for simplicty
+# and prevention of duplicate loading. Note these are just LABELS, not files.
+REQUIRED_STATIC_FAMILES = ['D3']
+
 Paginator = namedtuple('Paginator',
                        'count per_page curr_page num_pages limit skip')
 
@@ -201,13 +207,8 @@ def get_all_assets():
 
 def get_active_assets(families):
     """Given a list of chart families, determine what needs to be loaded."""
-    if not families:
-        # Load ALL assets for backwards compat.
-        return get_all_assets()
-    assets = dict(
-        css=[],
-        js=[]
-    )
+    families += REQUIRED_STATIC_FAMILES  # Always load internal, shared libs.
+    assets = dict(css=[], js=[])
     families = set(families)
     for family, data in CHARTS_CONFIG.items():
         if family in families:

@@ -74,12 +74,6 @@ def test_get_all_assets():
         assert url.endswith('.css')
 
 
-def test_get_active_assets_empty():
-    all_res = charts_builder.get_all_assets()
-    active_res = charts_builder.get_active_assets([])
-    assert all_res == active_res
-
-
 def test_get_active_assets():
     all_res = charts_builder.get_all_assets()
     families = ['D3']
