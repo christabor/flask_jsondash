@@ -74,6 +74,23 @@ var jsondash = function() {
             // Trigger update form into view since data is dirty
             EDIT_CONTAINER.collapse('show');
         };
+        self.addGridClasses = function(sel, classes) {
+            d3.map(classes, function(colcount){
+                var classlist = {};
+                classlist['col-md-' + colcount] = true;
+                classlist['col-lg-' + colcount] = true;
+                sel.classed(classlist);
+            });
+        };
+        self.removeGridClasses = function(sel) {
+            var bootstrap_classes = d3.range(1, 13);
+            d3.map(bootstrap_classes, function(i){
+                var classes = {};
+                classes['col-md-' + i] = false;
+                classes['col-lg-' + i] = false;
+                sel.classed(classes);
+            });
+        };
         self.update = function(conf) {
             /**
              * Single source to update all aspects of a widget - in DOM, in model, etc...
@@ -93,8 +110,8 @@ var jsondash = function() {
                 var colcount = config.width.split('-')[1];
                 var parent = d3.select(widget.node().parentNode);
                 // Reset all other grid classes and then add new one.
-                removeGridClasses(parent);
-                addGridClasses(parent, [colcount]);
+                self.removeGridClasses(parent);
+                self.addGridClasses(parent, [colcount]);
             }
             widget.select('.widget-title .widget-title-text').text(config.name);
             loadWidgetData(self, config);
@@ -291,25 +308,6 @@ var jsondash = function() {
         var widget = getWidgetByGUID(guid);
         var conf = getParsedFormConfig();
         widget.update(conf);
-    }
-
-    function addGridClasses(sel, classes) {
-        d3.map(classes, function(colcount){
-            var classlist = {};
-            classlist['col-md-' + colcount] = true;
-            classlist['col-lg-' + colcount] = true;
-            sel.classed(classlist);
-        });
-    }
-
-    function removeGridClasses(sel) {
-        var bootstrap_classes = d3.range(1, 13);
-        d3.map(bootstrap_classes, function(i){
-            var classes = {};
-            classes['col-md-' + i] = false;
-            classes['col-lg-' + i] = false;
-            sel.classed(classes);
-        });
     }
 
     function refreshWidget(e) {
