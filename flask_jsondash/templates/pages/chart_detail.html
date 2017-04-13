@@ -128,10 +128,10 @@
                     </div>
                 {% endif %}
                 <div class="well">
-                    {% include "partials/form-view.html" %}
+                    {% include "partials/dashboard-global-form.html" %}
                 </div>
             </div>
-            {% include "partials/form-json.html" %}
+            {% include "partials/dashboard-json-form.html" %}
         {% endif %}
         <div class="layout" data-layout="{{ view.layout or 'freeform' }}" id="view-builder">
             <div id="container">
@@ -183,5 +183,5 @@
         <div class="hidden" id="chart-template">{{ chart() }}</div>
     </div>
 </div>
-{% include "partials/edit-data-modal.html" %}
+{% include "partials/dashboard-edit-modal.html" %}
 {% endblock %}
