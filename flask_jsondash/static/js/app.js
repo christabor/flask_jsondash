@@ -8,6 +8,7 @@ var jsondash = function() {
         chart_wall: null,
         widgets: {},
     };
+    var MIN_CHART_SIZE   = 200;
     var dashboard_data   = null;
     var API_ROUTE_URL    = $('[name="dataSource"]');
     var API_PREVIEW      = $('#api-output');
@@ -552,8 +553,8 @@ var jsondash = function() {
         // Add resize event
         $(widget[0]).resizable({
             helper: 'resizable-helper',
-            minWidth: 200,
-            minHeight: 200,
+            minWidth: MIN_CHART_SIZE,
+            minHeight: MIN_CHART_SIZE,
             maxWidth: VIEW_BUILDER.width(),
             handles: my.layout === 'grid' ? 'n, s' : 'e, s, se',
             stop: function(event, ui) {
