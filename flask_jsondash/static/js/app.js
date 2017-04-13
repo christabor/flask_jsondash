@@ -452,9 +452,8 @@ var jsondash = function() {
         var items = my.chart_wall.packery('getItemElements');
         // Update module order
         $.each(items, function(i, el){
-            var module = getWidgetByEl($(this)).conf;
-            var config = $.extend(module, {order: i});
-            updateModuleInput(config);
+            var widget = getWidgetByEl($(this));
+            widget.update($.extend(widget.conf, {order: i}));
         });
     }
 
@@ -568,12 +567,12 @@ var jsondash = function() {
             if(console && console.error) console.error(e);
             unload(widget);
         }
-        addResizeEvent(widget, config);
+        addResizeEvent(widg);
     }
 
-    function addResizeEvent(widget, config) {
+    function addResizeEvent(widg) {
         // Add resize event
-        $(widget[0]).resizable({
+        $(widg.el[0]).resizable({
             helper: 'resizable-helper',
             minWidth: MIN_CHART_SIZE,
             minHeight: MIN_CHART_SIZE,
@@ -585,9 +584,9 @@ var jsondash = function() {
                     newconf['width'] = ui.size.width;
                 }
                 // Update the configs dimensions.
-                config = $.extend(config, newconf);
-                updateModuleInput(config);
-                loadWidgetData(widget, config);
+                config = $.extend(widg.config, newconf);
+                widg.update(config);
+                loadWidgetData(widg);
                 fitGrid();
                 // Open save panel
                 EDIT_CONTAINER.collapse('show');
