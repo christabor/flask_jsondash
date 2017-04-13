@@ -66,6 +66,9 @@ body {
 .grid-row.ui-droppable-hover {
     background-color: #CBEFC4;
 }
+.grid-row.ui-droppable-hover {
+}
+
 .grid-row.ui-droppable-active {
 }
 .item.ui-draggable-dragging,
@@ -83,13 +86,34 @@ body {
           transition: transform 0.2s;
 }
 
+/* Widget/widget states */
+
+.dashboard-charts .widget.error {
+    opacity: 0.5;
+}
+.dashboard-charts .widget.error:hover {
+    opacity: 1;
+}
+.dashboard-charts .error-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    font-size: 12px;
+    text-align: center;
+}
+.dashboard-charts .error-overlay .alert {
+    margin: 0 auto;
+    padding: 0.5em;
+    border-radius: 0 0 0 0;
+}
+
 .dashboard-charts .widget:hover {
     border-color: #85C785;
 }
+
 .dashboard-charts .widget iframe {
     border: 0;
 }
-
 .dashboard-charts .widget .icon {
     display: none;
     margin-left: 0.3em;

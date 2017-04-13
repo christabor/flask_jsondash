@@ -30,6 +30,9 @@
             data-refresh-interval="{{ module.refreshInterval }}"
             style="width:{{ '100%' if fixedcol else '%spx'|format(dims.width) }};height: {{ dims.height }}px;">
     {% endif %}
+        <div class="error-overlay hidden">
+            <div class="alert alert-danger"></div>
+        </div>
         <div class="loader-overlay"></div>
         <span class="widget-loader fa fa-circle-o-notch fa-spin"></span>
         <p class="widget-title">

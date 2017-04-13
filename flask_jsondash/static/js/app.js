@@ -261,11 +261,20 @@ var jsondash = function() {
         if(row) {rows_field.val(row)};
     }
 
-    function populateOrderField(config) {
+    /**
+     * [populateOrderField Destroy and re-create order dropdown input based on number of items in a row, or in a dashboard.]
+     * @param  {[object]} config [The widget config (optional)]
+     */
+    function populateOrderField(widget) {
         var widgets = $('.item.widget');
         // Add the number of items to order field.
         var order_field = WIDGET_FORM.find('[name="order"]');
-        var max_options = widgets.length > 0 ? widgets.length + 1 : 2;
+        var max_options = 0;
+        if(my.layout === 'grid') {
+            max_options = widgets.length > 0 ? widgets.length + 1 : 2;
+        } else {
+            max_options = widgets.length > 0 ? widgets.length + 1 : 2;
+        }
         order_field.find('option').remove();
         // Add empty option.
         order_field.append('<option value=""></option>');
@@ -274,7 +283,7 @@ var jsondash = function() {
             option.val(i).text(i);
             order_field.append(option);
         });
-        order_field.val(config && config.config ? config.config : '');
+        order_field.val(widget && widget.config ? widget.config : '');
     }
 
     /**
@@ -443,7 +452,7 @@ var jsondash = function() {
                 EDIT_CONTAINER.collapse('show');
                 if(my.layout === 'grid') {
                     // Update row order.
-                    // updateChartsRowOrder();
+                    updateChartsRowOrder();
                 } else {
                     my.chart_wall.packery(options);
                     updateChartsOrder();
@@ -543,6 +552,12 @@ var jsondash = function() {
         var widget = widg.el;
         var config = widg.config;
 
+        widget.classed({error: false});
+        widget.select('.error-overlay')
+            .classed({hidden: true})
+            .select('.alert')
+            .text('');
+
         loader(widget);
         try {
             // Handle any custom inputs the user specified for this module.
@@ -590,6 +605,11 @@ var jsondash = function() {
             }
         } catch(e) {
             if(console && console.error) console.error(e);
+            widget.classed({error: true});
+            widget.select('.error-overlay')
+                .classed({hidden: false})
+                .select('.alert')
+                .text('Loading error: "' + e + '"');
             unload(widget);
         }
         addResizeEvent(widg);
