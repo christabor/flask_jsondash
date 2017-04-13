@@ -21,8 +21,27 @@
                         </label>
                         <label>
                             width <small class="text-danger">*</small>
-                            <input class="form-control" type="text" name="width" value="" placeholder="e.g. 500" required>
+                            {% if view.layout == 'grid' %}
+                                <select name="width" class="form-control">
+                                    {% for colcount in range(1, 13) %}
+                                        <option value="col-{{ colcount }}">{{ colcount }} columns</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                <input class="form-control" type="text" name="width" value="" placeholder="e.g. 500" required>
+                            {% endif %}
                         </label>
+                        {% if view.layout == 'grid' %}
+                            <label>
+                                Row to add this widget to
+                                <small class="text-danger">*</small>
+                                <select name="row" class="form-control">
+                                    {% for row in range(1, num_rows + 1) %}
+                                        <option value="{{ row }}">row {{ row }}</option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+                        {% endif %}
                         <label>
                             height <small class="text-danger">*</small>
                             <input class="form-control" type="text" name="height" value="" placeholder="e.g. 400" required>

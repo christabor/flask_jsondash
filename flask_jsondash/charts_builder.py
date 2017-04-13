@@ -257,6 +257,15 @@ def paginator(page=0, per_page=None, count=None):
     )
 
 
+def get_num_rows(viewconf):
+    """Get the number of rows for a layout if it's using fixed grid format."""
+    layout = viewconf.get('layout', 'freeform')
+    if layout == 'freeform':
+        return None
+    return 1
+    # return [m['row'] for m in viewconf.get('modules')]
+
+
 def order_sort(item):
     """Attempt to sort modules by order keys.
 
@@ -268,6 +277,24 @@ def order_sort(item):
         except (ValueError, TypeError):
             return -1
     return -1
+
+
+def sort_modules(viewjson):
+    """Sort module data in various ways.
+
+    If the layout is freeform, sort by default order in a shallow list.
+    If the layout is fixed grid, sort by default order, nested in a list
+        for each row - e.g. [[{}, {}], [{}]]
+        for row 1 (2 modules) and row 2 (1 module)
+    """
+    items = sorted(viewjson['modules'], key=order_sort)
+    if viewjson.get('layout', 'freeform') == 'freeform':
+        return items
+    # Sort them by and group them by rows if layout is fixed grid
+    modules = [[] for _ in range(len(items))]
+    for module in items:
+        modules[int(module['row']) - 1].append(module)
+    return modules
 
 
 @charts.route('/charts', methods=['GET'])
@@ -301,6 +328,7 @@ def dashboard():
         views=views,
         view=None,
         paginator=pagination,
+        creating=True,
         can_edit_global=auth(authtype='edit_global'),
         total_modules=sum([
             len(view.get('modules', [])) for view in views
@@ -339,7 +367,8 @@ def view(c_id):
     kwargs = dict(
         id=c_id,
         view=viewjson,
-        modules=sorted(viewjson['modules'], key=order_sort),
+        num_rows=get_num_rows(viewjson),
+        modules=sort_modules(viewjson),
         assets=get_active_assets(active_charts),
         can_edit=can_edit,
         can_edit_global=auth(authtype='edit_global'),
@@ -435,6 +464,7 @@ def create():
         modules=db.format_charts(data),
         date=dt.now(),
         id=new_id,
+        layout=data.get('mode', 'grid'),
     )
     d.update(**metadata())
     # Possibly override global user, if configured and valid.

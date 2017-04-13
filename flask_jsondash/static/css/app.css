@@ -184,14 +184,6 @@ body {
     color: #444;
     text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
-.dashboard-charts #view-builder.editing {
-    border: 1px solid #ccc;
-    background-color: #fff;
-    min-width: 800px;
-    min-height: 800px;
-    /*http://www.patternify.com/*/
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAALUlEQVQYV2M8fvz4fwYiACNIoaWlJSMhtaMK8YYQOHgsLCxMQKoYGRnP4lINANSKKF9X4C8fAAAAAElFTkSuQmCC);
-}
 .dashboard-charts .widget iframe,
 .dashboard-charts .widget svg,
 .dashboard-charts .widget .chart-centered {
@@ -212,6 +204,25 @@ body {
 .dashboard-charts .form-inline input,
 .dashboard-charts .form-inline button {
     display: inline-block;
+}
+
+/* Editing mode */
+
+.dashboard-charts .grid-row {
+    position: relative;
+    margin-bottom: 10px;
+}
+.dashboard-charts .grid-row .grid-row-label {
+    display: none;
+}
+.jsondash-editing .grid-row {
+    background-color: #fff;
+    margin: 1em;
+}
+.jsondash-editing .grid-row .grid-row-label {
+    display: inline-block;
+    clear:both;
+    margin: 0 auto;
 }
 
 /**

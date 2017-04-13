@@ -6,7 +6,7 @@
 var jsondash = function() {
     var my = {
         chart_wall: null,
-        widgets: {}
+        widgets: {},
     };
     var dashboard_data   = null;
     var API_ROUTE_URL    = $('[name="dataSource"]');
@@ -24,6 +24,9 @@ var jsondash = function() {
     var EDIT_CONTAINER   = $('#edit-view-container');
     var MAIN_FORM        = $('#save-view-form');
     var JSON_DATA        = $('#raw-config');
+    var ADD_ROW_CONTS    = $('.add-new-row-container');
+    var EDIT_TOGGLE_BTN  = $('[href=".edit-mode-component"]');
+    var UPDATE_FORM_BTN  = $('#update-module');
 
     function addWidget(container, config) {
         if(document.querySelector('[data-guid="' + config.guid + '"]')) return d3.select('[data-guid="' + config.guid + '"]');
@@ -92,14 +95,27 @@ var jsondash = function() {
         return e.relatedTarget.id === ADD_MODULE.selector.replace('#', '');
     }
 
+    function isRowButton(e) {
+        return $(e.relatedTarget).hasClass('grid-row-label');
+    }
+
+    function clearForm() {
+        MODULE_FORM.find('input').each(function(_, input){
+            $(input).val('');
+        });
+    }
+
     function updateEditForm(e) {
         // If the modal caller was the add modal button, skip populating the field.
+        populateRowField(module);
         API_PREVIEW.text('...');
-        if(isModalButton(e)) {
-            MODULE_FORM.find('input').each(function(_, input){
-                $(input).val('');
-            });
+        if(isModalButton(e) || isRowButton(e)) {
+            clearForm();
             DELETE_BTN.hide();
+            if(isRowButton(e)) {
+                var row = $(e.relatedTarget).data().row;
+                MODULE_FORM.find('[name="row"]').val(row);
+            }
             return;
         }
         DELETE_BTN.show();
@@ -118,10 +134,27 @@ var jsondash = function() {
         // Update with current guid for referencing the module.
         MODULE_FORM.attr('data-guid', guid);
         populateOrderField(module);
-
+        // Update form for specific row if row button was caller
         // Trigger event for select dropdown to ensure any UI is consistent.
         // This is done AFTER the fields have been pre-populated.
         MODULE_FORM.find('[name="type"]').change();
+    }
+
+    function populateRowField(module) {
+        var rows_field = $('[name="row"]');
+        // Don't try and populate if not in grid mode.
+        if(my.layout === 'grid') {return;}
+        if(rows_field.length === 0){
+            addNewRow();
+        }
+        var num_rows = $('.grid-row').length + 1;
+        rows_field.find('option').remove();
+        d3.map(d3.range(1, num_rows), function(i){
+            var option = $('<option></option>');
+            option.val(i).text('row ' + i);
+            rows_field.append(option);
+        });
+        rows_field.val(module && module.row ? module.row : 1);
     }
 
     function populateOrderField(module) {
@@ -140,35 +173,46 @@ var jsondash = function() {
         order_field.val(module && module.order ? module.order : '');
     }
 
+    /**
+     * [getParsedFormConfig Get a config usable for each json widget based on the forms active values.]
+     * @return {[object]} [The serialized config]
+     */
+    function getParsedFormConfig() {
+        var conf = {};
+        MODULE_FORM.find('.form-control').each(function(_, input){
+            var name = $(input).attr('name');
+            var val = $(input).val();
+            if(name === 'override' ||
+                name === 'refresh') {
+                // Convert checkbox to json friendly format.
+                conf[name] = $(input).is(':checked');
+            } else if(name === 'refreshInterval' ||
+                      name === 'row' ||
+                      name === 'height' ||
+                      name === 'order') {
+                conf[name] = parseInt(val, 10);
+                if(isNaN(conf[name])) {
+                    conf[name] = null;
+                }
+            } else {
+                conf[name] = val;
+            }
+            // This is not amenable to integer parsing
+            if(name === 'width' && my.layout === 'grid') {
+                conf['width'] = val;
+            }
+        });
+        return conf;
+    }
+
     function updateModule(e){
         // Updates the module input fields with new data by rewriting them all.
         var guid = MODULE_FORM.attr('data-guid');
         var active = getModuleByGUID(guid);
-        // Update the modules values to the current input values.
-        MODULE_FORM.find('input').each(function(_, input){
-            var name = $(input).attr('name');
-            if(name) {
-                if(name === 'override' || name === 'refresh') {
-                    // Convert checkbox to json friendly format.
-                    active[name] = $(input).is(':checked');
-                } else {
-                    active[name] = $(input).val();
-                }
-            }
-        });
-        // Update bar chart type
-        active['type'] = MODULE_FORM.find('[name="type"]').val();
-        // Update order
-        active['order'] = parseInt(MODULE_FORM.find('[name="order"]').val(), 10);
-        // Clear out module input values
-        $('.modules').empty();
-        $.each(dashboard_data.modules, function(i, module){
-            var val = JSON.stringify(module, module);
-            var input = $('<input type="text" name="module_' + i + '" class="form-control">');
-            input.val(val);
-            $('.modules').append(input);
-        });
-        updateWidget(active);
+        var conf = getParsedFormConfig();
+        var newconf = $.extend(active, conf);
+        $('.modules').find('#' + guid).val(JSON.stringify(newconf));
+        updateWidget(newconf);
         EDIT_CONTAINER.collapse();
         // Refit the grid
         fitGrid();
@@ -181,10 +225,35 @@ var jsondash = function() {
         loader(widget);
         widget.style({
             height: config.height + 'px',
-            width: config.width + 'px'
+            width: my.layout === 'grid' ? '100%' : config.width + 'px'
         });
+        if(my.layout === 'grid') {
+            var colcount = config.width.split('-')[1];
+            var parent = d3.select(widget.node().parentNode);
+            removeGridClasses(parent);
+            addGridClasses(parent, [colcount]);
+        }
         widget.select('.widget-title .widget-title-text').text(config.name);
         loadWidgetData(widget, config);
+    }
+
+    function addGridClasses(sel, classes) {
+        d3.map(classes, function(colcount){
+            var classlist = {};
+            classlist['col-md-' + colcount] = true;
+            classlist['col-lg-' + colcount] = true;
+            sel.classed(classlist);
+        });
+    }
+
+    function removeGridClasses(sel) {
+        var bootstrap_classes = d3.range(1, 13);
+        d3.map(bootstrap_classes, function(i){
+            var classes = {};
+            classes['col-md-' + i] = false;
+            classes['col-lg-' + i] = false;
+            sel.classed(classes);
+        });
     }
 
     function refreshWidget(e) {
@@ -254,21 +323,33 @@ var jsondash = function() {
         SAVE_MODULE.on('click.charts.module', saveModule);
         // Edit existing modules
         EDIT_MODAL.on('show.bs.modal', updateEditForm);
-        $('#update-module').on('click.charts.module', updateModule);
+        UPDATE_FORM_BTN.on('click.charts.module', updateModule);
+
         // Allow swapping of edit/update events
         // for the add module button and form modal
         ADD_MODULE.on('click.charts', function(){
-            $('#update-module')
+            UPDATE_FORM_BTN
             .attr('id', SAVE_MODULE.selector.replace('#', ''))
             .text('Save module')
             .off('click.charts.module')
             .on('click.charts', saveModule);
         });
+
+        // Allow swapping of edit/update events
+        // for the add module per row button and form modal
+        VIEW_BUILDER.on('click.charts', '.grid-row-label', function(){
+            UPDATE_FORM_BTN
+            .attr('id', SAVE_MODULE.selector.replace('#', ''))
+            .text('Save module')
+            .off('click.charts.module')
+            .on('click.charts', saveModule);
+        });
+
         // Allow swapping of edit/update events
         // for the edit button and form modal
         $('.widget-edit').on('click.charts', function(){
             SAVE_MODULE
-            .attr('id', 'update-module')
+            .attr('id', UPDATE_FORM_BTN.selector.replace('#', ''))
             .text('Update module')
             .off('click.charts.module')
             .on('click.charts', updateModule);
@@ -292,6 +373,7 @@ var jsondash = function() {
     }
 
     function fitGrid(opts, init) {
+        if(my.layout === 'grid') {return;}
         var valid_options = $.isPlainObject(opts);
         var options = $.extend({}, opts, {});
         if(init) {
@@ -436,9 +518,15 @@ var jsondash = function() {
             helper: 'resizable-helper',
             minWidth: 200,
             minHeight: 200,
+            maxWidth: VIEW_BUILDER.width(),
+            handles: my.layout === 'grid' ? 'n, s' : 'e, s, se',
             stop: function(event, ui) {
+                var newconf = {height: ui.size.height};
+                if(my.layout !== 'grid') {
+                    newconf['width'] = ui.size.width;
+                }
                 // Update the configs dimensions.
-                config = $.extend(config, {width: ui.size.width, height: ui.size.height});
+                config = $.extend(config, newconf);
                 updateModuleInput(config);
                 loadWidgetData(widget, config);
                 fitGrid();
@@ -474,13 +562,55 @@ var jsondash = function() {
         JSON_DATA.text(prettyCode(JSON_DATA.text()));
     }
 
+    function setupResponsiveEvents() {
+        // This is handled by bs3, so we don't need it.
+        if(my.layout === 'grid') {return;}
+        // Setup responsive handlers
+        var jres = jRespond([
+        {
+            label: 'handheld',
+            enter: 0,
+            exit: 767
+        }
+        ]);
+        jres.addFunc({
+            breakpoint: 'handheld',
+            enter: function() {
+                $('.widget').css({
+                    'max-width': '100%',
+                    'width': '100%',
+                    'position': 'static'
+                });
+            }
+        });
+    }
+
+    function addNewRow(e) {
+        // Add a new row with a toggleable label that indicates
+        // which row it is for user editing.
+        if(e) {e.preventDefault();}
+        var placement = $(this).closest('.row').data().rowPlacement;
+        var el = $('<div></div>');
+        var label = $('<a href="#chart-options" data-toggle="modal" class="grid-row-label btn-success btn btn-xs"></a>');
+        var rows = $('.grid-row').length + 1;
+        label.text('Add widgets to row ' + rows);
+        label.attr('data-row', rows);
+        el.append(label);
+        el.addClass('row grid-row').css('min-height', '100px');
+        if(placement === 'top') {
+            VIEW_BUILDER.find('.add-new-row-container:first').after(el);
+        } else {
+            VIEW_BUILDER.find('.add-new-row-container:last').before(el);
+        }
+    }
+
     function loadDashboard(data) {
         // Load the grid before rendering the ajax, since the DOM
         // is rendered server side.
         initGrid(MAIN_CONTAINER);
         // Add actual ajax data.
         addChartContainers(MAIN_CONTAINER, data);
-        dashboard_data = data;
+        my.dashboard_data = data;
 
         // Add event handlers for widget UI
         $('.widget-refresh').on('click.charts', refreshWidget);
@@ -504,27 +634,17 @@ var jsondash = function() {
             $(this).attr('download', 'charts-config-raw-' + datestr + '.json');
         });
 
-        prettifyJSONPreview();
+        // For fixed grid, add events for making new rows.
+        ADD_ROW_CONTS.find('.btn').on('click', addNewRow);
 
-        // Setup responsive handlers
-        var jres = jRespond([
-        {
-            label: 'handheld',
-            enter: 0,
-            exit: 767
-        }
-        ]);
-        jres.addFunc({
-            breakpoint: 'handheld',
-            enter: function() {
-                $('.widget').css({
-                    'max-width': '100%',
-                    'width': '100%',
-                    'position': 'static'
-                });
-            }
+        EDIT_TOGGLE_BTN.on('click', function(e){
+            $('body').toggleClass('jsondash-editing');
         });
+
+        prettifyJSONPreview();
+        setupResponsiveEvents();
         populateOrderField();
+        populateRowField();
         fitGrid();
     }
     my.config = {
@@ -537,5 +657,8 @@ var jsondash = function() {
     my.loader = loader;
     my.unload = unload;
     my.addDomEvents = addDomEvents;
+    my.getActiveConfig = getParsedFormConfig;
+    my.layout = VIEW_BUILDER.length > 0 ? VIEW_BUILDER.data().layout : null;
+    my.dashboard_data = dashboard_data;
     return my;
 }();

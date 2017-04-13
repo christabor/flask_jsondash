@@ -3,11 +3,16 @@
 {%- macro chart(module=None) %}
     {% if module %}
         {% set dims = module|get_dims %}
-    <div class="hidden item widget"
-        data-guid="{{ module.guid }}"
-        data-refresh="{{ module.refresh }}"
-        data-refresh-interval="{{ module.refreshInterval }}"
-        style="width: {{ dims.width }}px;height: {{ dims.height }}px;">
+        {% set fixedcol = view.layout == 'grid' %}
+        {% if fixedcol %}
+            {% set colcount = dims.width.replace('col-', '') %}
+            <div class="col-sm-12 col-xs-12 col-md-{{ colcount }} col-lg-{{ colcount }}">
+        {% endif %}
+        <div class="hidden item widget"
+            data-guid="{{ module.guid }}"
+            data-refresh="{{ module.refresh }}"
+            data-refresh-interval="{{ module.refreshInterval }}"
+            style="width:{{ '100%' if fixedcol else '%spx'|format(dims.width) }};height: {{ dims.height }}px;">
     {% endif %}
         <div class="loader-overlay"></div>
         <span class="widget-loader fa fa-circle-o-notch fa-spin"></span>
@@ -87,7 +92,12 @@
                 </form>
             </div>
         {% endif %}
-    {% if module %}</div><!-- end item.widget -->{% endif %}
+        {% if module %}
+            </div><!-- end item.widget -->
+            {% if fixedcol %}
+                </div>
+            {% endif %}
+        {% endif %}
 {% endmacro -%}
 
 {% block chart_body %}
@@ -109,7 +119,7 @@
             {% endif %}
         </h2>
         {% if can_edit %}
-            <div class="{{ 'collapse' if view.modules|length else '' }}" id="edit-view-container">
+            <div class="{{ 'collapse' if view.modules|length else '' }} edit-mode-component" id="edit-view-container">
                 {% if not view.modules|length %}
                     <div class="alert alert-warning text-center">
                         <p>
@@ -123,16 +133,54 @@
             </div>
             {% include "partials/form-json.html" %}
         {% endif %}
-        <div class="layout" id="view-builder">
+        <div class="layout" data-layout="{{ view.layout or 'freeform' }}" id="view-builder">
             <div id="container">
-                {% for module in modules %}
-                    {{ chart(module=module) }}
-                {% endfor %}
+                {% if view.layout == 'grid' %}
+                    <div class="row collapse edit-mode-component add-new-row-container" data-row-placement="top">
+                        <br>
+                        <div class="col-md-12">
+                            <a href="#" class="btn btn-default btn-block lead well text-center">
+                                <span class="fa fa-plus"></span> Add new row
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if view.layout == 'grid' %}
+
+                    {% for row in modules %}
+                        <div class="row grid-row">
+                            <a href="#chart-options" class="grid-row-label btn btn-success btn-xs" data-toggle="modal" data-row="{{ loop.index }}">
+                                Add widgets to row {{ loop.index }}
+                            </a>
+
+                            {% for module in row %}
+                                {{ chart(module=module) }}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="row collapse edit-mode-component add-new-row-container" data-row-placement="bottom">
+                        <br>
+                        <div class="col-md-12">
+                            <a href="#" class="btn btn-default btn-block lead well text-center">
+                                <span class="fa fa-plus"></span> Add new row
+                            </a>
+                        </div>
+                    </div>
+
+                {% else %}
+
+                    {% for module in modules %}
+                        {{ chart(module=module) }}
+                    {% endfor %}
+
+                {% endif %}
+
             </div>
         </div>
-        <div class="hidden" id="chart-template">
-            {{ chart() }}
-        </div>
+        {# Used as a template to clone from in js #}
+        <div class="hidden" id="chart-template">{{ chart() }}</div>
     </div>
 </div>
 {% include "partials/edit-data-modal.html" %}

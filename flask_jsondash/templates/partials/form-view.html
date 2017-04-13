@@ -3,6 +3,16 @@
         <label>
             View Name <input class="form-control input-md" type="text" name="name" value="{% if view %}{{ view.name }}{% endif %}" placeholder="name">
         </label>
+        {% if creating %}
+            &nbsp;
+            <label>
+                Layout mode
+                <select name="mode" class="form-control">
+                    <option value="grid">Grid (use rows/columns with a fixed grid system)</option>
+                    <option value="freeform">Freeform (choose all sizing and positioning manually)</option>
+                </select>
+            </label>
+        {% endif %}
         {% if can_edit_global %}
             &nbsp;
             <label>
@@ -13,9 +23,9 @@
     </div>
     <div class="modules hidden">
         {% if view %}
-        {% for module in view.modules %}
-        <input type="text" id="{{ module.guid }}" class="form-control" name="module_{{ module.name }}" value="{{ module|jsonstring }}">
-        {% endfor %}
+            {% for module in view.modules %}
+                <input type="text" id="{{ module.guid }}" class="form-control" name="module_{{ module.name }}" value="{{ module|jsonstring }}">
+            {% endfor %}
         {% endif %}
     </div>
     {% if view %}
