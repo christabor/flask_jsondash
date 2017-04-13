@@ -37,27 +37,24 @@ var jsondash = function() {
         self.config = config;
         self.guid = self.config.guid;
         self.delete = function() {
-            console.log('Deleting', self.guid);
         };
         self.update = function() {
-            console.log('Updating', self.guid);
         };
         self.container = container;
-        self.el = addWidget(container, config);
-    }
-
-    function addWidget(container, config) {
-        if(document.querySelector('[data-guid="' + config.guid + '"]')) return d3.select('[data-guid="' + config.guid + '"]');
-        return d3.select(container).select('div')
-            .append('div')
-            .classed({item: true, widget: true})
-            .attr('data-guid', config.guid)
-            .attr('data-refresh', config.refresh)
-            .attr('data-refresh-interval', config.refreshInterval)
-            .style('width', config.width + 'px')
-            .style('height', config.height + 'px')
-            .html(d3.select(CHART_TEMPLATE.selector).html())
-            .select('.widget-title .widget-title-text').text(config.name);
+        self._makeWidget = function(container, config) {
+            if(document.querySelector('[data-guid="' + config.guid + '"]')) return d3.select('[data-guid="' + config.guid + '"]');
+            return d3.select(container).select('div')
+                .append('div')
+                .classed({item: true, widget: true})
+                .attr('data-guid', config.guid)
+                .attr('data-refresh', config.refresh)
+                .attr('data-refresh-interval', config.refreshInterval)
+                .style('width', config.width + 'px')
+                .style('height', config.height + 'px')
+                .html(d3.select(CHART_TEMPLATE.selector).html())
+                .select('.widget-title .widget-title-text').text(config.name);
+        };
+        self.el = self._makeWidget(container, config);
     }
 
     function getFormConfig() {
@@ -152,10 +149,10 @@ var jsondash = function() {
         // Updates the fields in the edit form to the active widgets values.
         var item = $(e.relatedTarget).closest('.item.widget');
         var guid = item.data().guid;
-        var module = getModule(item);
-        populateRowField(module.row);
+        var conf = getModuleByGUID(guid).model.config;
+        populateRowField(conf.row);
         // Update the modal fields with this widgets' value.
-        $.each(module, function(field, val){
+        $.each(conf, function(field, val){
             if(field === 'override' || field === 'refresh') {
                 MODULE_FORM.find('[name="' + field + '"]').prop('checked', val);
             } else {
@@ -164,7 +161,7 @@ var jsondash = function() {
         });
         // Update with current guid for referencing the module.
         MODULE_FORM.attr('data-guid', guid);
-        populateOrderField(module);
+        populateOrderField(conf);
         // Update form for specific row if row button was caller
         // Trigger event for select dropdown to ensure any UI is consistent.
         // This is done AFTER the fields have been pre-populated.
@@ -241,7 +238,7 @@ var jsondash = function() {
     function updateModule(e){
         // Updates the module input fields with new data by rewriting them all.
         var guid = MODULE_FORM.attr('data-guid');
-        var active = getModuleByGUID(guid);
+        var active = getModuleByGUID(guid).model.config;
         var conf = getParsedFormConfig();
         var newconf = $.extend(active, conf);
         $('.modules').find('#' + guid).val(JSON.stringify(newconf));
@@ -293,9 +290,7 @@ var jsondash = function() {
 
     function refreshWidget(e) {
         e.preventDefault();
-        var config = getModule($(this).closest('.widget'));
-        var widget = addWidget(MAIN_CONTAINER, config);
-        loadWidgetData(widget, config);
+        loadWidgetData(getWidgetByEl($(this).closest('.widget')));
         fitGrid();
     }
 
@@ -308,20 +303,20 @@ var jsondash = function() {
                 // and add title, icons, and buttons
                 // This is the widget "model"/object used throughout.
                 my.widgets[config.guid] = {
-                    model: new widget(container, config),
-                    config: config
+                    guid: config.guid,
+                    model: new widget(container, config)
                 };
             })(data.modules[name]);
         }
         fitGrid();
         for(var guid in my.widgets){
             var widg = my.widgets[guid];
-            loadWidgetData(widg.model.el, widg.config);
+            loadWidgetData(widg);
         }
     }
 
     function getModuleByGUID(guid) {
-        return my.widgets[guid].config;
+        return my.widgets[guid];
     }
 
     function deleteChart(guid, bypass_confirm) {
@@ -452,13 +447,13 @@ var jsondash = function() {
         var items = my.chart_wall.packery('getItemElements');
         // Update module order
         $.each(items, function(i, el){
-            var module = getModule($(this));
+            var module = getWidgetByEl($(this)).conf;
             var config = $.extend(module, {order: i});
             updateModuleInput(config);
         });
     }
 
-    function getModule(el) {
+    function getWidgetByEl(el) {
         // Return module by element
         var data = el.data();
         var guid = data.guid;
@@ -513,9 +508,16 @@ var jsondash = function() {
         return param_str;
     }
 
-    function loadWidgetData(widget, config) {
-        loader(widget);
+    /**
+     * [loadWidgetData Load a widgets data source/re-render]
+     * @param  {[dom selection]} widget [The dom selection]
+     * @param  {[object]} config [The chart config]
+     */
+    function loadWidgetData(widg) {
+        var widget = widg.model.el;
+        var config = widg.model.config;
 
+        loader(widget);
         try {
             // Handle any custom inputs the user specified for this module.
             // They map to standard form inputs and correspond to query
