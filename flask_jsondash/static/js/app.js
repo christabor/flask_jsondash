@@ -436,7 +436,7 @@ var jsondash = function() {
                 handle: '.dragger',
                 stop: function(){
                     EDIT_CONTAINER.collapse('show');
-                    updateModuleOrder();
+                    updateChartsOrder();
                     my.chart_wall.packery(options);
                 }
             });
@@ -446,7 +446,8 @@ var jsondash = function() {
         }
     }
 
-    function updateModuleOrder() {
+    function updateChartsOrder() {
+        // Update the order and order value of each chart
         var items = my.chart_wall.packery('getItemElements');
         // Update module order
         $.each(items, function(i, el){
@@ -487,7 +488,7 @@ var jsondash = function() {
                 dataSource: url.replace(/\?.+/, '') + '?' + existing_params + '&' + params
             });
             // Otherwise reload like normal.
-            loadWidgetData(widget, _config);
+            loadWidgetData(getWidgetByGUID(config.guid));
             // Hide the form again
             $(inputs_selector).removeClass('in');
         });
@@ -586,9 +587,8 @@ var jsondash = function() {
     function addRefreshers(modules) {
         $.each(modules, function(_, module){
             if(module.refresh && module.refreshInterval) {
-                var container = d3.select('[data-guid="' + module.guid + '"]');
                 setInterval(function(){
-                    loadWidgetData(container, module);
+                    loadWidgetData(getWidgetByGUID(module.guid));
                 }, parseInt(module.refreshInterval, 10));
             }
         });
