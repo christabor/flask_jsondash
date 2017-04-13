@@ -109,14 +109,13 @@ var jsondash = function() {
 
     function updateEditForm(e) {
         // If the modal caller was the add modal button, skip populating the field.
-        populateRowField(module);
         API_PREVIEW.text('...');
         if(isModalButton(e) || isRowButton(e)) {
             clearForm();
             DELETE_BTN.hide();
             if(isRowButton(e)) {
                 var row = $(e.relatedTarget).data().row;
-                MODULE_FORM.find('[name="row"]').val(row);
+                populateRowField(row);
             }
             return;
         }
@@ -125,6 +124,7 @@ var jsondash = function() {
         var item = $(e.relatedTarget).closest('.item.widget');
         var guid = item.data().guid;
         var module = getModule(item);
+        populateRowField(module.row);
         // Update the modal window fields with this one's value.
         $.each(module, function(field, val){
             if(field === 'override' || field === 'refresh') {
@@ -142,21 +142,24 @@ var jsondash = function() {
         MODULE_FORM.find('[name="type"]').change();
     }
 
-    function populateRowField(module) {
+    function populateRowField(row) {
         var rows_field = $('[name="row"]');
-        // Don't try and populate if not in grid mode.
-        if(my.layout === 'grid') {return;}
-        if(rows_field.length === 0){
+        var num_rows = $('.grid-row').not('.grid-row-template').length;
+        // Don't try and populate if not in freeform mode.
+        if(my.layout === 'freeform') {return;}
+        if(num_rows === 0){
             addNewRow();
         }
-        var num_rows = $('.grid-row').length + 1;
+        console.log('numrows', num_rows);
         rows_field.find('option').remove();
-        d3.map(d3.range(1, num_rows), function(i){
+        // Add new option fields - d3 range is exclusive so we add one
+        d3.map(d3.range(1, num_rows + 1), function(i){
             var option = $('<option></option>');
             option.val(i).text('row ' + i);
             rows_field.append(option);
         });
-        rows_field.val(module && module.row ? module.row : 1);
+        // Update current value
+        if(row) {rows_field.val(row)};
     }
 
     function populateOrderField(module) {
