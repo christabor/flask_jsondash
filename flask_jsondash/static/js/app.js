@@ -36,10 +36,6 @@ var jsondash = function() {
         var self = this;
         self.config = config;
         self.guid = self.config.guid;
-        self.delete = function() {
-        };
-        self.update = function() {
-        };
         self.container = container;
         self._makeWidget = function(container, config) {
             if(document.querySelector('[data-guid="' + config.guid + '"]')) return d3.select('[data-guid="' + config.guid + '"]');
@@ -55,6 +51,35 @@ var jsondash = function() {
                 .select('.widget-title .widget-title-text').text(config.name);
         };
         self.el = self._makeWidget(container, config);
+
+        self.getInput = function() {
+            // Get the form input for this widget.
+            return $('input[id="' + self.guid + '"]');
+        };
+        self.delete = function(bypass_confirm) {
+            if(!bypass_confirm){
+                if(!confirm('Are you sure?')) {
+                    return;
+                }
+            }
+            // Delete the input
+            self.getInput().remove();
+            // Delete the widget
+            self.el.remove();
+            // Remove reference to the model by guid
+            delete my.widgets[self.guid];
+            EDIT_MODAL.modal('hide');
+            // Redraw wall to replace visual 'hole'
+            fitGrid();
+            // Trigger update form into view since data is dirty
+            EDIT_CONTAINER.collapse('show');
+        };
+        self.update = function() {
+            // Single source to update all aspects of a widget - in DOM, in model, etc...
+
+            // Update the form input for this widget.
+            self.getInput().val(JSON.stringify(self.config));
+        };
     }
 
     function getFormConfig() {
@@ -124,7 +149,7 @@ var jsondash = function() {
         var rownum = row.find('.grid-row-label').data().row;
         row.find('.item.widget').each(function(i, widget){
             var guid = $(this).data().guid;
-            deleteChart(guid, true);
+            var widget = getWidgetByGUID(guid).model.delete(true);
         });
         // Remove AFTER removing the charts contained within
         row.remove();
@@ -149,7 +174,7 @@ var jsondash = function() {
         // Updates the fields in the edit form to the active widgets values.
         var item = $(e.relatedTarget).closest('.item.widget');
         var guid = item.data().guid;
-        var conf = getModuleByGUID(guid).model.config;
+        var conf = getWidgetByGUID(guid).model.config;
         populateRowField(conf.row);
         // Update the modal fields with this widgets' value.
         $.each(conf, function(field, val){
@@ -238,7 +263,7 @@ var jsondash = function() {
     function updateModule(e){
         // Updates the module input fields with new data by rewriting them all.
         var guid = MODULE_FORM.attr('data-guid');
-        var active = getModuleByGUID(guid).model.config;
+        var active = getWidgetByGUID(guid).model.config;
         var conf = getParsedFormConfig();
         var newconf = $.extend(active, conf);
         $('.modules').find('#' + guid).val(JSON.stringify(newconf));
@@ -315,24 +340,8 @@ var jsondash = function() {
         }
     }
 
-    function getModuleByGUID(guid) {
+    function getWidgetByGUID(guid) {
         return my.widgets[guid];
-    }
-
-    function deleteChart(guid, bypass_confirm) {
-        if(!bypass_confirm){
-            if(!confirm('Are you sure?')) {
-                return;
-            }
-        }
-        // Remove form input and visual widget
-        $('.modules').find('#' + guid).remove();
-        $('.item.widget[data-guid="' + guid + '"]').remove();
-        EDIT_MODAL.modal('hide');
-        // Redraw wall to replace visual 'hole'
-        fitGrid();
-        // Trigger update form into view since data is dirty
-        EDIT_CONTAINER.collapse('show');
     }
 
     /**
@@ -404,7 +413,7 @@ var jsondash = function() {
         DELETE_BTN.on('click.charts', function(e){
             e.preventDefault();
             var guid = MODULE_FORM.attr('data-guid');
-            deleteChart(guid, false);
+            var widget = getWidgetByGUID(guid).model.delete(false);
         });
         // Add delete confirm for dashboards.
         DELETE_DASHBOARD.on('submit.charts', function(e){
@@ -454,10 +463,7 @@ var jsondash = function() {
     }
 
     function getWidgetByEl(el) {
-        // Return module by element
-        var data = el.data();
-        var guid = data.guid;
-        return getModuleByGUID(guid);
+        return getWidgetByGUID(el.data().guid);
     }
 
     function loader(container) {
@@ -593,10 +599,6 @@ var jsondash = function() {
         });
     }
 
-    function updateModuleInput(config) {
-        $('input[id="' + config.guid + '"]').val(JSON.stringify(config));
-    }
-
     function prettyCode(code) {
         if(typeof code === "object") return JSON.stringify(code, null, 4);
         return JSON.stringify(JSON.parse(code), null, 4);
@@ -727,10 +729,10 @@ var jsondash = function() {
         populateOrderField();
         populateRowField();
         fitGrid();
-        if(emptyDashboard()) {EDIT_TOGGLE_BTN.click();}
+        if(isEmptyDashboard()) {EDIT_TOGGLE_BTN.click();}
     }
 
-    function emptyDashboard() {
+    function isEmptyDashboard() {
         return $('.item.widget').length === 0;
     }
 
