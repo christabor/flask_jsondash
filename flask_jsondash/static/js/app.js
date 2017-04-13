@@ -484,7 +484,7 @@ var jsondash = function() {
             var url = config.dataSource;
             // Ensure we don't lose params already save on this endpoint url.
             var existing_params = url.split('?')[1];
-            var params = getValidParamString($(this).serializeArray());
+            var params = jsondash.utils.getValidParamString($(this).serializeArray());
             var _config = $.extend({}, config, {
                 dataSource: url.replace(/\?.+/, '') + '?' + existing_params + '&' + params
             });
@@ -493,20 +493,6 @@ var jsondash = function() {
             // Hide the form again
             $(inputs_selector).removeClass('in');
         });
-    }
-
-    function getValidParamString(arr) {
-        // Jquery $.serialize and $.serializeArray will
-        // return empty query parameters, which is undesirable and can
-        // be error prone for RESTFUL endpoints.
-        // e.g. `foo=bar&bar=` becomes `foo=bar`
-        var param_str = '';
-        arr = arr.filter(function(param, i){return param.value !== '';});
-        $.each(arr, function(i, param){
-            param_str += (param.name + '=' + param.value);
-            if(i < arr.length - 1 && arr.length > 1) param_str += '&';
-        });
-        return param_str;
     }
 
     /**
