@@ -14,7 +14,7 @@ var jsondash = function() {
     var API_PREVIEW      = $('#api-output');
     var API_PREVIEW_BTN  = $('#api-output-preview');
     var API_PREVIEW_CONT = $('.api-preview-container');
-    var MODULE_FORM      = $('#module-form');
+    var WIDGET_FORM      = $('#module-form');
     var VIEW_BUILDER     = $('#view-builder');
     var ADD_MODULE       = $('#add-module');
     var MAIN_CONTAINER   = $('#container');
@@ -126,7 +126,7 @@ var jsondash = function() {
     }
 
     function getFormConfig() {
-        return jsondash.util.serializeToJSON(MODULE_FORM.serializeArray());
+        return jsondash.util.serializeToJSON(WIDGET_FORM.serializeArray());
     }
 
     function togglePreviewOutput(is_on) {
@@ -157,14 +157,14 @@ var jsondash = function() {
         return true;
     }
 
-    function saveModule(e){
+    function saveWidget(e){
         var config   = getFormConfig();
         var newfield = $('<input class="form-control" type="text">');
         var id       = jsondash.util.guid();
         // Add a unique guid for referencing later.
         config['guid'] = id;
         // Add family for lookups
-        config['family'] = MODULE_FORM.find('[name="type"]').find('option:selected').data().family;
+        config['family'] = WIDGET_FORM.find('[name="type"]').find('option:selected').data().family;
         if(!config.refresh || !refreshableType(config.type)) {config['refresh'] = false;}
         if(!config.override) {config['override'] = false;}
         newfield.attr('name', 'module_' + id);
@@ -183,7 +183,7 @@ var jsondash = function() {
     }
 
     function clearForm() {
-        MODULE_FORM.find('input').each(function(_, input){
+        WIDGET_FORM.find('input').each(function(_, input){
             $(input).val('');
         });
     }
@@ -222,18 +222,18 @@ var jsondash = function() {
         // Update the modal fields with this widgets' value.
         $.each(conf, function(field, val){
             if(field === 'override' || field === 'refresh') {
-                MODULE_FORM.find('[name="' + field + '"]').prop('checked', val);
+                WIDGET_FORM.find('[name="' + field + '"]').prop('checked', val);
             } else {
-                MODULE_FORM.find('[name="' + field + '"]').val(val);
+                WIDGET_FORM.find('[name="' + field + '"]').val(val);
             }
         });
         // Update with current guid for referencing the module.
-        MODULE_FORM.attr('data-guid', guid);
+        WIDGET_FORM.attr('data-guid', guid);
         populateOrderField(conf);
         // Update form for specific row if row button was caller
         // Trigger event for select dropdown to ensure any UI is consistent.
         // This is done AFTER the fields have been pre-populated.
-        MODULE_FORM.find('[name="type"]').change();
+        WIDGET_FORM.find('[name="type"]').change();
     }
 
     function populateRowField(row) {
@@ -255,10 +255,10 @@ var jsondash = function() {
         if(row) {rows_field.val(row)};
     }
 
-    function populateOrderField(module) {
+    function populateOrderField(config) {
         var widgets = $('.item.widget');
         // Add the number of items to order field.
-        var order_field = MODULE_FORM.find('[name="order"]');
+        var order_field = WIDGET_FORM.find('[name="order"]');
         var max_options = widgets.length > 0 ? widgets.length + 1 : 2;
         order_field.find('option').remove();
         // Add empty option.
@@ -268,7 +268,7 @@ var jsondash = function() {
             option.val(i).text(i);
             order_field.append(option);
         });
-        order_field.val(module && module.order ? module.order : '');
+        order_field.val(config && config.config ? config.config : '');
     }
 
     /**
@@ -277,7 +277,7 @@ var jsondash = function() {
      */
     function getParsedFormConfig() {
         var conf = {};
-        MODULE_FORM.find('.form-control').each(function(_, input){
+        WIDGET_FORM.find('.form-control').each(function(_, input){
             var name = $(input).attr('name');
             var val = $(input).val();
             if(name === 'override' ||
@@ -303,8 +303,8 @@ var jsondash = function() {
         return conf;
     }
 
-    function onUpdateModule(e){
-        var guid = MODULE_FORM.attr('data-guid');
+    function onUpdateWidget(e){
+        var guid = WIDGET_FORM.attr('data-guid');
         var widget = getWidgetByGUID(guid);
         var conf = getParsedFormConfig();
         widget.update(conf);
@@ -364,15 +364,15 @@ var jsondash = function() {
      */
     function addDomEvents() {
         // Chart type change
-        MODULE_FORM.find('[name="type"]').on('change.charts.type', chartsTypeChanged);
+        WIDGET_FORM.find('[name="type"]').on('change.charts.type', chartsTypeChanged);
         // TODO: debounce/throttle
         API_ROUTE_URL.on('change.charts', previewAPIRoute);
         API_PREVIEW_BTN.on('click.charts', previewAPIRoute);
         // Save module popup form
-        SAVE_MODULE.on('click.charts.module', saveModule);
+        SAVE_MODULE.on('click.charts.module', saveWidget);
         // Edit existing modules
         EDIT_MODAL.on('show.bs.modal', populateEditForm);
-        UPDATE_FORM_BTN.on('click.charts.module', onUpdateModule);
+        UPDATE_FORM_BTN.on('click.charts.module', onUpdateWidget);
 
         // Allow swapping of edit/update events
         // for the add module button and form modal
@@ -381,7 +381,7 @@ var jsondash = function() {
             .attr('id', SAVE_MODULE.selector.replace('#', ''))
             .text('Save module')
             .off('click.charts.module')
-            .on('click.charts', saveModule);
+            .on('click.charts', saveWidget);
         });
 
         // Allow swapping of edit/update events
@@ -391,7 +391,7 @@ var jsondash = function() {
             .attr('id', SAVE_MODULE.selector.replace('#', ''))
             .text('Save module')
             .off('click.charts.module')
-            .on('click.charts', saveModule);
+            .on('click.charts', saveWidget);
         });
 
         // Allow swapping of edit/update events
@@ -401,12 +401,12 @@ var jsondash = function() {
             .attr('id', UPDATE_FORM_BTN.selector.replace('#', ''))
             .text('Update module')
             .off('click.charts.module')
-            .on('click.charts', onUpdateModule);
+            .on('click.charts', onUpdateWidget);
         });
         // Add delete button for existing widgets.
         DELETE_BTN.on('click.charts', function(e){
             e.preventDefault();
-            var guid = MODULE_FORM.attr('data-guid');
+            var guid = WIDGET_FORM.attr('data-guid');
             var widget = getWidgetByGUID(guid).delete(false);
         });
         // Add delete confirm for dashboards.
