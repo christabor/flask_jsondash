@@ -27,6 +27,8 @@ var jsondash = function() {
     var ADD_ROW_CONTS    = $('.add-new-row-container');
     var EDIT_TOGGLE_BTN  = $('[href=".edit-mode-component"]');
     var UPDATE_FORM_BTN  = $('#update-module');
+    var CHART_TEMPLATE   = $('#chart-template');
+    var ROW_TEMPLATE     = $('#row-template').find('.grid-row');
 
     function addWidget(container, config) {
         if(document.querySelector('[data-guid="' + config.guid + '"]')) return d3.select('[data-guid="' + config.guid + '"]');
@@ -38,7 +40,7 @@ var jsondash = function() {
             .attr('data-refresh-interval', config.refreshInterval)
             .style('width', config.width + 'px')
             .style('height', config.height + 'px')
-            .html(d3.select('#chart-template').html())
+            .html(d3.select(CHART_TEMPLATE.selector).html())
             .select('.widget-title .widget-title-text').text(config.name);
     }
 
@@ -590,13 +592,7 @@ var jsondash = function() {
         // which row it is for user editing.
         if(e) {e.preventDefault();}
         var placement = $(this).closest('.row').data().rowPlacement;
-        var el = $('<div></div>');
-        var label = $('<a href="#chart-options" data-toggle="modal" class="grid-row-label btn-success btn btn-xs"></a>');
-        var rows = $('.grid-row').length + 1;
-        label.text('Add widgets to row ' + rows);
-        label.attr('data-row', rows);
-        el.append(label);
-        el.addClass('row grid-row').css('min-height', '100px');
+        var el = ROW_TEMPLATE.clone(true);
         if(placement === 'top') {
             VIEW_BUILDER.find('.add-new-row-container:first').after(el);
         } else {

@@ -1,10 +1,12 @@
 {% extends "layouts/charts_base.html" %}
 
 {%- macro chart_row(rownum, modules=None) %}
-    <div class="row grid-row">
-        <a href="#chart-options" class="grid-row-label btn btn-success btn-xs" data-toggle="modal" data-row="{{ rownum }}">
-            Add widgets to row {{ rownum }}
-        </a>
+    <div class="row grid-row {{ 'grid-row-template' if not modules else '' }}">
+        <p>
+            <a href="#chart-options" class="grid-row-label btn btn-success btn-xs" data-toggle="modal" data-row="{{ rownum }}">
+                Add widgets to row <span class="rownum">{{ rownum }}</span>
+            </a>
+        </p>
         {% if modules %}
             {% for module in modules %}
                 {{ chart(module=module) }}
