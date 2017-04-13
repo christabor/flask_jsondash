@@ -95,26 +95,26 @@ var jsondash = function() {
             /**
              * Single source to update all aspects of a widget - in DOM, in model, etc...
              */
-            // Updates the module input fields with new data by rewriting them all.
-            var newconf = $.extend(self.config, conf);
+            var widget = self.el;
+            // Update model data
+            self.config = $.extend(self.config, conf);
             // Trigger update form into view since data is dirty
             // Update visual size to existing widget.
-            var widget = self.el;
             loader(widget);
             widget.style({
-                height: config.height + 'px',
-                width: my.layout === 'grid' ? '100%' : config.width + 'px'
+                height: self.config.height + 'px',
+                width: my.layout === 'grid' ? '100%' : self.config.width + 'px'
             });
             if(my.layout === 'grid') {
                 // Extract col number from config: format is "col-N"
-                var colcount = config.width.split('-')[1];
+                var colcount = self.config.width.split('-')[1];
                 var parent = d3.select(widget.node().parentNode);
                 // Reset all other grid classes and then add new one.
                 self.removeGridClasses(parent);
                 self.addGridClasses(parent, [colcount]);
             }
-            widget.select('.widget-title .widget-title-text').text(config.name);
-            loadWidgetData(self, config);
+            widget.select('.widget-title .widget-title-text').text(self.config.name);
+            loadWidgetData(self, self.config);
 
             EDIT_CONTAINER.collapse();
             // Refit the grid
@@ -452,7 +452,7 @@ var jsondash = function() {
         // Update module order
         $.each(items, function(i, el){
             var widget = getWidgetByEl($(this));
-            widget.update($.extend(widget.conf, {order: i}));
+            widget.update({order: i});
         });
     }
 
@@ -569,8 +569,7 @@ var jsondash = function() {
                     newconf['width'] = ui.size.width;
                 }
                 // Update the configs dimensions.
-                config = $.extend(widg.config, newconf);
-                widg.update(config);
+                widg.update(newconf);
                 loadWidgetData(widg);
                 fitGrid();
                 // Open save panel
@@ -650,6 +649,7 @@ var jsondash = function() {
         $('.grid-row').each(function(i, row){
             $(row).find('.item.widget').each(function(j, item){
                 var widget = getWidgetByEl($(item));
+
                 widget.config.row = i + 1;
             });
         });
