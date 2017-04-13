@@ -459,8 +459,17 @@ var jsondash = function() {
                 drop: function(event, ui) {
                     // update the widgets location
                     var idx = $(this).index();
-                    var widget = getWidgetByEl($(ui.draggable));
+                    var el = $(ui.draggable);
+                    var widget = getWidgetByEl(el);
                     widget.update({row: idx}, false);
+                    // Actually move the dom element, and reset
+                    // the dragging css so it snaps into the row container
+                    el.parent().appendTo($(this));
+                    el.css({
+                        position: 'relative',
+                        top: 0,
+                        left: 0
+                    });
                 }
             });
             $('.item.widget').draggable($.extend(grid_drag_opts, drag_opts));
@@ -593,7 +602,7 @@ var jsondash = function() {
             minWidth: MIN_CHART_SIZE,
             minHeight: MIN_CHART_SIZE,
             maxWidth: VIEW_BUILDER.width(),
-            handles: my.layout === 'grid' ? 'n, s' : 'e, s, se',
+            handles: my.layout === 'grid' ? 's' : 'e, s, se',
             stop: function(event, ui) {
                 var newconf = {height: ui.size.height};
                 if(my.layout !== 'grid') {
