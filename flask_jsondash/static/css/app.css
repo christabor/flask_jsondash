@@ -212,17 +212,20 @@ body {
     position: relative;
     margin-bottom: 10px;
 }
-.dashboard-charts .grid-row .grid-row-label {
+.dashboard-charts .grid-row .grid-row-label-wrapper {
     display: none;
 }
-.jsondash-editing .grid-row {
+.jsondash-editing .dashboard-charts .grid-row {
     background-color: #fff;
-    margin: 1em;
+    min-height: 300px;
 }
-.jsondash-editing .grid-row .grid-row-label {
-    display: inline-block;
-    clear:both;
+.jsondash-editing .dashboard-charts .grid-row .grid-row-label {
     margin: 0 auto;
+}
+.jsondash-editing .dashboard-charts .grid-row-label-wrapper {
+    display: block;
+    text-align: center;
+    padding: 1em 1em 0 1em;
 }
 
 /**

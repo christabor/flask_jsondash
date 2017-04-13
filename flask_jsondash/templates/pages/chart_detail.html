@@ -2,9 +2,9 @@
 
 {%- macro chart_row(rownum, modules=None) %}
     <div class="row grid-row {{ 'grid-row-template' if not modules else '' }}">
-        <p>
+        <p class="grid-row-label-wrapper">
             <a href="#chart-options" class="grid-row-label btn btn-success btn-xs" data-toggle="modal" data-row="{{ rownum }}">
-                Add widgets to row <span class="rownum">{{ rownum }}</span>
+                <span class="fa fa-plus"></span> Add a widget to row <span class="rownum">{{ rownum }}</span>
             </a>
         </p>
         {% if modules %}
