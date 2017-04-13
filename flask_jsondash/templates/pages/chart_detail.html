@@ -6,6 +6,7 @@
             <a href="#chart-options" class="grid-row-label btn btn-success btn-xs" data-toggle="modal" data-row="{{ rownum }}">
                 <span class="fa fa-plus"></span> Add a widget to row <span class="rownum">{{ rownum }}</span>
             </a>
+            <a href="#" class="btn btn-xs btn-danger delete-row"><span class="fa fa-times-circle"></span> Delete row</a>
         </p>
         {% if modules %}
             {% for module in modules %}

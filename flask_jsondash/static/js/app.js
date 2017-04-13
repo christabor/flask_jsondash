@@ -107,6 +107,16 @@ var jsondash = function() {
         });
     }
 
+    function deleteRow(row) {
+        var rownum = row.find('.grid-row-label').data().row;
+        row.find('.item.widget').each(function(i, widget){
+            var guid = $(this).data().guid;
+            deleteChart(guid, true);
+        });
+        // Remove AFTER removing the charts contained within
+        row.remove();
+    }
+
     function updateEditForm(e) {
         // If the modal caller was the add modal button, skip populating the field.
         API_PREVIEW.text('...');
@@ -294,10 +304,12 @@ var jsondash = function() {
         return my.widgets[guid].config;
     }
 
-    function deleteModule(e) {
-        e.preventDefault();
-        if(!confirm('Are you sure?')) {return;}
-        var guid = MODULE_FORM.attr('data-guid');
+    function deleteChart(guid, bypass_confirm) {
+        if(!bypass_confirm){
+            if(!confirm('Are you sure?')) {
+                return;
+            }
+        }
         // Remove form input and visual widget
         $('.modules').find('#' + guid).remove();
         $('.item.widget[data-guid="' + guid + '"]').remove();
@@ -374,7 +386,11 @@ var jsondash = function() {
             .on('click.charts', updateModule);
         });
         // Add delete button for existing widgets.
-        DELETE_BTN.on('click.charts', deleteModule);
+        DELETE_BTN.on('click.charts', function(e){
+            e.preventDefault();
+            var guid = MODULE_FORM.attr('data-guid');
+            deleteChart(guid, false);
+        });
         // Add delete confirm for dashboards.
         DELETE_DASHBOARD.on('submit.charts', function(e){
             if(!confirm('Are you sure?')) e.preventDefault();
@@ -671,6 +687,17 @@ var jsondash = function() {
 
         EDIT_TOGGLE_BTN.on('click', function(e){
             $('body').toggleClass('jsondash-editing');
+        });
+
+        $('.delete-row').on('click', function(e){
+            e.preventDefault();
+            var row = $(this).closest('.grid-row');
+            if(row.find('.item.widget').length > 0) {
+                if(!confirm('Are you sure?')) {
+                    return;
+                }
+            }
+            deleteRow(row);
         });
 
         prettifyJSONPreview();
