@@ -152,7 +152,7 @@
         <div class="layout" data-layout="{{ view.layout or 'freeform' }}" id="view-builder">
             <div id="container">
                 {% if view.layout == 'grid' %}
-                    <div class="row {{ 'collapse' if modules else '' }} edit-mode-component add-new-row-container" data-row-placement="top">
+                    <div class="row collapse edit-mode-component add-new-row-container" data-row-placement="top">
                         <br>
                         <div class="col-md-12">
                             <a href="#" class="btn btn-default btn-block lead well text-center">
@@ -163,16 +163,14 @@
                     {% for row in modules %}
                         {{ chart_row(loop.index, modules=row) }}
                     {% endfor %}
-                    {% if modules %}
-                        <div class="row collapse edit-mode-component add-new-row-container" data-row-placement="bottom">
-                            <br>
-                            <div class="col-md-12">
-                                <a href="#" class="btn btn-default btn-block lead well text-center">
-                                    <span class="fa fa-plus"></span> Add new row
-                                </a>
-                            </div>
+                    <div class="row collapse edit-mode-component add-new-row-container" data-row-placement="bottom">
+                        <br>
+                        <div class="col-md-12">
+                            <a href="#" class="btn btn-default btn-block lead well text-center">
+                                <span class="fa fa-plus"></span> Add new row
+                            </a>
                         </div>
-                    {% endif %}
+                    </div>
                 {% else %}
                     {% for module in modules %}
                         {{ chart(module=module) }}

@@ -31,6 +31,21 @@ var jsondash = function() {
     var CHART_TEMPLATE   = $('#chart-template');
     var ROW_TEMPLATE     = $('#row-template').find('.grid-row');
 
+    function widget(container, config) {
+        // model for a chart widget
+        var self = this;
+        self.config = config;
+        self.guid = self.config.guid;
+        self.delete = function() {
+            console.log('Deleting', self.guid);
+        };
+        self.update = function() {
+            console.log('Updating', self.guid);
+        };
+        self.container = container;
+        self.el = addWidget(container, config);
+    }
+
     function addWidget(container, config) {
         if(document.querySelector('[data-guid="' + config.guid + '"]')) return d3.select('[data-guid="' + config.guid + '"]');
         return d3.select(container).select('div')
@@ -239,7 +254,7 @@ var jsondash = function() {
     function updateWidget(config) {
         // Trigger update form into view since data is dirty
         // Update visual size to existing widget.
-        var widget = my.widgets[config.guid].el;
+        var widget = my.widgets[config.guid].model.el;
         loader(widget);
         widget.style({
             height: config.height + 'px',
@@ -291,14 +306,17 @@ var jsondash = function() {
                 var config = data.modules[name];
                 // Add div wrappers for js grid layout library,
                 // and add title, icons, and buttons
-                var widget = addWidget(container, config);
-                my.widgets[config.guid] = {el: widget, config: config};
+                // This is the widget "model"/object used throughout.
+                my.widgets[config.guid] = {
+                    model: new widget(container, config),
+                    config: config
+                };
             })(data.modules[name]);
         }
         fitGrid();
         for(var guid in my.widgets){
             var widg = my.widgets[guid];
-            loadWidgetData(widg.el, widg.config);
+            loadWidgetData(widg.model.el, widg.config);
         }
     }
 
