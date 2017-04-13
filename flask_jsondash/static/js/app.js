@@ -150,7 +150,6 @@ var jsondash = function() {
         if(num_rows === 0){
             addNewRow();
         }
-        console.log('numrows', num_rows);
         rows_field.find('option').remove();
         // Add new option fields - d3 range is exclusive so we add one
         d3.map(d3.range(1, num_rows + 1), function(i){
