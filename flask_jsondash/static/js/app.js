@@ -607,8 +607,11 @@ var jsondash = function() {
     function addNewRow(e) {
         // Add a new row with a toggleable label that indicates
         // which row it is for user editing.
-        if(e) {e.preventDefault();}
-        var placement = $(this).closest('.row').data().rowPlacement;
+        var placement = 'top';
+        if(e) {
+            e.preventDefault();
+            placement = $(this).closest('.row').data().rowPlacement;
+        }
         var el = ROW_TEMPLATE.clone(true);
         el.removeClass('grid-row-template');
         if(placement === 'top') {
@@ -620,12 +623,17 @@ var jsondash = function() {
         updateRowOrder();
     }
 
+    function updateChartsRowOrder() {
+        // Update the row order for each chart.
+    }
+
     function updateRowOrder() {
         $('.grid-row').not('.grid-row-template').each(function(i, row){
             var idx = $(row).index();
             $(row).find('.grid-row-label').attr('data-row', idx);
             $(row).find('.rownum').text(idx);
         });
+        updateChartsRowOrder();
     }
 
     function loadDashboard(data) {
