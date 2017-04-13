@@ -290,12 +290,8 @@ def sort_modules(viewjson):
     if viewjson.get('layout', 'freeform') == 'freeform':
         return items
     # Sort them by and group them by rows if layout is fixed grid
-    rowkeys = dict()
     # Create a temporary dict to hold the number of rows
-    for module in items:
-        rownum = int(module['row']) - 1
-        rowkeys[rownum] = []
-    modules = rowkeys.values()
+    modules = {int(item['row']) - 1: [] for item in items}.values()
     for module in items:
         modules[int(module['row']) - 1].append(module)
     return modules
