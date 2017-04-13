@@ -644,6 +644,15 @@ var jsondash = function() {
 
     function updateChartsRowOrder() {
         // Update the row order for each chart.
+        // This is necessary for cases like adding a new row,
+        // where the order is updated (before or after) the current row.
+        // NOTE: This function assumes the row order has been recalculated in advance!
+        $('.grid-row').each(function(i, row){
+            $(row).find('.item.widget').each(function(j, item){
+                var widget = getWidgetByEl($(item));
+                widget.config.row = i + 1;
+            });
+        });
     }
 
     function updateRowOrder() {
