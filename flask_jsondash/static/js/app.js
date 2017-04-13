@@ -91,7 +91,7 @@ var jsondash = function() {
                 sel.classed(classes);
             });
         };
-        self.update = function(conf) {
+        self.update = function(conf, dont_refresh) {
             /**
              * Single source to update all aspects of a widget - in DOM, in model, etc...
              */
@@ -114,13 +114,17 @@ var jsondash = function() {
                 self.addGridClasses(parent, [colcount]);
             }
             widget.select('.widget-title .widget-title-text').text(self.config.name);
-            loadWidgetData(self, self.config);
-
-            EDIT_CONTAINER.collapse();
-            // Refit the grid
-            fitGrid();
-
             // Update the form input for this widget.
+            self._updateForm();
+
+            if(!dont_refresh) {
+                loadWidgetData(self, self.config);
+                EDIT_CONTAINER.collapse();
+                // Refit the grid
+                fitGrid();
+            }
+        };
+        self._updateForm = function() {
             self.getInput().val(JSON.stringify(self.config));
         };
     }
@@ -170,6 +174,8 @@ var jsondash = function() {
         newfield.attr('name', 'module_' + id);
         newfield.val(JSON.stringify(config));
         $('.modules').append(newfield);
+        // We also need to update the order of all other charts in case.
+        updateChartsRowOrder();
         // Save immediately.
         MAIN_FORM.submit();
     }
@@ -649,8 +655,7 @@ var jsondash = function() {
         $('.grid-row').each(function(i, row){
             $(row).find('.item.widget').each(function(j, item){
                 var widget = getWidgetByEl($(item));
-
-                widget.config.row = i + 1;
+                widget.update({row: i + 1});
             });
         });
     }
