@@ -116,6 +116,8 @@ var jsondash = function() {
             if(isRowButton(e)) {
                 var row = $(e.relatedTarget).data().row;
                 populateRowField(row);
+            } else {
+                populateRowField();
             }
             return;
         }
@@ -125,7 +127,7 @@ var jsondash = function() {
         var guid = item.data().guid;
         var module = getModule(item);
         populateRowField(module.row);
-        // Update the modal window fields with this one's value.
+        // Update the modal fields with this widgets' value.
         $.each(module, function(field, val){
             if(field === 'override' || field === 'refresh') {
                 MODULE_FORM.find('[name="' + field + '"]').prop('checked', val);
@@ -232,8 +234,10 @@ var jsondash = function() {
             width: my.layout === 'grid' ? '100%' : config.width + 'px'
         });
         if(my.layout === 'grid') {
+            // Extract col number from config: format is "col-N"
             var colcount = config.width.split('-')[1];
             var parent = d3.select(widget.node().parentNode);
+            // Reset all other grid classes and then add new one.
             removeGridClasses(parent);
             addGridClasses(parent, [colcount]);
         }
@@ -304,6 +308,11 @@ var jsondash = function() {
         EDIT_CONTAINER.collapse('show');
     }
 
+    /**
+     * [isPreviewableType Determine if a chart type can be previewed in the 'preview api' section of the modal]
+     * @param  {[type]}  string [The chart type]
+     * @return {Boolean}      [Whether or not it's previewable]
+     */
     function isPreviewableType(type) {
         if(type === 'iframe') {return false;}
         if(type === 'youtube') {return false;}
@@ -311,12 +320,18 @@ var jsondash = function() {
         return true;
     }
 
+    /**
+     * [chartsTypeChanged Event handler for onChange event for chart type field]
+     */
     function chartsTypeChanged(e) {
         var active_conf = getFormConfig();
         var previewable = isPreviewableType(active_conf.type);
         togglePreviewOutput(previewable);
     }
 
+    /**
+     * [addDomEvents Add all dom event handlers here]
+     */
     function addDomEvents() {
         // Chart type change
         MODULE_FORM.find('[name="type"]').on('change.charts.type', chartsTypeChanged);
@@ -595,11 +610,22 @@ var jsondash = function() {
         if(e) {e.preventDefault();}
         var placement = $(this).closest('.row').data().rowPlacement;
         var el = ROW_TEMPLATE.clone(true);
+        el.removeClass('grid-row-template');
         if(placement === 'top') {
             VIEW_BUILDER.find('.add-new-row-container:first').after(el);
         } else {
             VIEW_BUILDER.find('.add-new-row-container:last').before(el);
         }
+        // Update the row ordering text
+        updateRowOrder();
+    }
+
+    function updateRowOrder() {
+        $('.grid-row').not('.grid-row-template').each(function(i, row){
+            var idx = $(row).index();
+            $(row).find('.grid-row-label').attr('data-row', idx);
+            $(row).find('.rownum').text(idx);
+        });
     }
 
     function loadDashboard(data) {
