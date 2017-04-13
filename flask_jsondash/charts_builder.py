@@ -262,8 +262,7 @@ def get_num_rows(viewconf):
     layout = viewconf.get('layout', 'freeform')
     if layout == 'freeform':
         return None
-    return 1
-    # return [m['row'] for m in viewconf.get('modules')]
+    return len([m['row'] for m in viewconf.get('modules')])
 
 
 def order_sort(item):
@@ -291,7 +290,12 @@ def sort_modules(viewjson):
     if viewjson.get('layout', 'freeform') == 'freeform':
         return items
     # Sort them by and group them by rows if layout is fixed grid
-    modules = [[] for _ in range(len(items))]
+    rowkeys = dict()
+    # Create a temporary dict to hold the number of rows
+    for module in items:
+        rownum = int(module['row']) - 1
+        rowkeys[rownum] = []
+    modules = rowkeys.values()
     for module in items:
         modules[int(module['row']) - 1].append(module)
     return modules

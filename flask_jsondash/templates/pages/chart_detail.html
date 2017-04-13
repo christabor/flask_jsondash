@@ -1,5 +1,18 @@
 {% extends "layouts/charts_base.html" %}
 
+{%- macro chart_row(rownum, modules=None) %}
+    <div class="row grid-row">
+        <a href="#chart-options" class="grid-row-label btn btn-success btn-xs" data-toggle="modal" data-row="{{ rownum }}">
+            Add widgets to row {{ rownum }}
+        </a>
+        {% if modules %}
+            {% for module in modules %}
+                {{ chart(module=module) }}
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endmacro -%}
+
 {%- macro chart(module=None) %}
     {% if module %}
         {% set dims = module|get_dims %}
@@ -145,21 +158,10 @@
                         </div>
                     </div>
                 {% endif %}
-
                 {% if view.layout == 'grid' %}
-
                     {% for row in modules %}
-                        <div class="row grid-row">
-                            <a href="#chart-options" class="grid-row-label btn btn-success btn-xs" data-toggle="modal" data-row="{{ loop.index }}">
-                                Add widgets to row {{ loop.index }}
-                            </a>
-
-                            {% for module in row %}
-                                {{ chart(module=module) }}
-                            {% endfor %}
-                        </div>
+                        {{ chart_row(loop.index, modules=row) }}
                     {% endfor %}
-
                     <div class="row collapse edit-mode-component add-new-row-container" data-row-placement="bottom">
                         <br>
                         <div class="col-md-12">
@@ -168,19 +170,16 @@
                             </a>
                         </div>
                     </div>
-
                 {% else %}
-
                     {% for module in modules %}
                         {{ chart(module=module) }}
                     {% endfor %}
-
                 {% endif %}
-
             </div>
         </div>
         {# Used as a template to clone from in js #}
         <div class="hidden" id="chart-template">{{ chart() }}</div>
+        <div class="hidden" id="row-template">{{ chart_row(0) }}</div>
     </div>
 </div>
 {% include "partials/dashboard-edit-modal.html" %}
