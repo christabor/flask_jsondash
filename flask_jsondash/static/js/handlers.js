@@ -5,6 +5,7 @@
 /** global: Plotly */
 
 jsondash.getJSON = function(url, callback) {
+    if(!url) throw new Error('Invalid URL: ' + url);
     return d3.json(url, callback);
 };
 
