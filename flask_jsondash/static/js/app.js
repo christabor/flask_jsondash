@@ -74,8 +74,34 @@ var jsondash = function() {
             // Trigger update form into view since data is dirty
             EDIT_CONTAINER.collapse('show');
         };
-        self.update = function() {
-            // Single source to update all aspects of a widget - in DOM, in model, etc...
+        self.update = function(conf) {
+            /**
+             * Single source to update all aspects of a widget - in DOM, in model, etc...
+             */
+            // Updates the module input fields with new data by rewriting them all.
+            var newconf = $.extend(self.config, conf);
+            // Trigger update form into view since data is dirty
+            // Update visual size to existing widget.
+            var widget = self.el;
+            loader(widget);
+            widget.style({
+                height: config.height + 'px',
+                width: my.layout === 'grid' ? '100%' : config.width + 'px'
+            });
+            if(my.layout === 'grid') {
+                // Extract col number from config: format is "col-N"
+                var colcount = config.width.split('-')[1];
+                var parent = d3.select(widget.node().parentNode);
+                // Reset all other grid classes and then add new one.
+                removeGridClasses(parent);
+                addGridClasses(parent, [colcount]);
+            }
+            widget.select('.widget-title .widget-title-text').text(config.name);
+            loadWidgetData(self, config);
+
+            EDIT_CONTAINER.collapse();
+            // Refit the grid
+            fitGrid();
 
             // Update the form input for this widget.
             self.getInput().val(JSON.stringify(self.config));
@@ -149,14 +175,14 @@ var jsondash = function() {
         var rownum = row.find('.grid-row-label').data().row;
         row.find('.item.widget').each(function(i, widget){
             var guid = $(this).data().guid;
-            var widget = getWidgetByGUID(guid).model.delete(true);
+            var widget = getWidgetByGUID(guid).delete(true);
         });
         // Remove AFTER removing the charts contained within
         row.remove();
         updateRowOrder();
     }
 
-    function updateEditForm(e) {
+    function populateEditForm(e) {
         // If the modal caller was the add modal button, skip populating the field.
         API_PREVIEW.text('...');
         if(isModalButton(e) || isRowButton(e)) {
@@ -174,7 +200,7 @@ var jsondash = function() {
         // Updates the fields in the edit form to the active widgets values.
         var item = $(e.relatedTarget).closest('.item.widget');
         var guid = item.data().guid;
-        var conf = getWidgetByGUID(guid).model.config;
+        var conf = getWidgetByGUID(guid).config;
         populateRowField(conf.row);
         // Update the modal fields with this widgets' value.
         $.each(conf, function(field, val){
@@ -260,38 +286,11 @@ var jsondash = function() {
         return conf;
     }
 
-    function updateModule(e){
-        // Updates the module input fields with new data by rewriting them all.
+    function onUpdateModule(e){
         var guid = MODULE_FORM.attr('data-guid');
-        var active = getWidgetByGUID(guid).model.config;
+        var widget = getWidgetByGUID(guid);
         var conf = getParsedFormConfig();
-        var newconf = $.extend(active, conf);
-        $('.modules').find('#' + guid).val(JSON.stringify(newconf));
-        updateWidget(newconf);
-        EDIT_CONTAINER.collapse();
-        // Refit the grid
-        fitGrid();
-    }
-
-    function updateWidget(config) {
-        // Trigger update form into view since data is dirty
-        // Update visual size to existing widget.
-        var widget = my.widgets[config.guid].model.el;
-        loader(widget);
-        widget.style({
-            height: config.height + 'px',
-            width: my.layout === 'grid' ? '100%' : config.width + 'px'
-        });
-        if(my.layout === 'grid') {
-            // Extract col number from config: format is "col-N"
-            var colcount = config.width.split('-')[1];
-            var parent = d3.select(widget.node().parentNode);
-            // Reset all other grid classes and then add new one.
-            removeGridClasses(parent);
-            addGridClasses(parent, [colcount]);
-        }
-        widget.select('.widget-title .widget-title-text').text(config.name);
-        loadWidgetData(widget, config);
+        widget.update(conf);
     }
 
     function addGridClasses(sel, classes) {
@@ -327,10 +326,7 @@ var jsondash = function() {
                 // Add div wrappers for js grid layout library,
                 // and add title, icons, and buttons
                 // This is the widget "model"/object used throughout.
-                my.widgets[config.guid] = {
-                    guid: config.guid,
-                    model: new widget(container, config)
-                };
+                my.widgets[config.guid] = new widget(container, config);
             })(data.modules[name]);
         }
         fitGrid();
@@ -377,8 +373,8 @@ var jsondash = function() {
         // Save module popup form
         SAVE_MODULE.on('click.charts.module', saveModule);
         // Edit existing modules
-        EDIT_MODAL.on('show.bs.modal', updateEditForm);
-        UPDATE_FORM_BTN.on('click.charts.module', updateModule);
+        EDIT_MODAL.on('show.bs.modal', populateEditForm);
+        UPDATE_FORM_BTN.on('click.charts.module', onUpdateModule);
 
         // Allow swapping of edit/update events
         // for the add module button and form modal
@@ -407,13 +403,13 @@ var jsondash = function() {
             .attr('id', UPDATE_FORM_BTN.selector.replace('#', ''))
             .text('Update module')
             .off('click.charts.module')
-            .on('click.charts', updateModule);
+            .on('click.charts', onUpdateModule);
         });
         // Add delete button for existing widgets.
         DELETE_BTN.on('click.charts', function(e){
             e.preventDefault();
             var guid = MODULE_FORM.attr('data-guid');
-            var widget = getWidgetByGUID(guid).model.delete(false);
+            var widget = getWidgetByGUID(guid).delete(false);
         });
         // Add delete confirm for dashboards.
         DELETE_DASHBOARD.on('submit.charts', function(e){
@@ -520,15 +516,15 @@ var jsondash = function() {
      * @param  {[object]} config [The chart config]
      */
     function loadWidgetData(widg) {
-        var widget = widg.model.el;
-        var config = widg.model.config;
+        var widget = widg.el;
+        var config = widg.config;
 
         loader(widget);
         try {
             // Handle any custom inputs the user specified for this module.
             // They map to standard form inputs and correspond to query
             // arguments for this dataSource.
-            if(config.inputs) {handleInputs(widget, config);}
+            if(config.inputs) {handleInputs(widg, config);}
 
             if(config.type === 'datatable') {
                 jsondash.handlers.handleDataTable(widget, config);
