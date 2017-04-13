@@ -139,7 +139,7 @@
                 {% if not view.modules|length %}
                     <div class="alert alert-warning text-center">
                         <p>
-                            It looks like this dashboard has no modules - add some below.
+                            It looks like this dashboard has no modules - add some!
                         </p>
                     </div>
                 {% endif %}
@@ -152,7 +152,7 @@
         <div class="layout" data-layout="{{ view.layout or 'freeform' }}" id="view-builder">
             <div id="container">
                 {% if view.layout == 'grid' %}
-                    <div class="row collapse edit-mode-component add-new-row-container" data-row-placement="top">
+                    <div class="row {{ 'collapse' if modules else '' }} edit-mode-component add-new-row-container" data-row-placement="top">
                         <br>
                         <div class="col-md-12">
                             <a href="#" class="btn btn-default btn-block lead well text-center">
@@ -160,19 +160,19 @@
                             </a>
                         </div>
                     </div>
-                {% endif %}
-                {% if view.layout == 'grid' %}
                     {% for row in modules %}
                         {{ chart_row(loop.index, modules=row) }}
                     {% endfor %}
-                    <div class="row collapse edit-mode-component add-new-row-container" data-row-placement="bottom">
-                        <br>
-                        <div class="col-md-12">
-                            <a href="#" class="btn btn-default btn-block lead well text-center">
-                                <span class="fa fa-plus"></span> Add new row
-                            </a>
+                    {% if modules %}
+                        <div class="row collapse edit-mode-component add-new-row-container" data-row-placement="bottom">
+                            <br>
+                            <div class="col-md-12">
+                                <a href="#" class="btn btn-default btn-block lead well text-center">
+                                    <span class="fa fa-plus"></span> Add new row
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 {% else %}
                     {% for module in modules %}
                         {{ chart(module=module) }}

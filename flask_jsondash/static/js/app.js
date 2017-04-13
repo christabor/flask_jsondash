@@ -115,6 +115,7 @@ var jsondash = function() {
         });
         // Remove AFTER removing the charts contained within
         row.remove();
+        updateRowOrder();
     }
 
     function updateEditForm(e) {
@@ -705,7 +706,13 @@ var jsondash = function() {
         populateOrderField();
         populateRowField();
         fitGrid();
+        if(emptyDashboard()) {EDIT_TOGGLE_BTN.click();}
     }
+
+    function emptyDashboard() {
+        return $('.item.widget').length === 0;
+    }
+
     my.config = {
         WIDGET_MARGIN_X: 20,
         WIDGET_MARGIN_Y: 60
