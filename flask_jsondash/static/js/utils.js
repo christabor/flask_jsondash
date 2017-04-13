@@ -4,7 +4,7 @@
 
 jsondash = jsondash || {util: {}};
 
-jsondash.utils.getValidParamString = function(arr) {
+jsondash.util.getValidParamString = function(arr) {
     // Jquery $.serialize and $.serializeArray will
     // return empty query parameters, which is undesirable and can
     // be error prone for RESTFUL endpoints.
@@ -16,7 +16,8 @@ jsondash.utils.getValidParamString = function(arr) {
         if(i < arr.length - 1 && arr.length > 1) param_str += '&';
     });
     return param_str;
-}
+};
+
 jsondash.util.serializeToJSON = function(arr) {
     // Convert form data to a proper json value
     var json = {};

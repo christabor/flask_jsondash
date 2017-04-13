@@ -484,7 +484,7 @@ var jsondash = function() {
             var url = config.dataSource;
             // Ensure we don't lose params already save on this endpoint url.
             var existing_params = url.split('?')[1];
-            var params = jsondash.utils.getValidParamString($(this).serializeArray());
+            var params = jsondash.util.getValidParamString($(this).serializeArray());
             var _config = $.extend({}, config, {
                 dataSource: url.replace(/\?.+/, '') + '?' + existing_params + '&' + params
             });
