@@ -246,9 +246,12 @@ var jsondash = function() {
         if(!(validateWidgetForm())) {
             return false;
         }
+        var new_config = newModel();
         // Remove empty rows and then update the order so it's consecutive.
         $('.grid-row').each(function(i, row){
-            if($(row).find('.item.widget').length === 0) {
+            // Delete empty rows - except any empty rows that have been created
+            // for the purpose of this new chart.
+            if($(row).find('.item.widget').length === 0 && new_config.row !== i + 1) {
                 $(row).remove();
             }
         });
@@ -256,7 +259,6 @@ var jsondash = function() {
         updateRowOrder();
         var newfield = $('<input class="form-control" type="text">');
         // Add a unique guid for referencing later.
-        var new_config = newModel();
         newfield.attr('name', 'module_' + new_config.id);
         newfield.val(JSON.stringify(new_config));
         $('.modules').append(newfield);
