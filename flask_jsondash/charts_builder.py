@@ -156,7 +156,12 @@ def get_dims(_, config):
     """Extract the dimensions from config data. This allows
     for overrides for edge-cases to live in one place.
     """
-    if not all(['width' in config, 'height' in config]):
+    if not all([
+        'width' in config,
+        'height' in config,
+        'dataSource' in config,
+        config.get('dataSource') != '',
+    ]):
         raise ValueError('Invalid config!')
     if config.get('type') == 'youtube':
         # We get the dimensions for the widget from YouTube instead,
@@ -492,6 +497,7 @@ def clone(c_id):
         modules=viewjson['modules'],
         date=str(dt.now()),
         id=str(uuid.uuid1()),
+        layout=viewjson['layout'],
     )
     data.update(**metadata())
     # Add to DB
