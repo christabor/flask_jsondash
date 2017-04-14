@@ -29,24 +29,6 @@ var jsondash = function() {
     var UPDATE_FORM_BTN  = $('#update-module');
     var CHART_TEMPLATE   = $('#chart-template');
     var ROW_TEMPLATE     = $('#row-template').find('.grid-row');
-    var DRAG_OPTIONS     = {
-        scroll: true,
-        handle: '.dragger',
-        start: function() {
-            $('.grid-row').addClass('drag-target');
-        },
-        stop: function(){
-            $('.grid-row').removeClass('drag-target');
-            EDIT_CONTAINER.collapse('show');
-            if(my.layout === 'grid') {
-                // Update row order.
-                updateChartsRowOrder();
-            } else {
-                my.chart_wall.packery(options);
-                updateChartsOrder();
-            }
-        }
-    };
 
     function Widgets() {
         var self = this;
@@ -559,7 +541,7 @@ var jsondash = function() {
         $('.item.widget').removeClass('hidden');
     }
 
-    function initFixedDragDrop() {
+    function initFixedDragDrop(options) {
         var grid_drag_opts = {
             connectToSortable: '.grid-row'
         };
@@ -580,19 +562,37 @@ var jsondash = function() {
                 });
             }
         });
-        $('.item.widget').draggable($.extend(grid_drag_opts, DRAG_OPTIONS));
+        $('.item.widget').draggable($.extend(grid_drag_opts, options));
     }
 
     function fitGrid(opts, init) {
-        if(my.layout === 'grid' && $('.grid-row').length > 1) {
-            initFixedDragDrop();
-            return;
-        }
         var valid_options = $.isPlainObject(opts);
         var options = $.extend({}, valid_options ? opts : {}, {});
+        var drag_options = {
+            scroll: true,
+            handle: '.dragger',
+            start: function() {
+                $('.grid-row').addClass('drag-target');
+            },
+            stop: function(){
+                $('.grid-row').removeClass('drag-target');
+                EDIT_CONTAINER.collapse('show');
+                if(my.layout === 'grid') {
+                    // Update row order.
+                    updateChartsRowOrder();
+                } else {
+                    my.chart_wall.packery(options);
+                    updateChartsOrder();
+                }
+            }
+        };
+        if(my.layout === 'grid' && $('.grid-row').length > 1) {
+            initFixedDragDrop(options);
+            return;
+        }
         if(init) {
             my.chart_wall = $('#container').packery(options);
-            items = my.chart_wall.find('.item').draggable(DRAG_OPTIONS);
+            items = my.chart_wall.find('.item').draggable(drag_options);
             my.chart_wall.packery('bindUIDraggableEvents', items);
         } else {
             my.chart_wall.packery(options);
