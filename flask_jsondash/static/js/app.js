@@ -30,6 +30,24 @@ var jsondash = function() {
     var UPDATE_FORM_BTN  = $('#update-module');
     var CHART_TEMPLATE   = $('#chart-template');
     var ROW_TEMPLATE     = $('#row-template').find('.grid-row');
+    var DRAG_OPTIONS     = {
+        scroll: true,
+        handle: '.dragger',
+        start: function() {
+            $('.grid-row').addClass('drag-target');
+        },
+        stop: function(){
+            $('.grid-row').removeClass('drag-target');
+            EDIT_CONTAINER.collapse('show');
+            if(my.layout === 'grid') {
+                // Update row order.
+                updateChartsRowOrder();
+            } else {
+                my.chart_wall.packery(options);
+                updateChartsOrder();
+            }
+        }
+    };
 
     function widget(container, config) {
         // model for a chart widget
@@ -459,55 +477,40 @@ var jsondash = function() {
         $('.item.widget').removeClass('hidden');
     }
 
-    function fitGrid(opts, init) {
-        var drag_opts = {
-            scroll: true,
-            handle: '.dragger',
-            start: function() {
-                $('.grid-row').addClass('drag-target');
-            },
-            stop: function(){
-                $('.grid-row').removeClass('drag-target');
-                EDIT_CONTAINER.collapse('show');
-                if(my.layout === 'grid') {
-                    // Update row order.
-                    updateChartsRowOrder();
-                } else {
-                    my.chart_wall.packery(options);
-                    updateChartsOrder();
-                }
-            }
+    function initFixedDragDrop() {
+        var grid_drag_opts = {
+            connectToSortable: '.grid-row'
         };
-        if(my.layout === 'grid') {
-            var grid_drag_opts = {
-                // revert: true,
-                connectToSortable: '.grid-row'
-            };
-            $('.grid-row').droppable({
-                drop: function(event, ui) {
-                    // update the widgets location
-                    var idx = $(this).index();
-                    var el = $(ui.draggable);
-                    var widget = getWidgetByEl(el);
-                    widget.update({row: idx}, true);
-                    // Actually move the dom element, and reset
-                    // the dragging css so it snaps into the row container
-                    el.parent().appendTo($(this));
-                    el.css({
-                        position: 'relative',
-                        top: 0,
-                        left: 0
-                    });
-                }
-            });
-            $('.item.widget').draggable($.extend(grid_drag_opts, drag_opts));
+        $('.grid-row').droppable({
+            drop: function(event, ui) {
+                // update the widgets location
+                var idx    = $(this).index();
+                var el     = $(ui.draggable);
+                var widget = getWidgetByEl(el);
+                widget.update({row: idx}, true);
+                // Actually move the dom element, and reset
+                // the dragging css so it snaps into the row container
+                el.parent().appendTo($(this));
+                el.css({
+                    position: 'relative',
+                    top: 0,
+                    left: 0
+                });
+            }
+        });
+        $('.item.widget').draggable($.extend(grid_drag_opts, DRAG_OPTIONS));
+    }
+
+    function fitGrid(opts, init) {
+        if(my.layout === 'grid' && $('.grid-row').length > 1) {
+            initFixedDragDrop();
             return;
         }
         var valid_options = $.isPlainObject(opts);
         var options = $.extend({}, valid_options ? opts : {}, {});
         if(init) {
             my.chart_wall = $('#container').packery(options);
-            items = my.chart_wall.find('.item').draggable(drag_opts);
+            items = my.chart_wall.find('.item').draggable(DRAG_OPTIONS);
             my.chart_wall.packery('bindUIDraggableEvents', items);
         } else {
             my.chart_wall.packery(options);
@@ -730,7 +733,7 @@ var jsondash = function() {
         $('.grid-row').each(function(i, row){
             $(row).find('.item.widget').each(function(j, item){
                 var widget = getWidgetByEl($(item));
-                widget.update({row: i + 1}, true);
+                widget.update({row: i + 1, order: j + 1}, true);
             });
         });
     }
