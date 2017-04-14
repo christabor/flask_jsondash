@@ -33,11 +33,16 @@ var jsondash = function() {
     function Widgets() {
         var self = this;
         self.widgets = {};
+        self.container = MAIN_CONTAINER.selector;
         self.all = function() {
             return self.widgets;
         };
-        self.add = function(container, config) {
-            self.widgets[config.guid] = new Widget(container, config);
+        self.add = function(config) {
+            self.widgets[config.guid] = new Widget(self.container, config);
+            return self.widgets[config.guid];
+        };
+        self.addFromForm = function() {
+            return self.add(self.newModel());
         };
         self._delete = function(guid) {
             delete self.widgets[guid];
@@ -55,6 +60,15 @@ var jsondash = function() {
             });
             return props;
         };
+        self.newModel = function() {
+            var config = getParsedFormConfig();
+            var guid   = jsondash.util.guid();
+            config['guid'] = guid;
+            config['family'] = WIDGET_FORM.find('[name="type"]').find('option:selected').data().family;
+            if(!config.refresh || !refreshableType(config.type)) {config['refresh'] = false;}
+            if(!config.override) {config['override'] = false;}
+            return config;
+        };
     }
 
     function Widget(container, config) {
@@ -64,9 +78,11 @@ var jsondash = function() {
         self.guid = self.config.guid;
         self.container = container;
         self._refreshInterval = null;
-        self._makeWidget = function(container, config) {
-            if(document.querySelector('[data-guid="' + config.guid + '"]')) return d3.select('[data-guid="' + config.guid + '"]');
-            return d3.select(container).select('div')
+        self._makeWidget = function(config) {
+            if(document.querySelector('[data-guid="' + config.guid + '"]')){
+                return d3.select('[data-guid="' + config.guid + '"]');
+            }
+            return d3.select(self.container).select('div')
                 .append('div')
                 .classed({item: true, widget: true})
                 .attr('data-guid', config.guid)
@@ -78,7 +94,7 @@ var jsondash = function() {
                 .select('.widget-title .widget-title-text').text(config.name);
         };
         // d3 el
-        self.el = self._makeWidget(container, config);
+        self.el = self._makeWidget(config);
         // Jquery el
         self.$el = $(self.el[0]);
         self.init = function() {
@@ -232,21 +248,11 @@ var jsondash = function() {
         return is_valid;
     }
 
-    function newModel() {
-        var config = getParsedFormConfig();
-        var id     = jsondash.util.guid();
-        config['guid'] = id;
-        config['family'] = WIDGET_FORM.find('[name="type"]').find('option:selected').data().family;
-        if(!config.refresh || !refreshableType(config.type)) {config['refresh'] = false;}
-        if(!config.override) {config['override'] = false;}
-        return config;
-    }
-
     function saveWidget(e){
         if(!(validateWidgetForm())) {
             return false;
         }
-        var new_config = newModel();
+        var new_config = my.widgets.newModel();
         // Remove empty rows and then update the order so it's consecutive.
         $('.grid-row').each(function(i, row){
             // Delete empty rows - except any empty rows that have been created
@@ -433,7 +439,7 @@ var jsondash = function() {
         fitGrid();
     }
 
-    function addChartContainers(container, data) {
+    function addChartContainers(data) {
         for(var name in data.modules){
             // Closure to maintain each chart data value in loop
             (function(config){
@@ -441,7 +447,7 @@ var jsondash = function() {
                 // Add div wrappers for js grid layout library,
                 // and add title, icons, and buttons
                 // This is the widget "model"/object used throughout.
-                my.widgets.add(container, config);
+                my.widgets.add(config);
             })(data.modules[name]);
         }
         fitGrid();
@@ -817,7 +823,7 @@ var jsondash = function() {
         // is rendered server side.
         initGrid(MAIN_CONTAINER);
         // Add actual ajax data.
-        addChartContainers(MAIN_CONTAINER, data);
+        addChartContainers(data);
         my.dashboard_data = data;
 
         // Format json config display
