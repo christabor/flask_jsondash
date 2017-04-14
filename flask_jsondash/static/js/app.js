@@ -122,6 +122,8 @@ var jsondash = function() {
                 EDIT_CONTAINER.collapse();
                 // Refit the grid
                 fitGrid();
+            } else {
+                unload(widget);
             }
         };
         self._updateForm = function() {
@@ -470,7 +472,7 @@ var jsondash = function() {
                     var idx = $(this).index();
                     var el = $(ui.draggable);
                     var widget = getWidgetByEl(el);
-                    widget.update({row: idx}, false);
+                    widget.update({row: idx}, true);
                     // Actually move the dom element, and reset
                     // the dragging css so it snaps into the row container
                     el.parent().appendTo($(this));
@@ -501,7 +503,7 @@ var jsondash = function() {
         // Update module order
         $.each(items, function(i, el){
             var widget = getWidgetByEl($(this));
-            widget.update({order: i}, false);
+            widget.update({order: i}, true);
         });
     }
 
@@ -711,7 +713,7 @@ var jsondash = function() {
         $('.grid-row').each(function(i, row){
             $(row).find('.item.widget').each(function(j, item){
                 var widget = getWidgetByEl($(item));
-                widget.update({row: i + 1}, false);
+                widget.update({row: i + 1}, true);
             });
         });
     }
