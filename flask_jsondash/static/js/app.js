@@ -21,7 +21,7 @@ var jsondash = function() {
     var EDIT_MODAL       = $('#chart-options');
     var DELETE_BTN       = $('#delete-widget');
     var DELETE_DASHBOARD = $('.delete-dashboard');
-    var SAVE_MODULE      = $('#save-module');
+    var SAVE_WIDGET_BTN  = $('#save-module');
     var EDIT_CONTAINER   = $('#edit-view-container');
     var MAIN_FORM        = $('#save-view-form');
     var JSON_DATA        = $('#raw-config');
@@ -49,7 +49,7 @@ var jsondash = function() {
         }
     };
 
-    function widget(container, config) {
+    function Widget(container, config) {
         // model for a chart widget
         var self = this;
         self.config = config;
@@ -395,7 +395,7 @@ var jsondash = function() {
                 // Add div wrappers for js grid layout library,
                 // and add title, icons, and buttons
                 // This is the widget "model"/object used throughout.
-                my.widgets[config.guid] = new widget(container, config);
+                my.widgets[config.guid] = new Widget(container, config);
             })(data.modules[name]);
         }
         fitGrid();
@@ -445,7 +445,7 @@ var jsondash = function() {
         // TODO: debounce/throttle
         API_PREVIEW_BTN.on('click.charts', previewAPIRoute);
         // Save module popup form
-        SAVE_MODULE.on('click.charts.module', saveWidget);
+        SAVE_WIDGET_BTN.on('click.charts.module', saveWidget);
         // Edit existing modules
         EDIT_MODAL.on('show.bs.modal', populateEditForm);
         UPDATE_FORM_BTN.on('click.charts.module', onUpdateWidget);
@@ -454,7 +454,7 @@ var jsondash = function() {
         // for the add module button and form modal
         ADD_MODULE.on('click.charts', function(){
             UPDATE_FORM_BTN
-            .attr('id', SAVE_MODULE.selector.replace('#', ''))
+            .attr('id', SAVE_WIDGET_BTN.selector.replace('#', ''))
             .text('Save module')
             .off('click.charts.module')
             .on('click.charts', saveWidget);
@@ -464,7 +464,7 @@ var jsondash = function() {
         // for the add module per row button and form modal
         VIEW_BUILDER.on('click.charts', '.grid-row-label', function(){
             UPDATE_FORM_BTN
-            .attr('id', SAVE_MODULE.selector.replace('#', ''))
+            .attr('id', SAVE_WIDGET_BTN.selector.replace('#', ''))
             .text('Save module')
             .off('click.charts.module')
             .on('click.charts', saveWidget);
@@ -473,7 +473,7 @@ var jsondash = function() {
         // Allow swapping of edit/update events
         // for the edit button and form modal
         $('.widget-edit').on('click.charts', function(){
-            SAVE_MODULE
+            SAVE_WIDGET
             .attr('id', UPDATE_FORM_BTN.selector.replace('#', ''))
             .text('Update module')
             .off('click.charts.module')
