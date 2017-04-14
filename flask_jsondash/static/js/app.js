@@ -229,6 +229,7 @@ var jsondash = function() {
 
     function validateWidgetForm() {
         var is_valid = true;
+        var url_field = WIDGET_FORM.find('[name="dataSource"]');
         WIDGET_FORM.find('[required]').each(function(i, el){
             if($(el).val() === '') {
                 $(el).parent().addClass('has-error').removeClass('has-success');
@@ -238,6 +239,14 @@ var jsondash = function() {
                 $(el).parent().addClass('has-success').removeClass('has-error');
             }
         });
+        // Validate youtube videos
+        if(WIDGET_FORM.find('[name="type"]').val() === 'youtube') {
+            if(!url_field.val().startsWith('<iframe')) {
+                url_field.parent().addClass('has-error');
+                is_valid = false;
+                return false;
+            }
+        }
         return is_valid;
     }
 
