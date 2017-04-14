@@ -455,7 +455,7 @@ var jsondash = function() {
         ADD_MODULE.on('click.charts', function(){
             UPDATE_FORM_BTN
             .attr('id', SAVE_WIDGET_BTN.selector.replace('#', ''))
-            .text('Save module')
+            .text('Save widget')
             .off('click.charts.module')
             .on('click.charts', saveWidget);
         });
@@ -465,7 +465,7 @@ var jsondash = function() {
         VIEW_BUILDER.on('click.charts', '.grid-row-label', function(){
             UPDATE_FORM_BTN
             .attr('id', SAVE_WIDGET_BTN.selector.replace('#', ''))
-            .text('Save module')
+            .text('Save widget')
             .off('click.charts.module')
             .on('click.charts', saveWidget);
         });
@@ -473,9 +473,9 @@ var jsondash = function() {
         // Allow swapping of edit/update events
         // for the edit button and form modal
         $('.widget-edit').on('click.charts', function(){
-            SAVE_WIDGET
+            SAVE_WIDGET_BTN
             .attr('id', UPDATE_FORM_BTN.selector.replace('#', ''))
-            .text('Update module')
+            .text('Update widget')
             .off('click.charts.module')
             .on('click.charts', onUpdateWidget);
         });
