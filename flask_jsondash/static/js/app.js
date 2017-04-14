@@ -6,7 +6,6 @@
 var jsondash = function() {
     var my = {
         chart_wall: null,
-        widgets: {},
     };
     var MIN_CHART_SIZE   = 200;
     var dashboard_data   = null;
@@ -49,6 +48,26 @@ var jsondash = function() {
         }
     };
 
+    function Widgets() {
+        var self = this;
+        self.widgets = {};
+        self.all = function() {
+            return self.widgets;
+        };
+        self.add = function(container, config) {
+            self.widgets[config.guid] = new Widget(container, config);
+        };
+        self._delete = function(guid) {
+            delete self.widgets[guid];
+        };
+        self.get = function(guid) {
+            return self.widgets[guid];
+        };
+        self.getByEl = function(el) {
+            return self.get(el.data().guid);
+        };
+    }
+
     function Widget(container, config) {
         // model for a chart widget
         var self = this;
@@ -68,7 +87,24 @@ var jsondash = function() {
                 .html(d3.select(CHART_TEMPLATE.selector).html())
                 .select('.widget-title .widget-title-text').text(config.name);
         };
+        // d3 el
         self.el = self._makeWidget(container, config);
+        // Jquery el
+        self.$el = $(self.el[0]);
+        self.init = function() {
+            // Add event handlers for widget UI
+            self.$el.find('.widget-refresh').on('click.charts', refreshWidget);
+            // Allow swapping of edit/update events
+            // for the edit button and form modal
+            self.$el.find('.widget-edit').on('click.charts', function(){
+                SAVE_WIDGET_BTN
+                .attr('id', UPDATE_FORM_BTN.selector.replace('#', ''))
+                .text('Update widget')
+                .off('click.charts.module')
+                .on('click.charts', onUpdateWidget);
+            });
+        };
+        self.init();
 
         self.getInput = function() {
             // Get the form input for this widget.
@@ -85,7 +121,7 @@ var jsondash = function() {
             // Delete the widget
             self.el.remove();
             // Remove reference to the model by guid
-            delete my.widgets[self.guid];
+            my.widgets._delete(self.guid);
             EDIT_MODAL.modal('hide');
             // Redraw wall to replace visual 'hole'
             fitGrid();
@@ -110,7 +146,7 @@ var jsondash = function() {
             });
         };
         self.update = function(conf, dont_refresh) {
-            /**
+                /**
              * Single source to update all aspects of a widget - in DOM, in model, etc...
              */
             var widget = self.el;
@@ -205,17 +241,17 @@ var jsondash = function() {
         if(!(validateWidgetForm())) {
             return false;
         }
+        // We also need to update the order of all other charts in case
+        // there are empty rows between the currently filled rows.
+        // This ensures there can be now chart that might be in row 5,
+        // even when there might only be 2 rows, and 3 are empty (which are removed on save).
+        updateRowOrder();
         var newfield = $('<input class="form-control" type="text">');
         // Add a unique guid for referencing later.
         var new_config = newModel();
         newfield.attr('name', 'module_' + new_config.id);
         newfield.val(JSON.stringify(new_config));
         $('.modules').append(newfield);
-        // We also need to update the order of all other charts in case
-        // there are empty rows between the currently filled rows.
-        // This ensures there can be now chart that might be in row 5,
-        // even when there might only be 2 rows, and 3 are empty (which are removed on save).
-        updateRowOrder();
         // Save immediately.
         MAIN_FORM.submit();
     }
@@ -242,7 +278,7 @@ var jsondash = function() {
         var rownum = row.find('.grid-row-label').data().row;
         row.find('.item.widget').each(function(i, widget){
             var guid = $(this).data().guid;
-            var widget = getWidgetByGUID(guid).delete(true);
+            var widget = my.widgets.get(guid).delete(true);
         });
         // Remove AFTER removing the charts contained within
         row.remove();
@@ -269,7 +305,7 @@ var jsondash = function() {
         // Updates the fields in the edit form to the active widgets values.
         var item = $(e.relatedTarget).closest('.item.widget');
         var guid = item.data().guid;
-        var widget = getWidgetByGUID(guid);
+        var widget = my.widgets.get(guid);
         var conf = widget.config;
         populateRowField(conf.row);
         // Update the modal fields with this widgets' value.
@@ -376,14 +412,14 @@ var jsondash = function() {
 
     function onUpdateWidget(e){
         var guid = WIDGET_FORM.attr('data-guid');
-        var widget = getWidgetByGUID(guid);
+        var widget = my.widgets.get(guid);
         var conf = getParsedFormConfig();
         widget.update(conf);
     }
 
     function refreshWidget(e) {
         e.preventDefault();
-        loadWidgetData(getWidgetByEl($(this).closest('.widget')));
+        loadWidgetData(my.widgets.getByEl($(this).closest('.widget')));
         fitGrid();
     }
 
@@ -395,18 +431,13 @@ var jsondash = function() {
                 // Add div wrappers for js grid layout library,
                 // and add title, icons, and buttons
                 // This is the widget "model"/object used throughout.
-                my.widgets[config.guid] = new Widget(container, config);
+                my.widgets.add(container, config);
             })(data.modules[name]);
         }
         fitGrid();
-        for(var guid in my.widgets){
-            var widg = my.widgets[guid];
-            loadWidgetData(widg);
+        for(var guid in my.widgets.all()){
+            loadWidgetData(my.widgets.get(guid));
         }
-    }
-
-    function getWidgetByGUID(guid) {
-        return my.widgets[guid];
     }
 
     /**
@@ -433,6 +464,16 @@ var jsondash = function() {
     function chartsRowChanged(e) {
         // Update the order field based on the current rows item length.
         populateOrderField();
+    }
+
+    function loader(container) {
+        container.select('.loader-overlay').classed({hidden: false});
+        container.select('.widget-loader').classed({hidden: false});
+    }
+
+    function unload(container) {
+        container.select('.loader-overlay').classed({hidden: true});
+        container.select('.widget-loader').classed({hidden: true});
     }
 
     /**
@@ -470,20 +511,11 @@ var jsondash = function() {
             .on('click.charts', saveWidget);
         });
 
-        // Allow swapping of edit/update events
-        // for the edit button and form modal
-        $('.widget-edit').on('click.charts', function(){
-            SAVE_WIDGET_BTN
-            .attr('id', UPDATE_FORM_BTN.selector.replace('#', ''))
-            .text('Update widget')
-            .off('click.charts.module')
-            .on('click.charts', onUpdateWidget);
-        });
         // Add delete button for existing widgets.
         DELETE_BTN.on('click.charts', function(e){
             e.preventDefault();
             var guid = WIDGET_FORM.attr('data-guid');
-            var widget = getWidgetByGUID(guid).delete(false);
+            var widget = my.widgets.get(guid).delete(false);
         });
         // Add delete confirm for dashboards.
         DELETE_DASHBOARD.on('submit.charts', function(e){
@@ -510,7 +542,7 @@ var jsondash = function() {
                 // update the widgets location
                 var idx    = $(this).index();
                 var el     = $(ui.draggable);
-                var widget = getWidgetByEl(el);
+                var widget = my.widgets.getByEl(el);
                 widget.update({row: idx}, true);
                 // Actually move the dom element, and reset
                 // the dragging css so it snaps into the row container
@@ -546,23 +578,9 @@ var jsondash = function() {
         var items = my.chart_wall.packery('getItemElements');
         // Update module order
         $.each(items, function(i, el){
-            var widget = getWidgetByEl($(this));
+            var widget = my.widgets.getByEl($(this));
             widget.update({order: i}, true);
         });
-    }
-
-    function getWidgetByEl(el) {
-        return getWidgetByGUID(el.data().guid);
-    }
-
-    function loader(container) {
-        container.select('.loader-overlay').classed({hidden: false});
-        container.select('.widget-loader').classed({hidden: false});
-    }
-
-    function unload(container) {
-        container.select('.loader-overlay').classed({hidden: true});
-        container.select('.widget-loader').classed({hidden: true});
     }
 
     function handleInputs(widget, config) {
@@ -583,7 +601,7 @@ var jsondash = function() {
                 dataSource: url.replace(/\?.+/, '') + '?' + existing_params + '&' + params
             });
             // Otherwise reload like normal.
-            loadWidgetData(getWidgetByGUID(config.guid));
+            loadWidgetData(my.widgets.get(config.guid));
             // Hide the form again
             $(inputs_selector).removeClass('in');
         });
@@ -693,7 +711,7 @@ var jsondash = function() {
         $.each(modules, function(_, module){
             if(module.refresh && module.refreshInterval) {
                 setInterval(function(){
-                    loadWidgetData(getWidgetByGUID(module.guid));
+                    loadWidgetData(my.widgets.get(module.guid));
                 }, parseInt(module.refreshInterval, 10));
             }
         });
@@ -756,7 +774,7 @@ var jsondash = function() {
         // NOTE: This function assumes the row order has been recalculated in advance!
         $('.grid-row').each(function(i, row){
             $(row).find('.item.widget').each(function(j, item){
-                var widget = getWidgetByEl($(item));
+                var widget = my.widgets.getByEl($(item));
                 widget.update({row: i + 1, order: j + 1}, true);
             });
         });
@@ -778,9 +796,6 @@ var jsondash = function() {
         // Add actual ajax data.
         addChartContainers(MAIN_CONTAINER, data);
         my.dashboard_data = data;
-
-        // Add event handlers for widget UI
-        $('.widget-refresh').on('click.charts', refreshWidget);
 
         // Setup refresh intervals for all widgets that specify it.
         addRefreshers(data.modules);
@@ -843,5 +858,6 @@ var jsondash = function() {
     my.getActiveConfig = getParsedFormConfig;
     my.layout = VIEW_BUILDER.length > 0 ? VIEW_BUILDER.data().layout : null;
     my.dashboard_data = dashboard_data;
+    my.widgets = new Widgets();
     return my;
 }();
