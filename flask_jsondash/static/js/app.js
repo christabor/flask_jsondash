@@ -245,8 +245,8 @@ var jsondash = function() {
     function populateEditForm(e) {
         // If the modal caller was the add modal button, skip populating the field.
         API_PREVIEW.text('...');
+        clearForm();
         if(isModalButton(e) || isRowButton(e)) {
-            clearForm();
             DELETE_BTN.hide();
             if(isRowButton(e)) {
                 var row = $(e.relatedTarget).data().row;
@@ -260,7 +260,8 @@ var jsondash = function() {
         // Updates the fields in the edit form to the active widgets values.
         var item = $(e.relatedTarget).closest('.item.widget');
         var guid = item.data().guid;
-        var conf = getWidgetByGUID(guid).config;
+        var widget = getWidgetByGUID(guid);
+        var conf = widget.config;
         populateRowField(conf.row);
         // Update the modal fields with this widgets' value.
         $.each(conf, function(field, val){
@@ -272,7 +273,7 @@ var jsondash = function() {
         });
         // Update with current guid for referencing the module.
         WIDGET_FORM.attr('data-guid', guid);
-        populateOrderField(conf);
+        populateOrderField(widget);
         // Update form for specific row if row button was caller
         // Trigger event for select dropdown to ensure any UI is consistent.
         // This is done AFTER the fields have been pre-populated.
@@ -303,24 +304,26 @@ var jsondash = function() {
      * @param  {[object]} config [The widget config (optional)]
      */
     function populateOrderField(widget) {
-        var widgets = $('.item.widget');
         // Add the number of items to order field.
         var order_field = WIDGET_FORM.find('[name="order"]');
         var max_options = 0;
         if(my.layout === 'grid') {
-            max_options = widgets.length > 0 ? widgets.length + 1 : 2;
+            max_options = 10;
+            // Get parent row and find number of widget children for this rows' order max
+            max_options = $(widget.el[0]).closest('.grid-row').find('.item.widget').length;
         } else {
+            var widgets = $('.item.widget');
             max_options = widgets.length > 0 ? widgets.length + 1 : 2;
         }
         order_field.find('option').remove();
         // Add empty option.
         order_field.append('<option value=""></option>');
-        d3.map(d3.range(1, max_options), function(i){
+        d3.map(d3.range(1, max_options + 1), function(i){
             var option = $('<option></option>');
             option.val(i).text(i);
             order_field.append(option);
         });
-        order_field.val(widget && widget.config ? widget.config : '');
+        order_field.val(widget && widget.config ? widget.config.order : '');
     }
 
     /**
