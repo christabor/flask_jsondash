@@ -149,10 +149,6 @@ var jsondash = function() {
         };
     }
 
-    function getFormConfig() {
-        return jsondash.util.serializeToJSON(WIDGET_FORM.serializeArray());
-    }
-
     function togglePreviewOutput(is_on) {
         if(is_on) {
             API_PREVIEW_CONT.show();
@@ -195,21 +191,25 @@ var jsondash = function() {
         return is_valid;
     }
 
+    function newModel() {
+        var config = getParsedFormConfig();
+        var id     = jsondash.util.guid();
+        config['guid'] = id;
+        config['family'] = WIDGET_FORM.find('[name="type"]').find('option:selected').data().family;
+        if(!config.refresh || !refreshableType(config.type)) {config['refresh'] = false;}
+        if(!config.override) {config['override'] = false;}
+        return config;
+    }
+
     function saveWidget(e){
         if(!(validateWidgetForm())) {
             return false;
         }
-        var config   = getFormConfig();
         var newfield = $('<input class="form-control" type="text">');
-        var id       = jsondash.util.guid();
         // Add a unique guid for referencing later.
-        config['guid'] = id;
-        // Add family for lookups
-        config['family'] = WIDGET_FORM.find('[name="type"]').find('option:selected').data().family;
-        if(!config.refresh || !refreshableType(config.type)) {config['refresh'] = false;}
-        if(!config.override) {config['override'] = false;}
-        newfield.attr('name', 'module_' + id);
-        newfield.val(JSON.stringify(config));
+        var new_config = newModel();
+        newfield.attr('name', 'module_' + new_config.id);
+        newfield.val(JSON.stringify(new_config));
         $('.modules').append(newfield);
         // We also need to update the order of all other charts in case
         // there are empty rows between the currently filled rows.
@@ -425,7 +425,7 @@ var jsondash = function() {
      * [chartsTypeChanged Event handler for onChange event for chart type field]
      */
     function chartsTypeChanged(e) {
-        var active_conf = getFormConfig();
+        var active_conf = getParsedFormConfig();
         var previewable = isPreviewableType(active_conf.type);
         togglePreviewOutput(previewable);
     }
