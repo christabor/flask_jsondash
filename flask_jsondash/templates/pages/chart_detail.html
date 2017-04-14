@@ -132,9 +132,7 @@
             {% endif %}
             <span class="dashboard-title">{{ view.name }}</span>
             {% if can_edit and not demo_mode %}
-                <small>
-                    {% include "partials/dashboard-options.html" %}
-                </small>
+                <small>{% include "partials/dashboard-options.html" %}</small>
             {% endif %}
         </h2>
         {% if can_edit %}
@@ -146,7 +144,7 @@
                         </p>
                     </div>
                 {% endif %}
-                <div class="well">
+                <div class="text-center">
                     {% include "partials/dashboard-global-form.html" %}
                 </div>
             </div>
