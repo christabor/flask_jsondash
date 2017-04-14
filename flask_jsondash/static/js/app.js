@@ -729,7 +729,7 @@ var jsondash = function() {
         // Add snap to grid (vertical only) in fixed grid mode.
         // This makes aligning charts easier because the snap points
         // are more likely to be consistent.
-        if(my.layout === 'grid') {resize_opts['grid'] = 50;}
+        if(my.layout === 'grid') {resize_opts['grid'] = 20;}
         $(widg.el[0]).resizable(resize_opts);
     }
 
