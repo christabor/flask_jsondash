@@ -707,7 +707,7 @@ var jsondash = function() {
 
     function addResizeEvent(widg) {
         // Add resize event
-        $(widg.el[0]).resizable({
+        var resize_opts = {
             helper: 'resizable-helper',
             minWidth: MIN_CHART_SIZE,
             minHeight: MIN_CHART_SIZE,
@@ -725,7 +725,12 @@ var jsondash = function() {
                 // Open save panel
                 EDIT_CONTAINER.collapse('show');
             }
-        });
+        };
+        // Add snap to grid (vertical only) in fixed grid mode.
+        // This makes aligning charts easier because the snap points
+        // are more likely to be consistent.
+        if(my.layout === 'grid') {resize_opts['grid'] = 50;}
+        $(widg.el[0]).resizable(resize_opts);
     }
 
     function prettyCode(code) {
