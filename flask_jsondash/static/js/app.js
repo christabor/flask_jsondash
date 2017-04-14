@@ -308,9 +308,13 @@ var jsondash = function() {
         var order_field = WIDGET_FORM.find('[name="order"]');
         var max_options = 0;
         if(my.layout === 'grid') {
-            max_options = 10;
-            // Get parent row and find number of widget children for this rows' order max
-            max_options = $(widget.el[0]).closest('.grid-row').find('.item.widget').length;
+            if(!widget) {
+                var row = WIDGET_FORM.find('[name="row"]').val();
+                max_options = $('.grid-row').eq(row - 1).find('.item.widget').length;
+            } else {
+                // Get parent row and find number of widget children for this rows' order max
+                max_options = $(widget.el[0]).closest('.grid-row').find('.item.widget').length;
+            }
         } else {
             var widgets = $('.item.widget');
             max_options = widgets.length > 0 ? widgets.length + 1 : 2;
@@ -414,10 +418,16 @@ var jsondash = function() {
         togglePreviewOutput(previewable);
     }
 
+    function chartsRowChanged(e) {
+        // Update the order field based on the current rows item length.
+        populateOrderField();
+    }
+
     /**
      * [addDomEvents Add all dom event handlers here]
      */
     function addDomEvents() {
+        WIDGET_FORM.find('[name="row"]').on('change.charts.row', chartsRowChanged);
         // Chart type change
         WIDGET_FORM.find('[name="type"]').on('change.charts.type', chartsTypeChanged);
         // TODO: debounce/throttle
@@ -799,7 +809,6 @@ var jsondash = function() {
 
         prettifyJSONPreview();
         setupResponsiveEvents();
-        populateOrderField();
         populateRowField();
         fitGrid();
         if(isEmptyDashboard()) {EDIT_TOGGLE_BTN.click();}
