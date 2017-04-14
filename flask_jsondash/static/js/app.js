@@ -66,6 +66,13 @@ var jsondash = function() {
         self.getByEl = function(el) {
             return self.get(el.data().guid);
         };
+        self.getAllOfProp = function(propname) {
+            var props = [];
+            $.each(self.all(), function(i, widg){
+                props.push(widg.config[propname]);
+            });
+            return props;
+        };
     }
 
     function Widget(container, config) {
@@ -74,6 +81,7 @@ var jsondash = function() {
         self.config = config;
         self.guid = self.config.guid;
         self.container = container;
+        self._refreshInterval = null;
         self._makeWidget = function(container, config) {
             if(document.querySelector('[data-guid="' + config.guid + '"]')) return d3.select('[data-guid="' + config.guid + '"]');
             return d3.select(container).select('div')
@@ -103,6 +111,11 @@ var jsondash = function() {
                 .off('click.charts.save')
                 .on('click.charts', onUpdateWidget);
             });
+            if(self.config.refresh && self.config.refreshInterval) {
+                self._refreshInterval = setInterval(function(){
+                    loadWidgetData(my.widgets.get(self.config.guid));
+                }, parseInt(self.config.refreshInterval, 10));
+            }
         };
         self.init();
 
@@ -111,6 +124,7 @@ var jsondash = function() {
             return $('input[id="' + self.guid + '"]');
         };
         self.delete = function(bypass_confirm) {
+            clearInterval(self._refreshInterval);
             if(!bypass_confirm){
                 if(!confirm('Are you sure?')) {
                     return;
@@ -707,16 +721,6 @@ var jsondash = function() {
         return JSON.stringify(JSON.parse(code), null, 4);
     }
 
-    function addRefreshers(modules) {
-        $.each(modules, function(_, module){
-            if(module.refresh && module.refreshInterval) {
-                setInterval(function(){
-                    loadWidgetData(my.widgets.get(module.guid));
-                }, parseInt(module.refreshInterval, 10));
-            }
-        });
-    }
-
     function prettifyJSONPreview() {
         // Reformat the code inside of the raw json field,
         // to pretty print for the user.
@@ -796,9 +800,6 @@ var jsondash = function() {
         // Add actual ajax data.
         addChartContainers(MAIN_CONTAINER, data);
         my.dashboard_data = data;
-
-        // Setup refresh intervals for all widgets that specify it.
-        addRefreshers(data.modules);
 
         // Format json config display
         $('#json-output').on('show.bs.modal', function(e){
