@@ -255,10 +255,13 @@ var jsondash = function() {
         if(!(validateWidgetForm())) {
             return false;
         }
-        // We also need to update the order of all other charts in case
-        // there are empty rows between the currently filled rows.
-        // This ensures there can be now chart that might be in row 5,
-        // even when there might only be 2 rows, and 3 are empty (which are removed on save).
+        // Remove empty rows and then update the order so it's consecutive.
+        $('.grid-row').each(function(i, row){
+            if($(row).find('.item.widget').length === 0) {
+                $(row).remove();
+            }
+        });
+        // Update the row orders after deleting empty ones
         updateRowOrder();
         var newfield = $('<input class="form-control" type="text">');
         // Add a unique guid for referencing later.
@@ -834,7 +837,6 @@ var jsondash = function() {
             }
             deleteRow(row);
         });
-
         prettifyJSONPreview();
         setupResponsiveEvents();
         populateRowField();
