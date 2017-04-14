@@ -310,7 +310,10 @@ var jsondash = function() {
         if(my.layout === 'grid') {
             if(!widget) {
                 var row = WIDGET_FORM.find('[name="row"]').val();
-                max_options = $('.grid-row').eq(row - 1).find('.item.widget').length;
+                // Get the max options based on the currently selected value in the row dropdown
+                // We also add one since this is "adding" a new item so the order should include
+                // one more than is currently there.
+                max_options = $('.grid-row').eq(row - 1).find('.item.widget').length + 1;
             } else {
                 // Get parent row and find number of widget children for this rows' order max
                 max_options = $(widget.el[0]).closest('.grid-row').find('.item.widget').length;
