@@ -251,6 +251,8 @@ var jsondash = function() {
             if(isRowButton(e)) {
                 var row = $(e.relatedTarget).data().row;
                 populateRowField(row);
+                // Trigger the order field update based on the current row
+                WIDGET_FORM.find('[name="row"]').change();
             } else {
                 populateRowField();
             }
