@@ -573,9 +573,9 @@ var jsondash = function() {
         $('.item.widget').draggable($.extend(grid_drag_opts, options));
     }
 
-    function fitGrid(opts, init) {
-        var valid_options = $.isPlainObject(opts);
-        var options = $.extend({}, valid_options ? opts : {}, {});
+    function fitGrid(grid_packer_opts, init) {
+        var valid_options = $.isPlainObject(grid_packer_opts);
+        var grid_packer_options = $.extend({}, valid_options ? grid_packer_opts : {}, {});
         var drag_options = {
             scroll: true,
             handle: '.dragger',
@@ -583,27 +583,28 @@ var jsondash = function() {
                 $('.grid-row').addClass('drag-target');
             },
             stop: function(){
+                console.log('stopping');
                 $('.grid-row').removeClass('drag-target');
                 EDIT_CONTAINER.collapse('show');
                 if(my.layout === 'grid') {
                     // Update row order.
                     updateChartsRowOrder();
                 } else {
-                    my.chart_wall.packery(options);
+                    my.chart_wall.packery(grid_packer_options);
                     updateChartsOrder();
                 }
             }
         };
         if(my.layout === 'grid' && $('.grid-row').length > 1) {
-            initFixedDragDrop(options);
+            initFixedDragDrop(drag_options);
             return;
         }
         if(init) {
-            my.chart_wall = $('#container').packery(options);
+            my.chart_wall = $('#container').packery(grid_packer_options);
             items = my.chart_wall.find('.item').draggable(drag_options);
             my.chart_wall.packery('bindUIDraggableEvents', items);
         } else {
-            my.chart_wall.packery(options);
+            my.chart_wall.packery(grid_packer_options);
         }
     }
 
