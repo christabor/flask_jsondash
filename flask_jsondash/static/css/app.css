@@ -2,6 +2,10 @@ body {
     background-color: #f1f1f1;
 }
 
+.chart-header {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1em;
+}
 .chart-header small {
     position: relative;
     top: -3px;
@@ -61,7 +65,7 @@ body {
  */
 
 .grid-row.drag-target {
-    /*background-color: #D2F9CC;*/
+    background-color: #E4F9E3;
 }
 .grid-row.ui-droppable-hover {
     background-color: #CBEFC4;
@@ -253,7 +257,6 @@ body {
     display: none;
 }
 .jsondash-editing .dashboard-charts .grid-row {
-    background-color: #fff;
     min-height: 300px;
 }
 .jsondash-editing .dashboard-charts .grid-row .grid-row-label {
@@ -262,6 +265,7 @@ body {
 .jsondash-editing .dashboard-charts .grid-row-label-wrapper {
     display: block;
     text-align: center;
+    margin-top: 2em;
     padding: 1em 1em 0 1em;
 }
 
