@@ -418,7 +418,6 @@ var jsondash = function() {
         // Chart type change
         WIDGET_FORM.find('[name="type"]').on('change.charts.type', chartsTypeChanged);
         // TODO: debounce/throttle
-        API_ROUTE_URL.on('change.charts', previewAPIRoute);
         API_PREVIEW_BTN.on('click.charts', previewAPIRoute);
         // Save module popup form
         SAVE_MODULE.on('click.charts.module', saveWidget);
