@@ -163,7 +163,24 @@ var jsondash = function() {
         return true;
     }
 
+    function validateWidgetForm() {
+        var is_valid = true;
+        WIDGET_FORM.find('[required]').each(function(i, el){
+            if($(el).val() === '') {
+                $(el).parent().addClass('has-error').removeClass('has-success');
+                is_valid = false;
+                return false;
+            } else {
+                $(el).parent().addClass('has-success').removeClass('has-error');
+            }
+        });
+        return is_valid;
+    }
+
     function saveWidget(e){
+        if(!(validateWidgetForm())) {
+            return false;
+        }
         var config   = getFormConfig();
         var newfield = $('<input class="form-control" type="text">');
         var id       = jsondash.util.guid();
