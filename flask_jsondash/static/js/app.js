@@ -211,8 +211,11 @@ var jsondash = function() {
         newfield.attr('name', 'module_' + id);
         newfield.val(JSON.stringify(config));
         $('.modules').append(newfield);
-        // We also need to update the order of all other charts in case.
-        updateChartsRowOrder();
+        // We also need to update the order of all other charts in case
+        // there are empty rows between the currently filled rows.
+        // This ensures there can be now chart that might be in row 5,
+        // even when there might only be 2 rows, and 3 are empty (which are removed on save).
+        updateRowOrder();
         // Save immediately.
         MAIN_FORM.submit();
     }
@@ -226,7 +229,11 @@ var jsondash = function() {
     }
 
     function clearForm() {
-        WIDGET_FORM.find('input').each(function(_, input){
+        WIDGET_FORM.find('label')
+        .removeClass('has-error')
+        .removeClass('has-success')
+        .find('input, select')
+        .each(function(_, input){
             $(input).val('');
         });
     }
