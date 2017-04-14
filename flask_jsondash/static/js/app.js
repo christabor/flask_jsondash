@@ -100,7 +100,7 @@ var jsondash = function() {
                 SAVE_WIDGET_BTN
                 .attr('id', UPDATE_FORM_BTN.selector.replace('#', ''))
                 .text('Update widget')
-                .off('click.charts.module')
+                .off('click.charts.save')
                 .on('click.charts', onUpdateWidget);
             });
         };
@@ -486,10 +486,10 @@ var jsondash = function() {
         // TODO: debounce/throttle
         API_PREVIEW_BTN.on('click.charts', previewAPIRoute);
         // Save module popup form
-        SAVE_WIDGET_BTN.on('click.charts.module', saveWidget);
+        SAVE_WIDGET_BTN.on('click.charts.save', saveWidget);
         // Edit existing modules
         EDIT_MODAL.on('show.bs.modal', populateEditForm);
-        UPDATE_FORM_BTN.on('click.charts.module', onUpdateWidget);
+        UPDATE_FORM_BTN.on('click.charts.save', onUpdateWidget);
 
         // Allow swapping of edit/update events
         // for the add module button and form modal
@@ -497,8 +497,8 @@ var jsondash = function() {
             UPDATE_FORM_BTN
             .attr('id', SAVE_WIDGET_BTN.selector.replace('#', ''))
             .text('Save widget')
-            .off('click.charts.module')
-            .on('click.charts', saveWidget);
+            .off('click.charts.save')
+            .on('click.charts.save', saveWidget);
         });
 
         // Allow swapping of edit/update events
@@ -507,8 +507,8 @@ var jsondash = function() {
             UPDATE_FORM_BTN
             .attr('id', SAVE_WIDGET_BTN.selector.replace('#', ''))
             .text('Save widget')
-            .off('click.charts.module')
-            .on('click.charts', saveWidget);
+            .off('click.charts.save')
+            .on('click.charts.save', saveWidget);
         });
 
         // Add delete button for existing widgets.
