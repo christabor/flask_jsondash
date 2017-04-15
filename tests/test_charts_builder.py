@@ -36,7 +36,10 @@ def test_routes(ctx, client):
 def test_get_dashboard_contains_all_chart_types_list(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
-    res = test.get(url_for('jsondash.dashboard'))
+    view = get_json_config('inputs.json')
+    readfunc = read(override=dict(view))
+    monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
+    res = test.get(url_for('jsondash.view', c_id=view['id']))
     for family, config in settings.CHARTS_CONFIG.items():
         for chart in config['charts']:
             _, label = chart
@@ -98,7 +101,7 @@ def test_get_view_valid_id_invalid_modules(monkeypatch, ctx, client):
     assert 'Invalid configuration - missing modules.' in str(res.data)
 
 
-def test_get_view_valid_id_ensure__id_popped(monkeypatch, ctx, client):
+def test_get_view_valid_id_ensure_id_popped(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
