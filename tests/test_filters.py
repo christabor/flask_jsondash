@@ -16,9 +16,17 @@ except NameError:
 @pytest.mark.filters
 def test_getdims_normal(ctx, client):
     app, test = client
-    data = dict(width=100, height=100, type='foo')
+    data = dict(width=100, height=100, dataSource='...', type='sometype')
     expected = dict(width=100, height=100)
     assert charts_builder.get_dims(object, data) == expected
+
+
+@pytest.mark.filters
+def test_getdims_youtube_invalid_url(ctx, client):
+    app, test = client
+    data = dict(type='youtube', dataSource=None, width=100, height=100)
+    with pytest.raises(ValueError):
+        charts_builder.get_dims(object, data)
 
 
 @pytest.mark.filters
