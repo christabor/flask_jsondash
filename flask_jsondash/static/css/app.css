@@ -111,9 +111,7 @@ body {
     border-radius: 0 0 0 0;
 }
 
-.dashboard-charts .widget:hover {
-    border-color: #85C785;
-}
+.dashboard-charts .widget:hover {}
 
 .dashboard-charts .widget iframe {
     border: 0;
@@ -124,7 +122,7 @@ body {
     font-size: 16px;
     color: #999;
 }
-.dashboard-charts .widget:hover .icon {
+.dashboard-charts .widget:hover .icon:not(.widget-delete) {
     display: inline-block;
 }
 .dashboard-charts .widget .icon:hover {
@@ -141,6 +139,12 @@ body {
 }
 .dashboard-charts .widget .widget-refresh:hover {
     transform: rotate(60deg);
+}
+.dashboard-charts .widget .widget-delete {
+    display: none;
+}
+.jsondash-editing .widget:hover .icon.widget-delete {
+    display: inline-block;
 }
 .dashboard-charts .widget .widget-loader,
 .dashboard-charts .widget .loadfail {

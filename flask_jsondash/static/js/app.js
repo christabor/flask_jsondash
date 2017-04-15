@@ -100,6 +100,9 @@ var jsondash = function() {
         self.init = function() {
             // Add event handlers for widget UI
             self.$el.find('.widget-refresh').on('click.charts', refreshWidget);
+            self.$el.find('.widget-delete').on('click.charts.delete', function(e){
+                self.delete();
+            });
             // Allow swapping of edit/update events
             // for the edit button and form modal
             self.$el.find('.widget-edit').on('click.charts', function(){
@@ -583,7 +586,6 @@ var jsondash = function() {
                 $('.grid-row').addClass('drag-target');
             },
             stop: function(){
-                console.log('stopping');
                 $('.grid-row').removeClass('drag-target');
                 EDIT_CONTAINER.collapse('show');
                 if(my.layout === 'grid') {
