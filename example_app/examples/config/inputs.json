@@ -2,18 +2,20 @@
     "date": "2016-09-19 11:01:05.886000",
     "modules": [
         {
+            "family": "C3",
             "name": "line - no inputs",
-            "height": "400",
-            "width": "500",
+            "height": 400,
+            "width": 500,
             "dataSource": "http://127.0.0.1:5004/custom-inputs",
             "override": false,
             "guid": "a6eb10e7-26fa-7814-818a-3010292929c2",
             "type": "line"
         },
         {
+            "family": "C3",
             "name": "line - with inputs",
-            "height": "400",
-            "width": "500",
+            "height": 400,
+            "width": 500,
             "dataSource": "http://127.0.0.1:5004/custom-inputs?override=true",
             "override": true,
             "guid": "a6eb10e7-26fa-7814-818a-3699b24415c5",

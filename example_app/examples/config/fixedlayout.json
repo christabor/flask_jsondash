@@ -1,0 +1,307 @@
+{
+    "username": "anonymous",
+    "layout": "grid",
+    "name": "Fixed layout example",
+    "modules": [
+        {
+            "name": "Graph",
+            "family": "Graph",
+            "refresh": false,
+            "height": 520,
+            "width": "col-4",
+            "dataSource": "http://127.0.0.1:5004/digraph",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "a1c0b305-2340-211a-dc6e-a0d956bd9315",
+            "type": "graph",
+            "order": 2,
+            "row": 5
+        },
+        {
+            "inputs": {
+                "submit_text": "Submit",
+                "options": [
+                    {
+                        "default": true,
+                        "validator_regex": null,
+                        "type": "checkbox",
+                        "name": "show_axes",
+                        "label": "Show axes?"
+                    },
+                    {
+                        "name": "starting_num",
+                        "default": 0,
+                        "placeholder": "e.g. 10",
+                        "label": "The lowest number to start from",
+                        "input_classes": [
+                            "form-control"
+                        ],
+                        "validator_regex": null,
+                        "type": "radio",
+                        "options": [
+                            [
+                                0,
+                                0
+                            ],
+                            [
+                                10,
+                                10
+                            ],
+                            [
+                                20,
+                                20
+                            ],
+                            [
+                                50,
+                                50
+                            ]
+                        ]
+                    },
+                    {
+                        "name": "range",
+                        "default": 10,
+                        "placeholder": "e.g. 10",
+                        "label": "Number of results",
+                        "input_classes": [
+                            "form-control",
+                            "input-sm"
+                        ],
+                        "help_text": "Change the number of results shown",
+                        "validator_regex": null,
+                        "type": "select",
+                        "options": [
+                            [
+                                5,
+                                "Show 5"
+                            ],
+                            [
+                                10,
+                                "Show 10"
+                            ],
+                            [
+                                25,
+                                "Show 25"
+                            ],
+                            [
+                                50,
+                                "Show 50"
+                            ],
+                            [
+                                100,
+                                "Show 100"
+                            ]
+                        ]
+                    },
+                    {
+                        "name": "prefix",
+                        "default": 10,
+                        "placeholder": "e.g. item #",
+                        "label": "A prefix to use for each time",
+                        "input_classes": [
+                            "form-control",
+                            "input-sm"
+                        ],
+                        "validator_regex": null,
+                        "type": "text"
+                    },
+                    {
+                        "name": "entries",
+                        "placeholder": "e.g. 10",
+                        "label": "Number of points",
+                        "input_classes": [
+                            "form-control",
+                            "input-sm"
+                        ],
+                        "help_text": "Change the number of points per entry shown",
+                        "validator_regex": null,
+                        "type": "number"
+                    }
+                ],
+                "btn_classes": [
+                    "btn",
+                    "btn-info",
+                    "btn-sm"
+                ]
+            },
+            "name": "line - with inputs",
+            "family": "C3",
+            "height": 320,
+            "width": "col-4",
+            "dataSource": "http://127.0.0.1:5004/custom-inputs?override=true",
+            "override": true,
+            "refreshInterval": null,
+            "guid": "a6eb10e7-26fa-7814-818a-3699b24415c5",
+            "type": "line",
+            "order": 3,
+            "row": 2
+        },
+        {
+            "name": "Gist via Github.com",
+            "family": "C3",
+            "refresh": false,
+            "height": 500,
+            "width": "col-4",
+            "dataSource": "https://gist.githubusercontent.com/christabor/a720944d03cb642dcbe246376b9b8b20/raw/4e908d30481455d2ae35df20cbbca80bd678c844/jsondash.json",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "efc500ee-dfb1-4ecb-960e-b852fc0155e0",
+            "type": "scatter",
+            "order": 1,
+            "row": 4
+        },
+        {
+            "name": "Pie chart",
+            "family": "C3",
+            "refresh": false,
+            "height": 500,
+            "width": "col-4",
+            "dataSource": "http://127.0.0.1:5004/line",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "e80a4d55-7dac-6efd-165b-86f99b43d909",
+            "type": "pie",
+            "order": 3,
+            "row": 1
+        },
+        {
+            "name": "Spline chart",
+            "family": "C3",
+            "refresh": false,
+            "height": 500,
+            "width": "col-5",
+            "dataSource": "http://127.0.0.1:5004/line",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "e204f504-e308-809a-07ed-9e7aa36bccd3",
+            "type": "spline",
+            "order": 2,
+            "row": 1
+        },
+        {
+            "name": "Line chart",
+            "family": "C3",
+            "refresh": false,
+            "height": 399,
+            "width": "col-3",
+            "dataSource": "http://127.0.0.1:5004/line",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "db7c13e3-4906-47ba-2525-f5daf1cde539",
+            "type": "line",
+            "order": 2,
+            "row": 3
+        },
+        {
+            "name": "Pie chart 2",
+            "family": "C3",
+            "refresh": false,
+            "height": 320,
+            "width": "col-3",
+            "dataSource": "http://127.0.0.1:5004/pie",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "bf2d56d5-c8ba-eaad-85a8-f799ee0d48a0",
+            "type": "pie",
+            "order": 1,
+            "row": 2
+        },
+        {
+            "name": "Area chart 3",
+            "family": "C3",
+            "refresh": false,
+            "height": 400,
+            "width": "col-5",
+            "dataSource": "http://127.0.0.1:5004/line",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "66e2cd4d-c3e9-81dc-f6e8-7d518fc6e1fc",
+            "type": "area",
+            "order": 1,
+            "row": 3
+        },
+        {
+            "name": "Area chart 2",
+            "family": "C3",
+            "refresh": false,
+            "height": 500,
+            "width": "col-4",
+            "dataSource": "http://127.0.0.1:5004/line",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "913efd1a-fef7-a984-d43f-cfc00f2915a2",
+            "type": "area",
+            "order": 3,
+            "row": 4
+        },
+        {
+            "name": "line - no inputs",
+            "family": "C3",
+            "height": 500,
+            "width": "col-4",
+            "dataSource": "http://127.0.0.1:5004/custom-inputs",
+            "override": false,
+            "guid": "a6eb10e7-26fa-7814-818a-3010292929c2",
+            "type": "line",
+            "order": 2,
+            "row": 4
+        },
+        {
+            "name": "Step chart",
+            "family": "C3",
+            "refresh": false,
+            "height": 400,
+            "width": "col-4",
+            "dataSource": "http://127.0.0.1:5004/line",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "ec6fc494-f717-6b47-41d2-3b4ef4fc7d57",
+            "type": "step",
+            "order": 3,
+            "row": 3
+        },
+        {
+            "name": "Area chart",
+            "family": "C3",
+            "refresh": false,
+            "height": 500,
+            "width": "col-3",
+            "dataSource": "http://127.0.0.1:5004/line",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "527d7a45-2b52-26ae-6688-9bed7d8d2026",
+            "type": "area",
+            "order": 1,
+            "row": 1
+        },
+        {
+            "name": "Donut chart",
+            "family": "C3",
+            "refresh": false,
+            "height": 320,
+            "width": "col-3",
+            "dataSource": "http://127.0.0.1:5004/pie",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "ee54c2e5-d579-5550-09dd-83bb116f306d",
+            "type": "donut",
+            "order": 2,
+            "row": 2
+        },
+        {
+            "name": "datatable",
+            "family": "DataTable",
+            "height": 520,
+            "width": "col-6",
+            "dataSource": "http://127.0.0.1:5004/dtable",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "c3a9c36b-edc1-6627-340c-07da627b2175",
+            "type": "datatable",
+            "order": 1,
+            "row": 5
+        }
+    ],
+    "created_by": "global",
+    "date": "2017-04-14 23:02:32.351072",
+    "id": "63ee3759-21a0-11e7-b899-a0999b0aebbf"
+}
