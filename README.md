@@ -10,15 +10,15 @@
 
 Easily configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
 
-![kitchensink screenshot 2](example_app/examples/screenshots/kitchensink2.png)
+<img src="example_app/examples/screenshots/kitchensink1.png" alt="kitchen sink 2">
 
-![kitchensink screenshot 1](example_app/examples/screenshots/kitchensink1.png)
+<img src="example_app/examples/screenshots/kitchensink1.png" alt="kitchen sink 1">
 
-![dashboard overview](example_app/examples/screenshots/listview.png =400x)
+<img src="example_app/examples/screenshots/listview.png" alt="dashboard overview" width="400">
 
-![adding module](example_app/examples/screenshots/addmodule.png =400x)
+<img src="example_app/examples/screenshots/addmodule.png" alt="adding a widget">
 
-![kitchensink screenshot 1](example_app/examples/screenshots/plotly.png)
+<img src="example_app/examples/screenshots/plotly.png" alt="kitchensink screenshot 1">
 
 This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/) that allows you to create **sleek dashboards** without writing any front end (or backend) code. Everything is powered through simple JSON configurations for declaring arbitrary charts.
 
