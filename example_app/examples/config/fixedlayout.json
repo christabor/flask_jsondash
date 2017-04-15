@@ -15,7 +15,62 @@
             "guid": "a1c0b305-2340-211a-dc6e-a0d956bd9315",
             "type": "graph",
             "order": 2,
-            "row": 5
+            "row": 6
+        },
+        {
+            "name": "Youtube",
+            "family": "Basic",
+            "refresh": false,
+            "height": 380,
+            "width": "col-4",
+            "dataSource": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/ojmk5tSj0sE?ecver=1\" frameborder=\"0\" allowfullscreen></iframe>",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "6bf25b12-6bbd-92f7-5eb7-cbd4a3dc0860",
+            "type": "youtube",
+            "order": 1,
+            "row": 1
+        },
+        {
+            "name": "Surface map 3d",
+            "family": "PlotlyStandard",
+            "refresh": false,
+            "height": 500,
+            "width": "col-4",
+            "dataSource": "http://127.0.0.1:5004/plotly?chart=surface3d",
+            "override": true,
+            "refreshInterval": null,
+            "guid": "ade2993xza-1e33-34a9-5aaf-as03gKjaYuxx",
+            "type": "plotly-any",
+            "order": 1,
+            "row": 7
+        },
+        {
+            "name": "Random walk 3d",
+            "family": "PlotlyStandard",
+            "refresh": false,
+            "height": 500,
+            "width": "col-3",
+            "dataSource": "http://127.0.0.1:5004/plotly?chart=randomwalk3d",
+            "override": true,
+            "refreshInterval": "",
+            "guid": "3asd45ddfx-1e33-3d441-5aaf-as03gKjaY4azx",
+            "type": "plotly-any",
+            "order": 3,
+            "row": 7
+        },
+        {
+            "name": "circlepack",
+            "family": "D3",
+            "height": 900,
+            "width": "col-7",
+            "dataSource": "http://127.0.0.1:5004/circlepack",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "79178d58-a690-37ec-3594-84516d263e9e",
+            "type": "circlepack",
+            "order": null,
+            "row": 10
         },
         {
             "inputs": {
@@ -126,14 +181,14 @@
             "name": "line - with inputs",
             "family": "C3",
             "height": 320,
-            "width": "col-4",
+            "width": "col-3",
             "dataSource": "http://127.0.0.1:5004/custom-inputs?override=true",
             "override": true,
             "refreshInterval": null,
             "guid": "a6eb10e7-26fa-7814-818a-3699b24415c5",
             "type": "line",
             "order": 3,
-            "row": 2
+            "row": 3
         },
         {
             "name": "Gist via Github.com",
@@ -147,7 +202,7 @@
             "guid": "efc500ee-dfb1-4ecb-960e-b852fc0155e0",
             "type": "scatter",
             "order": 1,
-            "row": 4
+            "row": 5
         },
         {
             "name": "Pie chart",
@@ -161,7 +216,7 @@
             "guid": "e80a4d55-7dac-6efd-165b-86f99b43d909",
             "type": "pie",
             "order": 3,
-            "row": 1
+            "row": 2
         },
         {
             "name": "Spline chart",
@@ -175,7 +230,7 @@
             "guid": "e204f504-e308-809a-07ed-9e7aa36bccd3",
             "type": "spline",
             "order": 2,
-            "row": 1
+            "row": 2
         },
         {
             "name": "Line chart",
@@ -189,7 +244,7 @@
             "guid": "db7c13e3-4906-47ba-2525-f5daf1cde539",
             "type": "line",
             "order": 2,
-            "row": 3
+            "row": 4
         },
         {
             "name": "Pie chart 2",
@@ -203,7 +258,7 @@
             "guid": "bf2d56d5-c8ba-eaad-85a8-f799ee0d48a0",
             "type": "pie",
             "order": 1,
-            "row": 2
+            "row": 3
         },
         {
             "name": "Area chart 3",
@@ -217,7 +272,7 @@
             "guid": "66e2cd4d-c3e9-81dc-f6e8-7d518fc6e1fc",
             "type": "area",
             "order": 1,
-            "row": 3
+            "row": 4
         },
         {
             "name": "Area chart 2",
@@ -231,7 +286,21 @@
             "guid": "913efd1a-fef7-a984-d43f-cfc00f2915a2",
             "type": "area",
             "order": 3,
-            "row": 4
+            "row": 5
+        },
+        {
+            "name": "asdasd",
+            "family": "Venn",
+            "refresh": false,
+            "height": 320,
+            "width": "col-3",
+            "dataSource": "http://127.0.0.1:5004/venn",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "5797c5bd-dfe2-76b6-a3f6-fd0b5373d212",
+            "type": "venn",
+            "order": 4,
+            "row": 3
         },
         {
             "name": "line - no inputs",
@@ -243,7 +312,7 @@
             "guid": "a6eb10e7-26fa-7814-818a-3010292929c2",
             "type": "line",
             "order": 2,
-            "row": 4
+            "row": 5
         },
         {
             "name": "Step chart",
@@ -257,7 +326,33 @@
             "guid": "ec6fc494-f717-6b47-41d2-3b4ef4fc7d57",
             "type": "step",
             "order": 3,
-            "row": 3
+            "row": 4
+        },
+        {
+            "name": "Treemap",
+            "family": "D3",
+            "height": 900,
+            "width": "col-5",
+            "dataSource": "http://127.0.0.1:5004/treemap",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "139b6c94-99ae-4aa3-d525-812642d91b03",
+            "type": "treemap",
+            "order": null,
+            "row": 10
+        },
+        {
+            "name": "Radial dendrogram",
+            "family": "D3",
+            "height": 900,
+            "width": "col-9",
+            "dataSource": "http://127.0.0.1:5004/dendrogram?radial=1&simple=1",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "61dca3d8-c713-2b0b-ce68-5d93fff19fa5",
+            "type": "radial-dendrogram",
+            "order": null,
+            "row": 9
         },
         {
             "name": "Area chart",
@@ -271,7 +366,21 @@
             "guid": "527d7a45-2b52-26ae-6688-9bed7d8d2026",
             "type": "area",
             "order": 1,
-            "row": 1
+            "row": 2
+        },
+        {
+            "name": "Polar",
+            "family": "PlotlyStandard",
+            "refresh": false,
+            "height": 540,
+            "width": "col-4",
+            "dataSource": "http://127.0.0.1:5004/plotly?chart=polar",
+            "override": true,
+            "refreshInterval": null,
+            "guid": "9a31b73f-1e33-30a9-5aaf-76f3aea34aazsa",
+            "type": "plotly-any",
+            "order": 2,
+            "row": 7
         },
         {
             "name": "Donut chart",
@@ -285,23 +394,48 @@
             "guid": "ee54c2e5-d579-5550-09dd-83bb116f306d",
             "type": "donut",
             "order": 2,
-            "row": 2
+            "row": 3
+        },
+        {
+            "name": "Voronoi",
+            "family": "D3",
+            "refresh": false,
+            "height": 500,
+            "width": "col-6",
+            "dataSource": "http://127.0.0.1:5004/voronoi",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "0dfd4215-94f1-f5b0-51ea-5898f7f2798a",
+            "type": "voronoi",
+            "order": null,
+            "row": 1
         },
         {
             "name": "datatable",
             "family": "DataTable",
             "height": 520,
-            "width": "col-6",
+            "width": "col-8",
             "dataSource": "http://127.0.0.1:5004/dtable",
             "override": false,
             "refreshInterval": null,
             "guid": "c3a9c36b-edc1-6627-340c-07da627b2175",
             "type": "datatable",
             "order": 1,
-            "row": 5
+            "row": 6
+        },
+        {
+            "name": "Dendrogram",
+            "family": "D3",
+            "height": 900,
+            "width": "col-md-12",
+            "dataSource": "http://127.0.0.1:5004/dendrogram",
+            "override": false,
+            "guid": "0b7e0c94-e526-4821-706c-b038ec42322b",
+            "type": "dendrogram",
+            "row": 8
         }
     ],
     "created_by": "global",
-    "date": "2017-04-14 23:02:32.351072",
-    "id": "63ee3759-21a0-11e7-b899-a0999b0aebbf"
+    "date": "2017-04-15 02:39:17.752511",
+    "id": "6880f947-21b6-11e7-b27a-a0999b0aebbf"
 }
