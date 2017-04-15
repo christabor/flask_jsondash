@@ -53,6 +53,10 @@ default_config = dict(
 adapter = db.get_db_handler()
 
 
+class InvalidSchemaError(ValueError):
+    """Wrapper exception for specific raising scenarios."""
+
+
 def auth(**kwargs):
     """Check if general auth functions have been specified.
 
@@ -361,8 +365,8 @@ def view(c_id):
         flash('Invalid configuration - missing modules.', 'error')
         return redirect(url_for('jsondash.dashboard'))
     # Chart family is encoded in chart type value for lookup.
-    active_charts = [v.get('family') for
-                     v in viewjson['modules'] if v.get('family')]
+    active_charts = [v.get('family') for v in viewjson['modules']
+                     if v.get('family') is not None]
     # If the logged in user is also the creator of this dashboard,
     # let me edit it. Otherwise, defer to any user-supplied auth function
     # for this specific view.
@@ -395,6 +399,27 @@ def delete(c_id):
     return redirect(dash_url)
 
 
+def validate_raw_json(jsonstr):
+    """Validate the raw json for a config."""
+    data = json.loads(jsonstr)
+    layout = data.get('layout', 'freeform')
+    for module in data.get('modules'):
+        required = ['family', 'name', 'width', 'height', 'dataSource', 'type']
+        fixed_required = ['row']
+        for field in required:
+            if field not in module:
+                raise InvalidSchemaError(
+                    'Invalid JSON. "{}" must be '
+                    'included in "{}"'.format(field, module))
+        for field in fixed_required:
+            if field not in module and layout == 'grid':
+                raise InvalidSchemaError(
+                    'Invalid JSON. "{}" must be '
+                    'included in "{}" for '
+                    'fixed grid layouts'.format(field, module))
+    return data
+
+
 @charts.route('/charts/<c_id>/update', methods=['POST'])
 def update(c_id):
     """Normalize the form POST and setup the json view config object."""
@@ -410,8 +435,11 @@ def update(c_id):
     edit_raw = 'edit-raw' in request.form
     if edit_raw:
         try:
-            data = json.loads(form_data.get('config'))
+            data = validate_raw_json(form_data.get('config'))
             data = db.reformat_data(data, c_id)
+        except InvalidSchemaError as e:
+            flash(str(e), 'error')
+            return redirect(view_url)
         except (TypeError, ValueError):
             flash('Invalid JSON config.', 'error')
             return redirect(view_url)
