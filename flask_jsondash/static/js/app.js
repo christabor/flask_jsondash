@@ -125,23 +125,29 @@ var jsondash = function() {
             return $('input[id="' + self.guid + '"]');
         };
         self.delete = function(bypass_confirm) {
-            clearInterval(self._refreshInterval);
             if(!bypass_confirm){
                 if(!confirm('Are you sure?')) {
                     return;
                 }
             }
+            var row = self.$el.closest('.grid-row');
+            clearInterval(self._refreshInterval);
             // Delete the input
             self.getInput().remove();
             // Delete the widget
             self.el.remove();
-            // Remove reference to the model by guid
+            // Remove reference to the collection by guid
             my.widgets._delete(self.guid);
             EDIT_MODAL.modal('hide');
             // Redraw wall to replace visual 'hole'
-            fitGrid();
+            if(my.layout === 'grid') {
+                // Fill empty holes in this charts' row
+                fillEmptyCols(row);
+            }
             // Trigger update form into view since data is dirty
             EDIT_CONTAINER.collapse('show');
+            // Refit grid - this should be last.
+            fitGrid();
         };
         self.addGridClasses = function(sel, classes) {
             d3.map(classes, function(colcount){
@@ -198,6 +204,19 @@ var jsondash = function() {
         self._updateForm = function() {
             self.getInput().val(JSON.stringify(self.config));
         };
+    }
+
+    /**
+     * [fillEmptyCols Fill in gaps in a row when an item has been deleted (fixed grid only)]
+     */
+    function fillEmptyCols(row) {
+        row.each(function(_, row){
+            var items = $(row).find('.item.widget');
+            var cols = $(row).find('> div');
+            cols.filter(function(i, col){
+                return $(col).find('.item.widget').length === 0;
+            }).remove();
+        });
     }
 
     function togglePreviewOutput(is_on) {
@@ -257,7 +276,7 @@ var jsondash = function() {
         }
         var new_config = my.widgets.newModel();
         // Remove empty rows and then update the order so it's consecutive.
-        $('.grid-row').each(function(i, row){
+        $('.grid-row').not('.grid-row-template').each(function(i, row){
             // Delete empty rows - except any empty rows that have been created
             // for the purpose of this new chart.
             if($(row).find('.item.widget').length === 0 && new_config.row !== i + 1) {
