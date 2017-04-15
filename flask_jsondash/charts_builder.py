@@ -161,6 +161,7 @@ def get_dims(_, config):
         'height' in config,
         'dataSource' in config,
         config.get('dataSource') != '',
+        config.get('dataSource') is not None,
     ]):
         raise ValueError('Invalid config!')
     if config.get('type') == 'youtube':
