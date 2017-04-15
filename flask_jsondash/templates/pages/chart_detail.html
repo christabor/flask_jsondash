@@ -21,7 +21,7 @@
         {% set dims = module|get_dims %}
         {% set fixedcol = view.layout == 'grid' %}
         {% if fixedcol %}
-            {% set colcount = dims.width.replace('col-', '') %}
+            {% set colcount = dims.width.replace('col-', '') if module.type != 'youtube' else module.width %}
             <div class="col-sm-12 col-xs-12 col-md-{{ colcount }} col-lg-{{ colcount }}">
         {% endif %}
         <div class="hidden item widget"

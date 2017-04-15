@@ -16,9 +16,10 @@
         {% if can_edit_global %}
             &nbsp;
             <label>
-                Make global?
+                Global?
                 <input type="checkbox" name="is_global" {% if view and is_global %}checked{% endif %}>
             </label>
+            &nbsp;
         {% endif %}
     </div>
     <div class="modules hidden">
