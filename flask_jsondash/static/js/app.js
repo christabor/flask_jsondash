@@ -117,6 +117,9 @@ var jsondash = function() {
                     loadWidgetData(my.widgets.get(self.config.guid));
                 }, parseInt(self.config.refreshInterval, 10));
             }
+            if(my.layout === 'grid') {
+                updateRowControls();
+            }
         };
         self.init();
 
@@ -143,6 +146,7 @@ var jsondash = function() {
             if(my.layout === 'grid') {
                 // Fill empty holes in this charts' row
                 fillEmptyCols(row);
+                updateRowControls();
             }
             // Trigger update form into view since data is dirty
             EDIT_CONTAINER.collapse('show');
@@ -869,6 +873,7 @@ var jsondash = function() {
 
         EDIT_TOGGLE_BTN.on('click', function(e){
             $('body').toggleClass('jsondash-editing');
+            updateRowControls();
         });
 
         $('.delete-row').on('click', function(e){
@@ -886,6 +891,38 @@ var jsondash = function() {
         populateRowField();
         fitGrid();
         if(isEmptyDashboard()) {EDIT_TOGGLE_BTN.click();}
+    }
+
+    /**
+     * [updateRowControls Check each row's buttons and disable the "add" button if that row
+     * is at the maximum colcount (12)]
+     */
+    function updateRowControls() {
+        $('.grid-row').not('.grid-row-template').each(function(i, row){
+            var count = getRowColCount($(row));
+            if(count >= 12) {
+                $(row).find('.grid-row-label').addClass('disabled');
+            } else {
+                $(row).find('.grid-row-label').removeClass('disabled');
+            }
+        });
+    }
+
+    /**
+     * [getRowColCount Return the column count of a row.]
+     * @param  {[dom selection]} row [The row selection]
+     */
+    function getRowColCount(row) {
+        var count = 0;
+        row.find('.item.widget').each(function(j, item){
+            var classes = $(item).parent().attr('class').split(/\s+/);
+            for(var i in classes) {
+                if(classes[i].startsWith('col-md-')) {
+                    count += parseInt(classes[i].replace('col-md-', ''), 10);
+                }
+            }
+        });
+        return count;
     }
 
     function isEmptyDashboard() {
