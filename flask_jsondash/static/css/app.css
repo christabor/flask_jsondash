@@ -70,11 +70,7 @@ body {
 .grid-row.ui-droppable-hover {
     background-color: #CBEFC4;
 }
-.grid-row.ui-droppable-hover {
-}
-
-.grid-row.ui-droppable-active {
-}
+.grid-row.ui-droppable-active {}
 .item.ui-draggable-dragging,
 .item.is-positioning-post-drag {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);

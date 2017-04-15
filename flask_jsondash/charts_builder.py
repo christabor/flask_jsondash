@@ -168,7 +168,12 @@ def get_dims(_, config):
         config.get('dataSource') is not None,
     ]):
         raise ValueError('Invalid config!')
+    fixed_layout = str(config.get('width')).startswith('col-')
     if config.get('type') == 'youtube':
+        # Override all width settings if fixed grid layout
+        if fixed_layout:
+            width = config['width'].replace('col-', '')
+            return dict(width=width, height=config['height'])
         # We get the dimensions for the widget from YouTube instead,
         # which handles aspect ratios, etc... and is likely what the user
         # wanted to specify since they will be entering in embed code from
