@@ -14,17 +14,23 @@ Easily configurable, chart dashboards from any arbitrary API endpoint. JSON conf
 
 ![kitchensink screenshot 1](example_app/examples/screenshots/kitchensink1.png)
 
-![kitchensink screenshot 1](example_app/examples/screenshots/listview.png)
-
-![kitchensink screenshot 1](example_app/examples/screenshots/addmodule.png)
+![dashboard overview](example_app/examples/screenshots/listview.png =400x)
+![adding module](example_app/examples/screenshots/addmodule.png =400x)
 
 ![kitchensink screenshot 1](example_app/examples/screenshots/plotly.png)
 
-This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/) that allows you to create sleek dashboards without writing any front end code. It saves JSON configurations for declaring arbitrary charts, leveraging popular libraries like C3.js and D3.js.
+This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/) that allows you to create **sleek dashboards** without writing any front end (or backend) code. Everything is powered through simple JSON configurations for declaring arbitrary charts.
 
-It also supports templates and iframes, as well as other data visualization libraries. The beauty of this approach is that only a basic configuration is required. It uses any specified json endpoint to get data from, so long as the [payload format is correct](docs/schemas.md).
+## Features
 
-The dashboard layout and blueprint styles are pre-packaged, and provide only the essentials, while getting out of the way.
+* Leveraging popular libraries like C3.js and D3.js, and **MUCH MORE**.
+* Also supports templates and iframes
+* Only a basic intuitive configuration is required.
+* The dashboard layout and blueprint styles are pre-packaged, and provide only the essentials, while getting out of the way.
+* Drag-and-drop your layout easily and intuitively
+* Multiple layout modes - **bootstrap grid** based or totally **freeform**
+
+It uses any specified json endpoint to get data from, so long as the [payload format is correct](docs/schemas.md).
 
 ## JSON configurations intro
 
