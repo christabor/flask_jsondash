@@ -14,9 +14,9 @@ Easily configurable, chart dashboards from any arbitrary API endpoint. JSON conf
 
 <img src="example_app/examples/screenshots/kitchensink1.png" alt="kitchen sink 1">
 
-<img src="example_app/examples/screenshots/listview.png" alt="dashboard overview" width="400">
+<img src="example_app/examples/screenshots/listview.png" alt="dashboard overview" width="700">
 
-<img src="example_app/examples/screenshots/addmodule.png" alt="adding a widget">
+<img src="example_app/examples/screenshots/addmodule.png" alt="adding a widget" width="700">
 
 <img src="example_app/examples/screenshots/plotly.png" alt="kitchensink screenshot 1">
 
