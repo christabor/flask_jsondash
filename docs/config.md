@@ -6,6 +6,10 @@ And of course, [you can always check out examples here](example_app/examples/con
 
 (Note: :heavy_exclamation_mark: = required, :no_entry_sign: = not user specified, :heavy_check_mark: = optional)
 
+**layout** - [*Stringe*] / auto-generated :no_entry_sign:
+
+The type of layout - either "freeform" or "grid". This is automatically generated, so you don't need to edit it.
+
 **date** - [*String/Date*] / auto-generated :no_entry_sign:
 
 The date for the schema. This is automatically generated, so you don't need to edit it.
@@ -35,6 +39,10 @@ The height of the chart in pixels.
 **modules**:**width** - [*String/Number*] :heavy_exclamation_mark:
 
 The width of the chart in pixels.
+
+**modules**:**row** - [*Number*] :heavy_check_mark:
+
+The row which the chart resides in. This is only relevant if `"layout": "grid"` is specified for the dashboard.
 
 **modules**:**order** - [*Number*] :heavy_check_mark:
 
