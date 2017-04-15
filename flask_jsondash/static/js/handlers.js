@@ -33,10 +33,12 @@ jsondash.handlers.handleYoutube = function(container, config) {
         })[0];
     }
 
+
     var url = config.dataSource;
     var parts = config.dataSource.split(' ');
+    var yt_width = parseInt(getAttr('width', parts).split('=')[1].replace(/"/gi, ''), 10);
     var height = parseInt(getAttr('height', parts).split('=')[1].replace(/"/gi, ''), 10);
-    var width = parseInt(getAttr('width', parts).split('=')[1].replace(/"/gi, ''), 10);
+    var width = isNaN(config.width) ? '100%' : yt_width;
     var url = getAttr('src', parts).replace('src=', '').replace(/"/gi, '');
 
     // In the case of YouTube, we have to override the config dimensions
@@ -188,9 +190,8 @@ jsondash.handlers.handleCirclePack = function(container, config) {
     'use strict';
     // Adapted from https://bl.ocks.org/mbostock/4063530
     var margin = jsondash.config.WIDGET_MARGIN_Y;
-    var diameter = d3.max([config.width, config.height]) - margin;
+    var diameter = isNaN(config.width) ? config.height - margin : d3.max([config.width, config.height]);
     var format = d3.format(',d');
-
     var pack = d3.layout.pack()
         .size([diameter, diameter])
         .value(function(d) { return d.size; });
@@ -235,7 +236,8 @@ jsondash.handlers.handleTreemap = function(container, config) {
         left: jsondash.config.WIDGET_MARGIN_X / 2,
         right: jsondash.config.WIDGET_MARGIN_X / 2
     };
-    var width = config.width - jsondash.config.WIDGET_MARGIN_X;
+    var _width = isNaN(config.width) ? config.height : config.width;
+    var width = _width - jsondash.config.WIDGET_MARGIN_X;
     var height = config.height - jsondash.config.WIDGET_MARGIN_Y;
     var color = d3.scale.category20c();
     var treemap = d3.layout.treemap()
@@ -297,8 +299,9 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
     container.selectAll('svg').remove();
     // Code taken (and refactored for use here) from:
     // https://bl.ocks.org/mbostock/4339607
+    var _width = isNaN(config.width) ? config.height : config.width;
     var padding = 50;
-    var radius = (config.width > config.height ? config.width : config.height) - padding;
+    var radius = (_width > config.height ? _width : config.height) - padding;
     var cluster = d3.layout.cluster()
         .size([360, radius / 2 - 150]); // reduce size relative to `radius`
     var diagonal = d3.svg.diagonal.radial()
@@ -339,11 +342,12 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
 jsondash.handlers.handleDendrogram = function(container, config) {
     'use strict';
     container.selectAll('svg').remove();
+    var _width = isNaN(config.width) ? container.node().getBoundingClientRect().width : config.width;
     // A general padding for the svg inside of the widget.
     // The cluster dendrogram will also need to have padding itself, so
     // the bounds are not clipped in the svg.
     var svg_pad = 20;
-    var width = config.width - svg_pad;
+    var width = _width - svg_pad;
     var height = config.height - svg_pad;
     var PADDING = width / 4;
     var cluster = d3.layout.cluster()
@@ -388,22 +392,24 @@ jsondash.handlers.handleDendrogram = function(container, config) {
 jsondash.handlers.handleVoronoi = function(container, config) {
     'use strict';
     jsondash.getJSON(container, config.dataSource, function(error, data){
-        var width = config.width - jsondash.config.WIDGET_MARGIN_X;
-        var height = config.height - jsondash.config.WIDGET_MARGIN_Y;
+        var _width   = isNaN(config.width) ? container.node().getBoundingClientRect().width : config.width;
+        var width    = _width - jsondash.config.WIDGET_MARGIN_X;
+        var height   = config.height - jsondash.config.WIDGET_MARGIN_Y;
         var vertices = data;
-        var voronoi = d3.geom.voronoi().clipExtent([[0, 0], [width, height]]);
+        var voronoi  = d3.geom.voronoi().clipExtent([[0, 0], [width, height]]);
         // Cleanup
+        container.selectAll('svg').remove();
         var svg = container
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height);
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height);
         var path = svg.append('g').selectAll('path');
         svg.selectAll('circle')
-        .data(vertices.slice(1))
-        .enter().append('circle')
-        .attr('transform', function(d) { return 'translate(' + d + ')'; })
-        .attr('r', 1.5);
-        redraw();
+            .data(vertices.slice(1))
+            .enter().append('circle')
+            .attr('transform', function(d) { return 'translate(' + d + ')'; })
+            .attr('r', 1.5);
+            redraw();
 
         function redraw() {
             path = path.data(voronoi(vertices), jsondash.util.polygon);
@@ -572,17 +578,24 @@ jsondash.handlers.handlePlotly = function(container, config) {
         .classed({'plotly-container': true})
         .attr('id', id);
     jsondash.getJSON(container, config.dataSource, function(error, data){
+        var plotly_wrapper =  d3.select('#' + id);
+        delete data.layout.height;
+        delete data.layout.width;
+        data.layout.margin = {l: 20, r: 20, b: 20, t: 50};
         if(config.override) {
-            if(data.layout && data.layout.margin) {
-                // Remove margins, they mess up the
-                // layout and are already accounted for.
-                delete data.layout['margin'];
-            }
             Plotly.plot(id, data.data, data.layout || {}, data.options || {});
         } else {
             Plotly.plot(id, data);
         }
-        d3.select('#' + id).select('.svg-container').style({'margin': '0 auto'})
+       plotly_wrapper.select('.svg-container').style({
+            'margin': '0 auto',
+            'width': isNaN(config.width) ? '100%' : config.width,
+            'height': config.height
+        });
+        plotly_wrapper.select('#scene').style({
+            'width': isNaN(config.width) ? '100%' : config.width,
+            'height': config.height
+        });
         // Look for callbacks potentially registered for third party code.
         jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
