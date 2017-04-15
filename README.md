@@ -10,7 +10,7 @@
 
 Easily configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
 
-<img src="example_app/examples/screenshots/kitchensink1.png" alt="kitchen sink 2">
+<img src="example_app/examples/screenshots/kitchensink2.png" alt="kitchen sink 2">
 
 <img src="example_app/examples/screenshots/kitchensink1.png" alt="kitchen sink 1">
 
