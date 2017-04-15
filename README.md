@@ -15,6 +15,7 @@ Easily configurable, chart dashboards from any arbitrary API endpoint. JSON conf
 ![kitchensink screenshot 1](example_app/examples/screenshots/kitchensink1.png)
 
 ![dashboard overview](example_app/examples/screenshots/listview.png =400x)
+
 ![adding module](example_app/examples/screenshots/addmodule.png =400x)
 
 ![kitchensink screenshot 1](example_app/examples/screenshots/plotly.png)
