@@ -779,8 +779,6 @@ var jsondash = function() {
     }
 
     function setupResponsiveEvents() {
-        // This is handled by bs3, so we don't need it.
-        if(my.layout === 'grid') {return;}
         // Setup responsive handlers
         var jres = jRespond([
         {
