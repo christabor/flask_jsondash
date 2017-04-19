@@ -360,6 +360,8 @@ def view(c_id):
         flash('You do not have access to view this dashboard.', 'error')
         return redirect(url_for('jsondash.dashboard'))
     viewjson = adapter.read(c_id=c_id)
+    # Backwards compatible layout type
+    layout_type = viewjson.get('layout', 'freeform')
     if not viewjson:
         flash('Could not find view: {}'.format(c_id), 'error')
         return redirect(url_for('jsondash.dashboard'))
@@ -382,7 +384,7 @@ def view(c_id):
     kwargs = dict(
         id=c_id,
         view=viewjson,
-        num_rows=get_num_rows(viewjson),
+        num_rows=None if layout_type == 'freeform' else get_num_rows(viewjson),
         modules=sort_modules(viewjson),
         assets=get_active_assets(active_charts),
         can_edit=can_edit,
