@@ -38,7 +38,7 @@ The height of the chart in pixels.
 
 **modules**:**width** - [*String/Number*] :heavy_exclamation_mark:
 
-The width of the chart in pixels.
+The width of the chart in pixels if layout is freeform. *Note*: if the layout mode is `grid`, instead the width must be of the format `col-X` where `X` is a number between 1-12, indicating the number of columns in the grid. E.g. `col-4` or `col-6`.
 
 **modules**:**row** - [*Number*] :heavy_check_mark:
 
