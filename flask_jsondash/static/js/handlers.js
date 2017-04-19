@@ -31,6 +31,15 @@ jsondash.getDynamicWidth = function(container, config) {
 };
 
 /**
+ * [getDiameter Calculate a valid diameter for a circular widget,
+ * based on width/height to ensure the size never goes out of the container bounds.]
+ */
+jsondash.getDiameter = function(container, config) {
+    var width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
+    return d3.min([d3.round(width), config.height]);
+};
+
+/**
  * Handlers for various widget types. The method signatures are always the same,
  * but each handler can handle them differently.
  */
@@ -205,7 +214,7 @@ jsondash.handlers.handleCirclePack = function(container, config) {
     'use strict';
     // Adapted from https://bl.ocks.org/mbostock/4063530
     var margin = jsondash.config.WIDGET_MARGIN_Y;
-    var diameter = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : d3.max([config.width, config.height]);
+    var diameter = jsondash.getDiameter(container, config) - margin;
     var format = d3.format(',d');
     var pack = d3.layout.pack()
         .size([diameter, diameter])
