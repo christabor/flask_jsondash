@@ -11,6 +11,10 @@ jsondash.getJSON = function(container, url, callback) {
             jsondash.unload(container);
             throw new Error("Could not load url: " + url);
         }
+        if(!data) {
+            jsondash.unload(container);
+            throw new Error("No data was found, invalid response.");
+        }
         callback(error, data);
     });
 };
@@ -477,22 +481,22 @@ jsondash.handlers.handleDataTable = function(container, config) {
 jsondash.handlers.handleSingleNum = function(container, config) {
     'use strict';
     container.selectAll('.singlenum').remove();
-    jsondash.getJSON(container, config.dataSource, function(resp){
-        var data = resp.data.data ? resp.data.data : resp.data;
+    jsondash.getJSON(container, config.dataSource, function(error, res){
+        var data = res.data.data ? res.data.data : res.data;
         var num = container.select('.chart-container').append('div')
             .classed({singlenum: true})
             .text(data);
         data = String(data);
         // Add red or green, depending on if the number appears to be pos/neg.
-        if(!resp.noformat) {
+        if(!res.noformat) {
             num.classed({
                 'text-danger': data.startsWith('-'),
                 'text-success': !data.startsWith('-')
             });
         }
         // Allow custom colors.
-        if(resp.color && resp.noformat) {
-            num.style('color', resp.color);
+        if(res.color && res.noformat) {
+            num.style('color', res.color);
         }
         // Get title height to offset box.
         var title_h = container
