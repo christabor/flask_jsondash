@@ -20,6 +20,17 @@ jsondash.getJSON = function(container, url, callback) {
 };
 
 /**
+ * [getDynamicWidth Return the width for a container that has no specified width
+ * (e.g. grid mode)]
+ */
+jsondash.getDynamicWidth = function(container, config) {
+    if(isNaN(config.width)) {
+        return container.node().getBoundingClientRect().width;
+    }
+    return parseInt(config.width, 10);
+};
+
+/**
  * Handlers for various widget types. The method signatures are always the same,
  * but each handler can handle them differently.
  */
@@ -194,7 +205,7 @@ jsondash.handlers.handleCirclePack = function(container, config) {
     'use strict';
     // Adapted from https://bl.ocks.org/mbostock/4063530
     var margin = jsondash.config.WIDGET_MARGIN_Y;
-    var diameter = isNaN(config.width) ? config.height - margin : d3.max([config.width, config.height]);
+    var diameter = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : d3.max([config.width, config.height]);
     var format = d3.format(',d');
     var pack = d3.layout.pack()
         .size([diameter, diameter])
@@ -240,7 +251,7 @@ jsondash.handlers.handleTreemap = function(container, config) {
         left: jsondash.config.WIDGET_MARGIN_X / 2,
         right: jsondash.config.WIDGET_MARGIN_X / 2
     };
-    var _width = isNaN(config.width) ? config.height : config.width;
+    var _width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
     var width = _width - jsondash.config.WIDGET_MARGIN_X;
     var height = config.height - jsondash.config.WIDGET_MARGIN_Y;
     var color = d3.scale.category20c();
@@ -303,7 +314,7 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
     container.selectAll('svg').remove();
     // Code taken (and refactored for use here) from:
     // https://bl.ocks.org/mbostock/4339607
-    var _width = isNaN(config.width) ? config.height : config.width;
+    var _width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
     var padding = 50;
     var radius = (_width > config.height ? _width : config.height) - padding;
     var cluster = d3.layout.cluster()
@@ -346,7 +357,7 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
 jsondash.handlers.handleDendrogram = function(container, config) {
     'use strict';
     container.selectAll('svg').remove();
-    var _width = isNaN(config.width) ? container.node().getBoundingClientRect().width : config.width;
+    var _width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
     // A general padding for the svg inside of the widget.
     // The cluster dendrogram will also need to have padding itself, so
     // the bounds are not clipped in the svg.
@@ -396,7 +407,7 @@ jsondash.handlers.handleDendrogram = function(container, config) {
 jsondash.handlers.handleVoronoi = function(container, config) {
     'use strict';
     jsondash.getJSON(container, config.dataSource, function(error, data){
-        var _width   = isNaN(config.width) ? container.node().getBoundingClientRect().width : config.width;
+        var _width   = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
         var width    = _width - jsondash.config.WIDGET_MARGIN_X;
         var height   = config.height - jsondash.config.WIDGET_MARGIN_Y;
         var vertices = data;
