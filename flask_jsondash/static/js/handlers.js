@@ -238,7 +238,6 @@ jsondash.handlers.handleCirclePack = function(container, config) {
         jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
     });
-
     d3.select(self.frameElement).style("height", diameter + "px");
 };
 
@@ -311,7 +310,6 @@ jsondash.handlers.handleTreemap = function(container, config) {
 
 jsondash.handlers.handleRadialDendrogram = function(container, config) {
     'use strict';
-    container.selectAll('svg').remove();
     // Code taken (and refactored for use here) from:
     // https://bl.ocks.org/mbostock/4339607
     var _width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
@@ -356,7 +354,6 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
 
 jsondash.handlers.handleDendrogram = function(container, config) {
     'use strict';
-    container.selectAll('svg').remove();
     var _width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
     // A general padding for the svg inside of the widget.
     // The cluster dendrogram will also need to have padding itself, so
