@@ -9,11 +9,11 @@ jsondash.getJSON = function(container, url, callback) {
     d3.json(url, function(error, data){
         if(error) {
             jsondash.unload(container);
-            throw new Error("Could not load url: " + url);
+            throw new Error('Could not load url: ' + url);
         }
         if(!data) {
             jsondash.unload(container);
-            throw new Error("No data was found, invalid response.");
+            throw new Error('No data was found, invalid response.');
         }
         callback(error, data);
     });
