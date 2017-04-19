@@ -407,7 +407,7 @@ var jsondash = function() {
             }
         } else {
             var widgets = $('.item.widget');
-            max_options = widgets.length > 0 ? widgets.length + 1 : 2;
+            max_options = widgets.length > 0 ? widgets.length: 2;
         }
         order_field.find('option').remove();
         // Add empty option.
