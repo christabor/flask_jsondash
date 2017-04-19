@@ -69,6 +69,18 @@ var jsondash = function() {
             if(!config.override) {config['override'] = false;}
             return config;
         };
+        self.populate = function(data) {
+            for(var name in data.modules){
+                // Closure to maintain each chart data value in loop
+                (function(config){
+                    var config = data.modules[name];
+                    // Add div wrappers for js grid layout library,
+                    // and add title, icons, and buttons
+                    // This is the widget "model"/object used throughout.
+                    self.add(config);
+                })(data.modules[name]);
+            }
+        };
     }
 
     function Widget(container, config) {
@@ -121,8 +133,6 @@ var jsondash = function() {
                 updateRowControls();
             }
         };
-        self.init();
-
         self.getInput = function() {
             // Get the form input for this widget.
             return $('input[id="' + self.guid + '"]');
@@ -208,6 +218,9 @@ var jsondash = function() {
         self._updateForm = function() {
             self.getInput().val(JSON.stringify(self.config));
         };
+
+        // Run init script on creation
+        self.init();
     }
 
     /**
@@ -466,16 +479,7 @@ var jsondash = function() {
     }
 
     function addChartContainers(data) {
-        for(var name in data.modules){
-            // Closure to maintain each chart data value in loop
-            (function(config){
-                var config = data.modules[name];
-                // Add div wrappers for js grid layout library,
-                // and add title, icons, and buttons
-                // This is the widget "model"/object used throughout.
-                my.widgets.add(config);
-            })(data.modules[name]);
-        }
+        my.widgets.populate(data);
         fitGrid();
         for(var guid in my.widgets.all()){
             loadWidgetData(my.widgets.get(guid));
