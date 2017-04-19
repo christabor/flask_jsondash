@@ -1,3 +1,5 @@
+"""Test the validation for the core configuration schema."""
+
 import json
 import pytest
 
@@ -102,3 +104,24 @@ def test_validate_raw_json_missing_optional_freeform_module_keys(field):
         modules=[module]
     )
     assert app.validate_raw_json(d)
+
+
+@pytest.mark.schema
+@pytest.mark.parametrize('field', [
+    'name',
+    'modules',
+])
+def test_validate_raw_json_invalid_missing_toplevel_keys(field):
+    module = dict(
+        name='foo', dataSource='foo',
+        width=1, height=1, type='line',
+        row=1, family='C3',
+    )
+    config = _schema(
+        layout='freeform',
+        modules=[module]
+    )
+    config = json.loads(config)
+    del config[field]
+    with pytest.raises(ValueError):
+        app.validate_raw_json(json.dumps(config))

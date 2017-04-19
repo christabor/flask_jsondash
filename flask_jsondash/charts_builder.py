@@ -173,14 +173,14 @@ def get_dims(_, config):
         # Override all width settings if fixed grid layout
         if fixed_layout:
             width = config['width'].replace('col-', '')
-            return dict(width=width, height=config['height'])
+            return dict(width=width, height=int(config['height']))
         # We get the dimensions for the widget from YouTube instead,
         # which handles aspect ratios, etc... and is likely what the user
         # wanted to specify since they will be entering in embed code from
         # Youtube directly.
-        embed = config['dataSource'].split(' ')
         padding_w = 20
         padding_h = 60
+        embed = config['dataSource'].split(' ')
         w = int(embed[1].replace('width=', '').replace('"', ''))
         h = int(embed[2].replace('height=', '').replace('"', ''))
         return dict(width=w + padding_w, height=h + padding_h)
@@ -360,8 +360,6 @@ def view(c_id):
         flash('You do not have access to view this dashboard.', 'error')
         return redirect(url_for('jsondash.dashboard'))
     viewjson = adapter.read(c_id=c_id)
-    # Backwards compatible layout type
-    layout_type = viewjson.get('layout', 'freeform')
     if not viewjson:
         flash('Could not find view: {}'.format(c_id), 'error')
         return redirect(url_for('jsondash.dashboard'))
@@ -381,6 +379,8 @@ def view(c_id):
         can_edit = True
     else:
         can_edit = auth(authtype='edit_others', view_id=c_id)
+    # Backwards compatible layout type
+    layout_type = viewjson.get('layout', 'freeform')
     kwargs = dict(
         id=c_id,
         view=viewjson,
@@ -410,15 +410,19 @@ def validate_raw_json(jsonstr):
     """Validate the raw json for a config."""
     data = json.loads(jsonstr)
     layout = data.get('layout', 'freeform')
+    main_required_fields = ['name', 'modules']
+    for field in main_required_fields:
+        if field not in data.keys():
+            raise InvalidSchemaError('Missing "{}" key'.format(field))
     for module in data.get('modules'):
         required = ['family', 'name', 'width', 'height', 'dataSource', 'type']
-        fixed_required = ['row']
+        fixed_only_required = ['row']
         for field in required:
             if field not in module:
                 raise InvalidSchemaError(
                     'Invalid JSON. "{}" must be '
                     'included in "{}"'.format(field, module))
-        for field in fixed_required:
+        for field in fixed_only_required:
             if field not in module and layout == 'grid':
                 raise InvalidSchemaError(
                     'Invalid JSON. "{}" must be '
