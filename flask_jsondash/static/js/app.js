@@ -585,8 +585,8 @@ var jsondash = function() {
     }
 
     function fitGrid(grid_packer_opts, init) {
-        var valid_options = $.isPlainObject(grid_packer_opts);
-        var grid_packer_options = $.extend({}, valid_options ? grid_packer_opts : {}, {});
+        var packer_options = $.isPlainObject(grid_packer_opts) ? grid_packer_opts : {};
+        var grid_packer_options = $.extend({}, packer_options, {});
         var drag_options = {
             scroll: true,
             handle: '.dragger',
@@ -763,27 +763,6 @@ var jsondash = function() {
         JSON_DATA.text(prettyCode(JSON_DATA.text()));
     }
 
-    function setupResponsiveEvents() {
-        // Setup responsive handlers
-        var jres = jRespond([
-        {
-            label: 'handheld',
-            enter: 0,
-            exit: 767
-        }
-        ]);
-        jres.addFunc({
-            breakpoint: 'handheld',
-            enter: function() {
-                $('.widget').css({
-                    'max-width': '100%',
-                    'width': '100%',
-                    'position': 'static'
-                });
-            }
-        });
-    }
-
     function addNewRow(e) {
         // Add a new row with a toggleable label that indicates
         // which row it is for user editing.
@@ -837,8 +816,11 @@ var jsondash = function() {
             fitWidth: true
         }, true);
         $('.item.widget').removeClass('hidden');
-        // Add actual ajax data.
+
+        // Populate widgets with the config data.
         my.widgets.populate(data);
+
+        // Add actual ajax data.
         for(var guid in my.widgets.all()){
             loadWidgetData(my.widgets.get(guid));
         }
@@ -877,8 +859,23 @@ var jsondash = function() {
             }
             deleteRow(row);
         });
+        // Setup responsive handlers
+        var jres = jRespond([{
+            label: 'handheld',
+            enter: 0,
+            exit: 767
+        }]);
+        jres.addFunc({
+            breakpoint: 'handheld',
+            enter: function() {
+                $('.widget').css({
+                    'max-width': '100%',
+                    'width': '100%',
+                    'position': 'static'
+                });
+            }
+        });
         prettifyJSONPreview();
-        setupResponsiveEvents();
         populateRowField();
         fitGrid();
         if(isEmptyDashboard()) {EDIT_TOGGLE_BTN.click();}
