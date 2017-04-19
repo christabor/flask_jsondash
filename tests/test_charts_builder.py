@@ -284,7 +284,7 @@ def test_update_edit_raw_invalid(monkeypatch, ctx, client):
         data={'edit-raw': 'on'},
         follow_redirects=True)
     dom = pq(res.data)
-    assert dom.find('.alert-danger').text() == 'Error: Invalid JSON config.'
+    assert 'Error: Invalid JSON config.' in dom.find('.alert-danger').text()
 
 
 @pytest.mark.schema

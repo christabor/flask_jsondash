@@ -419,15 +419,17 @@ def validate_raw_json(jsonstr):
         fixed_only_required = ['row']
         for field in required:
             if field not in module:
+                ident = module.get('name', module)
                 raise InvalidSchemaError(
                     'Invalid JSON. "{}" must be '
-                    'included in "{}"'.format(field, module))
+                    'included in module "{}"'.format(field, ident))
         for field in fixed_only_required:
             if field not in module and layout == 'grid':
+                ident = module.get('name', module)
                 raise InvalidSchemaError(
                     'Invalid JSON. "{}" must be '
                     'included in "{}" for '
-                    'fixed grid layouts'.format(field, module))
+                    'fixed grid layouts'.format(field, ident))
     return data
 
 
@@ -451,8 +453,8 @@ def update(c_id):
         except InvalidSchemaError as e:
             flash(str(e), 'error')
             return redirect(view_url)
-        except (TypeError, ValueError):
-            flash('Invalid JSON config.', 'error')
+        except (TypeError, ValueError) as e:
+            flash('Invalid JSON config. "{}"'.format(e), 'error')
             return redirect(view_url)
     else:
         data = dict(
