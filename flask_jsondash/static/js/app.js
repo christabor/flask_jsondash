@@ -8,7 +8,6 @@ var jsondash = function() {
         chart_wall: null,
     };
     var MIN_CHART_SIZE   = 200;
-    var dashboard_data   = null;
     var API_ROUTE_URL    = $('[name="dataSource"]');
     var API_PREVIEW      = $('#api-output');
     var API_PREVIEW_BTN  = $('#api-output-preview');
@@ -478,14 +477,6 @@ var jsondash = function() {
         fitGrid();
     }
 
-    function addChartContainers(data) {
-        my.widgets.populate(data);
-        fitGrid();
-        for(var guid in my.widgets.all()){
-            loadWidgetData(my.widgets.get(guid));
-        }
-    }
-
     /**
      * [isPreviewableType Determine if a chart type can be previewed in the 'preview api' section of the modal]
      * @param  {[type]}  string [The chart type]
@@ -567,16 +558,6 @@ var jsondash = function() {
         DELETE_DASHBOARD.on('submit.charts', function(e){
             if(!confirm('Are you sure?')) e.preventDefault();
         });
-    }
-
-    function initGrid(container) {
-        fitGrid({
-            columnWidth: 5,
-            itemSelector: '.item',
-            transitionDuration: 0,
-            fitWidth: true
-        }, true);
-        $('.item.widget').removeClass('hidden');
     }
 
     function initFixedDragDrop(options) {
@@ -849,10 +830,18 @@ var jsondash = function() {
     function loadDashboard(data) {
         // Load the grid before rendering the ajax, since the DOM
         // is rendered server side.
-        initGrid(MAIN_CONTAINER);
+        fitGrid({
+            columnWidth: 5,
+            itemSelector: '.item',
+            transitionDuration: 0,
+            fitWidth: true
+        }, true);
+        $('.item.widget').removeClass('hidden');
         // Add actual ajax data.
-        addChartContainers(data);
-        my.dashboard_data = data;
+        my.widgets.populate(data);
+        for(var guid in my.widgets.all()){
+            loadWidgetData(my.widgets.get(guid));
+        }
 
         // Format json config display
         $('#json-output').on('show.bs.modal', function(e){
@@ -943,7 +932,6 @@ var jsondash = function() {
     my.addDomEvents = addDomEvents;
     my.getActiveConfig = getParsedFormConfig;
     my.layout = VIEW_BUILDER.length > 0 ? VIEW_BUILDER.data().layout : null;
-    my.dashboard_data = dashboard_data;
     my.widgets = new Widgets();
     return my;
 }();
