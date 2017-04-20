@@ -1,0 +1,74 @@
+{
+    "username": "anonymous",
+    "layout": "grid",
+    "name": "Fixed layout d3 only",
+    "modules": [
+        {
+            "name": "circlepack",
+            "family": "D3",
+            "height": 900,
+            "width": "col-6",
+            "dataSource": "http://127.0.0.1:5004/circlepack",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "79178d58-a690-37ec-3594-84516d263e9e",
+            "type": "circlepack",
+            "order": null,
+            "row": 3
+        },
+        {
+            "name": "Treemap",
+            "family": "D3",
+            "height": 900,
+            "width": "col-6",
+            "dataSource": "http://127.0.0.1:5004/treemap",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "139b6c94-99ae-4aa3-d525-812642d91b03",
+            "type": "treemap",
+            "order": null,
+            "row": 3
+        },
+        {
+            "name": "Radial dendrogram",
+            "family": "D3",
+            "height": 900,
+            "width": "col-6",
+            "dataSource": "http://127.0.0.1:5004/dendrogram?radial=1&simple=1",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "61dca3d8-c713-2b0b-ce68-5d93fff19fa5",
+            "type": "radial-dendrogram",
+            "order": null,
+            "row": 2
+        },
+        {
+            "name": "Voronoi",
+            "family": "D3",
+            "refresh": false,
+            "height": 380,
+            "width": "col-6",
+            "dataSource": "http://127.0.0.1:5004/voronoi",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "0dfd4215-94f1-f5b0-51ea-5898f7f2798a",
+            "type": "voronoi",
+            "order": null,
+            "row": 2
+        },
+        {
+            "name": "Dendrogram",
+            "family": "D3",
+            "height": 900,
+            "width": "col-md-12",
+            "dataSource": "http://127.0.0.1:5004/dendrogram?simple=1",
+            "override": false,
+            "guid": "0b7e0c94-e526-4821-706c-b038ec42322b",
+            "type": "dendrogram",
+            "row": 1
+        }
+    ],
+    "created_by": "global",
+    "date": "2017-04-17 09:36:22.194277",
+    "id": "6880f947-21b6-11e7-b27a-a0999b0aebbf"
+}
