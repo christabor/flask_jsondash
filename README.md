@@ -1,5 +1,6 @@
 # Flask JSONDash
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3d9d8e8742a742a0843a418506de757c)](https://www.codacy.com/app/dxdstudio/flask_jsondash?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=christabor/flask_jsondash&amp;utm_campaign=Badge_Grade)
 [![Code Climate](https://codeclimate.com/github/christabor/flask_jsondash/badges/gpa.svg)](https://codeclimate.com/github/christabor/flask_jsondash)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/christabor/flask_jsondash/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/christabor/flask_jsondash/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/christabor/flask_jsondash/badges/build.png?b=master)](https://scrutinizer-ci.com/g/christabor/flask_jsondash/build-status/master)
