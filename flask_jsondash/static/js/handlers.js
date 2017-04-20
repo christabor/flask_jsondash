@@ -322,8 +322,7 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
     // Code taken (and refactored for use here) from:
     // https://bl.ocks.org/mbostock/4339607
     var _width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
-    var padding = 50;
-    var radius = (_width > config.height ? _width : config.height) - padding;
+    var radius = jsondash.getDiameter(container, config);
     var cluster = d3.layout.cluster()
         .size([360, radius / 2 - 150]); // reduce size relative to `radius`
     var diagonal = d3.svg.diagonal.radial()
