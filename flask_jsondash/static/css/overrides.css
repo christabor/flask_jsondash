@@ -72,3 +72,18 @@
 .plotly-notifier .notifier-note {
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
+
+
+/* Vega */
+
+.vega-embed {
+    text-align: center;
+}
+.vega-embed canvas {
+    display: block;
+    margin: 0 auto;
+}
+.vega-actions .btn-group {
+    display: inline-block;
+    margin: 0 auto;
+}

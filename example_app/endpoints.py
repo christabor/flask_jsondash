@@ -2,13 +2,14 @@
 
 # -*- coding: utf-8 -*-
 
+import csv
 import json
 import locale
 import os
 from datetime import timedelta as td
 from datetime import datetime as dt
 from random import randrange as rr
-from random import choice, random, randint
+from random import choice, random
 import time
 
 from flask import (
@@ -121,6 +122,43 @@ def wordcloud():
     return json.dumps([
         {'text': word, 'size': sizes[i] * 12} for i, word in enumerate(words)
     ])
+
+
+@cross_origin()
+@app.route('/vegalite')
+def vegalite():
+    """Fake endpoint.
+
+    Reads data from a local vega spec, and if there is a
+    remote url specified, (assuming it exists here), open and load it as well.
+
+    This returns all required json as a single endpoint.
+    """
+    chart_type = request.args.get('type', 'bar')
+    filename = '{}/examples/vegalite/{}.json'.format(cwd, chart_type)
+    try:
+        with open(filename, 'r') as chartjson:
+            chartjson = chartjson.read()
+            data = json.loads(chartjson)
+            if data.get('data', {}).get('url') is not None:
+                datapath = '{}/examples/vegalite/{}'.format(
+                    cwd, data['data']['url']
+                )
+                with open(datapath, 'r') as datafile:
+                    if datapath.endswith('.json'):
+                        raw_data = datafile.read()
+                        raw_data = json.loads(raw_data)
+                    # TODO: adding csv support for example.
+                    data.update(data=dict(
+                        name='some data',
+                        values=raw_data,
+                    ))
+                    return json.dumps(data)
+            else:
+                return chartjson
+    except IOError:
+        pass
+    return json.dumps({})
 
 
 @cross_origin()
