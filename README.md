@@ -1,29 +1,38 @@
 # Flask JSONDash
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3d9d8e8742a742a0843a418506de757c)](https://www.codacy.com/app/dxdstudio/flask_jsondash?utm_source=github.com&utm_medium=referral&utm_content=christabor/flask_jsondash&utm_campaign=badger)
 [![Code Climate](https://codeclimate.com/github/christabor/flask_jsondash/badges/gpa.svg)](https://codeclimate.com/github/christabor/flask_jsondash)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/christabor/flask_jsondash/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/christabor/flask_jsondash/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/christabor/flask_jsondash/badges/build.png?b=master)](https://scrutinizer-ci.com/g/christabor/flask_jsondash/build-status/master)
 [![Build Status](https://travis-ci.org/christabor/flask_jsondash.svg?branch=master)](https://travis-ci.org/christabor/flask_jsondash)
 [![Code Issues](https://www.quantifiedcode.com/api/v1/project/df272477c0ff423ca51fa4106c1e9ebc/badge.svg)](https://www.quantifiedcode.com/app/project/df272477c0ff423ca51fa4106c1e9ebc)
 [![Code Health](https://landscape.io/github/christabor/flask_jsondash/master/landscape.svg?style=flat)](https://landscape.io/github/christabor/flask_jsondash/master)
+[![Coverage Status](https://coveralls.io/repos/github/christabor/flask_jsondash/badge.svg?branch=master)](https://coveralls.io/github/christabor/flask_jsondash?branch=master)
 
 Easily configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
 
-![kitchensink screenshot 2](example_app/examples/screenshots/kitchensink2.png)
+<img src="example_app/examples/screenshots/kitchensink2.png" alt="kitchen sink 2">
 
-![kitchensink screenshot 1](example_app/examples/screenshots/kitchensink1.png)
+<img src="example_app/examples/screenshots/kitchensink1.png" alt="kitchen sink 1">
 
-![kitchensink screenshot 1](example_app/examples/screenshots/listview.png)
+<img src="example_app/examples/screenshots/listview.png" alt="dashboard overview" width="700">
 
-![kitchensink screenshot 1](example_app/examples/screenshots/addmodule.png)
+<img src="example_app/examples/screenshots/addmodule.png" alt="adding a widget" width="700">
 
-![kitchensink screenshot 1](example_app/examples/screenshots/plotly.png)
+<img src="example_app/examples/screenshots/plotly.png" alt="kitchensink screenshot 1">
 
-This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/) that allows you to create sleek dashboards without writing any front end code. It saves JSON configurations for declaring arbitrary charts, leveraging popular libraries like C3.js and D3.js.
+This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/) that allows you to create **sleek dashboards** without writing any front end (or backend) code. Everything is powered through simple JSON configurations for declaring arbitrary charts.
 
-It also supports templates and iframes, as well as other data visualization libraries. The beauty of this approach is that only a basic configuration is required. It uses any specified json endpoint to get data from, so long as the [payload format is correct](docs/schemas.md).
+## Features
 
-The dashboard layout and blueprint styles are pre-packaged, and provide only the essentials, while getting out of the way.
+* Leveraging popular libraries like C3.js and D3.js, and **MUCH MORE**.
+* Also supports templates and iframes
+* Only a basic intuitive configuration is required.
+* The dashboard layout and blueprint styles are pre-packaged, and provide only the essentials, while getting out of the way.
+* Drag-and-drop your layout easily and intuitively
+* Multiple layout modes - **bootstrap grid** based or totally **freeform**
+
+It uses any specified json endpoint to get data from, so long as the [payload format is correct](docs/schemas.md).
 
 ## JSON configurations intro
 
@@ -129,9 +138,7 @@ Assuming you have docker *and* docker-compose installed:
 
 ```shell
 git clone https://github.com/christabor/flask_jsondash.git
-cd flask_jsondash
-docker build --tag jsondash_base:latest -f BaseDockerfile .
-docker-compose build ; docker-compose up
+make dockerize
 ```
 
 This will build the base and services images, setup your docker services and link them together. The endpoints will run on `0.0.0.0:5004` by default, and your app is available at `0.0.0.0:8080`.
@@ -171,10 +178,6 @@ These are necessary and included, based simply on the likelihood they may not al
 * Masonry (JS)
 * Jquery UI (CSS/JS)
 
-#### Chart specific assets
-
-Chart requirements depend on what you want to expose to your users. You can configure these in the CHARTS_CONFIG dictionary in the `settings.py` file. You can override these settings by adding your own file, called `settings_override.py`
-
 ### Setting environment variables.
 
 Make sure the following env vars are set:
@@ -183,7 +186,7 @@ Make sure the following env vars are set:
 * `CHARTS_DB_PORT` - The DB server port (defaults to 27017)
 * `CHARTS_DB_NAME` - The DB database name (defaults to 'charts')
 * `CHARTS_DB_TABLE` The DB collection name (or sql table name) (defaults to 'views')
-* `CHARTS_ACTIVE_DB` The DB backend to use - options: 'mongo', 'postgres' (defaults to 'mongo')
+* `CHARTS_ACTIVE_DB` The DB backend to use - options: 'mongo' (default)
 
 ### Starting DB
 
@@ -192,10 +195,6 @@ Make sure to start so json configuration can be saved.
 #### Mongodb
 
 Start however you'd like, but usually `mongod` will work. *Note: you will need to make sure the collection has been created within your mongo instance, and is specified in the CHARTS_DB_TABLE env var, as well as specify your database name under the CHARTS_DB_NAME env var*
-
-#### Postgresql
-
-Start however you'd like, but usually `postgres -D /path/to/data/` will work.
 
 ### Starting flask app
 
@@ -361,7 +360,7 @@ To get started: override the template block in your template to allow javascript
             container.style('background-color', 'green');
             console.log(config.guid);
     }, ['all', 'my', 'optional', 'arguments']);
-    // Register a second one, which ones after.
+    // Register a second one, which runs after.
     jsondash.api.registerCallback('my-chart-guid', function(container, config){
             console.log('Running SECOND callbacK!');
     });
@@ -379,7 +378,7 @@ To see a list of all your callbacks by chart, you can call `jsondash.api.listCal
 
 ## Versioning
 
-This project uses [semantic versioning](http://semver.org) for releases. However, the master branch is considered to be unstable as it represents "bleeding edge" with updates, hotfixes, etc... that eventually get tagged with a release. If you want to use a stable version, make sure to pin the specific release you want to target.
+This project uses [semantic versioning](http://semver.org) for releases. However, the **master branch is considered to be unstable** as it represents "bleeding edge", with updates, hotfixes, etc... which will eventually get tagged with a release. If you want to use a stable version, *make sure to pin the specific release* you want to target.
 
 ## FAQs
 
@@ -430,6 +429,10 @@ If you append the query argument `jsondash_demo_mode=1` to your url (e.g. `...?j
 ### Using gist.github.com
 
 While the data is not dynamically generated, you can easily use Github gists (or any raw file from github.com for that matter) to load charts! Check out the [kitchensink dashboard](example_app/examples/config/kitchensink.json) to see a real working chart loaded from via gist!
+
+### Embedding graphs from other resources
+
+For example, the build tool Jenkins provides a [plugin for build statistics](https://wiki.jenkins-ci.org/display/JENKINS/Global+Build+Stats+Plugin). The raw generated png (url is typically of the format https://{JENKINS_SERVER}/view/{VIEW_NAME}/job/{JOB_NAME}/buildTimeGraph/png) can be directly embedded using the `iframe` chart option.
 
 ## Performance
 
