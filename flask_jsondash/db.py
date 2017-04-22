@@ -17,10 +17,13 @@ from datetime import datetime as dt
 from pymongo import MongoClient
 
 from . import mongo_adapter
+from . import json_db_adapter
 from . import settings
+
 
 DB_NAME = settings.ACTIVE_DB
 
+print DB_NAME
 
 def reformat_data(data, c_id):
     """Format/clean existing config data to be re-inserted into database."""
@@ -45,6 +48,8 @@ def get_db_handler():
         conn = client[settings.DB_NAME]
         coll = conn[settings.DB_TABLE]
         return mongo_adapter.Db(client, conn, coll, format_charts)
+    elif DB_NAME == 'json':
+        return json_db_adapter.Db(path=settings.DB_URI)
     else:
         raise NotImplementedError(
             'Mongodb is the only supported database right now.')
