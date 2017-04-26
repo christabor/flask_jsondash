@@ -16,6 +16,7 @@ from flask import (
     Flask,
     abort,
     request,
+    jsonify,
     render_template,
 )
 from flask_cors import CORS
@@ -83,14 +84,14 @@ def combination():
             ['data1', 'data2'],
         ]
     }
-    return json.dumps(dict(data=data))
+    return jsonify(dict(data=data))
 
 
 @cross_origin()
 @app.route('/stacked-bar')
 def stackedbar():
     """Fake endpoint."""
-    return json.dumps({
+    return jsonify({
         'data': {
             'columns': [
                 ['data1', -30, 200, 200, 400, -150, 250],
@@ -119,7 +120,7 @@ def wordcloud():
         'charts', 'd3', 'js', 'dashboards', 'c3',
     ]
     sizes = range(len(words))
-    return json.dumps([
+    return jsonify([
         {'text': word, 'size': sizes[i] * 12} for i, word in enumerate(words)
     ])
 
@@ -153,12 +154,12 @@ def vegalite():
                         name='some data',
                         values=raw_data,
                     ))
-                    return json.dumps(data)
+                    return jsonify(data)
             else:
                 return chartjson
     except IOError:
         pass
-    return json.dumps({})
+    return jsonify({})
 
 
 @cross_origin()
@@ -169,7 +170,7 @@ def plotly():
     filename = '{}/examples/plotly/{}.json'.format(cwd, chart_type)
     with open(filename, 'r') as chartjson:
         return chartjson.read()
-    return json.dumps({})
+    return jsonify({})
 
 
 @cross_origin
@@ -179,7 +180,7 @@ def plotly_dynamic():
     filename = '{}/examples/plotly/bar_line_dynamic.json'.format(cwd)
     with open(filename, 'r') as chartjson:
         return chartjson.read()
-    return json.dumps({})
+    return jsonify({})
 
 
 @cross_origin()
@@ -188,14 +189,14 @@ def timeline():
     """Fake endpoint."""
     with open('{}/examples/timeline3.json'.format(cwd), 'r') as timelinejson:
         return timelinejson.read()
-    return json.dumps({})
+    return jsonify({})
 
 
 @app.route('/dtable', methods=['GET'])
 def dtable():
     """Fake endpoint."""
     if 'stress' in request.args:
-        return json.dumps([
+        return jsonify([
             dict(
                 foo=rr(1, 1000),
                 bar=rr(1, 1000),
@@ -205,14 +206,14 @@ def dtable():
     fname = 'dtable-override' if 'override' in request.args else 'dtable'
     with open('{}/examples/{}.json'.format(os.getcwd(), fname), 'r') as djson:
         return djson.read()
-    return json.dumps({})
+    return jsonify({})
 
 
 @cross_origin()
 @app.route('/timeseries')
 def timeseries():
     """Fake endpoint."""
-    return json.dumps({
+    return jsonify({
         "dates": dates_list(),
         "line1": rr_list(max_range=10),
         "line2": rr_list(max_range=10),
@@ -232,14 +233,14 @@ def custompage():
 @app.route('/gauge')
 def gauge():
     """Fake endpoint."""
-    return json.dumps({'data': rr(1, 100)})
+    return jsonify({'data': rr(1, 100)})
 
 
 @cross_origin()
 @app.route('/area-custom')
 def area_custom():
     """Fake endpoint."""
-    return json.dumps({
+    return jsonify({
         "data": {
             "columns": [
                 ["data1", 300, 350, 300, 0, 0, 0],
@@ -260,7 +261,7 @@ def scatter():
     if 'override' in request.args:
         with open('{}/examples/overrides.json'.format(cwd), 'r') as jsonfile:
             return jsonfile.read()
-    return json.dumps({
+    return jsonify({
         "bar1": [1, 2, 30, 12, 100],
         "bar2": rr_list(max_range=40),
         "bar3": rr_list(max_range=40),
@@ -275,7 +276,7 @@ def pie():
     letters = list('abcde')
     if 'stress' in request.args:
         letters = range(STRESS_MAX_POINTS)
-    return json.dumps({'data {}'.format(name): rr(1, 100) for name in letters})
+    return jsonify({'data {}'.format(name): rr(1, 100) for name in letters})
 
 
 @cross_origin()
@@ -301,8 +302,8 @@ def custom_inputs():
             data.update(axis=dict(
                 x=dict(label='This is the X axis'),
                 y=dict(label='This is the Y axis')))
-        return json.dumps(data)
-    return json.dumps({
+        return jsonify(data)
+    return jsonify({
         i: rr_list(max_range=_range) for i in range(starting, entries)
     })
 
@@ -312,11 +313,11 @@ def custom_inputs():
 def barchart():
     """Fake endpoint."""
     if 'stress' in request.args:
-        return json.dumps({
+        return jsonify({
             'bar-{}'.format(k): rr_list(max_range=STRESS_MAX_POINTS)
             for k in range(STRESS_MAX_POINTS)
         })
-    return json.dumps({
+    return jsonify({
         "bar1": [1, 2, 30, 12, 100],
         "bar2": rr_list(max_range=5),
         "bar3": rr_list(max_range=5),
@@ -328,11 +329,11 @@ def barchart():
 def linechart():
     """Fake endpoint."""
     if 'stress' in request.args:
-        return json.dumps({
+        return jsonify({
             'bar-{}'.format(k): rr_list(max_range=STRESS_MAX_POINTS)
             for k in range(STRESS_MAX_POINTS)
         })
-    return json.dumps({
+    return jsonify({
         "line1": [1, 4, 3, 10, 12, 14, 18, 10],
         "line2": [1, 2, 10, 20, 30, 6, 10, 12, 18, 2],
         "line3": rr_list(),
@@ -350,7 +351,7 @@ def singlenum():
         val = rr(_min, _max)
     if 'negative' in request.args:
         val = '-{}'.format(val)
-    return json.dumps(val)
+    return jsonify(val)
 
 
 @cross_origin()
@@ -373,7 +374,7 @@ def test_venn():
         {'sets': ['A', 'B'], 'size': rr(10, 100)},
         {'sets': ['A', 'B', 'C'], 'size': rr(10, 100)},
     ]
-    return json.dumps(data)
+    return jsonify(data)
 
 
 @cross_origin()
@@ -384,8 +385,8 @@ def sparklines():
         'pie' in request.args,
         'discrete' in request.args,
     ]):
-        return json.dumps([rr(1, 100) for _ in range(10)])
-    return json.dumps([[i, rr(i, 100)] for i in range(10)])
+        return jsonify([rr(1, 100) for _ in range(10)])
+    return jsonify([[i, rr(i, 100)] for i in range(10)])
 
 
 @cross_origin()
@@ -394,10 +395,10 @@ def circlepack():
     """Fake endpoint."""
     if 'stress' in request.args:
         # Build a very large dataset
-        return json.dumps(recursive_d3_data())
+        return jsonify(recursive_d3_data())
     with open('{}/examples/flare.json'.format(cwd), 'r') as djson:
         return djson.read()
-    return json.dumps({})
+    return jsonify({})
 
 
 @cross_origin()
@@ -406,10 +407,10 @@ def treemap():
     """Fake endpoint."""
     if 'stress' in request.args:
         # Build a very large dataset
-        return json.dumps(recursive_d3_data())
+        return jsonify(recursive_d3_data())
     with open('{}/examples/flare.json'.format(cwd), 'r') as djson:
         return djson.read()
-    return json.dumps({})
+    return jsonify({})
 
 
 @cross_origin()
@@ -425,11 +426,11 @@ def dendro():
     """Fake endpoint."""
     if 'stress' in request.args:
         # Build a very large dataset
-        return json.dumps(recursive_d3_data())
+        return jsonify(recursive_d3_data())
     filename = 'flare-simple' if 'simple' in request.args else 'flare'
     with open('{}/examples/{}.json'.format(cwd, filename), 'r') as djson:
         return djson.read()
-    return json.dumps({})
+    return jsonify({})
 
 
 @cross_origin()
@@ -440,7 +441,7 @@ def voronoi():
     max_points = int(request.args.get('points', 100))
     if 'stress' in request.args:
         max_points = 500
-    return json.dumps([[rr(1, h), rr(1, w)] for _ in range(max_points)])
+    return jsonify([[rr(1, h), rr(1, w)] for _ in range(max_points)])
 
 
 @cross_origin()
@@ -449,7 +450,7 @@ def graphdata():
     """Fake endpoint."""
     if 'filetree' in request.args:
         with open('{}/examples/filetree_digraph.dot'.format(cwd), 'r') as dot:
-            return json.dumps(dict(graph=dot.read()))
+            return jsonify(dict(graph=dot.read()))
     if 'simple' in request.args:
         graphdata = """
         digraph {
@@ -460,7 +461,7 @@ def graphdata():
             b -> b;
         }
         """
-        return json.dumps(dict(graph=graphdata))
+        return jsonify(dict(graph=graphdata))
     nodes = list('abcdefghijkl')
     node_data = '\n'.join([
         '{0} -> {1};'.format(choice(nodes), choice(nodes))
@@ -468,7 +469,7 @@ def graphdata():
     ])
     graphdata = """digraph {lb} {nodes} {rb}""".format(
         lb='{', rb='}', nodes=node_data)
-    return json.dumps(dict(
+    return jsonify(dict(
         graph=graphdata,
     ))
 
