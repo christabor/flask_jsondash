@@ -28,7 +28,15 @@ adapter = db.get_db_handler()
 
 
 def get_random_group():
-    """Return a random namespaced group of charts."""
+    """Return a random namespaced group of charts.
+
+    Returns:
+        str: A random chart name.
+
+    Examples:
+        >>> get_random_group()
+        >>> {'charts': [...], 'dependencies', 'js_url': '...', ...}
+    """
     return choice(list(settings.CHARTS_CONFIG.values()))
 
 
@@ -38,7 +46,15 @@ def get_random_chart(group):
 
 
 def make_fake_dashboard(name='Random chart', max_charts=10):
-    """Generate fake dashboard data with a specific number of random charts."""
+    """Generate fake dashboard data with a specific number of random charts.
+
+    Args:
+        name (str): The name of the new dashboard (default: {'Random chart'})
+        max_charts (int): Max number of charts to make (default: {10})
+
+    Returns:
+        dict: The chart configuration.
+    """
     charts = ImmutableMultiDict([
         make_fake_chart_data() for _ in range(max_charts)]
     )
