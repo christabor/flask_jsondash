@@ -1,5 +1,17 @@
 # Configuration schemas
 
+## Vega
+
+Vega-Lite is a high-level grammar for interactive graphics. It provides a concise JSON syntax for supporting rapid generation of interactive multi-view visualizations. Visit [vegalite](https://vega.github.io/vega-lite/docs) for more.
+
+### Overrides
+
+Supported.
+
+#### Vega-lite
+
+Vega-lite is very robust and thus has it's own specification language. [You can view it here](https://vega.github.io/vega-lite/docs/spec.html).
+
 ## C3
 
 C3js is a wrapper around D3js, that provides simple, out-of-the-box charts. Visit [c3js.org](http://c3js.org) for more.
