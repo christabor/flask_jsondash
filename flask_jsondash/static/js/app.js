@@ -200,6 +200,8 @@ var jsondash = function() {
                 // Reset all other grid classes and then add new one.
                 self.removeGridClasses(parent);
                 self.addGridClasses(parent, [colcount]);
+                // Update row buttons based on current state
+                updateRowControls();
             }
             widget.select('.widget-title .widget-title-text').text(self.config.name);
             // Update the form input for this widget.
@@ -704,6 +706,9 @@ var jsondash = function() {
             else if(config.type === 'wordcloud') {
                 jsondash.handlers.handleWordCloud(widget, config);
             }
+            else if(config.type === 'vega-lite') {
+                jsondash.handlers.handleVegaLite(widget, config);
+            }
             else if(config.type === 'plotly-any') {
                 jsondash.handlers.handlePlotly(widget, config);
             }
@@ -739,7 +744,6 @@ var jsondash = function() {
                 }
                 // Update the configs dimensions.
                 widg.update(newconf);
-                loadWidgetData(widg);
                 fitGrid();
                 // Open save panel
                 EDIT_CONTAINER.collapse('show');

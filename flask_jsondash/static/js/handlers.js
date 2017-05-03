@@ -25,7 +25,7 @@ jsondash.getJSON = function(container, url, callback) {
  */
 jsondash.getDynamicWidth = function(container, config) {
     if(isNaN(config.width)) {
-        return container.node().getBoundingClientRect().width;
+        return d3.round(container.node().getBoundingClientRect().width);
     }
     return parseInt(config.width, 10);
 };
@@ -40,10 +40,49 @@ jsondash.getDiameter = function(container, config) {
 };
 
 /**
+ * Handler for all vega-lite specifications
+ */
+jsondash.handlers.handleVegaLite = function(container, config) {
+    'use strict';
+    container.selectAll('.chart-container').remove();
+    container.append('div').classed({'chart-container': true});
+
+    jsondash.getJSON(container, config.dataSource, function(error, vlspec){
+        var SCALE_FACTOR = 0.7; // very important to get sizing jusst right.
+        var selector = '[data-guid="' + config.guid + '"] .chart-container';
+        var width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
+        var size = d3.max([config.height, width]);
+        var overrides = {
+            width: ~~(size * SCALE_FACTOR),
+            height: ~~(config.height * SCALE_FACTOR)
+        };
+        var embedSpec = {
+            mode: 'vega-lite',
+            spec: $.extend({}, vlspec, overrides)
+        };
+        vg.embed(selector, embedSpec, function(error, result) {
+            // Callback receiving the View instance and parsed Vega spec
+            // result.view is the View, which resides under the '#vis' element
+            if(error) {
+                throw new Error('Error loading chart: ' + error);
+            }
+            // Change look of default buttons
+            container.select('.vega-actions')
+                .classed({'btn-group': true})
+                .selectAll('a')
+                .classed({'btn btn-xs btn-default': true});
+
+            // Look for callbacks potentially registered for third party code.
+            jsondash.api.runCallbacks(container, config);
+            jsondash.unload(container);
+        });
+    });
+};
+
+/**
  * Handlers for various widget types. The method signatures are always the same,
  * but each handler can handle them differently.
  */
-
 jsondash.handlers.handleYoutube = function(container, config) {
     // Clean up all previous.
     'use strict';

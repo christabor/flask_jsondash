@@ -100,6 +100,22 @@ CHARTS_CONFIG = {
         'help_link': ('https://github.com/christabor/flask_jsondash/blob/'
                       'master/docs/schemas.md'),
     },
+    'Vega': {
+        'charts': [
+            ('vega-lite', 'vega-lite specification.'),
+        ],
+        'dependencies': ['D3'],
+        'js_url': [
+            ('//cdnjs.cloudflare.com/ajax/libs/vega/2.6.5/vega.min.js'),
+            ('//cdnjs.cloudflare.com/ajax/libs/vega-lite/'
+             '1.3.1/vega-lite.min.js'),
+            ('//cdnjs.cloudflare.com/ajax/libs/vega-embed/'
+             '2.2.0/vega-embed.min.js'),
+        ],
+        'css_url': [],
+        'enabled': True,
+        'help_link': 'https://vega.github.io/vega-lite/docs',
+    },
     'DataTable': {
         'charts': [
             ('datatable', 'A table of data, with sorting and filtering.'),
