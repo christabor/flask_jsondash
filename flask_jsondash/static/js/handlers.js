@@ -53,8 +53,8 @@ jsondash.handlers.handleVegaLite = function(container, config) {
         var width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
         var size = d3.max([config.height, width]);
         var overrides = {
-            width: size * SCALE_FACTOR,
-            height: config.height * SCALE_FACTOR
+            width: ~~(size * SCALE_FACTOR),
+            height: ~~(config.height * SCALE_FACTOR)
         };
         var embedSpec = {
             mode: 'vega-lite',
