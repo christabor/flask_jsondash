@@ -560,6 +560,41 @@ var jsondash = function() {
         DELETE_DASHBOARD.on('submit.charts', function(e){
             if(!confirm('Are you sure?')) e.preventDefault();
         });
+
+        // Format json config display
+        $('#json-output').on('show.bs.modal', function(e){
+            var code = $(this).find('code').text();
+            $(this).find('code').text(prettyCode(code));
+        });
+
+        // Add event for downloading json config raw.
+        // Will provide decent support but still not major: http://caniuse.com/#search=download
+        $('[href="#download-json"]').on('click', function(e){
+            var datestr = new Date().toString().replace(/ /gi, '-');
+            var data = encodeURIComponent(JSON.stringify(JSON_DATA.val(), null, 4));
+            data = "data:text/json;charset=utf-8," + data;
+            $(this).attr('href', data);
+            $(this).attr('download', 'charts-config-raw-' + datestr + '.json');
+        });
+
+        // For fixed grid, add events for making new rows.
+        ADD_ROW_CONTS.find('.btn').on('click', addNewRow);
+
+        EDIT_TOGGLE_BTN.on('click', function(e){
+            $('body').toggleClass('jsondash-editing');
+            updateRowControls();
+        });
+
+        $('.delete-row').on('click', function(e){
+            e.preventDefault();
+            var row = $(this).closest('.grid-row');
+            if(row.find('.item.widget').length > 0) {
+                if(!confirm('Are you sure?')) {
+                    return;
+                }
+            }
+            deleteRow(row);
+        });
     }
 
     function initFixedDragDrop(options) {
@@ -824,45 +859,11 @@ var jsondash = function() {
         // Populate widgets with the config data.
         my.widgets.populate(data);
 
-        // Add actual ajax data.
+        // Load all widgets, adding actual ajax data.
         for(var guid in my.widgets.all()){
             loadWidgetData(my.widgets.get(guid));
         }
 
-        // Format json config display
-        $('#json-output').on('show.bs.modal', function(e){
-            var code = $(this).find('code').text();
-            $(this).find('code').text(prettyCode(code));
-        });
-
-        // Add event for downloading json config raw.
-        // Will provide decent support but still not major: http://caniuse.com/#search=download
-        $('[href="#download-json"]').on('click', function(e){
-            var datestr = new Date().toString().replace(/ /gi, '-');
-            var data = encodeURIComponent(JSON.stringify(JSON_DATA.val(), null, 4));
-            data = "data:text/json;charset=utf-8," + data;
-            $(this).attr('href', data);
-            $(this).attr('download', 'charts-config-raw-' + datestr + '.json');
-        });
-
-        // For fixed grid, add events for making new rows.
-        ADD_ROW_CONTS.find('.btn').on('click', addNewRow);
-
-        EDIT_TOGGLE_BTN.on('click', function(e){
-            $('body').toggleClass('jsondash-editing');
-            updateRowControls();
-        });
-
-        $('.delete-row').on('click', function(e){
-            e.preventDefault();
-            var row = $(this).closest('.grid-row');
-            if(row.find('.item.widget').length > 0) {
-                if(!confirm('Are you sure?')) {
-                    return;
-                }
-            }
-            deleteRow(row);
-        });
         // Setup responsive handlers
         var jres = jRespond([{
             label: 'handheld',
