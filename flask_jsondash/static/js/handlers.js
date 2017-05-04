@@ -195,6 +195,7 @@ jsondash.handlers.handleWordCloud = function(container, config) {
 };
 
 jsondash.handlers.handleC3 = function(container, config) {
+    var _width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
     'use strict';
     var init_config = {
         bindto: '[data-guid="' + config.guid + '"] .chart-container',
@@ -203,7 +204,7 @@ jsondash.handlers.handleC3 = function(container, config) {
         },
         size: {
             height: config.height - jsondash.config.WIDGET_MARGIN_Y,
-            width: config.width - jsondash.config.WIDGET_MARGIN_X
+            width: _width - jsondash.config.WIDGET_MARGIN_X
         },
         data: {
             type: config.type,
@@ -632,6 +633,7 @@ jsondash.handlers.handleVenn = function(container, config) {
 jsondash.handlers.handlePlotly = function(container, config) {
     'use strict';
     var id = 'plotly-' + config.guid;
+    var _width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
     container.selectAll('.plotly-container').remove();
     container.append('div')
         .classed({'plotly-container': true})
@@ -652,7 +654,7 @@ jsondash.handlers.handlePlotly = function(container, config) {
             'height': config.height
         });
         plotly_wrapper.select('#scene').style({
-            'width': isNaN(config.width) ? '100%' : config.width,
+            'width': _width,
             'height': config.height
         });
         // Look for callbacks potentially registered for third party code.
