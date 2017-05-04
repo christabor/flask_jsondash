@@ -593,7 +593,7 @@ jsondash.handlers.handleIframe = function(container, config) {
         border: 0,
         src: config.dataSource,
         height: config.height - jsondash.config.WIDGET_MARGIN_Y,
-        width: config.width - jsondash.config.WIDGET_MARGIN_X
+        width: isNaN(config.width) ? '100%' : config.width - jsondash.config.WIDGET_MARGIN_X
     });
     // Look for callbacks potentially registered for third party code.
     jsondash.api.runCallbacks(container, config);
