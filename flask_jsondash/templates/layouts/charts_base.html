@@ -56,7 +56,7 @@
 
 {% block jsondash_init %}
 <script>
-    $(document).ready(function(){
+    document.addEventListener('DOMContentLoaded', function(e) {
         jsondash.addDomEvents();
         {% if view %}
         jsondash.loadDashboard({{ view|jsonstring|safe }});
