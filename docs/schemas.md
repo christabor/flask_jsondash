@@ -310,6 +310,8 @@ You can also override the color and/or disable negative/positive formatting like
 {"data": 12, "color": "purple", "noformat": "true"}
 ```
 
+Disabling `noformat` is important if you are not using a numerical value, as it might incorrectly guess color and/or formatting when it doesn't make sense.
+
 #### YouTube
 
 Takes the html embed code from youtube. For example:
