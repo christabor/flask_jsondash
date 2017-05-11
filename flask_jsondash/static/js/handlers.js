@@ -6,14 +6,24 @@
 
 jsondash.getJSON = function(container, url, callback) {
     if(!url) throw new Error('Invalid URL: ' + url);
+    var err_msg = null;
     d3.json(url, function(error, data){
         if(error) {
             jsondash.unload(container);
-            throw new Error('Could not load url: ' + url);
+            err_msg = 'Error: ' + error.status + ' ' + error.statusText;
         }
-        if(!data) {
+        else if(!data) {
             jsondash.unload(container);
-            throw new Error('No data was found, invalid response.');
+            err_msg = 'No data was found (invalid response).';
+        }
+        if(error || !data) {
+            container.classed({error: true});
+            container.select('.error-overlay')
+                .classed({hidden: false})
+                .select('.alert')
+                .text(err_msg);
+            jsondash.unload(container);
+            return;
         }
         callback(error, data);
     });

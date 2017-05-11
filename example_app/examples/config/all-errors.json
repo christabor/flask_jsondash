@@ -1,0 +1,88 @@
+{
+    "username": "anonymous",
+    "layout": "grid",
+    "name": "Endpoint Error Testing",
+    "modules": [
+        {
+            "name": "Fail 500",
+            "family": "C3",
+            "refresh": false,
+            "height": 300,
+            "width": "col-3",
+            "dataSource": "http://127.0.0.1:5004/deadend?sleep=1&sleep_for=1&error_code=500",
+            "override": true,
+            "refreshInterval": null,
+            "guid": "1",
+            "type": "bar",
+            "row": 1
+        },
+        {
+            "name": "Fail 501",
+            "family": "C3",
+            "refresh": false,
+            "height": 300,
+            "width": "col-3",
+            "dataSource": "http://127.0.0.1:5004/deadend?sleep=1&sleep_for=1&error_code=501",
+            "override": true,
+            "refreshInterval": null,
+            "guid": "2",
+            "type": "bar",
+            "row": 1
+        },
+        {
+            "name": "Fail 502",
+            "family": "C3",
+            "refresh": false,
+            "height": 300,
+            "width": "col-3",
+            "dataSource": "http://127.0.0.1:5004/deadend?sleep=1&sleep_for=1&error_code=502",
+            "override": true,
+            "refreshInterval": null,
+            "guid": "3",
+            "type": "bar",
+            "row": 1
+        },
+        {
+            "name": "Fail 503",
+            "family": "C3",
+            "refresh": false,
+            "height": 300,
+            "width": "col-3",
+            "dataSource": "http://127.0.0.1:5004/deadend?sleep=1&sleep_for=1&error_code=503",
+            "override": true,
+            "refreshInterval": null,
+            "guid": "4",
+            "type": "bar",
+            "row": 1
+        },
+        {
+            "name": "Fail 504",
+            "family": "C3",
+            "refresh": false,
+            "height": 300,
+            "width": "col-3",
+            "dataSource": "http://127.0.0.1:5004/deadend?sleep=1&sleep_for=1&error_code=504",
+            "override": true,
+            "refreshInterval": null,
+            "guid": "5",
+            "type": "bar",
+            "row": 2
+        },
+        {
+            "name": "Fail 505",
+            "family": "C3",
+            "refresh": false,
+            "height": 300,
+            "width": "col-3",
+            "dataSource": "http://127.0.0.1:5004/deadend?sleep=1&sleep_for=1&error_code=505",
+            "override": true,
+            "refreshInterval": null,
+            "guid": "6",
+            "type": "bar",
+            "row": 2
+        }
+    ],
+    "created_by": "global",
+    "date": "2017-05-11 12:13:02.612000",
+    "id": "a7e3d5ad-9959-45fe-abe8-9b98b6417623"
+}

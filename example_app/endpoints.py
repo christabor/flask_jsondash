@@ -2,7 +2,6 @@
 
 # -*- coding: utf-8 -*-
 
-import csv
 import json
 import locale
 import os
@@ -359,8 +358,13 @@ def singlenum():
 def test_die():
     """Fake endpoint that ends in a random 50x error."""
     # Simulate slow connection
-    time.sleep(random())
-    abort(choice([500, 501, 502, 503, 504]))
+    sleep = request.args.get('sleep', True)
+    if sleep != '':
+        sleep_for = request.args.get('sleep_for')
+        time.sleep(int(sleep_for) if sleep_for is not None else random())
+    err_code = request.args.get('error_code')
+    rand_err = choice([500, 501, 502, 503, 504])
+    abort(int(err_code) if err_code is not None else rand_err)
 
 
 @cross_origin()
