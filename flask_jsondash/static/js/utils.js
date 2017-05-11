@@ -18,6 +18,50 @@ jsondash.util.getValidParamString = function(arr) {
     return param_str;
 };
 
+/**
+ * [intervalStrToMS Convert a string formatted to indicate]
+ * @param  {[String]} ival_fmt [The interval format string e.g. "1d", "2h"]
+ * @return {[Number]} [The number of milliseconds]
+ */
+jsondash.util.intervalStrToMS = function(ival_fmt) {
+    // Just return number if it's a regular integer.
+    if(!isNaN(ival_fmt)) {
+        return ival_fmt;
+    }
+    var pieces = ival_fmt.split('-');
+    var amt = parseInt(pieces[0], 10);
+    if(pieces.length !== 2 || isNaN(amt) || amt === 0) {
+        // Force NO value if the format is invalid.
+        // This would be used to ensure the interval
+        // is not set in the first place.
+        return null;
+    }
+    var ival = pieces[1].toLowerCase();
+    var ms2s = 1000;
+    var ms2min = 60 * ms2s;
+    var ms2hr = 60 * ms2min;
+    var ms2day = 24 * ms2hr;
+
+    // Seconds
+    if(ival === 's') {
+        return amt * ms2s;
+    }
+    // Minutes
+    if(ival === 'm') {
+        return amt * ms2min;
+    }
+    // Hours
+    if(ival === 'h') {
+        return amt * ms2hr;
+    }
+    // Days
+    if(ival === 'd') {
+        return amt * ms2day;
+    }
+    // Anything else is invalid.
+    return null;
+};
+
 jsondash.util.serializeToJSON = function(arr) {
     // Convert form data to a proper json value
     var json = {};

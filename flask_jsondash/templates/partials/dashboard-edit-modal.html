@@ -67,13 +67,28 @@
                         </label>
                         <br>
                         <label>
-                            Auto refresh interval <small>(in milliseconds)</small>
-                            <input class="form-control" type="number" name="refreshInterval" value="10000">
+                            Auto refresh interval <br>
+                            <small>
+                                You can enter milliseconds, <a href="#ival-fmt-options" data-toggle="collapse">or enter a interval format.</a>
+                                <dl class="collapse" id="ival-fmt-options">
+                                    <dt>N-s</dt>
+                                    <dd>integer - seconds (e.g. 15-s)</dd>
+                                    <dt>N-m</dt>
+                                    <dd>integer - seconds (e.g. 10-m)</dd>
+                                    <dt>N-h</dt>
+                                    <dd>integer - seconds (e.g. 2-h)</dd>
+                                    <dt>N-d</dt>
+                                    <dd>integer - days (e.g. 1-d)</dd>
+                                </dl>
+                            </small>
+                            <input class="form-control" name="refreshInterval" value="10000">
                         </label>
                         <label>
                             Custom inputs <br>
-                            <small>Custom input options can be added (currently raw config only) to allow your chart to have interactive input fields.</small>
-                            <a href="{{ docs_url }}config.md" target="_blank">Visit schema documentation</a>
+                            <small>
+                                Custom input options can be added (currently raw config only) to allow your chart to have interactive input fields.
+                                <a href="{{ docs_url }}config.md" target="_blank">Visit schema documentation</a>
+                            </small>
                         </label>
                     </fieldset>
                 </div>

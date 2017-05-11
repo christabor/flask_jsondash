@@ -66,9 +66,9 @@ var jsondash = function() {
             var config = getParsedFormConfig();
             var guid   = jsondash.util.guid();
             config['guid'] = guid;
-            config['family'] = WIDGET_FORM.find('[name="type"]').find('option:selected').data().family;
-            if(!config.refresh || !refreshableType(config.type)) {config['refresh'] = false;}
-            if(!config.override) {config['override'] = false;}
+            if(!config.refresh || !refreshableType(config.type)) {
+                config['refresh'] = false;
+            }
             return config;
         };
         self.populate = function(data) {
@@ -444,30 +444,27 @@ var jsondash = function() {
      * @return {[object]} [The serialized config]
      */
     function getParsedFormConfig() {
-        var conf = {};
-        WIDGET_FORM.find('.form-control').each(function(_, input){
-            var name = $(input).attr('name');
-            var val = $(input).val();
-            if(name === 'override' ||
-                name === 'refresh') {
-                // Convert checkbox to json friendly format.
-                conf[name] = $(input).is(':checked');
-            } else if(name === 'refreshInterval' ||
-                      name === 'row' ||
-                      name === 'height' ||
-                      name === 'order') {
-                conf[name] = parseInt(val, 10);
-                if(isNaN(conf[name])) {
-                    conf[name] = null;
-                }
-            } else {
-                conf[name] = val;
+        function parseNum(num) {
+            // Like parseInt, but always returns a Number.
+            if(isNaN(parseInt(num, 10))) {
+                return 0;
             }
-            // This is not amenable to integer parsing
-            if(name === 'width' && my.layout === 'grid') {
-                conf['width'] = val;
-            }
-        });
+            return parseInt(num, 10);
+        }
+        var form = WIDGET_FORM;
+        var conf = {
+            name: form.find('[name="name"]').val(),
+            type: form.find('[name="type"]').val(),
+            family: form.find('[name="type"]').find('option:checked').data() ? form.find('[name="type"]').find('option:checked').data().family : null,
+            row: form.find('[name="row"]').val(),
+            width: form.find('[name="width"]').val(),
+            height: parseNum(form.find('[name="height"]').val(), 10),
+            dataSource: form.find('[name="dataSource"]').val(),
+            override: form.find('[name="override"]').is(':checked'),
+            order: parseNum(form.find('[name="order"]').val(), 10),
+            refresh: form.find('[name="refresh"]').is(':checked'),
+            refreshInterval: jsondash.util.intervalStrToMS(form.find('[name="refreshInterval"]').val()),
+        };
         return conf;
     }
 
