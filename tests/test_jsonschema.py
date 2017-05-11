@@ -125,7 +125,7 @@ def test_validate_raw_json_invalid_missing_toplevel_keys(field):
     del config[field]
     with pytest.raises(ValueError) as exc:
         app.validate_raw_json(json.dumps(config))
-    assert 'Missing' in exc.value.message
+    assert 'Missing' in str(exc.value)
 
 
 @pytest.mark.schema
@@ -142,4 +142,4 @@ def test_validate_raw_json_invalid_mixed_use_freeform_with_rows():
     )
     with pytest.raises(ValueError) as exc:
         app.validate_raw_json(config)
-    assert 'Cannot mix' in exc.value.message
+    assert 'Cannot mix' in str(exc.value)
