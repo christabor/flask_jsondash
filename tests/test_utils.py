@@ -6,6 +6,30 @@ from flask_jsondash import charts_builder
 
 
 @pytest.mark.utils
+def test_get_num_rows_none():
+    assert charts_builder.get_num_rows(None) is None
+
+
+@pytest.mark.utils
+def test_get_num_rows_freeform():
+    assert charts_builder.get_num_rows(dict(layout='freeform')) is None
+
+
+@pytest.mark.utils
+def test_get_num_rows_fixed():
+    conf = dict(
+        layout='grid',
+        modules=[dict(row=1), dict(row=2)],
+    )
+    assert charts_builder.get_num_rows(conf) == 2
+
+
+@pytest.mark.utils
+def test_order_sort_none():
+    assert charts_builder.order_sort(None) == -1
+
+
+@pytest.mark.utils
 def test_order_sort_force_valueerror():
     item = dict(order='NaN')
     assert charts_builder.order_sort(item) == -1

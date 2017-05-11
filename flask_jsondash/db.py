@@ -11,13 +11,11 @@ A translation adapter for transparent operations between storage types.
 """
 
 import json
-
 from datetime import datetime as dt
 
 from pymongo import MongoClient
 
-from . import mongo_adapter
-from . import settings
+from . import mongo_adapter, settings
 
 DB_NAME = settings.ACTIVE_DB
 

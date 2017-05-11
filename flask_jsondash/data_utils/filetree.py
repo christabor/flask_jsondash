@@ -17,7 +17,6 @@ Re-purposed from: github.com/christabor/MoAL/blob/master/MOAL/get_file_tree.py
 import errno
 import json
 import os
-
 from pprint import pprint
 
 import click

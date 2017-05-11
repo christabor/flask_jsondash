@@ -11,18 +11,14 @@ Data generation utilities for all charts and dashboards.
 """
 
 import json
-
 from datetime import datetime as dt
-from random import choice
-from random import randrange
+from random import choice, randrange
 from uuid import uuid1
 
 import click
-
 from werkzeug.datastructures import ImmutableMultiDict
 
-from . import db
-from . import settings
+from . import db, settings
 
 adapter = db.get_db_handler()
 

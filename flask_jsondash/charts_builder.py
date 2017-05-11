@@ -274,6 +274,8 @@ def paginator(page=0, per_page=None, count=None):
 
 def get_num_rows(viewconf):
     """Get the number of rows for a layout if it's using fixed grid format."""
+    if viewconf is None:
+        return None
     layout = viewconf.get('layout', 'freeform')
     if layout == 'freeform':
         return None
@@ -285,11 +287,12 @@ def order_sort(item):
 
     Always returns an integer for compatibility.
     """
-    if item.get('order') is not None:
-        try:
-            return int(item['order'])
-        except (ValueError, TypeError):
-            return -1
+    if item is None or item.get('order') is None:
+        return -1
+    try:
+        return int(item['order'])
+    except (ValueError, TypeError):
+        return -1
     return -1
 
 

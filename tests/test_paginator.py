@@ -12,7 +12,6 @@ from conftest import (
     URL_BASE,
     auth_valid,
     read,
-    update,
 )
 
 
