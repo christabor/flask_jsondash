@@ -106,10 +106,13 @@
             <br>
             <div class="row">
                 <div class="col-md-12">
-                    <a href="#chart-docs" data-toggle="collapse">Toggle chart documentation</a>
+                    <p><a href="#chart-docs" data-toggle="collapse">Toggle chart documentation</a></p>
                     <div class="collapse" id="chart-docs">
+                        <p>
+                            <small>The documentation below explains all the possible details available for a given <strong>third-party</strong> chart.</small>
+                        </p>
                         <ul>
-                            {% for label, options in charts_config.items() %}
+                            {% for label, options in charts_config.items()|sort %}
                                 {% if options.help_link %}
                                     <li>
                                         <a href="{{ options.help_link }}" target="_blank">{{ label }}</a>
