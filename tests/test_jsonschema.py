@@ -123,5 +123,23 @@ def test_validate_raw_json_invalid_missing_toplevel_keys(field):
     )
     config = json.loads(config)
     del config[field]
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError) as exc:
         app.validate_raw_json(json.dumps(config))
+    assert 'Missing' in exc.value.message
+
+
+@pytest.mark.schema
+def test_validate_raw_json_invalid_mixed_use_freeform_with_rows():
+    # Ensure `row` in modules and layout `freeform` cannot be mixed.
+    module = dict(
+        name='foo', dataSource='foo',
+        width=1, height=1, type='line',
+        row=1, family='C3',
+    )
+    config = _schema(
+        layout='freeform',
+        modules=[module]
+    )
+    with pytest.raises(ValueError) as exc:
+        app.validate_raw_json(config)
+    assert 'Cannot mix' in exc.value.message
