@@ -378,6 +378,14 @@ All callbacks will be passed the following arguments order:
 
 To see a list of all your callbacks by chart, you can call `jsondash.api.listCallbacks()`;
 
+#### Custom events
+
+Several events are triggered throughout the process and can be listened to by your own callbacks, or just other code you have embedded in your application:
+
+`jsondash.editform.loaded`: When the editform has been opened and loaded with current data.
+
+See all events [in app.js](flask_jsondash/static/js/app.js) under `EVENTS`.
+
 ## Versioning
 
 This project uses [semantic versioning](http://semver.org) for releases. However, the **master branch is considered to be unstable** as it represents "bleeding edge", with updates, hotfixes, etc... which will eventually get tagged with a release. If you want to use a stable version, *make sure to pin the specific release* you want to target.

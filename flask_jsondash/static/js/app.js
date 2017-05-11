@@ -28,6 +28,9 @@ var jsondash = function() {
     var UPDATE_FORM_BTN  = $('#update-module');
     var CHART_TEMPLATE   = $('#chart-template');
     var ROW_TEMPLATE     = $('#row-template').find('.grid-row');
+    var EVENTS           = {
+        edit_form_loaded: 'jsondash.editform.loaded'
+    }
 
     function Widgets() {
         var self = this;
@@ -379,6 +382,8 @@ var jsondash = function() {
         // Trigger event for select dropdown to ensure any UI is consistent.
         // This is done AFTER the fields have been pre-populated.
         WIDGET_FORM.find('[name="type"]').change();
+        // A trigger for 3rd-party/external js to use to listen to.
+        WIDGET_FORM.trigger(EVENTS.edit_form_loaded);
     }
 
     function populateRowField(row) {
