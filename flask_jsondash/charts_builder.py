@@ -417,7 +417,15 @@ def validate_raw_json(jsonstr):
     for field in main_required_fields:
         if field not in data.keys():
             raise InvalidSchemaError('Missing "{}" key'.format(field))
-    for module in data.get('modules'):
+    modules = data.get('modules')
+    if modules:
+        first = modules[0]
+        if layout != 'grid' and first.get('row') is not None:
+            raise ValueError(
+                'Cannot mix `row` fields with freeform layout! '
+                'Either use `freeform` without rows, or use `grid` layout.'
+            )
+    for module in modules:
         required = ['family', 'name', 'width', 'height', 'dataSource', 'type']
         fixed_only_required = ['row']
         for field in required:
