@@ -1,6 +1,6 @@
 # Configuration schemas
 
-For all charts, examples are either directly linked below, or can be found by browising the [example app endpoints](example_app/endpoints.py) and [configs](example_app/examples/).
+For all charts, examples are either directly linked below, or can be found by browising the [example app endpoints](../example_app/endpoints.py) and [configs](../example_app/examples/).
 
 ## Vega
 
@@ -8,8 +8,8 @@ Vega-Lite is a high-level grammar for interactive graphics. It provides a concis
 
 ### Examples
 
-* [Dashboard configuration](example_app/examples/config/vegalite-fixed.json)
-* [Individual dashboard charts](example_app/examples/vegalite/)
+* [Dashboard configuration](../example_app/examples/config/vegalite-fixed.json)
+* [Individual dashboard charts](../example_app/examples/vegalite/)
 
 ### Overrides
 
@@ -25,7 +25,7 @@ C3js is a wrapper around D3js, that provides simple, out-of-the-box charts. Visi
 
 ### Examples
 
-* [Dashboard configuration](example_app/examples/config/fixedlayout-c3.json)
+* [Dashboard configuration](../example_app/examples/config/fixedlayout-c3.json)
 
 ### Overrides
 
@@ -165,7 +165,7 @@ D3-cloud is a 3rd-party module that leverages d3 to create word clouds. Visit [h
 
 ### Examples
 
-* [Dashboard configuration](example_app/examples/config/kitchensink.json)
+* [Dashboard configuration](../example_app/examples/config/kitchensink.json)
 
 ### Overrides
 
@@ -189,8 +189,8 @@ Plotly is an extremely diverse, powerful and now open source charting library th
 
 ### Examples
 
-* [Dashboard configuration](example_app/examples/config/plotly.json)
-* [Individual dashboard charts](example_app/examples/plotly/)
+* [Dashboard configuration](../example_app/examples/config/plotly.json)
+* [Individual dashboard charts](../example_app/examples/plotly/)
 
 ### Overrides
 
@@ -200,7 +200,7 @@ Supported.
 
 All values are specified using **JSON** configuration specified by the API. See [https://plot.ly/javascript/](https://plot.ly/javascript/) for more.
 
-Usually, the format is at the very least, something like the below json. You can also see more examples that have been tested with jsondash in the [plotly json configs directory](example_app/examples/plotly). Typically, you can format it exactly as recommended by Plotly API, except converted to JSON format (most javascript can be converted 1:1 using `JSON.stringify` for example).
+Usually, the format is at the very least, something like the below json. You can also see more examples that have been tested with jsondash in the [plotly json configs directory](../example_app/examples/plotly). Typically, you can format it exactly as recommended by Plotly API, except converted to JSON format (most javascript can be converted 1:1 using `JSON.stringify` for example).
 
 This means configuration that uses javascript functions are not accepted; these would need to be pre-computed on the server side instead, and then the results dumped to JSON.
 
@@ -217,7 +217,7 @@ D3js is a powerful SVG based "dynamic document" drawing library that can create 
 
 ### Examples
 
-* [Dashboard configuration](example_app/examples/config/fixedlayout-d3.json)
+* [Dashboard configuration](../example_app/examples/config/fixedlayout-d3.json)
 
 #### Dendrogram
 
@@ -352,7 +352,7 @@ A graph is an abstract structure that uses nodes and edges to represent relation
 
 ### Examples
 
-* [Dashboard configuration](example_app/examples/config/digraph.json)
+* [Dashboard configuration](../example_app/examples/config/digraph.json)
 
 The graph/digraph format is like the following simple example:
 
@@ -386,8 +386,8 @@ Cytoscape is a graph theory / network library for analysis and visualisation. Vi
 
 ### Examples
 
-* [Dashboard configuration](example_app/examples/config/cytoscape.json)
-* [Individual dashboard charts](example_app/examples/cytoscape/)
+* [Dashboard configuration](../example_app/examples/config/cytoscape.json)
+* [Individual dashboard charts](../example_app/examples/cytoscape/)
 
 ### Overrides
 
@@ -395,7 +395,7 @@ Supported.
 
 #### Cytoscape (core layouts)
 
-Cytoscape supports third-party layout extensions to the core library, but only the core layouts are available in jsondash. See some examples in the [example configurations directory](example_app/examples/cytoscape).
+Cytoscape supports third-party layout extensions to the core library, but only the core layouts are available in jsondash. See some examples in the [example configurations directory](../example_app/examples/cytoscape).
 
 **other notes**
 
