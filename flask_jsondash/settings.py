@@ -88,10 +88,11 @@ CHARTS_CONFIG = {
     },
     'Basic': {
         'charts': [
-            ('custom', 'Custom embed of any arbitrary code.'),
+            ('custom', 'Custom direct loading of any arbitrary html.'),
             ('iframe', 'Embedded iframe.'),
-            ('number', 'A single number representing some aggregate value.'),
-            ('youtube', 'An embedded YouTube video.'),
+            ('number', ('Single number (size autoscaled) representing '
+                        'some aggregate value.')),
+            ('youtube', 'YouTube video embedded as an iframe.'),
         ],
         'dependencies': [],
         'js_url': [],
@@ -136,7 +137,7 @@ CHARTS_CONFIG = {
     },
     'Timeline': {
         'charts': [
-            ('timeline', 'A timeline'),
+            ('timeline', 'A timeline.js timeline'),
         ],
         'dependencies': [],
         'js_url': ['//cdn.knightlab.com/libs/timeline3/latest/js/timeline.js'],
@@ -147,7 +148,7 @@ CHARTS_CONFIG = {
     },
     'Venn': {
         'charts': [
-            ('venn', 'A venn diagram'),
+            ('venn', 'A venn.js Venn or Euler diagram'),
         ],
         'dependencies': ['D3'],
         'js_url': ['//cdn.rawgit.com/benfred/venn.js/master/venn.js'],
@@ -157,7 +158,7 @@ CHARTS_CONFIG = {
     },
     'Graph': {
         'charts': [
-            ('graph', 'Graph'),
+            ('graph', 'Graph using the graphviz .dot specification'),
         ],
         'dependencies': ['D3'],
         'js_url': [
@@ -191,7 +192,7 @@ CHARTS_CONFIG = {
     },
     'PlotlyStandard': {
         'charts': [
-            ('plotly-any', 'Any'),
+            ('plotly-any', 'Plotly serializable specification'),
         ],
         'dependencies': [],
         'js_url': [
