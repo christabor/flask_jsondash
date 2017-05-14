@@ -214,8 +214,8 @@ body {
 }
 .dashboard-charts .widget .widget-title {
     display: block;
-    font-weight: 200;
-    font-size: 0.9em;
+    font-weight: 400;
+    font-size: 1em;
     border-bottom: 1px solid #ccc;
     padding: 0.6em 1.2em;
     height: 35px !important;
@@ -230,6 +230,15 @@ body {
 .dashboard-charts .widget .chart-centered {
     margin: 0 auto;
     display: block;
+}
+.dashboard-charts #chart-options .guid-text-helper {
+    visibility: hidden;
+}
+.dashboard-charts #chart-options [data-view-chart-guid]:hover .guid-text {
+    border-bottom: 1px dotted #999;
+}
+.dashboard-charts #chart-options [data-view-chart-guid]:hover .guid-text-helper {
+    visibility: visible;
 }
 #api-output {
     max-height: 600px;

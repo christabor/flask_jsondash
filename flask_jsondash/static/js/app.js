@@ -377,6 +377,8 @@ var jsondash = function() {
         });
         // Update with current guid for referencing the module.
         WIDGET_FORM.attr('data-guid', guid);
+        // Populate visual GUID
+        $('[data-view-chart-guid]').find('.guid-text').text(guid);
         populateOrderField(widget);
         // Update form for specific row if row button was caller
         // Trigger event for select dropdown to ensure any UI is consistent.

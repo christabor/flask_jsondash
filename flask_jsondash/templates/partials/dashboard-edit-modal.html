@@ -1,9 +1,20 @@
+{# The popup modal for editing/adding charts #}
 <div class="modal fade" id="chart-options">
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Chart options</h4>
+            <h4 class="modal-title">
+                Chart options
+                <small data-view-chart-guid>
+                    &nbsp;
+                    <span class="guid-text"></span>
+                    <span class="guid-text-helper">
+                        &nbsp;
+                        <span class="fa fa-angle-left"></span> This is the permanent ID of the chart.
+                    </span>
+                </small>
+            </h4>
         </div>
         <div class="modal-body">
             <form class="form-block row" id="module-form" role="form">

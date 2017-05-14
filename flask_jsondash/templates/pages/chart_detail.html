@@ -1,5 +1,6 @@
 {% extends "layouts/charts_base.html" %}
 
+{# Generate all the charts for a row (grid mode only) #}
 {%- macro chart_row(rownum, modules=None) %}
     <div class="row grid-row {{ 'grid-row-template' if not modules else '' }}">
         <p class="grid-row-label-wrapper">
@@ -16,6 +17,7 @@
     </div>
 {% endmacro -%}
 
+{# Macro to create a new chart template or existing chart from a config #}
 {%- macro chart(module=None) %}
     {% if module %}
         {% set dims = module|get_dims %}
@@ -180,7 +182,7 @@
                 {% endif %}
             </div>
         </div>
-        {# Used as a template to clone from in js #}
+        {# Used as a template to clone from in js only #}
         <div class="hidden" id="chart-template">{{ chart() }}</div>
         <div class="hidden" id="row-template">{{ chart_row(0) }}</div>
     </div>
