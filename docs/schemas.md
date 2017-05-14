@@ -1,8 +1,15 @@
 # Configuration schemas
 
+For all charts, examples are either directly linked below, or can be found by browising the [example app endpoints](example_app/endpoints.py) and [configs](example_app/examples/).
+
 ## Vega
 
 Vega-Lite is a high-level grammar for interactive graphics. It provides a concise JSON syntax for supporting rapid generation of interactive multi-view visualizations. Visit [vegalite](https://vega.github.io/vega-lite/docs) for more.
+
+### Examples
+
+* [Dashboard configuration](example_app/examples/config/vegalite-fixed.json)
+* [Individual dashboard charts](example_app/examples/vegalite/)
 
 ### Overrides
 
@@ -15,6 +22,10 @@ Vega-lite is very robust and thus has it's own specification language. [You can 
 ## C3
 
 C3js is a wrapper around D3js, that provides simple, out-of-the-box charts. Visit [c3js.org](http://c3js.org) for more.
+
+### Examples
+
+* [Dashboard configuration](example_app/examples/config/fixedlayout-c3.json)
 
 ### Overrides
 
@@ -152,6 +163,10 @@ An object with each key corresponding to the line label, and a list of integer v
 
 D3-cloud is a 3rd-party module that leverages d3 to create word clouds. Visit [https://github.com/jasondavies/d3-cloud](https://github.com/jasondavies/d3-cloud) for more.
 
+### Examples
+
+* [Dashboard configuration](example_app/examples/config/kitchensink.json)
+
 ### Overrides
 
 Not Supported.
@@ -171,6 +186,11 @@ A list of objects with `text` and `size` keys denoting the word and relative siz
 ## Plotly
 
 Plotly is an extremely diverse, powerful and now open source charting library that supports a wide range of formats, including webGL and 3d charting/visualization. See [https://plot.ly/](https://plot.ly/) for more.
+
+### Examples
+
+* [Dashboard configuration](example_app/examples/config/plotly.json)
+* [Individual dashboard charts](example_app/examples/plotly/)
 
 ### Overrides
 
@@ -194,6 +214,10 @@ This means configuration that uses javascript functions are not accepted; these 
 ## D3
 
 D3js is a powerful SVG based "dynamic document" drawing library that can create just about any imaginable visualization. Visit [d3js.org](http://d3js.org) for more.
+
+### Examples
+
+* [Dashboard configuration](example_app/examples/config/fixedlayout-d3.json)
 
 #### Dendrogram
 
@@ -326,6 +350,10 @@ This will be serialized for JSON and deserialized when rendering.
 
 A graph is an abstract structure that uses nodes and edges to represent relationships. The actual implementation here utilizes the graphviz digraph (directed graph) DOT specification.
 
+### Examples
+
+* [Dashboard configuration](example_app/examples/config/digraph.json)
+
 The graph/digraph format is like the following simple example:
 
 ```
@@ -355,6 +383,11 @@ Not supported/relevant.
 ## Cytoscape
 
 Cytoscape is a graph theory / network library for analysis and visualisation. Visit [cytoscape website](http://js.cytoscape.org/) for more.
+
+### Examples
+
+* [Dashboard configuration](example_app/examples/config/cytoscape.json)
+* [Individual dashboard charts](example_app/examples/cytoscape/)
 
 ### Overrides
 
