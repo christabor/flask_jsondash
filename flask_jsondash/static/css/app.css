@@ -35,6 +35,9 @@ body {
     */
     position: relative;
 }
+.dashboard-charts .widget .chart-container {
+    margin: 0 auto;
+}
 .dashboard-charts small {
     font-weight: 400;
 }

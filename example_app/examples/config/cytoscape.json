@@ -1,0 +1,80 @@
+{
+    "username": "anonymous",
+    "layout": "grid",
+    "name": "Cytoscape core layouts examples",
+    "modules": [
+        {
+            "name": "Grid",
+            "family": "Cytoscape",
+            "refresh": false,
+            "height": 500,
+            "width": "col-4",
+            "dataSource": "http://localhost:5004/cytoscape?name=grid",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "e5b750b3-3375-c04a-2307-920f4b8fc173",
+            "type": "cytoscape",
+            "order": 3,
+            "row": 1
+        },
+        {
+            "name": "Compound nodes",
+            "family": "Cytoscape",
+            "refresh": false,
+            "height": 500,
+            "width": "col-4",
+            "dataSource": "http://127.0.0.1:5004/cytoscape?name=compound",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "63802c53-37c5-b2af-ac88-8a5e5b2ff5e4",
+            "type": "cytoscape",
+            "order": 1,
+            "row": 1
+        },
+        {
+            "name": "Grid of labels",
+            "family": "Cytoscape",
+            "refresh": false,
+            "height": 620,
+            "width": "col-6",
+            "dataSource": "http://localhost:5004/cytoscape?name=labels",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "94820093-c2e8-a0c9-83b8-788e1d254a82",
+            "type": "cytoscape",
+            "order": 0,
+            "row": 2
+        },
+        {
+            "name": "Basic",
+            "family": "Cytoscape",
+            "refresh": false,
+            "height": 500,
+            "width": "col-4",
+            "dataSource": "http://localhost:5004/cytoscape?name=basic",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "7a86178e-90ae-e3e9-74de-19786d12afca",
+            "type": "cytoscape",
+            "order": 2,
+            "row": 1
+        },
+        {
+            "name": "Circle",
+            "family": "Cytoscape",
+            "refresh": false,
+            "height": 620,
+            "width": "col-6",
+            "dataSource": "http://localhost:5004/cytoscape?name=circle",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "6871916a-561c-cafb-13e9-a9ff9daf1cc9",
+            "type": "cytoscape",
+            "order": 1,
+            "row": 2
+        }
+    ],
+    "created_by": "global",
+    "date": "2017-05-14 15:23:08.304219",
+    "id": "55aab6f3-38e7-11e7-96fb-a0999b0aebbf"
+}

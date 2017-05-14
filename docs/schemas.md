@@ -352,6 +352,22 @@ Where `...` is the digraph string. You can find the [dot specificiation here](ht
 
 Not supported/relevant.
 
+## Cytoscape
+
+Cytoscape is a graph theory / network library for analysis and visualisation. Visit [cytoscape website](http://js.cytoscape.org/) for more.
+
+### Overrides
+
+Supported.
+
+#### Cytoscape (core layouts)
+
+Cytoscape supports third-party layout extensions to the core library, but only the core layouts are available in jsondash. See some examples in the [example configurations directory](example_app/examples/cytoscape).
+
+**other notes**
+
+In all configurations, there is no need to specify a DOM selector, since this will be populated during initialization. Also, this does not serialize, so it would never be included in the payload anyway.
+
 ## Datatables
 
 ### Overrides

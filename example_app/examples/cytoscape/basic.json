@@ -1,0 +1,54 @@
+{
+  "container": "",
+  "elements": [
+    {
+      "data": {"id": "a"}
+    },
+    {
+      "data": {"id": "b"}
+    },
+    {
+      "data": {"id": "c"}
+    },
+    {
+      "data": {"id": "d", "position": {"x": 10, "y": 100}}
+    },
+    {
+      "data": {"id": "ab", "source": "a", "target": "b"}
+    },
+    {
+      "data": {"id": "bc", "source": "b", "target": "c"}
+    },
+    {
+      "data": {"id": "ac", "source": "a", "target": "c"}
+    },
+    {
+      "data": {"id": "bd", "source": "b", "target": "d"}
+    },
+    {
+      "data": {"id": "ad", "source": "a", "target": "d"}
+    }
+  ],
+  "style": [
+    {
+      "selector": "node",
+      "style": {
+        "background-color": "blue",
+        "label": "data(id)"
+      }
+    },
+    {
+      "selector": "edge",
+      "style": {
+        "width": 3,
+        "line-color": "green",
+        "target-arrow-color": "#ccc",
+        "target-arrow-shape": "triangle"
+      }
+    }
+  ],
+  "layout": {
+    "name": "grid",
+    "rows": 1
+  }
+}

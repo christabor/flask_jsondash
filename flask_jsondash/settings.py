@@ -156,6 +156,20 @@ CHARTS_CONFIG = {
         'enabled': True,
         'help_link': 'https://github.com/benfred/venn.js/',
     },
+    'Cytoscape': {
+        'charts': [
+            ('cytoscape', ('Cytoscape compatible json configuration '
+                           '(core layouts only).')),
+        ],
+        'dependencies': [],
+        'js_url': [
+            ('//cdnjs.cloudflare.com/ajax/libs/cytoscape/'
+             '3.1.0/cytoscape.min.js'),
+        ],
+        'css_url': [],
+        'enabled': True,
+        'help_link': 'http://js.cytoscape.org/'
+    },
     'Graph': {
         'charts': [
             ('graph', 'Graph using the graphviz .dot specification'),

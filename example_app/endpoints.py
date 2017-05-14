@@ -125,6 +125,26 @@ def wordcloud():
 
 
 @cross_origin()
+@app.route('/cytoscape')
+def cytoscape():
+    """Fake endpoint.
+
+    Reads data from a local cytoscape spec, and if there is a
+    remote url specified, (assuming it exists here), open and load it as well.
+
+    This returns all required json as a single endpoint.
+    """
+    chart_name = request.args.get('name', 'dagre')
+    filename = '{}/examples/cytoscape/{}.json'.format(cwd, chart_name)
+    try:
+        with open(filename, 'r') as chartjson:
+            return chartjson.read()
+    except IOError:
+        pass
+    return jsonify({})
+
+
+@cross_origin()
 @app.route('/vegalite')
 def vegalite():
     """Fake endpoint.

@@ -29,6 +29,18 @@ jsondash.getJSON = function(container, url, callback) {
     });
 };
 
+
+/**
+ * [getTitleBarHeight Return the height for a chart containers titlebar,
+ *     plus any other computed box model properties.
+ */
+jsondash.getTitleBarHeight = function(container) {
+    var titlebar = container.select('.widget-title');
+    var titlebar_height = titlebar.node().getBoundingClientRect().height;
+    var titlebar_padding = parseInt(titlebar.style('padding-bottom').replace('px', ''), 10);
+    return titlebar_height + titlebar_padding;
+};
+
 /**
  * [getDynamicWidth Return the width for a container that has no specified width
  * (e.g. grid mode)]
@@ -40,6 +52,7 @@ jsondash.getDynamicWidth = function(container, config) {
     return parseInt(config.width, 10);
 };
 
+
 /**
  * [getDiameter Calculate a valid diameter for a circular widget,
  * based on width/height to ensure the size never goes out of the container bounds.]
@@ -47,6 +60,44 @@ jsondash.getDynamicWidth = function(container, config) {
 jsondash.getDiameter = function(container, config) {
     var width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
     return d3.min([d3.round(width), config.height]);
+};
+
+/**
+ * Handler for all cytoscape specifications
+ */
+jsondash.handlers.handleCytoscape = function(container, config) {
+    'use strict';
+    var _width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
+    // Titlebar + padding + a bit extra to account for the bottom.
+    var titlebar_offset = jsondash.getTitleBarHeight(container) * 1.2;
+    container.selectAll('.chart-container').remove();
+    container.append('div')
+        .classed({'chart-container': true})
+        .style({
+        width: (_width - 10) + 'px',
+        height: (config.height - titlebar_offset) + 'px'
+    });
+    jsondash.getJSON(container, config.dataSource, function(error, cyspec){
+        // the `document.getElementByID` declaration in the cytoscape
+        // spec is not serializable so we will ignore anything user
+        // sent and just drop our selector in place of it.
+        var override = {
+            container: document.querySelector('[data-guid="' + config.guid + '"] .chart-container'),
+            // We intentionally override w/h with null values,
+            // so the graph is forced to be
+            // constrained to the parent dimensions.
+            layout: {
+                width: null,
+                height: null
+            },
+        };
+        var spec = $.extend(cyspec, override);
+        console.log(spec);
+        var cy = cytoscape(spec);
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
+        jsondash.unload(container);
+    });
 };
 
 /**
