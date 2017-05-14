@@ -34,6 +34,8 @@ This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/
 * Drag-and-drop your layout easily and intuitively
 * Multiple layout modes - **bootstrap grid** based or totally **freeform**
 
+[View all supported libraries](docs/schemas.md)
+
 It uses any specified json endpoint to get data from, so long as the [payload format is correct](docs/schemas.md).
 
 ## JSON configurations intro
