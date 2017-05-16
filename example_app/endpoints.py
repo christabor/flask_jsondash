@@ -2,7 +2,7 @@
 
 # -*- coding: utf-8 -*-
 
-from itertools import combinations as combs
+from itertools import combinations
 import json
 import locale
 import os
@@ -148,7 +148,7 @@ def sigma():
     if chart_name == 'random':
         nodes = request.args.get('nodes', 'abcdefghij')
         _vertices = list(nodes)
-        _edges = combs(_vertices, 2)
+        _edges = combinations(_vertices, 2)
         edges, vertices = [], []
         for (frm, to) in _edges:
             edges.append(dict(
