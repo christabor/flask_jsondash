@@ -2,6 +2,7 @@
 
 # -*- coding: utf-8 -*-
 
+from itertools import combinations as combs
 import json
 import locale
 import os
@@ -122,6 +123,43 @@ def wordcloud():
     return jsonify([
         {'text': word, 'size': sizes[i] * 12} for i, word in enumerate(words)
     ])
+
+
+@cross_origin()
+@app.route('/sigma')
+def sigma():
+    """Fake endpoint."""
+    chart_name = request.args.get('name', 'basic')
+    if chart_name == 'random':
+        _vertices = list('abcdefghij')
+        _edges = combs(_vertices, 2)
+        edges, vertices = [], []
+        for (frm, to) in _edges:
+            edges.append(dict(
+                id='{}-{}'.format(frm, to),
+                source=frm,
+                target=to,
+            ))
+        for vertex in _vertices:
+            vertices.append(dict(
+                id=vertex,
+                size=rr(1, 120),
+                x=rr(1, 100),
+                y=rr(1, 100),
+                label='node {}'.format(vertex),
+            ))
+        data = dict(
+            nodes=vertices,
+            edges=edges,
+        )
+        return jsonify(data)
+    filename = '{}/examples/sigma/{}.json'.format(cwd, chart_name)
+    try:
+        with open(filename, 'r') as chartjson:
+            return chartjson.read()
+    except IOError:
+        pass
+    return jsonify({})
 
 
 @cross_origin()

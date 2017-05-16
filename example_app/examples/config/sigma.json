@@ -1,0 +1,38 @@
+{
+    "username": "anonymous",
+    "layout": "grid",
+    "name": "SigmaJS examples",
+    "modules": [
+        {
+            "name": "Grid",
+            "family": "SigmaJS",
+            "refresh": false,
+            "height": 500,
+            "width": "col-4",
+            "dataSource": "http://localhost:5004/sigma?name=basic",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "e5b750b3-3375-c04a-2307-920f4b8fc173",
+            "type": "sigma",
+            "order": 0,
+            "row": 1
+        },
+        {
+            "name": "Grid",
+            "family": "SigmaJS",
+            "refresh": false,
+            "height": 500,
+            "width": "col-4",
+            "dataSource": "http://localhost:5004/sigma?name=random",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "ea07c8fa-f5ee-4813-b3ff-43d20a1d9dc0",
+            "type": "sigma",
+            "order": 0,
+            "row": 1
+        }
+    ],
+    "created_by": "global",
+    "date": "2017-05-14 15:23:08.304219",
+    "id": "55aab6f3-38e7-11e7-96fb-a0999b0aebbf"
+}

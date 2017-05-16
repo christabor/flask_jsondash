@@ -156,6 +156,18 @@ CHARTS_CONFIG = {
         'enabled': True,
         'help_link': 'https://github.com/benfred/venn.js/',
     },
+    'SigmaJS': {
+        'charts': [
+            ('sigma', 'SigmaJS default json based graph'),
+        ],
+        'dependencies': [],
+        'js_url': [
+            '//cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.0/sigma.min.js',
+        ],
+        'css_url': [],
+        'enabled': True,
+        'help_link': 'http://sigmajs.org',
+    },
     'Cytoscape': {
         'charts': [
             ('cytoscape', ('Cytoscape compatible json configuration '

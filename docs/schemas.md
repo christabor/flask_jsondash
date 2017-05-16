@@ -401,6 +401,27 @@ Cytoscape supports third-party layout extensions to the core library, but only t
 
 In all configurations, there is no need to specify a DOM selector, since this will be populated during initialization. Also, this does not serialize, so it would never be included in the payload anyway.
 
+## SigmaJS
+
+Sigma is a JavaScript library dedicated to graph drawing. It makes easy to publish networks on Web pages, and allows developers to integrate network exploration in rich Web applications. Visit [sigmajs website](http://sigmajs.org/) for more.
+
+### Examples
+
+* [Dashboard configuration](../example_app/examples/config/sigma.json)
+* [Individual dashboard charts](../example_app/examples/sigma/)
+
+### Overrides
+
+Supported.
+
+#### Sigma
+
+Supports all sigma graphs that are renderable via **json**, and do not need custom javascript to add nodes, interactivity or styles. This means you must pass in your json data to the endpoints' `dataSource` field. SigmaJS supports Gephi format via a separate extension, but you will need to convert this to json before returning it to your endpoint, as the Gephi plugin is not integrated here.
+
+**other notes**
+
+In all configurations, there is no need to specify a DOM selector, since this will be populated during initialization. Also, this does not serialize, so it would never be included in the payload anyway.
+
 ## Datatables
 
 ### Overrides

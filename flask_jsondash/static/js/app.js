@@ -754,6 +754,9 @@ var jsondash = function() {
             else if(config.type === 'cytoscape') {
                 jsondash.handlers.handleCytoscape(widget, config);
             }
+            else if(config.type == 'sigma') {
+                jsondash.handlers.handleSigma(widget, config);
+            }
             else if(jsondash.util.isD3Subtype(config)) {
                 jsondash.handlers.handleD3(widget, config);
             } else {

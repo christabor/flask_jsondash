@@ -1,0 +1,42 @@
+{
+  "nodes": [
+    {
+      "id": "a",
+      "label": "A node",
+      "x": 0,
+      "y": 0,
+      "size": 3
+    },
+    {
+      "id": "b",
+      "label": "Another node",
+      "x": 3,
+      "y": 1,
+      "size": 2
+    },
+    {
+      "id": "c",
+      "label": "And a last one",
+      "x": 1,
+      "y": 3,
+      "size": 1
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "a",
+      "target": "b"
+    },
+    {
+      "id": "e1",
+      "source": "b",
+      "target": "c"
+    },
+    {
+      "id": "e2",
+      "source": "c",
+      "target": "a"
+    }
+  ]
+}

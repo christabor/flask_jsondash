@@ -63,6 +63,40 @@ jsondash.getDiameter = function(container, config) {
 };
 
 /**
+ * Handler for all sigma.js specifications
+ */
+jsondash.handlers.handleSigma = function(container, config) {
+    'use strict';
+    var _width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
+    // Titlebar + padding + a bit extra to account for the bottom.
+    var titlebar_offset = jsondash.getTitleBarHeight(container) * 1.2;
+    // Sigmajs just assumes an ID for the querySelector, so we need to add one
+    // to the child container.
+    var new_id = 'sigma-' + jsondash.util.guid();
+    var width = (_width - 10) + 'px';
+    var height = (config.height - titlebar_offset) + 'px';
+    container.selectAll('.chart-container').remove();
+    container.append('div')
+        .classed({'chart-container': true})
+        .attr('id', new_id)
+        .style({
+        width: width,
+        height: height
+    });
+    jsondash.getJSON(container, config.dataSource, function(error, data){
+        var sig = new sigma({
+          graph: data,
+          width: width,
+          height: height,
+          container: new_id
+        });
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
+        jsondash.unload(container);
+    });
+};
+
+/**
  * Handler for all cytoscape specifications
  */
 jsondash.handlers.handleCytoscape = function(container, config) {
