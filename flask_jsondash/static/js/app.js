@@ -721,6 +721,9 @@ var jsondash = function() {
             else if(jsondash.util.isSparkline(config.type)) {
                 jsondash.handlers.handleSparkline(widget, config);
             }
+            else if(config.type === 'image') {
+                jsondash.handlers.handleImage(widget, config);
+            }
             else if(config.type === 'iframe') {
                 jsondash.handlers.handleIframe(widget, config);
             }

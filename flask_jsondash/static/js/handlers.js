@@ -681,6 +681,26 @@ jsondash.handlers.handleTimeline = function(container, config) {
     });
 };
 
+/**
+ * [handleImage Embed an image src directly.]
+ */
+jsondash.handlers.handleImage = function(container, config) {
+    'use strict';
+    container.selectAll('.img').remove();
+    var img = container.append('img');
+    var width = isNaN(config.width) ? '100%' : config.width - jsondash.config.WIDGET_MARGIN_X;
+    var height = (config.height - jsondash.config.WIDGET_MARGIN_Y) + 'px';
+    img.attr({
+        src: config.dataSource,
+        height: height,
+        width: width
+    });
+    img.classed({img: true});
+    // Look for callbacks potentially registered for third party code.
+    jsondash.api.runCallbacks(container, config);
+    jsondash.unload(container);
+};
+
 jsondash.handlers.handleIframe = function(container, config) {
     'use strict';
     container.selectAll('iframe').remove();

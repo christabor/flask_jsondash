@@ -90,6 +90,7 @@ CHARTS_CONFIG = {
         'charts': [
             ('custom', 'Custom direct loading of any arbitrary html.'),
             ('iframe', 'Embedded iframe.'),
+            ('image', 'Image (inline embed)'),
             ('number', ('Single number (size autoscaled) representing '
                         'some aggregate value.')),
             ('youtube', 'YouTube video embedded as an iframe.'),

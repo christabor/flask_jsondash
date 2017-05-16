@@ -312,6 +312,14 @@ No schema; you can serve whatever kind of page you want. Similar to an iframe, e
 
 No schema; you can load whatever page you want. This will not affect the dashboard, unlike the *custom* option, but you will have limited access to the contents of the iframe (typically not a concern.)
 
+## Image
+
+No schema; Just drop in an image url.
+
+### Examples
+
+* [Dashboard configuration](../example_app/examples/config/images.json)
+
 #### Number
 
 Any number, positive or negative. Prefixes, such as currencies, are also allowed (there is no real limit to the string, but it is typically shown as a number, and styled accordingly).

@@ -1,0 +1,52 @@
+{
+    "username": "anonymous",
+    "layout": "grid",
+    "name": "image embeds",
+    "modules": [
+        {
+            "name": "Big time",
+            "family": "Basic",
+            "refresh": false,
+            "height": 620,
+            "width": "col-4",
+            "dataSource": "https://pbs.twimg.com/profile_images/829758077335437318/iOVad51D.jpg",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "0ea095dd-463e-856b-9a88-d5fa99d842e7",
+            "type": "image",
+            "order": 0,
+            "row": "1"
+        },
+        {
+            "name": "Cool dog gif",
+            "family": "Basic",
+            "refresh": false,
+            "height": 400,
+            "width": "col-4",
+            "dataSource": "http://i.imgur.com/OLmsCMt.gif",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "1e9a358d-5ca0-0e2d-4758-36c75d297b40",
+            "type": "image",
+            "order": 1,
+            "row": 1
+        },
+        {
+            "name": "Image 1",
+            "family": "Basic",
+            "refresh": false,
+            "height": 400,
+            "width": "col-4",
+            "dataSource": "https://lh3.googleusercontent.com/2urmHNbLjpUzzOJw8lSzvKdvCif97l-GrjajX29gQclCOSuvRGbUXvndo1RlV5RgKCQ=h310",
+            "override": false,
+            "refreshInterval": "",
+            "guid": "da7c35b6-ea8c-463a-80d5-da59d83c1b20",
+            "type": "image",
+            "order": 2,
+            "row": 1
+        }
+    ],
+    "created_by": "global",
+    "date": "2017-05-15 21:25:18.949961",
+    "id": "caeea800-39ee-11e7-ba93-a0999b0aebbf"
+}
