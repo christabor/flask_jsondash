@@ -61,6 +61,21 @@ def rr_list(max_range=10):
     return [rr(0, 100) for i in range(max_range)]
 
 
+def rand_hex_color():
+    """Generate a random hex color.
+    e.g. #FF0000
+    """
+    chars = list('0123456789ABCDEF')
+    return '#{0}{1}{2}{3}{4}{5}'.format(
+        choice(chars),
+        choice(chars),
+        choice(chars),
+        choice(chars),
+        choice(chars),
+        choice(chars),
+    )
+
+
 @cross_origin()
 @app.route('/combination')
 def combination():
@@ -137,15 +152,20 @@ def sigma():
         for (frm, to) in _edges:
             edges.append(dict(
                 id='{}-{}'.format(frm, to),
+                color=rand_hex_color(),
                 source=frm,
                 target=to,
+                size=rr(1, 10),
+                x=rr(1, 100),
+                y=rr(1, 100),
             ))
         for vertex in _vertices:
             vertices.append(dict(
                 id=vertex,
-                size=rr(1, 120),
+                size=rr(1, 10),
                 x=rr(1, 100),
                 y=rr(1, 100),
+                color=rand_hex_color(),
                 label='node {}'.format(vertex),
             ))
         data = dict(

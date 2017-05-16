@@ -18,7 +18,7 @@
             "row": 1
         },
         {
-            "name": "Grid",
+            "name": "Grid - randomized with colors, sizes, and nodes",
             "family": "SigmaJS",
             "refresh": false,
             "height": 500,
