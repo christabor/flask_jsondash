@@ -146,7 +146,8 @@ def sigma():
     """Fake endpoint."""
     chart_name = request.args.get('name', 'basic')
     if chart_name == 'random':
-        _vertices = list('abcdefghij')
+        nodes = request.args.get('nodes', 'abcdefghij')
+        _vertices = list(nodes)
         _edges = combs(_vertices, 2)
         edges, vertices = [], []
         for (frm, to) in _edges:
