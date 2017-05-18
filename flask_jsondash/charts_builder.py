@@ -82,6 +82,14 @@ def metadata(key=None, exclude=[]):
 
     This allows loose coupling for enabling and setting
     metadata for each chart.
+
+    Args:
+        key (None, optional): A key to look up in global config.
+        exclude (list, optional): A list of fields to exclude when
+            retrieving metadata.
+
+    Returns:
+        _metadata (dict): The metadata configuration.
     """
     _metadata = dict()
     conf = current_app.config
@@ -101,7 +109,15 @@ def metadata(key=None, exclude=[]):
 
 
 def setting(name, default=None):
-    """A simplified getter for namespaced flask config values."""
+    """A simplified getter for namespaced flask config values.
+
+    Args:
+        name (str): A setting to retrieve the value for.
+        default (None, optional): A default value to fall back to
+            if not specified.
+    Returns:
+        str: A value from the app config.
+    """
     if default is None:
         default = default_config.get(name)
     return current_app.config.get(name, default)
@@ -409,15 +425,85 @@ def delete(c_id):
     return redirect(dash_url)
 
 
+def is_consecutive_rows(lst):
+    """Check if a list of integers is consecutive.
+
+    Args:
+        lst (list): The list of integers.
+
+    Returns:
+        True/False: If the list contains consecutive integers.
+
+    Originally taken from and modified:
+        http://stackoverflow.com/
+            questions/40091617/test-for-consecutive-numbers-in-list
+    """
+    assert 0 not in lst, '0th index is invalid!'
+    lst = list(set(lst))
+    if not lst:
+        return True
+    setl = set(lst)
+    return len(lst) == len(setl) and setl == set(range(min(lst), max(lst) + 1))
+
+
+def validate_raw_json_grid(conf):
+    """Grid mode specific validations.
+
+    Args:
+        conf (dict): The dashboard configuration.
+
+    Raises:
+        InvalidSchemaError: If there are any issues with the schema
+
+    Returns:
+        None: If no errors were found.
+    """
+    layout = conf.get('layout', 'freeform')
+    fixed_only_required = ['row']
+    rows = []
+    modules = conf.get('modules', [])
+    for module in modules:
+        try:
+            rows.append(int(module.get('row')))
+        except TypeError:
+            raise InvalidSchemaError(
+                'Invalid row value for module "{}"'.format(module.get('name')))
+    if not is_consecutive_rows(rows):
+        raise InvalidSchemaError(
+            'Row order is not consecutive: "{}"!'.format(sorted(rows)))
+    if not modules:
+        return
+    for module in modules:
+        for field in fixed_only_required:
+            if field not in module and layout == 'grid':
+                ident = module.get('name', module)
+                raise InvalidSchemaError(
+                    'Invalid JSON. "{}" must be '
+                    'included in "{}" for '
+                    'fixed grid layouts'.format(field, ident))
+
+
 def validate_raw_json(jsonstr):
-    """Validate the raw json for a config."""
+    """Validate the raw json for a config.
+
+    Args:
+        jsonstr (str): The raw json configuration
+
+    Raises:
+        InvalidSchemaError: If there are any issues with the schema
+
+    Returns:
+        data (dict): The parsed configuration data
+    """
     data = json.loads(jsonstr)
     layout = data.get('layout', 'freeform')
     main_required_fields = ['name', 'modules']
+    families = CHARTS_CONFIG.keys()
+    modules = data.get('modules')
+
     for field in main_required_fields:
         if field not in data.keys():
             raise InvalidSchemaError('Missing "{}" key'.format(field))
-    modules = data.get('modules')
     if modules:
         first = modules[0]
         if layout != 'grid' and first.get('row') is not None:
@@ -427,20 +513,17 @@ def validate_raw_json(jsonstr):
             )
     for module in modules:
         required = ['family', 'name', 'width', 'height', 'dataSource', 'type']
-        fixed_only_required = ['row']
+        fam = module.get('family')
         for field in required:
             if field not in module:
                 ident = module.get('name', module)
                 raise InvalidSchemaError(
                     'Invalid JSON. "{}" must be '
                     'included in module "{}"'.format(field, ident))
-        for field in fixed_only_required:
-            if field not in module and layout == 'grid':
-                ident = module.get('name', module)
-                raise InvalidSchemaError(
-                    'Invalid JSON. "{}" must be '
-                    'included in "{}" for '
-                    'fixed grid layouts'.format(field, ident))
+        if fam not in families:
+            raise InvalidSchemaError('Invalid family name "{}"'.format(fam))
+    if layout == 'grid':
+        validate_raw_json_grid(data)
     return data
 
 
@@ -489,7 +572,14 @@ def update(c_id):
 
 
 def is_global_dashboard(view):
-    """Check if a dashboard is considered global."""
+    """Check if a dashboard is considered global.
+
+    Args:
+        view (dict): The dashboard configuration
+
+    Returns:
+        bool: If all criteria was met to be included as a global dashboard.
+    """
     return all([
         setting('JSONDASH_GLOBALDASH'),
         view.get('created_by') == setting('JSONDASH_GLOBAL_USER'),
@@ -498,8 +588,12 @@ def is_global_dashboard(view):
 
 def check_global():
     """Allow overriding of the user by making it global.
+
     This also checks if the setting is enabled for the app,
     otherwise it will not allow it.
+
+    Returns:
+        dict: A dictionary with certain global flags overriden.
     """
     global_enabled = setting('JSONDASH_GLOBALDASH')
     global_flag = request.form.get('is_global', '') == 'on'

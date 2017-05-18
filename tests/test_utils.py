@@ -5,6 +5,36 @@ import pytest
 from flask_jsondash import charts_builder
 
 
+@pytest.mark.schema
+@pytest.mark.parametrize('lst', [
+    [1, 2, 3],
+    [1, 1, 2, 2, 3],
+])
+def test_is_consecutive_rows_normal(lst):
+    assert charts_builder.is_consecutive_rows(lst)
+
+
+@pytest.mark.schema
+@pytest.mark.parametrize('lst', [
+    [1, 2, 3, 10],
+    [1, 1, 2, 4],
+    range(1, 100, 2),
+])
+def test_is_consecutive_rows_invalid(lst):
+    assert not charts_builder.is_consecutive_rows(lst)
+
+
+@pytest.mark.schema
+@pytest.mark.parametrize('lst', [
+    [1, 0, 2],
+    [0, 1],
+    [1, 0],
+])
+def test_is_consecutive_rows_invalid_no_row_zero_allowed(lst):
+    with pytest.raises(AssertionError):
+        charts_builder.is_consecutive_rows(lst)
+
+
 @pytest.mark.utils
 def test_get_num_rows_none():
     assert charts_builder.get_num_rows(None) is None

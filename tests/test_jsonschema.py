@@ -143,3 +143,59 @@ def test_validate_raw_json_invalid_mixed_use_freeform_with_rows():
     with pytest.raises(ValueError) as exc:
         app.validate_raw_json(config)
     assert 'Cannot mix' in str(exc.value)
+
+
+@pytest.mark.schema
+def test_validate_raw_json_invalid_grid_nonconsencutive_rows():
+    # Ensure row numbers can't "skip", e.g. [1, 2, 10]
+    config = _schema(
+        layout='grid',
+        modules=[
+            dict(name='f', dataSource='f', width=1, row=1,
+                 height=1, family='C3', type='line'),
+            dict(name='f', dataSource='f', width=1, row=2,
+                 height=1, family='C3', type='line'),
+            dict(name='f', dataSource='f', width=1, row=10,
+                 height=1, family='C3', type='line'),
+        ]
+    )
+    with pytest.raises(app.InvalidSchemaError) as exc:
+        app.validate_raw_json(config)
+    assert 'Row order is not consecutive' in str(exc.value)
+
+
+@pytest.mark.schema
+def test_validate_raw_json_invalid_grid_consencutive_but_duplicate_rows():
+    # Ensure duplicate row numbers are consecutive, IF they were unique.
+    # e.g. [1, 1, 2, 2, 3] is valid.
+    config = _schema(
+        layout='grid',
+        modules=[
+            dict(name='f', dataSource='f', width=1, row=1,
+                 height=1, family='C3', type='line'),
+            dict(name='f', dataSource='f', width=1, row=1,
+                 height=1, family='C3', type='line'),
+            dict(name='f', dataSource='f', width=1, row=2,
+                 height=1, family='C3', type='line'),
+            dict(name='f', dataSource='f', width=1, row=2,
+                 height=1, family='C3', type='line'),
+            dict(name='f', dataSource='f', width=1, row=3,
+                 height=1, family='C3', type='line'),
+        ]
+    )
+    assert app.validate_raw_json(config)
+
+
+@pytest.mark.schema
+def test_validate_raw_json_invalid_family():
+    # Ensure row numbers can't "skip", e.g. [1, 2, 10]
+    config = _schema(
+        layout='grid',
+        modules=[
+            dict(name='f', dataSource='f', width=1, row=1,
+                 height=1, family='LOLWUT', type='line'),
+        ]
+    )
+    with pytest.raises(app.InvalidSchemaError) as exc:
+        app.validate_raw_json(config)
+    assert 'Invalid family name' in str(exc.value)
