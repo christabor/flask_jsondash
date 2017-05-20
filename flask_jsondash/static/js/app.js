@@ -710,6 +710,10 @@ var jsondash = function() {
 
         loader(widget);
         try {
+            // Cleanup for all widgets.
+            widget.selectAll('.chart-container').remove();
+            widget.append('div').classed({'chart-container': true});
+
             // Handle any custom inputs the user specified for this module.
             // They map to standard form inputs and correspond to query
             // arguments for this dataSource.
