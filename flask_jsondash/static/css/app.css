@@ -35,9 +35,6 @@ body {
     */
     position: relative;
 }
-.dashboard-charts .widget .chart-container {
-    margin: 0 auto;
-}
 .dashboard-charts small {
     font-weight: 400;
 }
@@ -228,8 +225,12 @@ body {
     color: #444;
     text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
+.dashboard-charts .widget .chart-container {
+    margin: 0 auto;
+}
 .dashboard-charts .widget iframe,
 .dashboard-charts .widget svg,
+.dashboard-charts .widget .chart-container .img,
 .dashboard-charts .widget .chart-centered {
     margin: 0 auto;
     display: block;

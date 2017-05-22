@@ -682,16 +682,11 @@ jsondash.handlers.handleTimeline = function(container, config) {
  */
 jsondash.handlers.handleImage = function(container, config) {
     'use strict';
-    var img = container
-        .select('.chart-container')
-        .append('div')
-        .append('img');
-    var width = isNaN(config.width) ? '100%' : config.width - jsondash.config.WIDGET_MARGIN_X;
+    var img = container.select('.chart-container').append('img');
     var height = (config.height - jsondash.config.WIDGET_MARGIN_Y) + 'px';
     img.attr({
         src: config.dataSource,
-        height: height,
-        width: width
+        height: height
     });
     img.classed({img: true});
     // Look for callbacks potentially registered for third party code.
