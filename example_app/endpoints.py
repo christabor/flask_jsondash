@@ -103,6 +103,20 @@ def combination():
 
 
 @cross_origin()
+@app.route('/timeseriesc3')
+def timeseriesc3():
+    """Fake endpoint."""
+    return jsonify(dict(
+        dates=[
+            '19{}-{}-{}'.format(rr(10, 99), rr(10, 31), rr(10, 31))
+            for _ in range(4)
+        ],
+        abc=rr_list(max_range=4),
+        cde=rr_list(max_range=4),
+    ))
+
+
+@cross_origin()
 @app.route('/stacked-bar')
 def stackedbar():
     """Fake endpoint."""

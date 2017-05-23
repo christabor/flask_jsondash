@@ -299,35 +299,67 @@ jsondash.handlers.handleC3 = function(container, config) {
             height: config.height - jsondash.config.WIDGET_MARGIN_Y,
             width: _width - jsondash.config.WIDGET_MARGIN_X
         },
-        data: {
-            type: config.type,
-            url: config.dataSource,
-            mimeType: 'json'
-        },
+        data: {},
         onrendered: function(){
             // Look for callbacks potentially registered for third party code.
             jsondash.api.runCallbacks(container, config);
             jsondash.unload(container);
         }
     };
-    if(jsondash.util.isOverride(config)) {
-        // Just use the raw payload for this widgets' options.
-        jsondash.getJSON(container, config.dataSource, function(error, data){
-            // Keep existing options if not specified.
-            config = $.extend(init_config, data);
-            c3.generate(init_config);
+
+    /**
+     * [normalizeData Transform data from a standardized jsondash
+     *     format into one suitable for c3.]
+     */
+    function normalizeData(data, type) {
+        // For most cases, we build out N columns into ['label', 0, 1, 2, 3] format
+        // from data in format: {'foo': [1, 2]} or format {'foo': 1}
+        var cols = [];
+        if(type === 'donut' || type === 'gauge' || type === 'pie') {
+            $.each(data, function(label, val){
+                cols.push([label, val]);
+            });
+            return cols;
+        }
+        if(type === 'timeseries') {
+            var dates = ['x'];
+            data.dates.map(function(date, _){
+                dates.push(date);
+            });
+            cols.push(dates);
+        }
+        $.each(data, function(label, vals){
+            if(label !== 'dates') {
+                var newarr = [label];
+                vals.map(function(val, _){
+                    newarr.push(val);
+                });
+                cols.push(newarr);
+            }
         });
-        return;
+        return cols;
     }
-    if(config.type === 'timeseries') {
-        init_config.axis = {
-            x: {type: 'timeseries'}
-        };
-        // Map the corresponding data key and list of dates
-        // to the `x` property.
-        init_config.data.x = 'dates';
-    }
-    c3.generate(init_config);
+
+    jsondash.getJSON(container, config.dataSource, function(error, data){
+        if(jsondash.util.isOverride(config)) {
+            // Just use the raw payload for this widgets' options.
+            // Keep existing options if not specified.
+            init_config = $.extend(init_config, data);
+        } else {
+            if(config.type === 'timeseries') {
+                // Map the corresponding data key and list of dates
+                // to the `x` property.
+                init_config.axis = {
+                    x: {type: 'timeseries'}
+                };
+                init_config.data.x = 'x';
+            } else {
+                init_config.data.type = config.type;
+            }
+            init_config.data.columns = normalizeData(data, config.type);
+        }
+        c3.generate(init_config);
+    });
 };
 
 jsondash.handlers.handleD3 = function(container, config) {
