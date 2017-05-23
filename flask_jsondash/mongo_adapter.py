@@ -41,6 +41,7 @@ class Db(object):
         charts = self.formatter(data) if fmt_charts else data.get('modules')
         save_conf = {
             '$set': {
+                'layout': data.get('layout', 'freeform'),
                 'name': data.get('name', 'NONAME'),
                 'modules': charts,
                 'date': dt.now()
