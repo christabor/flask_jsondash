@@ -699,8 +699,11 @@ var jsondash = function() {
      * @param  {[object]} config [The chart config]
      */
     function loadWidgetData(widg) {
-        var widget = widg.el;
-        var config = widg.config;
+        var widget    = widg.el;
+        var $widget   = $(widget[0]);
+        var config    = widg.config;
+        var inputs    = $widget.find('.chart-inputs');
+        var container = $('<div></div>').addClass('chart-container');
 
         widget.classed({error: false});
         widget.select('.error-overlay')
@@ -712,7 +715,12 @@ var jsondash = function() {
         try {
             // Cleanup for all widgets.
             widget.selectAll('.chart-container').remove();
-            widget.append('div').classed({'chart-container': true});
+            // Ensure the chart inputs comes AFTER any chart container.
+            if(inputs.length > 0) {
+                inputs.before(container);
+            } else {
+                $widget.append(container);
+            }
 
             // Handle any custom inputs the user specified for this module.
             // They map to standard form inputs and correspond to query
