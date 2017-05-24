@@ -343,13 +343,13 @@ def test_update_valid(monkeypatch, ctx, client):
     assert not read()
     res = test.post(
         url_for('jsondash.create'),
-        data=dict(name='newname', modules=[]),
+        data=dict(mode='grid', name='newname', modules=[]),
         follow_redirects=True)
     assert len(read()) == 1
     view_id = read()[0]['id']
     res = test.post(
         url_for('jsondash.update', c_id=view_id),
-        data=dict(name='newname'),
+        data=dict(mode='grid', name='newname'),
         follow_redirects=True)
     dom = pq(res.data)
     flash_msg = 'Updated view "{}"'.format(view_id)
