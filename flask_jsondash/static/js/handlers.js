@@ -78,6 +78,7 @@ jsondash.handlers.handleSigma = function(container, config) {
     container
         .select('.chart-container')
         .attr('id', new_id)
+        .classed(jsondash.util.getCSSClasses(config))
         .style({
         width: width,
         height: height
@@ -105,6 +106,7 @@ jsondash.handlers.handleCytoscape = function(container, config) {
     var titlebar_offset = jsondash.getTitleBarHeight(container) * 1.2;
     container
         .select('.chart-container')
+        .classed(jsondash.util.getCSSClasses(config))
         .style({
         width: (_width - 10) + 'px',
         height: (config.height - titlebar_offset) + 'px'
@@ -150,6 +152,7 @@ jsondash.handlers.handleVegaLite = function(container, config) {
             mode: 'vega-lite',
             spec: $.extend({}, vlspec, overrides)
         };
+        d3.select(selector).classed(jsondash.util.getCSSClasses(config))
         vg.embed(selector, embedSpec, function(error, result) {
             // Callback receiving the View instance and parsed Vega spec
             // result.view is the View, which resides under the '#vis' element
@@ -197,6 +200,7 @@ jsondash.handlers.handleYoutube = function(container, config) {
     container
         .select('.chart-container')
         .append('iframe')
+        .classed(jsondash.util.getCSSClasses(config))
         .attr('width', width)
         .attr('height', height)
         .attr('src', url)
@@ -219,6 +223,7 @@ jsondash.handlers.handleGraph = function(container, config) {
         var svg = container
             .select('.chart-container')
             .append('svg')
+            .classed(jsondash.util.getCSSClasses(config))
             .classed({'chart-graph': true});
         var svg_group = svg.append('g');
         var g = graphlibDot.read(data.graph);
@@ -246,6 +251,7 @@ jsondash.handlers.handleWordCloud = function(container, config) {
         var svg   = container
             .select('.chart-container')
             .append('svg')
+            .classed(jsondash.util.getCSSClasses(config))
             .classed({'wordcloud': true});
         var fill  = d3.scale.category20();
         var cloud = d3.layout.cloud;
@@ -306,6 +312,10 @@ jsondash.handlers.handleC3 = function(container, config) {
             jsondash.unload(container);
         }
     };
+
+    container
+        .select('.chart-container')
+        .classed(jsondash.util.getCSSClasses(config))
 
     /**
      * [normalizeData Transform data from a standardized jsondash
@@ -385,6 +395,7 @@ jsondash.handlers.handleCirclePack = function(container, config) {
     var svg = container
         .select('.chart-container')
         .append('svg')
+        .classed(jsondash.util.getCSSClasses(config))
         .attr('width', diameter)
         .attr('height', diameter)
         .append('g');
@@ -433,6 +444,7 @@ jsondash.handlers.handleTreemap = function(container, config) {
     var div = container
         .select('.chart-container')
         .append('div')
+        .classed(jsondash.util.getCSSClasses(config))
         .classed({treemap: true, 'chart-centered': true})
         .style('position', 'relative')
         .style('width', width + 'px')
@@ -492,6 +504,7 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
     var svg = container
         .select('.chart-container')
         .append('svg')
+        .classed(jsondash.util.getCSSClasses(config))
         .attr('width', radius)
         .attr('height', radius);
     var g = svg.append('g');
@@ -541,6 +554,7 @@ jsondash.handlers.handleDendrogram = function(container, config) {
     var svg = container
         .select('.chart-container')
         .append('svg')
+        .classed(jsondash.util.getCSSClasses(config))
         .attr('width', width)
         .attr('height', height);
     var g = svg.append('g')
@@ -585,6 +599,7 @@ jsondash.handlers.handleVoronoi = function(container, config) {
         var svg = container
             .select('.chart-container')
             .append('svg')
+            .classed(jsondash.util.getCSSClasses(config))
             .attr('width', width)
             .attr('height', height);
         var path = svg.append('g').selectAll('path');
@@ -615,6 +630,7 @@ jsondash.handlers.handleSparkline = function(container, config) {
     var spark = container
         .select('.chart-container')
         .append('div')
+        .classed(jsondash.util.getCSSClasses(config))
         .classed({
             'sparkline-container': true,
             'text-center': true
@@ -640,15 +656,12 @@ jsondash.handlers.handleDataTable = function(container, config) {
             return {data: d, title: d};
         });
         var titlebar_offset = jsondash.getTitleBarHeight(container) * 2.2;
+        var table_class_defaults = ['table', 'table-bordered', 'table-striped'];
+        var classes = jsondash.util.getCSSClasses(config, table_class_defaults);
         container
             .select('.chart-container')
             .append('table')
-            .classed({
-                table: true,
-                'table-striped': true,
-                'table-bordered': true,
-                'table-condensed': true
-            });
+            .classed(classes);
         var opts = config.override ? res : {data: res, columns: keys};
         $(container.select('table')[0])
             .dataTable(opts).css({
@@ -669,6 +682,7 @@ jsondash.handlers.handleSingleNum = function(container, config) {
             .select('.chart-container')
             .append('div')
             .classed({singlenum: true})
+            .classed(jsondash.util.getCSSClasses(config))
             .text(data);
         data = String(data);
         // Add red or green, depending on if the number appears to be pos/neg.
@@ -706,7 +720,10 @@ jsondash.handlers.handleSingleNum = function(container, config) {
 jsondash.handlers.handleTimeline = function(container, config) {
     'use strict';
     jsondash.getJSON(container, config.dataSource, function(data){
-        container.append('div').attr('id', 'widget-' + config.guid);
+        container
+            .append('div')
+            .classed(jsondash.util.getCSSClasses(config))
+            .attr('id', 'widget-' + config.guid);
         var timeline = new TL.Timeline('widget-' + config.guid, data);
         // Look for callbacks potentially registered for third party code.
         jsondash.api.runCallbacks(container, config);
@@ -726,6 +743,7 @@ jsondash.handlers.handleImage = function(container, config) {
         height: height
     });
     img.classed({img: true});
+    img.classed(jsondash.util.getCSSClasses(config));
     // Look for callbacks potentially registered for third party code.
     jsondash.api.runCallbacks(container, config);
     jsondash.unload(container);
@@ -742,6 +760,7 @@ jsondash.handlers.handleIframe = function(container, config) {
         height: config.height - jsondash.config.WIDGET_MARGIN_Y,
         width: isNaN(config.width) ? '100%' : config.width - jsondash.config.WIDGET_MARGIN_X
     });
+    iframe.classed(jsondash.util.getCSSClasses(config));
     // Look for callbacks potentially registered for third party code.
     jsondash.api.runCallbacks(container, config);
     jsondash.unload(container);
@@ -754,6 +773,7 @@ jsondash.handlers.handleCustom = function(container, config) {
             .select('.chart-container')
             .append('div')
             .classed({'custom-container': true})
+            .classed(jsondash.util.getCSSClasses(config))
             .html(html);
         // Look for callbacks potentially registered for third party code.
         jsondash.api.runCallbacks(container, config);
@@ -768,6 +788,7 @@ jsondash.handlers.handleVenn = function(container, config) {
         var cont = container
             .select('.chart-container')
             .append('div')
+            .classed(jsondash.util.getCSSClasses(config))
             .classed({venn: true});
         cont.datum(data).call(chart);
         cont.select('svg')
@@ -786,6 +807,7 @@ jsondash.handlers.handlePlotly = function(container, config) {
     container
         .select('.chart-container')
         .append('div')
+        .classed(jsondash.util.getCSSClasses(config))
         .classed({'plotly-container': true})
         .attr('id', id);
     jsondash.getJSON(container, config.dataSource, function(error, data){

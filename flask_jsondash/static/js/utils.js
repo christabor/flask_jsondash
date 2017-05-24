@@ -4,6 +4,22 @@
 
 jsondash = jsondash || {util: {}};
 
+jsondash.util.getCSSClasses = function(conf, defaults) {
+    var classes = {};
+    if(conf.classes === undefined && defaults !== undefined) {
+        $.each(defaults, function(i, klass){
+            classes[klass] = true;
+        });
+        return classes;
+    }
+    if(conf.classes !== undefined) {
+        $.each(conf.classes, function(i, klass){
+            classes[klass] = true;
+        });
+    }
+    return classes;
+};
+
 jsondash.util.getValidParamString = function(arr) {
     // Jquery $.serialize and $.serializeArray will
     // return empty query parameters, which is undesirable and can

@@ -10,6 +10,12 @@ And of course, [you can always check out examples here](example_app/examples/con
 
 The type of layout - either "freeform" or "grid". This is automatically generated, so you don't need to edit it.
 
+**classes** [*Array of Strings*] :heavy_check_mark:
+
+An optional list of css classes to add to this chart. The classes will be applied to the actual chart element, not the `.chart-container` element.
+
+For example, to stylize dataTables, you might add your own table styles (like `["table", "table-striped"]`, which will be applied to the actual table.
+
 **date** - [*String/Date*] / auto-generated :no_entry_sign:
 
 The date for the schema. This is automatically generated, so you don't need to edit it.
