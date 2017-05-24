@@ -18,6 +18,10 @@ The date for the schema. This is automatically generated, so you don't need to e
 
 The name of the dashboard.
 
+**created_by** - [*String*] :heavy_check_mark:
+
+The user who created this dashboard. If this value matches what is defined in `JSONDASH_GLOBAL_USER`, the dashboard will be considered "global".
+
 **modules** - [*Array of Object*s] :heavy_exclamation_mark:
 
 This is a list of objects that corresponds to each chart.
