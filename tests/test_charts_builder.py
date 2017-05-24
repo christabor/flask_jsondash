@@ -217,6 +217,7 @@ def test_delete_invalid_id_redirect(monkeypatch, ctx, client):
     assert REDIRECT_MSG in str(res.data)
 
 
+@pytest.mark.update_raw
 @pytest.mark.invalid_id_redirect
 def test_update_invalid_id_redirect(monkeypatch, ctx, client):
     app, test = client
@@ -273,6 +274,7 @@ def test_delete_valid(monkeypatch, ctx, client):
     assert len(read()) == 0
 
 
+@pytest.mark.update_raw
 def test_update_edit_raw_invalid(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
@@ -288,6 +290,7 @@ def test_update_edit_raw_invalid(monkeypatch, ctx, client):
 
 
 @pytest.mark.schema
+@pytest.mark.update_raw
 @pytest.mark.parametrize('field', [
     'type',
     'family',
@@ -313,6 +316,7 @@ def test_update_edit_raw_invalidschema_missing_x(field, monkeypatch,
     assert err_msg in dom.find('.alert-danger').text()
 
 
+@pytest.mark.update_raw
 def test_update_edit_raw_valid(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
@@ -337,6 +341,7 @@ def test_update_edit_raw_valid(monkeypatch, ctx, client):
     assert len(read()) == 1
 
 
+@pytest.mark.update
 def test_update_valid(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
@@ -358,7 +363,7 @@ def test_update_valid(monkeypatch, ctx, client):
     assert len(read()) == 1
 
 
-@pytest.mark.foo
+@pytest.mark.update
 def test_update_invalid_swap_freeform_to_grid_no_row(monkeypatch, ctx, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
