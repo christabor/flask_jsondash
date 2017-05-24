@@ -8,6 +8,7 @@
 [![Code Issues](https://www.quantifiedcode.com/api/v1/project/df272477c0ff423ca51fa4106c1e9ebc/badge.svg)](https://www.quantifiedcode.com/app/project/df272477c0ff423ca51fa4106c1e9ebc)
 [![Code Health](https://landscape.io/github/christabor/flask_jsondash/master/landscape.svg?style=flat)](https://landscape.io/github/christabor/flask_jsondash/master)
 [![Coverage Status](https://coveralls.io/repos/github/christabor/flask_jsondash/badge.svg?branch=master)](https://coveralls.io/github/christabor/flask_jsondash?branch=master)
+[![PyPI version](https://badge.fury.io/py/flask_jsondash.svg)](https://badge.fury.io/py/flask_jsondash)
 
 Easily configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
 

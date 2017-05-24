@@ -639,6 +639,7 @@ jsondash.handlers.handleDataTable = function(container, config) {
         var keys = d3.keys(res[0]).map(function(d){
             return {data: d, title: d};
         });
+        var titlebar_offset = jsondash.getTitleBarHeight(container) * 2.2;
         container
             .select('.chart-container')
             .append('table')
@@ -649,7 +650,11 @@ jsondash.handlers.handleDataTable = function(container, config) {
                 'table-condensed': true
             });
         var opts = config.override ? res : {data: res, columns: keys};
-        $(container.select('table')[0]).dataTable(opts).css({width: 'auto'});
+        $(container.select('table')[0])
+            .dataTable(opts).css({
+                width: 'auto',
+                height: $(container[0]).innerHeight() - titlebar_offset
+        });
         // Look for callbacks potentially registered for third party code.
         jsondash.api.runCallbacks(container, config);
         jsondash.unload(container);
