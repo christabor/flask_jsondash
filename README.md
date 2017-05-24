@@ -384,7 +384,15 @@ To see a list of all your callbacks by chart, you can call `jsondash.api.listCal
 
 Several events are triggered throughout the process and can be listened to by your own callbacks, or just other code you have embedded in your application:
 
-`jsondash.editform.loaded`: When the editform has been opened and loaded with current data.
+* `jsondash.init`
+* `jsondash.editform.loaded`
+* `jsondash.widget.added`
+* `jsondash.widget.updated`
+* `jsondash.widget.deleted`
+* `jsondash.widget.refresh`
+* `jsondash.row.add`
+* `jsondash.row.delete`
+* `jsondash.preview`
 
 See all events [in app.js](flask_jsondash/static/js/app.js) under `EVENTS`.
 
