@@ -29,7 +29,15 @@ var jsondash = function() {
     var CHART_TEMPLATE   = $('#chart-template');
     var ROW_TEMPLATE     = $('#row-template').find('.grid-row');
     var EVENTS           = {
-        edit_form_loaded: 'jsondash.editform.loaded'
+        init:             'jsondash.init',
+        edit_form_loaded: 'jsondash.editform.loaded',
+        add_widget:       'jsondash.widget.added',
+        update_widget:    'jsondash.widget.updated',
+        delete_widget:    'jsondash.widget.deleted',
+        refresh_widget:   'jsondash.widget.refresh',
+        add_row:          'jsondash.row.add',
+        delete_row:       'jsondash.row.delete',
+        preview_api:      'jsondash.preview',
     }
 
     function Widgets() {
@@ -41,6 +49,7 @@ var jsondash = function() {
         };
         self.add = function(config) {
             self.widgets[config.guid] = new Widget(self.container, config);
+            self.widgets[config.guid].$el.trigger(EVENTS.add_widget);
             return self.widgets[config.guid];
         };
         self.addFromForm = function() {
@@ -149,6 +158,7 @@ var jsondash = function() {
             clearInterval(self._refreshInterval);
             // Delete the input
             self.getInput().remove();
+            self.$el.trigger(EVENTS.delete_widget, [self]);
             // Delete the widget
             self.el.remove();
             // Remove reference to the collection by guid
@@ -218,6 +228,7 @@ var jsondash = function() {
             } else {
                 unload(widget);
             }
+            $(widget[0]).trigger(EVENTS.update_widget);
         };
         self._updateForm = function() {
             self.getInput().val(JSON.stringify(self.config));
@@ -252,13 +263,15 @@ var jsondash = function() {
         e.preventDefault();
         // Shows the response of the API field as a json payload, inline.
         $.ajax({
-            type: 'get',
+            type: 'GET',
             url: API_ROUTE_URL.val().trim(),
             success: function(data) {
                 API_PREVIEW.html(prettyCode(data));
+                API_PREVIEW.trigger(EVENTS.preview_api, [{status: data, error: false}]);
             },
             error: function(data, status, error) {
                 API_PREVIEW.html(error);
+                API_PREVIEW.trigger(EVENTS.preview_api, [{status: data, error: true}]);
             }
         });
     }
@@ -342,6 +355,7 @@ var jsondash = function() {
         // Remove AFTER removing the charts contained within
         row.remove();
         updateRowOrder();
+        el.trigger(EVENTS.delete_row);
     }
 
     function populateEditForm(e) {
@@ -479,7 +493,9 @@ var jsondash = function() {
 
     function refreshWidget(e) {
         e.preventDefault();
-        loadWidgetData(my.widgets.getByEl($(this).closest('.widget')));
+        var el = my.widgets.getByEl($(this).closest('.widget'));
+        el.$el.trigger(EVENTS.refresh_widget);
+        loadWidgetData(el);
         fitGrid();
     }
 
@@ -846,6 +862,7 @@ var jsondash = function() {
         updateRowOrder();
         // Add new events for dragging/dropping
         fitGrid();
+        el.trigger(EVENTS.add_row);
     }
 
     function updateChartsRowOrder() {
@@ -909,6 +926,7 @@ var jsondash = function() {
         populateRowField();
         fitGrid();
         if(isEmptyDashboard()) {EDIT_TOGGLE_BTN.click();}
+        MAIN_CONTAINER.trigger(EVENTS.init);
     }
 
     /**
