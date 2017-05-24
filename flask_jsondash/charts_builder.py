@@ -597,7 +597,7 @@ def check_global():
         dict: A dictionary with certain global flags overriden.
     """
     global_enabled = setting('JSONDASH_GLOBALDASH')
-    global_flag = request.form.get('is_global', '') == 'on'
+    global_flag = request.form.get('is_global') is not None
     can_make_global = auth(authtype='edit_global')
     if all([global_flag, global_enabled, can_make_global]):
         return dict(created_by=setting('JSONDASH_GLOBAL_USER'))
