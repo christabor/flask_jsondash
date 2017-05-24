@@ -553,6 +553,7 @@ def update(c_id):
     else:
         data = dict(
             name=form_data['name'],
+            layout=form_data['mode'],
             modules=db.format_charts(form_data),
             date=str(dt.now()),
             id=c_id,

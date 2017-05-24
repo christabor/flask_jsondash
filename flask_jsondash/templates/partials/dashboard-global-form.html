@@ -3,16 +3,14 @@
         <label>
             View Name <input class="form-control input-md" type="text" name="name" value="{% if view %}{{ view.name }}{% endif %}" placeholder="name">
         </label>
-        {% if creating %}
-            &nbsp;
-            <label>
-                Layout mode
-                <select name="mode" class="form-control">
-                    <option value="grid">Grid (use rows/columns with a fixed grid system)</option>
-                    <option value="freeform">Freeform (choose all sizing and positioning manually)</option>
-                </select>
-            </label>
-        {% endif %}
+        &nbsp;
+        <label>
+            Layout mode
+            <select name="mode" class="form-control">
+                <option value="grid" {% if view.layout == 'grid' %}selected{% endif %}>Grid (use rows/columns with a fixed grid system)</option>
+                <option value="freeform" {% if view.layout == 'freeform' %}selected{% endif %}>Freeform (choose all sizing and positioning manually)</option>
+            </select>
+        </label>
         {% if can_edit_global %}
             &nbsp;
             <label>
