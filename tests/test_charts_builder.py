@@ -345,6 +345,7 @@ def test_update_valid(monkeypatch, ctx, client):
         url_for('jsondash.create'),
         data=dict(mode='grid', name='newname', modules=[]),
         follow_redirects=True)
+    assert res.status_code == 200
     assert len(read()) == 1
     view_id = read()[0]['id']
     res = test.post(
@@ -354,6 +355,38 @@ def test_update_valid(monkeypatch, ctx, client):
     dom = pq(res.data)
     flash_msg = 'Updated view "{}"'.format(view_id)
     assert dom.find('.alert-info').text() == flash_msg
+    assert len(read()) == 1
+
+
+@pytest.mark.foo
+def test_update_invalid_swap_freeform_to_grid_no_row(monkeypatch, ctx, client):
+    app, test = client
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
+    assert not read()
+    dash_data = dict(
+        name='newname',
+        mode='freeform',
+        module_foo=json.dumps(
+            dict(dataSource='...', width=1, height=1,
+                 name='foo', family='C3', type='line')),
+        module_bar=json.dumps(
+            dict(dataSource='...', width=1, height=1,
+                 name='foo', family='C3', type='line')),
+    )
+    res = test.post(url_for('jsondash.create'),
+                    data=dash_data,
+                    follow_redirects=True)
+    assert res.status_code == 200
+    assert len(read()) == 1
+    view_id = read()[0]['id']
+    dash_data.update(mode='grid')
+    res = test.post(url_for('jsondash.update', c_id=view_id),
+                    data=dash_data,
+                    follow_redirects=True)
+    dom = pq(res.data)
+    flash_msg = ('Cannot use grid layout without specifying row(s)! '
+                 'Edit JSON manually to override this.')
+    assert flash_msg in dom.find('.alert-danger').text()
     assert len(read()) == 1
 
 

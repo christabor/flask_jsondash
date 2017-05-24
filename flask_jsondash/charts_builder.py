@@ -551,10 +551,18 @@ def update(c_id):
             flash('Invalid JSON config. "{}"'.format(e), 'error')
             return redirect(view_url)
     else:
+        modules = db.format_charts(form_data)
+        layout = form_data['mode']
+        # Disallow any values if they would cause an invalid layout.
+        if modules and modules[0].get('row') is None:
+            flash('Cannot use grid layout without '
+                  'specifying row(s)! Edit JSON manually '
+                  'to override this.', 'error')
+            return redirect(view_url)
         data = dict(
             name=form_data['name'],
-            layout=form_data['mode'],
-            modules=db.format_charts(form_data),
+            layout=layout,
+            modules=modules,
             date=str(dt.now()),
             id=c_id,
         )
