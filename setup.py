@@ -13,7 +13,7 @@ test_requirements = [
 ]
 requirements = [
     'click==6.6',
-    'Flask==0.10.1',
+    'Flask',
     'Flask-WTF',
     'pymongo==3.3.0',
     'WTForms',
