@@ -472,7 +472,6 @@ var jsondash = function() {
             name: form.find('[name="name"]').val(),
             type: form.find('[name="type"]').val(),
             family: form.find('[name="type"]').find('option:checked').data() ? form.find('[name="type"]').find('option:checked').data().family : null,
-            row: form.find('[name="row"]').val(),
             width: form.find('[name="width"]').val(),
             height: parseNum(form.find('[name="height"]').val(), 10),
             dataSource: form.find('[name="dataSource"]').val(),
@@ -481,6 +480,9 @@ var jsondash = function() {
             refresh: form.find('[name="refresh"]').is(':checked'),
             refreshInterval: jsondash.util.intervalStrToMS(form.find('[name="refreshInterval"]').val()),
         };
+        if(my.layout === 'grid') {
+            conf['row'] = parseNum(form.find('[name="row"]').val());
+        }
         return conf;
     }
 

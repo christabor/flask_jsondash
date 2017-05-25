@@ -554,7 +554,7 @@ def update(c_id):
         modules = db.format_charts(form_data)
         layout = form_data['mode']
         # Disallow any values if they would cause an invalid layout.
-        if modules and modules[0].get('row') is None:
+        if layout == 'grid' and modules and modules[0].get('row') is None:
             flash('Cannot use grid layout without '
                   'specifying row(s)! Edit JSON manually '
                   'to override this.', 'error')
