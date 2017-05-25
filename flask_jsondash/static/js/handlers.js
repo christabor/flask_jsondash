@@ -655,7 +655,7 @@ jsondash.handlers.handleDataTable = function(container, config) {
         var keys = d3.keys(res[0]).map(function(d){
             return {data: d, title: d};
         });
-        var titlebar_offset = jsondash.getTitleBarHeight(container) * 2.2;
+        var titlebar_offset = jsondash.getTitleBarHeight(container) * 2.5;
         var table_class_defaults = ['table', 'table-bordered', 'table-striped'];
         var classes = jsondash.util.getCSSClasses(config, table_class_defaults);
         container
