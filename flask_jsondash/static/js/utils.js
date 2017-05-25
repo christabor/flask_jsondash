@@ -116,21 +116,6 @@ jsondash.util.translateStr = function(x, y) {
     return 'translate(' + x + ',' + y + ')';
 };
 
-jsondash.util.isD3Subtype = function(config) {
-    // Handle specific D3 types that aren't necessarily referenced under
-    // the D3 namespace in a select field.
-    if(config.type === 'dendrogram') return true;
-    if(config.type === 'voronoi') return true;
-    if(config.type === 'circlepack') return true;
-    if(config.type === 'treemap') return true;
-    if(config.type === 'radial-dendrogram') return true;
-    return false;
-};
-
-jsondash.util.isSparkline = function(type) {
-    return type.substr(0, 10) === 'sparklines';
-};
-
 /**
  * [getDigitSize return a d3 scale for adjusting font size based
  *     on digits and width of container.]

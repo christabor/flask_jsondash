@@ -26,25 +26,6 @@ describe('polygon', function(){
     });
 });
 
-describe('isD3Subtype', function(){
-    it('should recognize the correct d3 subtypes', function(){
-        expect(jsondash.util.isD3Subtype({type: 'dendrogram'})).toBe(true);
-        expect(jsondash.util.isD3Subtype({type: 'voronoi'})).toBe(true);
-        expect(jsondash.util.isD3Subtype({type: 'circlepack'})).toBe(true);
-        expect(jsondash.util.isD3Subtype({type: 'treemap'})).toBe(true);
-        expect(jsondash.util.isD3Subtype({type: 'radial-dendrogram'})).toBe(true);
-        expect(jsondash.util.isD3Subtype({type: 'foo'})).toBe(false);
-        expect(jsondash.util.isD3Subtype({type: null})).toBe(false);
-    });
-});
-
-describe('isSparkline', function(){
-    it('should recognize the correct sparkline type', function(){
-        expect(jsondash.util.isSparkline('sparklines-foo')).toBe(true);
-        expect(jsondash.util.isSparkline('smarkline-foo')).toBe(false);
-    });
-});
-
 describe('getDigitSize', function(){
     it('should resize the text based on digits', function(){
         // TODO!

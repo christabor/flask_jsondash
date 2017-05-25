@@ -372,6 +372,15 @@ jsondash.handlers.handleC3 = function(container, config) {
     });
 };
 
+jsondash.handlers.handleBasic = function(container, config) {
+    'use strict';
+    if(config.type === 'number') { return jsondash.handlers.handleSingleNum(container, config); }
+    if(config.type === 'iframe') { return jsondash.handlers.handleIframe(container, config); }
+    if(config.type === 'image') { return jsondash.handlers.handleImage(container, config); }
+    if(config.type === 'youtube') { return jsondash.handlers.handleYoutube(container, config); }
+    if(config.type === 'custom') { return jsondash.handlers.handleCustom(container, config); }
+};
+
 jsondash.handlers.handleD3 = function(container, config) {
     'use strict';
     // Handle specific types.
@@ -380,7 +389,6 @@ jsondash.handlers.handleD3 = function(container, config) {
     if(config.type === 'voronoi') { return jsondash.handlers.handleVoronoi(container, config); }
     if(config.type === 'treemap') { return jsondash.handlers.handleTreemap(container, config); }
     if(config.type === 'circlepack') { return jsondash.handlers.handleCirclePack(container, config); }
-    throw new Error('Unknown type: ' + config.type);
 };
 
 jsondash.handlers.handleCirclePack = function(container, config) {

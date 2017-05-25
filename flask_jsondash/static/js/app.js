@@ -711,6 +711,25 @@ var jsondash = function() {
         });
     }
 
+    function getHandler(family) {
+        var handlers  = {
+            basic          : jsondash.handlers.handleBasic,
+            datatable      : jsondash.handlers.handleDataTable,
+            sparkline      : jsondash.handlers.handleSparkline,
+            timeline       : jsondash.handlers.handleTimeline,
+            venn           : jsondash.handlers.handleVenn,
+            graph          : jsondash.handlers.handleGraph,
+            wordcloud      : jsondash.handlers.handleWordCloud,
+            vega           : jsondash.handlers.handleVegaLite,
+            plotlystandard : jsondash.handlers.handlePlotly,
+            cytoscape      : jsondash.handlers.handleCytoscape,
+            sigmajs        : jsondash.handlers.handleSigma,
+            c3             : jsondash.handlers.handleC3,
+            d3             : jsondash.handlers.handleD3
+        };
+        return handlers[family];
+    }
+
     /**
      * [loadWidgetData Load a widgets data source/re-render]
      * @param  {[dom selection]} widget [The dom selection]
@@ -722,6 +741,7 @@ var jsondash = function() {
         var config    = widg.config;
         var inputs    = $widget.find('.chart-inputs');
         var container = $('<div></div>').addClass('chart-container');
+        var family    = config.family.toLowerCase();
 
         widget.classed({error: false});
         widget.select('.error-overlay')
@@ -730,6 +750,7 @@ var jsondash = function() {
             .text('');
 
         loader(widget);
+
         try {
             // Cleanup for all widgets.
             widget.selectAll('.chart-container').remove();
@@ -739,62 +760,16 @@ var jsondash = function() {
             } else {
                 $widget.append(container);
             }
-
             // Handle any custom inputs the user specified for this module.
             // They map to standard form inputs and correspond to query
             // arguments for this dataSource.
-            if(config.inputs) {handleInputs(widg, config);}
+            if(config.inputs) {
+                handleInputs(widg, config);
+            }
 
-            if(config.type === 'datatable') {
-                jsondash.handlers.handleDataTable(widget, config);
-            }
-            else if(jsondash.util.isSparkline(config.type)) {
-                jsondash.handlers.handleSparkline(widget, config);
-            }
-            else if(config.type === 'image') {
-                jsondash.handlers.handleImage(widget, config);
-            }
-            else if(config.type === 'iframe') {
-                jsondash.handlers.handleIframe(widget, config);
-            }
-            else if(config.type === 'timeline') {
-                jsondash.handlers.handleTimeline(widget, config);
-            }
-            else if(config.type === 'venn') {
-                jsondash.handlers.handleVenn(widget, config);
-            }
-            else if(config.type === 'number') {
-                jsondash.handlers.handleSingleNum(widget, config);
-            }
-            else if(config.type === 'youtube') {
-                jsondash.handlers.handleYoutube(widget, config);
-            }
-            else if(config.type === 'graph'){
-                jsondash.handlers.handleGraph(widget, config);
-            }
-            else if(config.type === 'custom') {
-                jsondash.handlers.handleCustom(widget, config);
-            }
-            else if(config.type === 'wordcloud') {
-                jsondash.handlers.handleWordCloud(widget, config);
-            }
-            else if(config.type === 'vega-lite') {
-                jsondash.handlers.handleVegaLite(widget, config);
-            }
-            else if(config.type === 'plotly-any') {
-                jsondash.handlers.handlePlotly(widget, config);
-            }
-            else if(config.type === 'cytoscape') {
-                jsondash.handlers.handleCytoscape(widget, config);
-            }
-            else if(config.type == 'sigma') {
-                jsondash.handlers.handleSigma(widget, config);
-            }
-            else if(jsondash.util.isD3Subtype(config)) {
-                jsondash.handlers.handleD3(widget, config);
-            } else {
-                jsondash.handlers.handleC3(widget, config);
-            }
+            // Retrieve and immediately call the appropriate handler.
+            getHandler(family)(widget, config);
+
         } catch(e) {
             if(console && console.error) console.error(e);
             widget.classed({error: true});
