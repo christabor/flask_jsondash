@@ -149,9 +149,14 @@ def wordcloud():
         'charts', 'd3', 'js', 'dashboards', 'c3',
     ]
     sizes = range(len(words))
-    return jsonify([
-        {'text': word, 'size': sizes[i] * 12} for i, word in enumerate(words)
-    ])
+    data = [
+        {
+            'text': word,
+            'size': sizes[i] * 12
+        }
+        for i, word in enumerate(words)
+    ]
+    return jsonify(data)
 
 
 @cross_origin()
