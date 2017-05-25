@@ -443,7 +443,7 @@ def singlenum():
         val = rr(_min, _max)
     if 'negative' in request.args:
         val = '-{}'.format(val)
-    return jsonify(val)
+    return jsonify(data=val)
 
 
 @cross_origin()
