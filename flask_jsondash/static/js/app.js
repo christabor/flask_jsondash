@@ -385,6 +385,8 @@ var jsondash = function() {
         $.each(conf, function(field, val){
             if(field === 'override' || field === 'refresh') {
                 WIDGET_FORM.find('[name="' + field + '"]').prop('checked', val);
+            } else if(field === 'classes') {
+                WIDGET_FORM.find('[name="' + field + '"]').val(val.join(','));
             } else {
                 WIDGET_FORM.find('[name="' + field + '"]').val(val);
             }
@@ -479,11 +481,19 @@ var jsondash = function() {
             order: parseNum(form.find('[name="order"]').val(), 10),
             refresh: form.find('[name="refresh"]').is(':checked'),
             refreshInterval: jsondash.util.intervalStrToMS(form.find('[name="refreshInterval"]').val()),
+            classes: getClasses(form),
         };
         if(my.layout === 'grid') {
             conf['row'] = parseNum(form.find('[name="row"]').val());
         }
         return conf;
+    }
+
+    function getClasses(form) {
+        var classes = form.find('[name="classes"]').val().replace(/\ /gi, '').split(',');
+        return classes.filter(function(el, i){
+            return el !== '';
+        });
     }
 
     function onUpdateWidget(e){

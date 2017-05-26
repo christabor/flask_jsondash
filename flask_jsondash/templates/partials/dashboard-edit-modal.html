@@ -31,7 +31,7 @@
                             {% include "partials/form-diagram-options.html" %}
                         </label>
                         <label>
-                            width <small class="text-danger">*</small>
+                            Width <small class="text-danger">*</small>
                             {% if view.layout == 'grid' %}
                                 <select name="width" class="form-control">
                                     {% for colcount in range(1, 13) %}
@@ -50,12 +50,12 @@
                             </label>
                         {% endif %}
                         <label>
-                            height <small class="text-danger">*</small>
+                            Height <small class="text-danger">*</small>
                             <input class="form-control" type="number" min="200" name="height" placeholder="e.g. 400" required>
                         </label>
                         <label>
-                            API endpoint <small class="text-danger">*</small>
-                            (<em>or template path, if using "custom/iframe"</em>)
+                            Data Source <small class="text-danger">*</small>
+                            <small>API, json, webpage, template, etc...</em></small>
                             <input class="form-control" type="text" name="dataSource" value="http://" placeholder="e.g. localhost:5000/my/endpoint" required>
                         </label>
                     </fieldset>
@@ -94,6 +94,12 @@
                             </small>
                             <input class="form-control" name="refreshInterval" value="10000">
                         </label>
+                        <label>
+                            CSS classes <br>
+                            <small>A comma separated list of CSS classes to apply to this chart</small>
+                            <input class="form-control" name="classes" placeholder="e.g. class1, class2">
+                        </label>
+                        <hr>
                         <label>
                             Custom inputs <br>
                             <small>
