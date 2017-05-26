@@ -25,8 +25,8 @@ from flask_jsondash import static, templates
 from . import db
 from .settings import CHARTS_CONFIG
 
-template_dir = os.path.dirname(templates.__file__)
-static_dir = os.path.dirname(static.__file__)
+TEMPLATE_DIR = os.path.dirname(templates.__file__)
+STATIC_DIR = os.path.dirname(static.__file__)
 
 # Internally required libs that are also shared in `settings.py` for charts.
 # These follow the same format as what is loaded in `get_active_assets`
@@ -40,9 +40,9 @@ Paginator = namedtuple('Paginator',
 charts = Blueprint(
     'jsondash',
     __name__,
-    template_folder=template_dir,
-    static_url_path=static_dir,
-    static_folder=static_dir,
+    template_folder=TEMPLATE_DIR,
+    static_url_path=STATIC_DIR,
+    static_folder=STATIC_DIR,
 )
 default_config = dict(
     JSONDASH_FILTERUSERS=False,
@@ -219,7 +219,7 @@ def jsonstring(ctx, data):
 @charts.route('/jsondash/<path:filename>')
 def _static(filename):
     """Send static files directly for this blueprint."""
-    return send_from_directory(static_dir, filename)
+    return send_from_directory(STATIC_DIR, filename)
 
 
 def get_all_assets():
