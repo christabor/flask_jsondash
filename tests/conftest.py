@@ -3,7 +3,8 @@ import os
 
 import pytest
 
-from flask import Flask
+from flask import Flask, url_for
+from pyquery import PyQuery as pq
 
 from flask_jsondash import charts_builder
 from flask_jsondash import db
@@ -75,6 +76,19 @@ def update(c_id, **kwargs):
         if dash['id'] == c_id:
             fake_db[i].update(**kwargs)
             break
+
+
+def setup_dashboard(monkeypatch, app, test, data):
+    """Helper function to setup dashboard, redirect, and get its html."""
+    assert len(read()) == 0
+    monkeypatch.setattr(charts_builder, 'auth', auth_valid)
+    test.post(url_for('jsondash.create'), data=data, follow_redirects=True)
+    view_id = read()[0]['id']
+    assert len(read()) == 1
+    url = url_for('jsondash.view', c_id=view_id)
+    res = test.get(url)
+    dom = pq(res.data)
+    return dom
 
 
 @pytest.yield_fixture
