@@ -35,8 +35,44 @@ jsondash.util.getValidParamString = function(arr) {
 };
 
 /**
- * [intervalStrToMS Convert a string formatted to indicate]
- * @param  {[String]} ival_fmt [The interval format string e.g. "1d", "2h"]
+ * [reformatQueryParams Reformat params into a query string.]
+ * @param  {[type]} old [List of query params]
+ * @param  {[type]} new [List of query params]
+ * @return {[type]}     [The new string (e.g. 'foo=bar&baz=1')]
+        For example:
+        old: foo=1&baz=1
+        new: foo=2&quux=1
+        expected: foo=2&quux=1&baz=1
+ */
+jsondash.util.reformatQueryParams = function(oldp, newp) {
+    var _combined = {};
+    var combined  = '';
+    var oldparams = {};
+    var newparams = {};
+    $.each(oldp.split('&'), function(i, param){
+        param = param.split('=');
+        oldparams[param[0]] = param[1];
+    });
+    $.each(newp.split('&'), function(i, param){
+        param = param.split('=');
+        newparams[param[0]] = param[1];
+    });
+    _combined = $.extend(oldparams, newparams);
+    $.each(_combined, function(k, v){
+        if(v !== undefined) {
+            combined += k + '=' + v + '&';
+        }
+    });
+    // Replace last ampersan if it exists.
+    if(combined.charAt(combined.length - 1) === '&') {
+        return combined.substring(0, combined.length - 1);
+    }
+    return combined;
+};
+
+/**
+ * [intervalStrToMS Convert a string formatted to indicate an interval to milliseconds]
+ * @param  {[String]} ival_fmt [The interval format string e.g. "1-d", "2-h"]
  * @return {[Number]} [The number of milliseconds]
  */
 jsondash.util.intervalStrToMS = function(ival_fmt) {

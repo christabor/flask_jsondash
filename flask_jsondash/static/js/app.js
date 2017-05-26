@@ -711,9 +711,11 @@ var jsondash = function() {
             // Ensure we don't lose params already save on this endpoint url.
             var existing_params = url.split('?')[1];
             var params = jsondash.util.getValidParamString($(this).serializeArray());
+            params = jsondash.util.reformatQueryParams(existing_params, params);
             var _config = $.extend({}, config, {
-                dataSource: url.replace(/\?.+/, '') + '?' + existing_params + '&' + params
+                dataSource: url.replace(/\?.+/, '') + '?' + params
             });
+            my.widgets.get(config.guid).update(_config, true);
             // Otherwise reload like normal.
             loadWidgetData(my.widgets.get(config.guid));
             // Hide the form again
