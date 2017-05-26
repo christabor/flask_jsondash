@@ -91,6 +91,21 @@ def setup_dashboard(monkeypatch, app, test, data):
     return dom
 
 
+def make_chart(**kwargs):
+    """Create a fake chart."""
+    data = dict(
+        name='somechart',
+        width=1,
+        height=1,
+        family='C3',
+        type='line',
+        row=1,
+        dataSource='...',
+    )
+    data.update(**kwargs)
+    return json.dumps(data)
+
+
 @pytest.yield_fixture
 def ctx(monkeypatch, request):
     with app.test_request_context() as req_ctx:

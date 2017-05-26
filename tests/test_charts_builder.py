@@ -10,6 +10,8 @@ from conftest import (
     get_json_config,
     auth_valid,
     read,
+    setup_dashboard,
+    make_chart,
 )
 
 from flask_jsondash import charts_builder
@@ -421,3 +423,18 @@ def test_demo_mode(monkeypatch, ctx, client):
     dom = pq(res.data)
     assert not dom.find('.chart-header > small .btn')
     assert not dom.find('.chart-header .dropdown-toggle')
+
+
+def test_correct_charts_count(monkeypatch, ctx, client):
+    app, test = client
+    data = dict(
+        mode='grid',
+        name='Some dashboard - lots of cols and rows',
+    )
+    data.update({
+        'module_{}'.format(i): make_chart(row=1) for i in range(5)
+    })
+    dom = setup_dashboard(monkeypatch, app, test, data)
+    container = dom.find('#container')
+    assert len(container.find('.item.widget')) == 5
+    assert len(container.find('.item.widget').find('.widget-title-text')) == 5
