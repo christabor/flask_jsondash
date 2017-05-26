@@ -47,7 +47,7 @@
                     title="Form options for this chart"
                     class="icon charts-input-icon fa fa-plus-square"></span>&nbsp;
                 {% endif %}
-                {% if can_edit %}
+                {% if can_edit and not demo_mode %}
                     <span rel="tooltip" title="Edit panel configuration" data-target="#chart-options" data-toggle="modal" class="icon fa fa-cog widget-edit"></span>
                     <span rel="tooltip" title="Delete panel" data-toggle="modal" class="text-danger icon fa fa-times-circle widget-delete"></span>
                 {% endif %}
