@@ -21,7 +21,6 @@ notifications:
     on_failure: always
     on_success: always
 install:
-    - pip install -U prospector
     - pip install -U coveralls
     - pip install -U tox
     - pip install -U pytest
