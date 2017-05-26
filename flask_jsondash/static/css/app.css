@@ -177,13 +177,15 @@ body {
     padding: 1em;
     background-color: #fff;
     border: 1px solid #ccc;
-    border-top-width: 3px;
+    border-top-width: 1px;
+    border-bottom-width: 3px;
     margin-bottom: 1em;
     margin-left: -1px;
     margin-right: -1px;
-    margin-top: 0;
+    margin-top: 8px;
     position: relative;
     z-index: 999;
+    box-shadow: 0 5px 5px #ddd;
 }
 .dashboard-charts .widget .chart-inputs form {
     margin: 0 auto;
