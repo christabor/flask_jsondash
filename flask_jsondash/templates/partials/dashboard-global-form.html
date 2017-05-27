@@ -1,31 +1,40 @@
 <form action="{{ url_for('jsondash.update', c_id=view.id) if view else url_for('jsondash.create') }}" class="form-inline" id="save-view-form" method="POST" role="form">
-    <div class="form-group">
-        <label>
-            View Name <input class="form-control input-md" type="text" name="name" value="{% if view %}{{ view.name }}{% endif %}" placeholder="name">
-        </label>
-        &nbsp;
-        <label>
-            Layout mode
-            <select name="mode" class="form-control">
-                <option value="grid" {% if view.layout == 'grid' %}selected{% endif %}>Grid (use rows/columns with a fixed grid system)</option>
-                <option value="freeform" {% if view.layout == 'freeform' %}selected{% endif %}>Freeform (choose all sizing and positioning manually)</option>
-            </select>
-        </label>
-        {% if can_edit_global %}
-            &nbsp;
-            <label>
-                Global?
-                <input type="checkbox" name="is_global" {% if view and is_global %}checked{% endif %}>
-            </label>
-            &nbsp;
-        {% endif %}
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="fa fa-cog"></span> Dashboard Options</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label>
+                    View Name <input class="form-control input-md" type="text" name="name" value="{% if view %}{{ view.name }}{% endif %}" placeholder="name">
+                </label>
+                &nbsp;
+                <label>
+                    Layout mode
+                    <select name="mode" class="form-control">
+                        <option value="grid" {% if view.layout == 'grid' %}selected{% endif %}>Grid (use rows/columns with a fixed grid system)</option>
+                        <option value="freeform" {% if view.layout == 'freeform' %}selected{% endif %}>Freeform (choose all sizing and positioning manually)</option>
+                    </select>
+                </label>
+                {% if can_edit_global %}
+                    &nbsp;
+                    <label>
+                        Global?
+                        <input type="checkbox" name="is_global" {% if view and is_global %}checked{% endif %}>
+                    </label>
+                {% endif %}
+            </div>
+            <div class="modules hidden">
+                {% if view %}
+                    {% for module in view.modules %}
+                        <input type="text" id="{{ module.guid }}" class="form-control" name="module_{{ module.name }}" value="{{ module|jsonstring }}">
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <hr>
+            <div class="text-center">
+                <button class="btn btn-md btn-primary"><span class="fa fa-check"></span> {% if view %}update{% else %}save{% endif %}</button>
+            </div>
+        </div>
     </div>
-    <div class="modules hidden">
-        {% if view %}
-            {% for module in view.modules %}
-                <input type="text" id="{{ module.guid }}" class="form-control" name="module_{{ module.name }}" value="{{ module|jsonstring }}">
-            {% endfor %}
-        {% endif %}
-    </div>
-    <button class="btn btn-sm btn-primary"><span class="fa fa-check"></span> {% if view %}update{% else %}save{% endif %}</button>
 </form>

@@ -254,7 +254,16 @@ body {
 .dashboard-charts #save-view-form {
     padding: 1em;
 }
+.dashboard-charts #save-view-form .form-group label {
+    display: block;
+}
+.dashboard-charts #save-view-form .form-group input,
+.dashboard-charts #save-view-form .form-group select {
+    display: block;
+    width: 100%;
+}
 .dashboard-charts .form-inline {
+    text-align: left;
     display: inline-block !important;
 }
 .dashboard-charts .form-inline input,
