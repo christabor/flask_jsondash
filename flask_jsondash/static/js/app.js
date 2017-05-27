@@ -520,6 +520,7 @@ var jsondash = function() {
         if(type === 'iframe') {return false;}
         if(type === 'youtube') {return false;}
         if(type === 'custom') {return false;}
+        if(type === 'image') {return false;}
         return true;
     }
 
