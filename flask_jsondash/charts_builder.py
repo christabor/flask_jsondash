@@ -623,7 +623,7 @@ def create():
     d = dict(
         name=data['name'],
         modules=db.format_charts(data),
-        date=dt.now(),
+        date=str(dt.now()),
         id=new_id,
         layout=data.get('mode', 'grid'),
     )
