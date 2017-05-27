@@ -17,5 +17,21 @@
         <li>
             <a href="?jsondash_demo_mode=1">Enable demo mode</a>
         </li>
+        <li class="divider"></li>
+        <li class="clearfix">
+            <form class="pull-left" action="{{ url_for('jsondash.clone', c_id=view.id) }}" method="POST">
+                &nbsp;
+                <button class="btn btn-default btn-sm">
+                    <span class="fa fa-clone text-success"></span> Clone
+                </button>
+            </form>
+
+            <form class="delete-dashboard pull-right" action="{{ url_for('jsondash.delete', c_id=view.id) }}" method="POST">
+                <button class="btn btn-default btn-sm">
+                    <span class="fa fa-times-circle text-danger"></span> Delete
+                </button>
+                &nbsp;
+            </form>
+        </li>
     </ul>
 </div>
