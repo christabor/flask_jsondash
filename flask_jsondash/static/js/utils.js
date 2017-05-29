@@ -76,6 +76,9 @@ jsondash.util.reformatQueryParams = function(oldp, newp) {
  * @return {[Number]} [The number of milliseconds]
  */
 jsondash.util.intervalStrToMS = function(ival_fmt) {
+    if(ival_fmt === undefined || ival_fmt === '') {
+        return null;
+    }
     // Just return number if it's a regular integer.
     if(!isNaN(ival_fmt)) {
         return ival_fmt;
