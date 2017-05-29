@@ -15,14 +15,14 @@
             "name" : "sparklines1",
             "height" : 200,
             "width" : 400,
-            "dataSource": "/examples/inline-sparklines.html",
+            "dataSource": "/examples/inline-sparklines.html"
         },
         {
             "type" : "timeline",
             "name" : "timeline",
             "height" : 500,
             "width" : 1000,
-            "dataSource" : "http://localhost:5001/timeline/",
+            "dataSource" : "http://localhost:5001/timeline/"
         },
         {
             "type": "pie",

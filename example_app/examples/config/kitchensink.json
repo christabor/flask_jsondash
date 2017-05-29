@@ -11,7 +11,7 @@
             "override": false,
             "refreshInterval": "",
             "guid": "46c99420-a500-185b-dcbc-013d93ca8de1",
-            "type": "wordcloud",
+            "type": "wordcloud"
         },
         {
             "name": "Graph",
