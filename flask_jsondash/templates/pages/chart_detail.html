@@ -83,7 +83,7 @@
                                             <input class="{{ input.input_classes|join(' ') or '' }}"
                                                 type="checkbox"
                                                 name="{{ input.name }}"
-                                                checked="{{ input.default or 'false' }}">
+                                                {{ 'checked="checked"' if input.default and input.default != "false" else '' }}>
                                         {% elif input.type == 'radio' and input.options %}
                                             {% for val, name in input.options %}
                                                 <div class="input-radio">
