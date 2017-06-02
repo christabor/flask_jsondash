@@ -1,83 +1,106 @@
 {
+    "id": "28d8aa4c-c98b-46ae-af86-1593025a3f7c",
     "date" : "2015-12-28T00:39:04.209Z",
-    "name": "basic-view-001",
-    "gutters": 5,
+    "name": "basic view",
+    "layout": "freeform",
     "modules": [
         {
+            "family": "C3",
             "type": "timeseries",
             "name": "name3",
             "width": 510,
             "height": 400,
+            "guid": "0123-abc-def-ghi-jkl",
             "dataSource": "http://localhost:5001/test1"
         },
         {
+            "family": "Basic",
             "type" : "iframe",
             "name" : "sparklines1",
             "height" : 200,
             "width" : 400,
+            "guid": "0123-abc-def-ghi-jkl2",
             "dataSource": "/examples/inline-sparklines.html"
         },
         {
+            "family": "Timeline",
             "type" : "timeline",
             "name" : "timeline",
             "height" : 500,
             "width" : 1000,
+            "guid": "0123-abc-def-ghi-jkl3",
             "dataSource" : "http://localhost:5001/timeline/"
         },
         {
+            "family": "C3",
             "type": "pie",
             "name": "name4",
             "width": 510,
             "height": 400,
+            "guid": "0123-abc-def-ghi-jkl4",
             "dataSource": "http://localhost:5001/test1"
         },
         {
+            "family": "Basic",
             "type": "iframe",
             "name": "hexbin1",
             "width": 600,
             "height": 400,
+            "guid": "0123-abc-def-ghi-jkl5",
             "dataSource": "/examples/inline-chart-hexbin.html"
         },
         {
+            "family": "Basic",
             "type": "iframe",
             "name": "inline1",
             "width": 600,
             "height": 400,
+            "guid": "0123-abc-def-ghi-jkl6",
             "dataSource": "/examples/inline-chart.html"
         },
         {
+            "family": "Basic",
             "type": "custom",
             "name": "tabsthing",
             "width": 510,
             "height": 400,
+            "guid": "0123-abc-def-ghi-jkl7",
             "dataSource": "/examples/tabbed-widget.html"
         },
         {
+            "family": "C3",
             "type": "line",
             "name": "name5",
             "width": 510,
             "height": 400,
+            "guid": "0123-abc-def-ghi-jkl8",
             "dataSource": "http://localhost:5001/test1"
         },
         {
+            "family": "C3",
             "type": "step",
             "name": "name6",
             "width": 510,
             "height": 400,
+            "guid": "0123-abc-def-ghi-jkl9",
             "dataSource": "http://localhost:5001/test1"
         },
         {
+            "family": "C3",
             "type": "bar",
             "name": "name7",
             "width": 510,
             "height": 400,
+            "guid": "0123-abc-def-ghi-jkl10",
             "dataSource": "http://localhost:5001/test1"
         },
         {
-            "type": "table",
+            "family": "DataTable",
+            "type": "datatable",
             "name": "name8",
             "width": 510,
             "height": 400,
+            "guid": "0123-abc-def-ghi-jkl11",
             "dataSource": "http://localhost:5001/test1"
         }
     ]

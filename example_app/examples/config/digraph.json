@@ -1,4 +1,7 @@
 {
+    "id": "5d63f70e-43c2-4eae-9334-a1565e8d96c9",
+    "layout": "freeform",
+    "date": "2017-04-17 09:36:22.194277",
     "username": "global",
     "name": "Digraph examples",
     "modules": [
@@ -10,7 +13,7 @@
             "width": 383,
             "dataSource": "http://localhost:5004/digraph?simple=true",
             "override": false,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "541ebad2-dfbe-2c51-ac4a-b960f992ed06",
             "type": "graph",
             "order": 0
@@ -23,7 +26,7 @@
             "width": 550,
             "dataSource": "http://localhost:5004/digraph",
             "override": false,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "6070041f-fd39-7c80-2889-05f524644533",
             "type": "graph",
             "order": 1
@@ -36,7 +39,7 @@
             "width": 488,
             "dataSource": "http://localhost:5004/digraph?filetree=1",
             "override": false,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "61dafd6e-cb25-f247-3a0b-3b2f47fcb173",
             "type": "graph",
             "order": 2

@@ -1,15 +1,16 @@
 {
     "username": "ctabor",
+    "layout": "freeform",
     "name": "plotly test",
     "modules": [
         {
             "name": "Fancy scatter",
             "refresh": false,
-            "height": "550",
-            "width": "1000",
+            "height": 550,
+            "width": 1000,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=fancy-scatter-wind",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "fc8a8b0c-a978-06be-1c9a-fb3a7d2a6a1e",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -17,11 +18,11 @@
         {
             "name": "Fancy scatter",
             "refresh": false,
-            "height": "550",
-            "width": "1000",
+            "height": 550,
+            "width": 1000,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=fancy-scatter",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "f478a55c-cb22-2f69-0fc7-7f46ef58c656",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -29,11 +30,11 @@
         {
             "name": "Ribbon plot 3d",
             "refresh": false,
-            "height": "650",
-            "width": "600",
+            "height": 650,
+            "width": 600,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=ribbon3d",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "ahjKasop6-3x3sc-3d411x-53cc-3301Palsox",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -41,11 +42,11 @@
         {
             "name": "Scatter plot 3d",
             "refresh": false,
-            "height": "550",
-            "width": "650",
+            "height": 550,
+            "width": 650,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=scatter3d",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "2331xASsdd66-3xasc-3d441-5aaf-3iskLA10x",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -53,11 +54,11 @@
         {
             "name": "Random walk 3d",
             "refresh": false,
-            "height": "500",
-            "width": "600",
+            "height": 500,
+            "width": 600,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=randomwalk3d",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "3asd45ddfx-1e33-3d441-5aaf-as03gKjaY4azx",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -65,11 +66,11 @@
         {
             "name": "Surface map 3d",
             "refresh": false,
-            "height": "550",
-            "width": "550",
+            "height": 550,
+            "width": 550,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=surface3d",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "ade2993xza-1e33-34a9-5aaf-as03gKjaYuxx",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -77,11 +78,11 @@
         {
             "name": "Clustering 3d",
             "refresh": false,
-            "height": "500",
-            "width": "500",
+            "height": 500,
+            "width": 500,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=clustering3d",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "as33xpoza-1e33-34a9-5aaf-3as34301Yuxx",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -89,11 +90,11 @@
         {
             "name": "Multiple subplots 3d",
             "refresh": false,
-            "height": "700",
-            "width": "750",
+            "height": 700,
+            "width": 750,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=subplot3d",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "as303akvs103-1e33-34a9-5aaf-3as34fdax",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -101,11 +102,11 @@
         {
             "name": "Scatter map",
             "refresh": false,
-            "height": "500",
-            "width": "650",
+            "height": 500,
+            "width": 650,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=scattermap",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "asasdasdXasaaok303zz-1e33-34a9-5aaf-as30301adskaxx",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -113,11 +114,11 @@
         {
             "name": "Bubble map",
             "refresh": false,
-            "height": "500",
-            "width": "650",
+            "height": 500,
+            "width": 650,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=bubblemap",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "asasdasdXasaaok303zz-1e33-34a9-5aaf-11asadsasd2213xa",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -125,11 +126,11 @@
         {
             "name": "Lines on orthographic map",
             "refresh": false,
-            "height": "500",
-            "width": "650",
+            "height": 500,
+            "width": 650,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=orthographic",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "asasdasdXasaaok303zz-1e33-34a9-5aaf-11a2323xa",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -137,11 +138,11 @@
         {
             "name": "World chloropleth map",
             "refresh": false,
-            "height": "450",
-            "width": "650",
+            "height": 450,
+            "width": 650,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=world-chloropleth",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "as123392xSdz23xazzz-1e33-34a9-5aaf-11a2323xa",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -149,11 +150,11 @@
         {
             "name": "Logarithmic plot",
             "refresh": false,
-            "height": "500",
-            "width": "500",
+            "height": 500,
+            "width": 500,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=logplot",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "as3a3Sdz23xazzz-1e33-34a9-5aaf-73asda",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -161,11 +162,11 @@
         {
             "name": "'Simple' contour plot",
             "refresh": false,
-            "height": "500",
-            "width": "500",
+            "height": 500,
+            "width": 500,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=contour-plot-crazy",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "as30asdjxl-1e33-34a9-5aaf-73asda",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -173,11 +174,11 @@
         {
             "name": "Contour connect gaps between null values",
             "refresh": false,
-            "height": "500",
-            "width": "500",
+            "height": 500,
+            "width": 500,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=contour-null",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "asd3312ddas-1e33-34a9-5aaf-73asda",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -185,11 +186,11 @@
         {
             "name": "Contour plot smoothing lines",
             "refresh": false,
-            "height": "500",
-            "width": "500",
+            "height": 500,
+            "width": 500,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=contour-smooth",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "34soadk3001asdzzx-1e33-34a9-5aaf-73asda",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -197,11 +198,11 @@
         {
             "name": "Contour plot color scale",
             "refresh": false,
-            "height": "500",
-            "width": "650",
+            "height": 500,
+            "width": 650,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=contour-plot-grad",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "341232asdx-1e33-30a9-5aaf-73asda",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -209,11 +210,11 @@
         {
             "name": "Custom contour plot",
             "refresh": false,
-            "height": "500",
-            "width": "650",
+            "height": 500,
+            "width": 650,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=contour-colorscale",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "9a313f-1e33-30a9-5aaf-3asd",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -221,11 +222,11 @@
         {
             "name": "Heatmap with labels",
             "refresh": false,
-            "height": "650",
-            "width": "650",
+            "height": 650,
+            "width": 650,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=heatmap",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "9a31b73f-1e33-30a9-5aaf-76f3aasdcz0a",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -233,11 +234,11 @@
         {
             "name": "Ternary Lines",
             "refresh": false,
-            "height": "650",
-            "width": "650",
+            "height": 650,
+            "width": 650,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=ternary-lines",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "9a31b73f-1e33-30a9-5aaf-76f3aeaasdzz0a",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -245,11 +246,11 @@
         {
             "name": "Ternary",
             "refresh": false,
-            "height": "650",
-            "width": "650",
+            "height": 650,
+            "width": 650,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=ternary",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "9a31b73f-1e33-30a9-5aaf-76f3aea3sd20a",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -257,11 +258,11 @@
         {
             "name": "Polar",
             "refresh": false,
-            "height": "500",
-            "width": "750",
+            "height": 500,
+            "width": 750,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=polar",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "9a31b73f-1e33-30a9-5aaf-76f3aea34aazsa",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -269,11 +270,11 @@
         {
             "name": "Wind Rose",
             "refresh": false,
-            "height": "500",
-            "width": "750",
+            "height": 500,
+            "width": 750,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=windrose",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "9a31b73f-1e33-30a9-5aaf-76f3aea34asvaa",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -281,11 +282,11 @@
         {
             "name": "2d Histogram contour plot with histogram subplots",
             "refresh": false,
-            "height": "650",
-            "width": "600",
+            "height": 650,
+            "width": 600,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=histogram-contour",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "7cee7210-d593-d57b-8b79-8e7529d8e60a",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -293,11 +294,11 @@
         {
             "name": "Histogram",
             "refresh": false,
-            "height": "500",
-            "width": "600",
+            "height": 500,
+            "width": 600,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=histogram",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "9a41b73f-1e33-30a9-5aaf-76f3ae08asd3asdsvaa",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -305,11 +306,11 @@
         {
             "name": "2d Histogram",
             "refresh": false,
-            "height": "500",
-            "width": "600",
+            "height": 500,
+            "width": 600,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=histogram-2d",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "9a41b73f-1e33-30a9-5aaf-76f3ae086asdsvaa",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -317,11 +318,11 @@
         {
             "name": "Box plot basic",
             "refresh": false,
-            "height": "500",
-            "width": "600",
+            "height": 500,
+            "width": 600,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=boxplot",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "9a41b73f-3e33-30a9-5aaf-76f3ae086asdsvaa",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -329,11 +330,11 @@
         {
             "name": "Inset charts",
             "refresh": false,
-            "height": "500",
-            "width": "500",
+            "height": 500,
+            "width": 500,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=inset",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "365fa74c-52c8-3f7f3-67a9-3f3cedfc0832",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -341,11 +342,11 @@
         {
             "name": "Error bars - statistical",
             "refresh": false,
-            "height": "500",
-            "width": "900",
+            "height": 500,
+            "width": 900,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=error_bars",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "365fa74c-523121ac8-3f7f-67a9-3f3cedfc0832",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -353,11 +354,11 @@
         {
             "name": "Contour map",
             "refresh": false,
-            "height": "500",
-            "width": "500",
+            "height": 500,
+            "width": 500,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=contour",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "365fa74c-52312c8-3f7f-67a9-3f3cedfc0832",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -365,11 +366,11 @@
         {
             "name": "Data labels on plot",
             "refresh": false,
-            "height": "500",
-            "width": "500",
+            "height": 500,
+            "width": 500,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=labels_plot",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "365fa74c-52c8-3f7f-67a9-3f3cedfc0832",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -377,11 +378,11 @@
         {
             "name": "Bar chart with line plot - dynamic",
             "refresh": false,
-            "height": "500",
-            "width": "1000",
+            "height": 500,
+            "width": 1000,
             "dataSource": "http://127.0.0.1:5004/plotly-dynamic",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "365fa74c-52c8-3f7f-67a9-33312f3ced3fc0312a832",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -389,11 +390,11 @@
         {
             "name": "Test categorical dot plot",
             "refresh": false,
-            "height": "500",
-            "width": "1000",
+            "height": 500,
+            "width": 1000,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=cat_dot_plot",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "9a41b73f-3e2adsd-30a9-5aaf-76f3ae08608aa",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -401,11 +402,11 @@
         {
             "name": "Test plotly scatter",
             "refresh": false,
-            "height": "500",
-            "width": "600",
+            "height": 500,
+            "width": 600,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=scatter",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "9a41b73f-3e33-30a9-5aaf-76f3ae08608aa",
             "family": "PlotlyStandard",
             "type": "plotly-any"
@@ -413,11 +414,11 @@
         {
             "name": "Subplot",
             "refresh": false,
-            "height": "450",
-            "width": "580",
+            "height": 450,
+            "width": 580,
             "dataSource": "http://127.0.0.1:5004/plotly?chart=subplot",
             "override": true,
-            "refreshInterval": "",
+            "refreshInterval": null,
             "guid": "365fa74c-52c8-3f7f-67a9-33312f3ced3fc031233a832",
             "family": "PlotlyStandard",
             "type": "plotly-any"

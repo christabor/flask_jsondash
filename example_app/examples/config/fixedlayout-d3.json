@@ -60,7 +60,7 @@
             "name": "Dendrogram",
             "family": "D3",
             "height": 900,
-            "width": "col-md-12",
+            "width": "col-12",
             "dataSource": "http://127.0.0.1:5004/dendrogram?simple=1",
             "override": false,
             "guid": "0b7e0c94-e526-4821-706c-b038ec42322b",
