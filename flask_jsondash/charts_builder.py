@@ -24,6 +24,7 @@ from flask_jsondash import static, templates
 
 from . import db
 from .settings import CHARTS_CONFIG
+from .schema import validate
 
 TEMPLATE_DIR = os.path.dirname(templates.__file__)
 STATIC_DIR = os.path.dirname(static.__file__)
@@ -289,7 +290,16 @@ def paginator(page=0, per_page=None, count=None):
 
 
 def get_num_rows(viewconf):
-    """Get the number of rows for a layout if it's using fixed grid format."""
+    """Get the number of rows for a layout if it's using fixed grid format.
+
+    Args:
+        viewconf (dict): The dashboard configuration
+
+    Returns:
+        int: returned if the number of modules can be determined
+        None: returned if viewconf is invalid or the layout type
+            does not support rows.
+    """
     if viewconf is None:
         return None
     layout = viewconf.get('layout', 'freeform')
@@ -302,6 +312,12 @@ def order_sort(item):
     """Attempt to sort modules by order keys.
 
     Always returns an integer for compatibility.
+
+    Args:
+        item (dict): The module to sort
+
+    Returns:
+        int: The sort order integer, or -1 if the item cannot be sorted.
     """
     if item is None or item.get('order') is None:
         return -1
@@ -309,7 +325,6 @@ def order_sort(item):
         return int(item['order'])
     except (ValueError, TypeError):
         return -1
-    return -1
 
 
 def sort_modules(viewjson):
@@ -462,6 +477,9 @@ def validate_raw_json_grid(conf):
     fixed_only_required = ['row']
     rows = []
     modules = conf.get('modules', [])
+    valid_cols = ['col-{}'.format(i) for i in range(1, 13)]
+    if not modules:
+        return
     for module in modules:
         try:
             rows.append(int(module.get('row')))
@@ -471,9 +489,11 @@ def validate_raw_json_grid(conf):
     if not is_consecutive_rows(rows):
         raise InvalidSchemaError(
             'Row order is not consecutive: "{}"!'.format(sorted(rows)))
-    if not modules:
-        return
     for module in modules:
+        width = module.get('width')
+        if width not in valid_cols:
+            raise InvalidSchemaError(
+                'Invalid width for grid format: "{}"'.format(width))
         for field in fixed_only_required:
             if field not in module and layout == 'grid':
                 ident = module.get('name', module)
@@ -497,33 +517,22 @@ def validate_raw_json(jsonstr):
     """
     data = json.loads(jsonstr)
     layout = data.get('layout', 'freeform')
-    main_required_fields = ['name', 'modules']
-    families = CHARTS_CONFIG.keys()
-    modules = data.get('modules')
-
-    for field in main_required_fields:
-        if field not in data.keys():
-            raise InvalidSchemaError('Missing "{}" key'.format(field))
-    if modules:
-        first = modules[0]
-        if layout != 'grid' and first.get('row') is not None:
-            raise ValueError(
-                'Cannot mix `row` fields with freeform layout! '
-                'Either use `freeform` without rows, or use `grid` layout.'
-            )
-    for module in modules:
-        required = ['family', 'name', 'width', 'height', 'dataSource', 'type']
-        fam = module.get('family')
-        for field in required:
-            if field not in module:
-                ident = module.get('name', module)
-                raise InvalidSchemaError(
-                    'Invalid JSON. "{}" must be '
-                    'included in module "{}"'.format(field, ident))
-        if fam not in families:
-            raise InvalidSchemaError('Invalid family name "{}"'.format(fam))
     if layout == 'grid':
         validate_raw_json_grid(data)
+    else:
+        for module in data.get('modules', []):
+            width = module.get('width')
+            try:
+                int(width)
+            except (TypeError, ValueError):
+                raise InvalidSchemaError(
+                    'Invalid value for width in `freeform` layout.')
+            if module.get('row') is not None:
+                raise InvalidSchemaError(
+                    'Cannot mix `row` with `freeform` layout.')
+    results = validate(data)
+    if results is not None:
+        raise InvalidSchemaError(results)
     return data
 
 

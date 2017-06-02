@@ -9,6 +9,7 @@ from flask_jsondash import charts_builder
 @pytest.mark.parametrize('lst', [
     [1, 2, 3],
     [1, 1, 2, 2, 3],
+    [],  # Handles empty case as true
 ])
 def test_is_consecutive_rows_normal(lst):
     assert charts_builder.is_consecutive_rows(lst)

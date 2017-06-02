@@ -37,7 +37,11 @@ def get_random_group():
 
 
 def get_random_chart(group):
-    """Get a random chart from a specific chart sub-group."""
+    """Get a random chart from a specific chart sub-group.
+
+    Args:
+        group (dict): A group from the global chart settings config.
+    """
     return choice(list(group['charts']))
 
 
@@ -64,7 +68,21 @@ def make_fake_dashboard(name='Random chart', max_charts=10):
 
 
 def make_fake_chart_data(**kwargs):
-    """Return chart data in required format."""
+    """Return chart data in required format.
+
+    Args:
+        name (Nome, optional): The name of the chart.
+        height (Nome, optional): The height of the chart.
+        width (Nome, optional): The width of the chart.
+        data_source (Nome, optional): The data source (url) for the chart.
+
+    Returns:
+        tuple: A 2-tuple of type (string_label, jsonstring) for the chart.
+
+    Examples:
+        >>> make_fake_chart_date(width=10, height=10, name='foo')
+        >>> ('foo', '{"name": "foo", "height": 10, "width": 10}')
+    """
     _uuid = str(uuid1())
     # All of these chart types have example endpoints to use locally.
     chart = choice(['bar', 'line', 'step', 'area'])

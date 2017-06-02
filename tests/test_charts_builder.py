@@ -302,10 +302,11 @@ def test_update_edit_raw_invalidschema_missing_x(field, monkeypatch,
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     module = dict(
-        name='foo', width=1, height=1, dataSource='...',
-        family='foo', type='foo',
+        name='foo', width=1, height=1,
+        guid='a-b-c-d-e', dataSource='...',
+        family='C3', type='line',
     )
-    view = dict(id='...', name='foo', modules=[module])
+    view = dict(id='a-b-c-d-e', name='foo', modules=[module])
     del module[field]
     readfunc = read(override=dict(view))
     monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)
@@ -314,7 +315,7 @@ def test_update_edit_raw_invalidschema_missing_x(field, monkeypatch,
         data={'edit-raw': 'on', 'config': json.dumps(view)},
         follow_redirects=True)
     dom = pq(res.data)
-    err_msg = 'Error: Invalid JSON. "{}" must be included in'.format(field)
+    err_msg = "{'" + field + "': ['required field']"
     assert err_msg in dom.find('.alert-danger').text()
 
 
@@ -325,11 +326,18 @@ def test_update_edit_raw_valid(monkeypatch, ctx, client):
     assert not read()
     res = test.post(
         url_for('jsondash.create'),
-        data=dict(name='newname', modules=[]),
+        data=dict(
+            id='a-b-c-d-e',
+            layout='freeform',
+            name='newname', date='', modules=[]),
         follow_redirects=True)
     assert len(read()) == 1
     view_id = read()[0]['id']
-    data = {'name': 'foo', 'modules': []}
+    data = {
+        'date': '',
+        'layout': 'freeform',
+        'id': 'a-b-c-d-e',
+        'name': 'foo', 'modules': []}
     view = json.dumps(data)
     readfunc = read(override=dict(data))
     monkeypatch.setattr(charts_builder.adapter, 'read', readfunc)

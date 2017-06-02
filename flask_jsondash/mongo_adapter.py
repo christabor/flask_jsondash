@@ -17,7 +17,15 @@ class Db(object):
     """Adapter for all mongo operations."""
 
     def __init__(self, client, conn, coll, formatter):
-        """Setup connection."""
+        """Setup connection.
+
+        Args:
+            client (object): The database client to use.
+            conn (str): The connection URI.
+            coll (str): The collection name.
+            formatter (function): A formatter function to use when formatting
+                chart data.
+        """
         self.client = client
         self.conn = conn
         self.coll = coll
@@ -35,7 +43,14 @@ class Db(object):
             return self.coll.find_one(dict(id=kwargs.pop('c_id')))
 
     def update(self, c_id, data=None, fmt_charts=True):
-        """Update a record."""
+        """Update a record.
+
+        Args:
+            c_id (int): The records id.
+            data (None, optional): data to update the record with.
+            fmt_charts (True, optional): A flag to fmt_charts with the
+                default provided formatter.
+        """
         if data is None:
             return
         charts = self.formatter(data) if fmt_charts else data.get('modules')
@@ -51,13 +66,21 @@ class Db(object):
         self.coll.update(dict(id=c_id), save_conf)
 
     def create(self, data=None):
-        """Add a new record."""
+        """Add a new record.
+
+        Args:
+            data (dict): The "record" to insert.
+        """
         if data is None:
             return
         self.coll.insert(data)
 
     def delete(self, c_id):
-        """Delete a record."""
+        """Delete a record.
+
+        Args:
+            c_id (int): The records id.
+        """
         self.coll.delete_one(dict(id=c_id))
 
     def delete_all(self):

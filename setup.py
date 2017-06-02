@@ -14,6 +14,7 @@ test_requirements = [
 requirements = [
     'click==6.6',
     'Flask',
+    'cerberus',
     'pymongo==3.3.0',
 ]
 

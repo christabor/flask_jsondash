@@ -9,6 +9,7 @@ from flask_jsondash import charts_builder as app
 def _schema(**vals):
     """Default schema."""
     data = dict(
+        id='a-b-c-d-e',
         date="2016-08-23 15:03:49.178000",
         layout="grid",
         name="testlayout",
@@ -28,7 +29,7 @@ def test_validate_raw_json_valid_freeform():
     d = _schema(
         layout='freeform',
         modules=[
-            dict(name='foo', dataSource='foo',
+            dict(guid='a-b-c-d-e', name='foo', dataSource='foo',
                  width=1, height=1, type='line',
                  family='C3')]
     )
@@ -40,8 +41,8 @@ def test_validate_raw_json_valid_fixed():
     d = _schema(
         layout='freeform',
         modules=[
-            dict(name='foo', dataSource='foo',
-                 width=1, height=1, type='line',
+            dict(guid='a-b-c-d-e', name='foo', dataSource='foo',
+                 width='1', height=1, type='line',
                  family='C3')]
     )
     assert app.validate_raw_json(d)
@@ -57,8 +58,9 @@ def test_validate_raw_json_valid_fixed():
 ])
 def test_validate_raw_json_missing_required_module_keys(field):
     module = dict(
+        guid='a-b-c-d-e',
         name='foo', dataSource='foo',
-        width=1, height=1, type='line',
+        width='col-1', height=1, type='line',
         family='C3')
     del module[field]
     d = _schema(
@@ -75,8 +77,9 @@ def test_validate_raw_json_missing_required_module_keys(field):
 ])
 def test_validate_raw_json_missing_required_fixedgrid_module_keys(field):
     module = dict(
+        guid='a-b-c-d-e',
         name='foo', dataSource='foo',
-        width=1, height=1, type='line',
+        width='col-1', height=1, type='line',
         row=1, family='C3')
     del module[field]
     d = _schema(
@@ -95,6 +98,7 @@ def test_validate_raw_json_missing_optional_freeform_module_keys(field):
     # Ensure that required fields for fixed grid
     # are not required for freeform layouts.
     module = dict(
+        guid='a-b-c-d-e',
         name='foo', dataSource='foo',
         width=1, height=1, type='line',
         row=1, family='C3')
@@ -108,14 +112,17 @@ def test_validate_raw_json_missing_optional_freeform_module_keys(field):
 
 @pytest.mark.schema
 @pytest.mark.parametrize('field', [
+    'id',
+    'layout',
     'name',
     'modules',
 ])
 def test_validate_raw_json_invalid_missing_toplevel_keys(field):
     module = dict(
+        guid='a-b-c-d-e',
+        layout='freeform',
         name='foo', dataSource='foo',
-        width=1, height=1, type='line',
-        row=1, family='C3',
+        width=1, height=1, type='line', family='C3',
     )
     config = _schema(
         layout='freeform',
@@ -123,15 +130,16 @@ def test_validate_raw_json_invalid_missing_toplevel_keys(field):
     )
     config = json.loads(config)
     del config[field]
-    with pytest.raises(ValueError) as exc:
+    with pytest.raises(app.InvalidSchemaError) as exc:
         app.validate_raw_json(json.dumps(config))
-    assert 'Missing' in str(exc.value)
+    assert "{'" + field + "': ['required field']}" in str(exc.value)
 
 
 @pytest.mark.schema
 def test_validate_raw_json_invalid_mixed_use_freeform_with_rows():
     # Ensure `row` in modules and layout `freeform` cannot be mixed.
     module = dict(
+        guid='a-b-c-d-e',
         name='foo', dataSource='foo',
         width=1, height=1, type='line',
         row=1, family='C3',
@@ -140,9 +148,25 @@ def test_validate_raw_json_invalid_mixed_use_freeform_with_rows():
         layout='freeform',
         modules=[module]
     )
-    with pytest.raises(ValueError) as exc:
+    with pytest.raises(app.InvalidSchemaError) as exc:
         app.validate_raw_json(config)
     assert 'Cannot mix' in str(exc.value)
+
+
+@pytest.mark.schema
+def test_validate_raw_json_missing_row_for_layout_grid():
+    module = dict(
+        guid='a-b-c-d-e',
+        name='foo', dataSource='foo',
+        width='col-1', height=1, type='line', layout='grid', family='C3',
+    )
+    config = _schema(
+        layout='grid',
+        modules=[module]
+    )
+    with pytest.raises(app.InvalidSchemaError) as exc:
+        app.validate_raw_json(config)
+    assert 'Invalid row value for module "foo"' in str(exc.value)
 
 
 @pytest.mark.schema
@@ -151,12 +175,12 @@ def test_validate_raw_json_invalid_grid_nonconsencutive_rows():
     config = _schema(
         layout='grid',
         modules=[
-            dict(name='f', dataSource='f', width=1, row=1,
-                 height=1, family='C3', type='line'),
-            dict(name='f', dataSource='f', width=1, row=2,
-                 height=1, family='C3', type='line'),
-            dict(name='f', dataSource='f', width=1, row=10,
-                 height=1, family='C3', type='line'),
+            dict(guid='a-b-c-d-e', name='f', dataSource='f', width='col-1',
+                 row=1, height=1, family='C3', type='line'),
+            dict(guid='a-b-c-d-e', name='f', dataSource='f', width='col-1',
+                 row=2, height=1, family='C3', type='line'),
+            dict(guid='a-b-c-d-e', name='f', dataSource='f', width='col-1',
+                 row=10, height=1, family='C3', type='line'),
         ]
     )
     with pytest.raises(app.InvalidSchemaError) as exc:
@@ -165,22 +189,23 @@ def test_validate_raw_json_invalid_grid_nonconsencutive_rows():
 
 
 @pytest.mark.schema
-def test_validate_raw_json_invalid_grid_consencutive_but_duplicate_rows():
+def test_validate_raw_json_invalid_grid_consecutive_but_duplicate_rows():
     # Ensure duplicate row numbers are consecutive, IF they were unique.
     # e.g. [1, 1, 2, 2, 3] is valid.
     config = _schema(
         layout='grid',
+        id='a-b-c-d-e',
         modules=[
-            dict(name='f', dataSource='f', width=1, row=1,
-                 height=1, family='C3', type='line'),
-            dict(name='f', dataSource='f', width=1, row=1,
-                 height=1, family='C3', type='line'),
-            dict(name='f', dataSource='f', width=1, row=2,
-                 height=1, family='C3', type='line'),
-            dict(name='f', dataSource='f', width=1, row=2,
-                 height=1, family='C3', type='line'),
-            dict(name='f', dataSource='f', width=1, row=3,
-                 height=1, family='C3', type='line'),
+            dict(guid='a-b-c-d-e', name='f', dataSource='f', width='col-1',
+                 row=1, height=1, family='C3', type='line'),
+            dict(guid='a-b-c-d-e', name='f', dataSource='f', width='col-1',
+                 row=1, height=1, family='C3', type='line'),
+            dict(guid='a-b-c-d-e', name='f', dataSource='f', width='col-1',
+                 row=2, height=1, family='C3', type='line'),
+            dict(guid='a-b-c-d-e', name='f', dataSource='f', width='col-1',
+                 row=2, height=1, family='C3', type='line'),
+            dict(guid='a-b-c-d-e', name='f', dataSource='f', width='col-1',
+                 row=3, height=1, family='C3', type='line'),
         ]
     )
     assert app.validate_raw_json(config)
@@ -188,14 +213,33 @@ def test_validate_raw_json_invalid_grid_consencutive_but_duplicate_rows():
 
 @pytest.mark.schema
 def test_validate_raw_json_invalid_family():
-    # Ensure row numbers can't "skip", e.g. [1, 2, 10]
     config = _schema(
         layout='grid',
         modules=[
-            dict(name='f', dataSource='f', width=1, row=1,
-                 height=1, family='LOLWUT', type='line'),
+            dict(guid='a-b-c-d-e', name='f', dataSource='f', width='col-1',
+                 row=1, height=1, family='LOLWUT', type='line'),
         ]
     )
     with pytest.raises(app.InvalidSchemaError) as exc:
         app.validate_raw_json(config)
-    assert 'Invalid family name' in str(exc.value)
+    assert 'unallowed value LOLWUT' in str(exc.value)
+
+
+@pytest.mark.schema
+def test_validate_raw_json_invalid_width_string_cols_for_freeform_type():
+    config = _schema(
+        layout='freeform',
+        modules=[
+            dict(guid='a-b-c-d-e',
+                 name='f',
+                 dataSource='f',
+                 width='col-12',
+                 height=1,
+                 family='C3',
+                 type='line'),
+        ]
+    )
+    with pytest.raises(app.InvalidSchemaError) as exc:
+        app.validate_raw_json(config)
+    err = str(exc.value)
+    assert 'Invalid value for width in `freeform` layout.' in err
