@@ -168,7 +168,7 @@ CHART_SCHEMA = {
         'family': {
             'type': 'string',
             'required': True,
-            'allowed': CHARTS_CONFIG.keys(),
+            'allowed': list(CHARTS_CONFIG.keys()),
         },
         'type': {
             'type': 'string',
