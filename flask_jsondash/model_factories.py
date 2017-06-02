@@ -71,10 +71,10 @@ def make_fake_chart_data(**kwargs):
     """Return chart data in required format.
 
     Args:
-        name (Nome, optional): The name of the chart.
-        height (Nome, optional): The height of the chart.
-        width (Nome, optional): The width of the chart.
-        data_source (Nome, optional): The data source (url) for the chart.
+        name (None, optional): The name of the chart.
+        height (None, optional): The height of the chart.
+        width (None, optional): The width of the chart.
+        data_source (None, optional): The data source (url) for the chart.
 
     Returns:
         tuple: A 2-tuple of type (string_label, jsonstring) for the chart.
