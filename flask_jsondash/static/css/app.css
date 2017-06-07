@@ -316,10 +316,3 @@ body {
 .dashboard-charts .widget .chart-graph .nodes .node text {
     fill: black;
 }
-
-/* Arrows */
-
-.dashboard-charts .widget .chart-graph .edgePath path {
-    stroke: black;
-    fill: black;
-}

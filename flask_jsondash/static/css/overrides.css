@@ -87,3 +87,18 @@
     display: inline-block;
     margin: 0 auto;
 }
+
+/**
+ * Digraph (graphlibDot)
+ */
+
+/* Arrows */
+
+.dashboard-charts .widget .chart-graph .edgePath > path {
+    stroke: black;
+    fill: none;
+}
+.dashboard-charts .widget .chart-graph .edgePath > marker > path {
+    stroke: black;
+    fill: black;
+}
