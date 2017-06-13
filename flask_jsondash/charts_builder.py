@@ -503,11 +503,14 @@ def validate_raw_json_grid(conf):
                     'fixed grid layouts'.format(field, ident))
 
 
-def validate_raw_json(jsonstr):
+def validate_raw_json(jsonstr, **overrides):
     """Validate the raw json for a config.
 
     Args:
         jsonstr (str): The raw json configuration
+        **overrides: Any key/value pairs to override in the config.
+            Used only for setting default values that the user should
+            never enter but are required to validate the schema.
 
     Raises:
         InvalidSchemaError: If there are any issues with the schema
@@ -516,7 +519,9 @@ def validate_raw_json(jsonstr):
         data (dict): The parsed configuration data
     """
     data = json.loads(jsonstr)
+    data.update(**overrides)
     layout = data.get('layout', 'freeform')
+
     if layout == 'grid':
         validate_raw_json_grid(data)
     else:
@@ -549,9 +554,11 @@ def update(c_id):
     form_data = request.form
     view_url = url_for('jsondash.view', c_id=c_id)
     edit_raw = 'edit-raw' in request.form
+    now = str(dt.now())
     if edit_raw:
         try:
-            data = validate_raw_json(form_data.get('config'))
+            conf = form_data.get('config')
+            data = validate_raw_json(conf, date=now, id=c_id)
             data = db.reformat_data(data, c_id)
         except InvalidSchemaError as e:
             flash(str(e), 'error')
@@ -572,8 +579,8 @@ def update(c_id):
             name=form_data['name'],
             layout=layout,
             modules=modules,
-            date=str(dt.now()),
             id=c_id,
+            date=now,
         )
     # Update metadata, but exclude some fields that should never
     # be overwritten by user, once the view has been created.
