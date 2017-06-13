@@ -93,7 +93,10 @@ CHART_INPUT_SCHEMA = {
                 },
                 'placeholder': {
                     'nullable': True,
-                    'type': 'string',
+                    'anyof': [
+                        {'type': 'string'},
+                        {'type': 'number'},
+                    ]
                 },
                 'label': {
                     'type': 'string',
