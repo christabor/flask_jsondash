@@ -533,6 +533,32 @@ var jsondash = function() {
         togglePreviewOutput(previewable);
     }
 
+    function populateGridWidthDropdown() {
+        var cols = d3.range(1, 13).map(function(i, v){return 'col-' + i;});;
+        var form = d3.select(WIDGET_FORM.selector);
+        form.select('[name="width"]').remove();
+        form
+            .append('select')
+            .attr('name', 'width')
+            .selectAll('option')
+            .data(cols)
+            .enter()
+            .append('option')
+            .value(function(i, v){
+                return i;
+            })
+            .text(function(i, v){
+                return i;
+            });
+    }
+
+    function chartsModeChanged(e) {
+        var mode = MAIN_FORM.find('[name="mode"]').val();
+        if(mode === 'grid') {
+            populateGridWidthDropdown();
+        }
+    }
+
     function chartsRowChanged(e) {
         // Update the order field based on the current rows item length.
         populateOrderField();
@@ -552,6 +578,7 @@ var jsondash = function() {
      * [addDomEvents Add all dom event handlers here]
      */
     function addDomEvents() {
+        MAIN_FORM.find('[name="mode"]').on('change.charts.row', chartsModeChanged);
         WIDGET_FORM.find('[name="row"]').on('change.charts.row', chartsRowChanged);
         // Chart type change
         WIDGET_FORM.find('[name="type"]').on('change.charts.type', chartsTypeChanged);
