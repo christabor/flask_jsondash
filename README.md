@@ -447,6 +447,12 @@ Included are CLI utilities for generating fake charts, etc. You will need to run
 
 If you append the query argument `jsondash_demo_mode=1` to your url (e.g. `...?jsondash_demo_mode=1`, the UI will automatically hide any dashboard edit buttons and back button. This can be used for example, for displaying on a mounted screen to hide extraneous details.
 
+### Embedding charts elsewhere
+
+Similar to `jsondash_demo_mode`, you can append the query param `embeddable` (e.g. `?embeddable=1`) in your url which will hide all interactive elements, as well as dashboard titles and other ancillary elements.
+
+Note: this will not remove other aspects of your UI that are outside the scope of the jsondash jinja blocks. Those will need to be hidden separately.
+
 ### Using gist.github.com
 
 While the data is not dynamically generated, you can easily use Github gists (or any raw file from github.com for that matter) to load charts! Check out the [kitchensink dashboard](example_app/examples/config/kitchensink.json) to see a real working chart loaded from via gist!

@@ -47,11 +47,11 @@
                     title="Form options for this chart"
                     class="icon charts-input-icon fa fa-plus-square"></span>&nbsp;
                 {% endif %}
-                {% if can_edit and not demo_mode %}
+                {% if can_edit and not demo_mode and not embeddable %}
                     <span rel="tooltip" title="Edit panel configuration" data-target="#chart-options" data-toggle="modal" class="icon fa fa-cog widget-edit"></span>
                     <span rel="tooltip" title="Delete panel" data-toggle="modal" class="text-danger icon fa fa-times-circle widget-delete"></span>
+                    <span rel="tooltip" title="Drag to move this panel around"  class="dragger icon fa fa-arrows"></span>
                 {% endif %}
-                <span rel="tooltip" title="Drag to move this panel around"  class="dragger icon fa fa-arrows"></span>
                 <span rel="tooltip" title="Refresh the panels url endpoint (will reset any options)" class="icon widget-refresh fa fa-refresh"></span>
             </span>
         </p>
@@ -125,20 +125,23 @@
 {% block chart_body %}
 <div class="row">
     <div class="col-md-12">
-        <h2 class="chart-header lead text-center">
-            {% if not demo_mode %}
-                <small>
-                    <a href="{{ url_for('jsondash.dashboard') }}" class="btn-xs btn btn-default pull-left">
-                        <span class="fa fa-angle-left"></span> Back
-                    </a>
-                </small>
-            {% endif %}
-            <span class="dashboard-title">{{ view.name }}</span>
-            {% if can_edit and not demo_mode %}
-                <small>{% include "partials/dashboard-options.html" %}</small>
-            {% endif %}
-        </h2>
-        {% if can_edit %}
+        {% if not embeddable %}
+            <h2 class="chart-header lead text-center">
+                {% if not demo_mode %}
+                    <small>
+                        <a href="{{ url_for('jsondash.dashboard') }}" class="btn-xs btn btn-default pull-left">
+                            <span class="fa fa-angle-left"></span> Back
+                        </a>
+                    </small>
+                {% endif %}
+                <span class="dashboard-title">{{ view.name }}</span>
+
+                {% if can_edit and not demo_mode %}
+                    <small>{% include "partials/dashboard-options.html" %}</small>
+                {% endif %}
+            </h2>
+        {% endif %}
+        {% if can_edit and not demo_mode and not embeddable %}
             <div class="{{ 'collapse' if view.modules|length else '' }} edit-mode-component" id="edit-view-container">
                 {% if not view.modules|length %}
                     <div class="alert alert-warning text-center">

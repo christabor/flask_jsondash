@@ -1,0 +1,25 @@
+{
+    "username": "anonymous",
+    "layout": "grid",
+    "name": "Embeddable",
+    "modules": [
+        {
+            "name": "Embedded 1",
+            "family": "Basic",
+            "refresh": false,
+            "height": 1300,
+            "width": "col-12",
+            "classes": [],
+            "dataSource": "http://127.0.0.1:8080/charts/e078c535-368b-11e7-93d6-a0999b0aebbf?embeddable=1",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "cf938d99-b29c-0838-63de-8d3092af29d6",
+            "type": "iframe",
+            "order": 0,
+            "row": 1
+        }
+    ],
+    "created_by": "global",
+    "date": "2017-06-15 12:15:36.571120",
+    "id": "dd7ad84f-51fd-11e7-9eaa-a0999b0aebbf"
+}
