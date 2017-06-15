@@ -2,7 +2,7 @@
 
 ## A couple requirements:
 
-1. Where appropriate (all python code) Unit tests are required. JS unit tests are encourage but at the moment are not well instrumented.
+1. Where appropriate (all python code) unit tests are required. JS unit tests are encouraged but at the moment are not well instrumented.
 2. Coverage must meet or exceed percentage set in the tox file (usually 98%)
 3. Massive changes should be proposed as issues before any work is done (e.g. I don't like jquery - let's switch to X will be closed if a PR is submitted without discussion).
 
