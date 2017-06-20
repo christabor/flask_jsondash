@@ -1,14 +1,90 @@
 # Flask JSONDash
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3d9d8e8742a742a0843a418506de757c)](https://www.codacy.com/app/dxdstudio/flask_jsondash?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=christabor/flask_jsondash&amp;utm_campaign=Badge_Grade)
-[![Code Climate](https://codeclimate.com/github/christabor/flask_jsondash/badges/gpa.svg)](https://codeclimate.com/github/christabor/flask_jsondash)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/christabor/flask_jsondash/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/christabor/flask_jsondash/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/christabor/flask_jsondash/badges/build.png?b=master)](https://scrutinizer-ci.com/g/christabor/flask_jsondash/build-status/master)
-[![Build Status](https://travis-ci.org/christabor/flask_jsondash.svg?branch=master)](https://travis-ci.org/christabor/flask_jsondash)
-[![Code Issues](https://www.quantifiedcode.com/api/v1/project/df272477c0ff423ca51fa4106c1e9ebc/badge.svg)](https://www.quantifiedcode.com/app/project/df272477c0ff423ca51fa4106c1e9ebc)
-[![Code Health](https://landscape.io/github/christabor/flask_jsondash/master/landscape.svg?style=flat)](https://landscape.io/github/christabor/flask_jsondash/master)
-[![Coverage Status](https://coveralls.io/repos/github/christabor/flask_jsondash/badge.svg?branch=master)](https://coveralls.io/github/christabor/flask_jsondash?branch=master)
-[![PyPI version](https://badge.fury.io/py/flask_jsondash.svg)](https://badge.fury.io/py/flask_jsondash)
+
+
+
+.. start-badges
+
+.. list-table::
+    :stub-columns: 1
+
+    * - docs
+      - |docs| |gitter|
+    * - tests
+      - | |travis| |appveyor| |requires|
+        | |coveralls| |codecov|
+        | |landscape| |scrutinizer| |codacy| |codeclimate|
+    * - package
+      - | |version| |wheel| |supported-versions| |supported-implementations|
+        | |commits-since|
+
+.. |docs| image:: https://readthedocs.org/projects/flask-jsondash/badge/?style=flat
+    :target: https://readthedocs.org/projects/flask-jsondash
+    :alt: Documentation Status
+
+.. |gitter| image:: https://badges.gitter.im/christabor/flask-jsondash.svg
+    :alt: Join the chat at https://gitter.im/christabor/flask-jsondash
+    :target: https://gitter.im/christabor/flask-jsondash
+
+.. |travis| image:: https://travis-ci.org/christabor/flask-jsondash.svg?branch=master
+    :alt: Travis-CI Build Status
+    :target: https://travis-ci.org/christabor/flask-jsondash
+
+.. |appveyor| image:: https://ci.appveyor.com/api/projects/status/github/christabor/flask-jsondash?branch=master&svg=true
+    :alt: AppVeyor Build Status
+    :target: https://ci.appveyor.com/project/christabor/flask-jsondash
+
+.. |requires| image:: https://requires.io/github/christabor/flask-jsondash/requirements.svg?branch=master
+    :alt: Requirements Status
+    :target: https://requires.io/github/christabor/flask-jsondash/requirements/?branch=master
+
+.. |coveralls| image:: https://coveralls.io/repos/christabor/flask-jsondash/badge.svg?branch=master&service=github
+    :alt: Coverage Status
+    :target: https://coveralls.io/r/christabor/flask-jsondash
+
+.. |codecov| image:: https://codecov.io/github/christabor/flask-jsondash/coverage.svg?branch=master
+    :alt: Coverage Status
+    :target: https://codecov.io/github/christabor/flask-jsondash
+
+.. |landscape| image:: https://landscape.io/github/christabor/flask-jsondash/master/landscape.svg?style=flat
+    :target: https://landscape.io/github/christabor/flask-jsondash/master
+    :alt: Code Quality Status
+
+.. |codacy| image:: https://img.shields.io/codacy/80e2960677c24d5083a802dd57df17dc.svg?style=flat
+    :target: https://www.codacy.com/app/christabor/flask-jsondash
+    :alt: Codacy Code Quality Status
+
+.. |codeclimate| image:: https://codeclimate.com/github/christabor/flask-jsondash/badges/gpa.svg
+   :target: https://codeclimate.com/github/christabor/flask-jsondash
+   :alt: CodeClimate Quality Status
+
+.. |version| image:: https://img.shields.io/pypi/v/flask-jsondash.svg
+    :alt: PyPI Package latest release
+    :target: https://pypi.python.org/pypi/flask-jsondash
+
+.. |commits-since| image:: https://img.shields.io/github/commits-since/christabor/flask-jsondash/v3.1.0a2.svg
+    :alt: Commits since latest release
+    :target: https://github.com/christabor/flask-jsondash/compare/v3.1.0a2...master
+
+.. |wheel| image:: https://img.shields.io/pypi/wheel/flask-jsondash.svg
+    :alt: PyPI Wheel
+    :target: https://pypi.python.org/pypi/flask-jsondash
+
+.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/flask-jsondash.svg
+    :alt: Supported versions
+    :target: https://pypi.python.org/pypi/flask-jsondash
+
+.. |supported-implementations| image:: https://img.shields.io/pypi/implementation/flask-jsondash.svg
+    :alt: Supported implementations
+    :target: https://pypi.python.org/pypi/flask-jsondash
+
+.. |scrutinizer| image:: https://img.shields.io/scrutinizer/g/christabor/flask-jsondash/master.svg
+    :alt: Scrutinizer Status
+    :target: https://scrutinizer-ci.com/g/christabor/flask-jsondash/
+
+
+.. end-badges
+
 
 Easily configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
 
