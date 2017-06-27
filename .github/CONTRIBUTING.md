@@ -19,3 +19,14 @@
 2. Provide example endpoints to pull data from (that correspond to the configuration in 1.) or:
 3. Provide example raw data (as json) if no endpoints are specified
 4. Ensure all configurations are validated as a correct schema (the tool does this automatically when editing via "raw json" mode).
+
+**Adding** new charts - tips for integration:
+
+1. Add you chart config in the `settings.py` file.
+2. Add your handler in `handlers.js`
+3. Reference the handler in the `app.js` code.
+4. Add example endpoint as needed.
+5. Add local library to the example app, and add remote urls for CDN (cdnjs works great.) in the config.
+6. Ensure it works and all assets are available.
+
+Then add the requirements above to ensure everything is complete.
