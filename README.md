@@ -34,6 +34,7 @@ This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/
 * The dashboard layout and blueprint styles are pre-packaged, and provide only the essentials, while getting out of the way.
 * Drag-and-drop your layout easily and intuitively
 * Multiple layout modes - **bootstrap grid** based or totally **freeform**
+* [Data utilities](docs/data_utils.md) for munging and manipulating data suitable for various charts
 
 [View all supported libraries](docs/schemas.md)
 
