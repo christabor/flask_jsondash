@@ -58,6 +58,9 @@ def format_4_wordcloud(words, size_multiplier=2):
         words (list): A list of strings indicating words.
         size_multiplier (int, optional): The size multiplier to scale
             word sizing. Can improve visual display of word cloud.
+
+    Returns:
+        list: A list of dicts w/ appropriate keys.
     """
     return [
         {'text': word, 'size': size * size_multiplier}
