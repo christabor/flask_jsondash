@@ -34,7 +34,7 @@ def readme():
 
 setup(
     name='flask_jsondash',
-    version='6.2.3',
+    version='6.3.3',
     description=('Easily configurable, chart dashboards from any '
                  'arbitrary API endpoint. JSON config only. Ready to go.'),
     long_description=readme(),

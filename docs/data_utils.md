@@ -6,7 +6,7 @@ Python scripts for generating schema appropriate data from various contexts.
 
 Below is a list of python modules and their methods. When in doubt, check the overall [data utils](../flask_jsondash/data_utils/) module for more.
 
-Any module that supports command line usage will be accessible via `python MODULE_NAME.py`. To find out how to use them, just run `python MODULE_NAME.py --help`
+Any module that supports command line usage will be accessible via `python MODULE_NAME.py`. To find out how to use them, just run `python MODULE_NAME.py --help`, or look at the source.
 
 ## Modules
 
@@ -17,3 +17,9 @@ Any module that supports command line usage will be accessible via `python MODUL
 ### `filetree_digraph.py`
 
 `get_dotfile_tree`: build a [dotfile](http://www.graphviz.org/doc/info/lang.html) representation of a filesystem tree appropriate for creating graphs and digraphs. See [schemas](schemas.md#graph) for more info on these chart types.
+
+### `wordcloud.py`
+
+`get_word_freq_distribution`: create a counter with word frequencies.
+
+`format_4_wordcloud`: create wordcloud friendly config from words.
