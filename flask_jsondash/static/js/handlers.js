@@ -674,7 +674,6 @@ jsondash.handlers.handleDataTable = function(container, config) {
         $(container.select('table')[0])
             .dataTable(opts).css({
                 width: 'auto',
-                height: $(container[0]).innerHeight() - titlebar_offset
         });
         // Look for callbacks potentially registered for third party code.
         jsondash.api.runCallbacks(container, config);
