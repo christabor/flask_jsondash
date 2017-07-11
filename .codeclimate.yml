@@ -4,3 +4,5 @@ languages:
 exclude_paths:
 - "example_app"
 - "flask_jsondash/static/js/vendor"
+- "tests"
+- "tests_js"
