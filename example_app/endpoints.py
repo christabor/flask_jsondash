@@ -438,6 +438,31 @@ def linechart():
 
 
 @cross_origin()
+@app.route('/shared')
+def shared_data():
+    """Fake endpoint to demonstrate sharing data from one source."""
+    letters = list('abcde')
+    piedata = {'data {}'.format(name): rr(1, 100) for name in letters}
+    bardata = {
+        "bar1": [1, 2, 30, 12, 100],
+        "bar2": rr_list(max_range=5),
+        "bar3": rr_list(max_range=5),
+    }
+    linedata = {
+        "line1": [1, 4, 3, 10, 12, 14, 18, 10],
+        "line2": [1, 2, 10, 20, 30, 6, 10, 12, 18, 2],
+        "line3": rr_list(),
+    }
+    return jsonify({
+        'multicharts': {
+            'line': linedata,
+            'bar': bardata,
+            'pie': piedata,
+        }
+    })
+
+
+@cross_origin()
 @app.route('/singlenum')
 def singlenum():
     """Fake endpoint."""

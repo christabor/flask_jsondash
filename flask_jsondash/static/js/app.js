@@ -5,7 +5,7 @@
 
 var jsondash = function() {
     var my = {
-        chart_wall: null,
+        chart_wall: null
     };
     var MIN_CHART_SIZE   = 200;
     var API_ROUTE_URL    = $('[name="dataSource"]');
@@ -40,9 +40,13 @@ var jsondash = function() {
         preview_api:      'jsondash.preview',
     }
 
+    /**
+     * [Widgets A singleton manager for all widgets.]
+     */
     function Widgets() {
         var self = this;
         self.widgets = {};
+        self.url_cache = {};
         self.container = MAIN_CONTAINER.selector;
         self.all = function() {
             return self.widgets;
@@ -70,6 +74,51 @@ var jsondash = function() {
                 props.push(widg.config[propname]);
             });
             return props;
+        };
+        self.loadAll = function() {
+            var unique_urls = d3.set(self.getAllOfProp('dataSource')).values();
+            var cached = {};
+            var proms = [];
+            // Build out promises.
+            $.each(unique_urls, function(_, url){
+                proms.push($.getJSON(url));
+            });
+            // Retrieve and gather the promises
+            $.when.apply($, proms).done(whenAllDone).then(thenAfter, thenAfterFailed);
+
+            function whenAllDone() {
+                if(arguments.length === 3) {
+                    var ref_url = unique_urls[0];
+                    var data = arguments[0];
+                    if(ref_url) {
+                        cached[ref_url] = data;
+                    }
+                } else {
+                    $.each(arguments, function(index, prom){
+                        var ref_url = unique_urls[index];
+                        var data = null;
+                        if(ref_url) {
+                            data = prom[0];
+                            cached[ref_url] = data;
+                        }
+                    });
+                }
+                // Inject a cached value on the config for use down the road
+                // (this is done so little is changed with the architecture of getting and loading).
+                for(var guid in self.all()){
+                    // Don't refresh, just update config with new key value for cached data.
+                    var widg = self.get(guid);
+                    var data = cached[widg.config.dataSource];
+                    // Grab data from specific `key` key, if it exists (for shared data on a single endpoint).
+                    var cachedData = widg.config.key && data.multicharts ? data.multicharts[widg.config.key] : data;
+                    widg.update({cachedData: cachedData}, true);
+                    // Actually load them all
+                    widg.load();
+                }
+            }
+
+            function thenAfter() {}
+            function thenAfterFailed(error) {}
         };
         self.newModel = function() {
             var config = getParsedFormConfig();
@@ -137,7 +186,7 @@ var jsondash = function() {
             });
             if(self.config.refresh && self.config.refreshInterval) {
                 self._refreshInterval = setInterval(function(){
-                    loadWidgetData(my.widgets.get(self.config.guid));
+                    self.load();
                 }, parseInt(self.config.refreshInterval, 10));
             }
             if(my.layout === 'grid') {
@@ -221,7 +270,7 @@ var jsondash = function() {
             self._updateForm();
 
             if(!dont_refresh) {
-                loadWidgetData(self, self.config);
+                self.load();
                 EDIT_CONTAINER.collapse();
                 // Refit the grid
                 fitGrid();
@@ -229,6 +278,53 @@ var jsondash = function() {
                 unload(widget);
             }
             $(widget[0]).trigger(EVENTS.update_widget);
+        };
+        self.load = function() {
+            var widg      = my.widgets.get(self.guid);
+            var widget    = self.el;
+            var $widget   = self.$el;
+            var config    = widg.config;
+            var inputs    = $widget.find('.chart-inputs');
+            var container = $('<div></div>').addClass('chart-container');
+            var family    = config.family.toLowerCase();
+
+            widget.classed({error: false});
+            widget.select('.error-overlay')
+                .classed({hidden: true})
+                .select('.alert')
+                .text('');
+
+            loader(widget);
+
+            try {
+                // Cleanup for all widgets.
+                widget.selectAll('.chart-container').remove();
+                // Ensure the chart inputs comes AFTER any chart container.
+                if(inputs.length > 0) {
+                    inputs.before(container);
+                } else {
+                    $widget.append(container);
+                }
+                // Handle any custom inputs the user specified for this module.
+                // They map to standard form inputs and correspond to query
+                // arguments for this dataSource.
+                if(config.inputs) {
+                    handleInputs(widg, config);
+                }
+
+                // Retrieve and immediately call the appropriate handler.
+                getHandler(family)(widget, config);
+
+            } catch(e) {
+                if(console && console.error) console.error(e);
+                widget.classed({error: true});
+                widget.select('.error-overlay')
+                    .classed({hidden: false})
+                    .select('.alert')
+                    .text('Loading error: "' + e + '"');
+                unload(widget);
+            }
+            addResizeEvent(widg);
         };
         self._updateForm = function() {
             self.getInput().val(JSON.stringify(self.config));
@@ -507,7 +603,7 @@ var jsondash = function() {
         e.preventDefault();
         var el = my.widgets.getByEl($(this).closest('.widget'));
         el.$el.trigger(EVENTS.refresh_widget);
-        loadWidgetData(el);
+        el.load();
         fitGrid();
     }
 
@@ -745,7 +841,7 @@ var jsondash = function() {
             });
             my.widgets.get(config.guid).update(_config, true);
             // Otherwise reload like normal.
-            loadWidgetData(my.widgets.get(config.guid));
+            my.widgets.get(config.guid).load();
             // Hide the form again
             $(inputs_selector).removeClass('in');
         });
@@ -768,58 +864,6 @@ var jsondash = function() {
             d3             : jsondash.handlers.handleD3
         };
         return handlers[family];
-    }
-
-    /**
-     * [loadWidgetData Load a widgets data source/re-render]
-     * @param  {[dom selection]} widget [The dom selection]
-     * @param  {[object]} config [The chart config]
-     */
-    function loadWidgetData(widg) {
-        var widget    = widg.el;
-        var $widget   = $(widget[0]);
-        var config    = widg.config;
-        var inputs    = $widget.find('.chart-inputs');
-        var container = $('<div></div>').addClass('chart-container');
-        var family    = config.family.toLowerCase();
-
-        widget.classed({error: false});
-        widget.select('.error-overlay')
-            .classed({hidden: true})
-            .select('.alert')
-            .text('');
-
-        loader(widget);
-
-        try {
-            // Cleanup for all widgets.
-            widget.selectAll('.chart-container').remove();
-            // Ensure the chart inputs comes AFTER any chart container.
-            if(inputs.length > 0) {
-                inputs.before(container);
-            } else {
-                $widget.append(container);
-            }
-            // Handle any custom inputs the user specified for this module.
-            // They map to standard form inputs and correspond to query
-            // arguments for this dataSource.
-            if(config.inputs) {
-                handleInputs(widg, config);
-            }
-
-            // Retrieve and immediately call the appropriate handler.
-            getHandler(family)(widget, config);
-
-        } catch(e) {
-            if(console && console.error) console.error(e);
-            widget.classed({error: true});
-            widget.select('.error-overlay')
-                .classed({hidden: false})
-                .select('.alert')
-                .text('Loading error: "' + e + '"');
-            unload(widget);
-        }
-        addResizeEvent(widg);
     }
 
     function addResizeEvent(widg) {
@@ -919,9 +963,7 @@ var jsondash = function() {
         my.widgets.populate(data);
 
         // Load all widgets, adding actual ajax data.
-        for(var guid in my.widgets.all()){
-            loadWidgetData(my.widgets.get(guid));
-        }
+        my.widgets.loadAll();
 
         // Setup responsive handlers
         var jres = jRespond([{

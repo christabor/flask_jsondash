@@ -2,6 +2,10 @@
 
 For all charts, examples are either directly linked below, or can be found by browising the [example app endpoints](../example_app/endpoints.py) and [configs](../example_app/examples/).
 
+*Sharing data on a single endpoint*
+
+It is also possible to share data on a single endpoint, by effectively "namespacing" each chart. See [example shared data configuration](https://github.com/christabor/flask_jsondash/blob/master/example_app/examples/config/shared-data.json) and the [core config schema](config.md) under `modules:key`.
+
 ## Vega
 
 Vega-Lite is a high-level grammar for interactive graphics. It provides a concise JSON syntax for supporting rapid generation of interactive multi-view visualizations. Visit [vegalite](https://vega.github.io/vega-lite/docs) for more.

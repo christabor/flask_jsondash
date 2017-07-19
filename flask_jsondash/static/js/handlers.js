@@ -4,9 +4,16 @@
 /** global: venn */
 /** global: Plotly */
 
-jsondash.getJSON = function(container, url, callback) {
-    if(!url) throw new Error('Invalid URL: ' + url);
+jsondash.getJSON = function(container, config, callback) {
+    var url     = config.dataSource;
+    var cached  = config.cachedData;
     var err_msg = null;
+    if(!url) throw new Error('Invalid URL: ' + url);
+    if(cached && cached !== null && cached !== undefined) {
+        // Ensure this is not re-used for this cycle. It's somewhat of a pseudo-cache in that sense.
+        config.cachedData = null;
+        return callback(null, cached);
+    }
     d3.json(url, function(error, data){
         if(error) {
             jsondash.unload(container);
@@ -25,7 +32,7 @@ jsondash.getJSON = function(container, url, callback) {
             jsondash.unload(container);
             return;
         }
-        callback(error, data);
+        callback(error, config.key && data.multicharts[config.key] ? data.multicharts[config.key] : data);
     });
 };
 
@@ -83,7 +90,7 @@ jsondash.handlers.handleSigma = function(container, config) {
         width: width,
         height: height
     });
-    jsondash.getJSON(container, config.dataSource, function(error, data){
+    jsondash.getJSON(container, config, function(error, data){
         var sig = new sigma({
           graph: data,
           width: width,
@@ -111,7 +118,7 @@ jsondash.handlers.handleCytoscape = function(container, config) {
         width: (_width - 10) + 'px',
         height: (config.height - titlebar_offset) + 'px'
     });
-    jsondash.getJSON(container, config.dataSource, function(error, cyspec){
+    jsondash.getJSON(container, config, function(error, cyspec){
         // the `document.getElementByID` declaration in the cytoscape
         // spec is not serializable so we will ignore anything user
         // sent and just drop our selector in place of it.
@@ -139,7 +146,7 @@ jsondash.handlers.handleCytoscape = function(container, config) {
  */
 jsondash.handlers.handleVegaLite = function(container, config) {
     'use strict';
-    jsondash.getJSON(container, config.dataSource, function(error, vlspec){
+    jsondash.getJSON(container, config, function(error, vlspec){
         var SCALE_FACTOR = 0.7; // very important to get sizing jusst right.
         var selector = '[data-guid="' + config.guid + '"] .chart-container';
         var width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
@@ -217,7 +224,7 @@ jsondash.handlers.handleYoutube = function(container, config) {
  */
 jsondash.handlers.handleGraph = function(container, config) {
     'use strict';
-    jsondash.getJSON(container, config.dataSource, function(error, data){
+    jsondash.getJSON(container, config, function(error, data){
         var h = config.height - jsondash.config.WIDGET_MARGIN_Y;
         var w = config.width - jsondash.config.WIDGET_MARGIN_X;
         var svg = container
@@ -245,7 +252,7 @@ jsondash.handlers.handleGraph = function(container, config) {
  */
 jsondash.handlers.handleWordCloud = function(container, config) {
     'use strict';
-    jsondash.getJSON(container, config.dataSource, function(error, data){
+    jsondash.getJSON(container, config, function(error, data){
         var h     = config.height - jsondash.config.WIDGET_MARGIN_Y;
         var w     = config.width - jsondash.config.WIDGET_MARGIN_X;
         var svg   = container
@@ -350,7 +357,7 @@ jsondash.handlers.handleC3 = function(container, config) {
         return cols;
     }
 
-    jsondash.getJSON(container, config.dataSource, function(error, data){
+    jsondash.getJSON(container, config, function(error, data){
         if(jsondash.util.isOverride(config)) {
             // Just use the raw payload for this widgets' options.
             // Keep existing options if not specified.
@@ -408,7 +415,7 @@ jsondash.handlers.handleCirclePack = function(container, config) {
         .attr('height', diameter)
         .append('g');
 
-    jsondash.getJSON(container, config.dataSource, function(error, data) {
+    jsondash.getJSON(container, config, function(error, data) {
         var node = svg.datum(data).selectAll('.node')
         .data(pack.nodes)
         .enter().append('g')
@@ -458,7 +465,7 @@ jsondash.handlers.handleTreemap = function(container, config) {
         .style('width', width + 'px')
         .style('height', height + 'px');
 
-    jsondash.getJSON(container, config.dataSource, function(error, root) {
+    jsondash.getJSON(container, config, function(error, root) {
         var node = div.datum(root).selectAll('.node')
             .data(treemap.nodes)
             .enter().append('div')
@@ -518,7 +525,7 @@ jsondash.handlers.handleRadialDendrogram = function(container, config) {
     var g = svg.append('g');
     g.attr('transform', 'translate(' + radius / 2 + ',' + radius / 2 + ')');
 
-    jsondash.getJSON(container, config.dataSource, function(error, root) {
+    jsondash.getJSON(container, config, function(error, root) {
         if (error) { throw error; }
         var nodes = cluster.nodes(root);
         var link = g.selectAll('path.link')
@@ -568,7 +575,7 @@ jsondash.handlers.handleDendrogram = function(container, config) {
     var g = svg.append('g')
         .attr('transform', 'translate(40, 0)');
 
-    jsondash.getJSON(container, config.dataSource, function(error, root) {
+    jsondash.getJSON(container, config, function(error, root) {
         var nodes = cluster.nodes(root);
         var links = cluster.links(nodes);
         var link = g.selectAll('.link')
@@ -598,7 +605,7 @@ jsondash.handlers.handleDendrogram = function(container, config) {
 
 jsondash.handlers.handleVoronoi = function(container, config) {
     'use strict';
-    jsondash.getJSON(container, config.dataSource, function(error, data){
+    jsondash.getJSON(container, config, function(error, data){
         var _width   = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
         var width    = _width - jsondash.config.WIDGET_MARGIN_X;
         var height   = config.height - jsondash.config.WIDGET_MARGIN_Y;
@@ -644,7 +651,7 @@ jsondash.handlers.handleSparkline = function(container, config) {
             'text-center': true
         });
     spark = $(spark[0]);
-    jsondash.getJSON(container, config.dataSource, function(data){
+    jsondash.getJSON(container, config, function(data){
         var opts = {
             type: sparkline_type,
             width: config.width - jsondash.config.WIDGET_MARGIN_X,
@@ -659,7 +666,7 @@ jsondash.handlers.handleSparkline = function(container, config) {
 
 jsondash.handlers.handleDataTable = function(container, config) {
     'use strict';
-    jsondash.getJSON(container, config.dataSource, function(error, res) {
+    jsondash.getJSON(container, config, function(error, res) {
         var keys = d3.keys(res[0]).map(function(d){
             return {data: d, title: d};
         });
@@ -683,7 +690,7 @@ jsondash.handlers.handleDataTable = function(container, config) {
 
 jsondash.handlers.handleSingleNum = function(container, config) {
     'use strict';
-    jsondash.getJSON(container, config.dataSource, function(error, res){
+    jsondash.getJSON(container, config, function(error, res){
         var data = res.data.data ? res.data.data : res.data;
         var num = container
             .select('.chart-container')
@@ -726,7 +733,7 @@ jsondash.handlers.handleSingleNum = function(container, config) {
 
 jsondash.handlers.handleTimeline = function(container, config) {
     'use strict';
-    jsondash.getJSON(container, config.dataSource, function(data){
+    jsondash.getJSON(container, config, function(data){
         container
             .append('div')
             .classed(jsondash.util.getCSSClasses(config))
@@ -790,7 +797,7 @@ jsondash.handlers.handleCustom = function(container, config) {
 
 jsondash.handlers.handleVenn = function(container, config) {
     'use strict';
-    jsondash.getJSON(container, config.dataSource, function(error, data){
+    jsondash.getJSON(container, config, function(error, data){
         var chart = venn.VennDiagram();
         var cont = container
             .select('.chart-container')
@@ -817,7 +824,7 @@ jsondash.handlers.handlePlotly = function(container, config) {
         .classed(jsondash.util.getCSSClasses(config))
         .classed({'plotly-container': true})
         .attr('id', id);
-    jsondash.getJSON(container, config.dataSource, function(error, data){
+    jsondash.getJSON(container, config, function(error, data){
         var plotly_wrapper =  d3.select('#' + id);
         delete data.layout.height;
         delete data.layout.width;

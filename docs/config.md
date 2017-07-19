@@ -46,7 +46,6 @@ An optional list of css classes to add to this chart. The classes will be applie
 
 For example, to stylize dataTables, you might add your own table styles (like `["table", "table-striped"]`, which will be applied to the actual table.
 
-
 **modules**:**width** - [*String/Number*] :heavy_exclamation_mark:
 
 The width of the chart in pixels if layout is freeform. *Note*: if the layout mode is `grid`, instead the width must be of the format `col-X` where `X` is a number between 1-12, indicating the number of columns in the grid. E.g. `col-4` or `col-6`.
@@ -88,6 +87,10 @@ The family this chart belongs to. This is generated when saving new modules and 
 **modules**:**type** - [*String*] :heavy_check_mark:
 
 The type of chart. This is typically handled by the charting UI when adding charts, but it can be overriden manually.
+
+**modules**:**key** - [*String*] :heavy_check_mark:
+
+An optional accessor key to use when sharing data from a single source. The key specifies how to get data when the payload is loaded. E.g. 3 charts can use one dataSource, but have different accessor keys for each "section". Example shared key configuration [can be found here](https://github.com/christabor/flask_jsondash/blob/master/example_app/examples/config/shared-data.json). *Note*: the payload **MUST** have a top-level key in the payload called `multicharts` to work properly!
 
 **modules**:**inputs** - [*Object*] :heavy_check_mark:
 

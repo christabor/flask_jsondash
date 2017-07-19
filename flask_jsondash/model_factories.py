@@ -10,6 +10,7 @@ Data generation utilities for all charts and dashboards.
 :license: MIT, see LICENSE for more details.
 """
 
+import os
 import json
 from datetime import datetime as dt
 from random import choice, randrange
@@ -43,6 +44,61 @@ def get_random_chart(group):
         group (dict): A group from the global chart settings config.
     """
     return choice(list(group['charts']))
+
+
+def load_fixtures(path):
+    """Generate all dashboards using any given schemas.
+
+    Note: this does NOT account for nested folders,
+    only all json in the given directory.
+
+    Args:
+        name (path): The relative folder path for all json configs
+    """
+    click.echo('Loading fixtures for path ' + path)
+    files = [f for f in os.listdir(path) if f.endswith('.json')]
+    for file in files:
+        file = '{}/{}/{}'.format(os.getcwd(), path, file)
+        click.echo('Loading ' + file)
+        with open(file, 'r') as fixture:
+            data = json.loads(fixture.read())
+            adapter.create(data=data)
+
+
+def dump_fixtures(path, delete_after=False):
+    """Generate fixture data (json) from existing records in db.
+
+    Args:
+        name (path): The folder path to save configs in (must exist first!)
+    """
+    click.echo('Saving db as fixtures to: ' + path)
+    # If an error occured, don't delete any records
+    errors = []
+    # Allow absolute OR relative paths.
+    cwd = '' if path.startswith('/') else os.getcwd()
+    for dashboard in adapter.read():
+        # Mongo id is not serializeable
+        if '_id' in dashboard:
+            dashboard.pop('_id')
+        # Update date records
+        dashboard.update(date=str(dashboard['date']))
+        name = '{}-{}'.format(dashboard['name'], dashboard['id'])
+        name = name.replace(' ', '-').lower()
+        fullpath = '{}{}/{}.json'.format(cwd, path, name)
+        click.echo('Saving fixture: ' + fullpath)
+        try:
+            with open(fullpath, 'w') as fixture:
+                fixture.write(json.dumps(dashboard, indent=4))
+        except Exception as e:
+            print(e)
+            errors.append(fullpath)
+            continue
+    if delete_after and not errors:
+        adapter.delete_all()
+    if errors:
+        click.echo('The following records could not be dumped: {}'.format(
+            errors
+        ))
 
 
 def make_fake_dashboard(name='Random chart', max_charts=10):
@@ -121,8 +177,22 @@ def make_fake_chart_data(**kwargs):
 @click.option('--max-charts',
               default=5,
               help='Number of charts per dashboard to create.')
-def insert_dashboards(records, max_charts):
+@click.option('--fixtures',
+              default=None,
+              help='A path to load existing configurations from.')
+@click.option('--dump',
+              default=None,
+              help='A path to dump db records, as json dashboard configs.')
+@click.option('--delete',
+              is_flag=True,
+              default=False,
+              help='A path to dump db records, as json dashboard configs.')
+def insert_dashboards(records, max_charts, fixtures, dump, delete):
     """Insert a number of dashboard records into the database."""
+    if fixtures is not None:
+        return load_fixtures(fixtures)
+    if dump is not None:
+        return dump_fixtures(dump, delete_after=delete)
     for i in range(records):
         data = make_fake_dashboard(
             name='Test chart #{}'.format(i),

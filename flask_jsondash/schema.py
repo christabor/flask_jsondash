@@ -173,6 +173,10 @@ CHART_SCHEMA = {
             'required': True,
             'allowed': list(CHARTS_CONFIG.keys()),
         },
+        'key': {
+            'type': 'string',
+            'required': False,
+        },
         'type': {
             'type': 'string',
             'required': True,

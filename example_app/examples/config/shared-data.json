@@ -1,0 +1,79 @@
+{
+    "username": "ctabor",
+    "layout": "grid",
+    "name": "Shared data demo",
+    "modules": [
+        {
+            "name": "Pie graph",
+            "family": "C3",
+            "type": "pie",
+            "override": false,
+            "row": 1,
+            "height": 500,
+            "width": "col-4",
+            "dataSource": "http://127.0.0.1:5004/shared",
+            "guid": "cc570d99-8eec-42d5-b730-d7a1fc1212e9",
+            "key": "pie"
+        },
+        {
+            "name": "Bar graph",
+            "family": "C3",
+            "type": "line",
+            "override": false,
+            "row": 1,
+            "height": 500,
+            "width": "col-4",
+            "guid": "cc570d99-8eec-42d5-b730-d7a1fc1212e1",
+            "dataSource": "http://127.0.0.1:5004/shared",
+            "key": "bar"
+        },
+        {
+            "name": "Line graph",
+            "family": "C3",
+            "type": "line",
+            "override": false,
+            "row": 1,
+            "height": 500,
+            "width": "col-4",
+            "guid": "cc570d99-8eec-42d5-b730-d7a1fc1212e3",
+            "dataSource": "http://127.0.0.1:5004/shared",
+            "key": "line"
+        },
+        {
+            "name": "Pie graph - not shared",
+            "family": "C3",
+            "type": "pie",
+            "override": false,
+            "row": 1,
+            "height": 500,
+            "width": "col-4",
+            "guid": "cc570d99-8eec-42d5-b730-d7a1fc1212c9",
+            "dataSource": "http://127.0.0.1:5004/pie"
+        },
+        {
+            "name": "Bar graph - not shared",
+            "family": "C3",
+            "type": "line",
+            "override": false,
+            "row": 1,
+            "height": 500,
+            "width": "col-4",
+            "guid": "cc570d99-8eec-42d5-b730-d7a1fc1212c1",
+            "dataSource": "http://127.0.0.1:5004/bar"
+        },
+        {
+            "name": "Line graph - not shared",
+            "family": "C3",
+            "type": "line",
+            "override": false,
+            "row": 1,
+            "height": 500,
+            "width": "col-4",
+            "guid": "cc570d99-8eec-42d5-b730-d7a1fc1212c3",
+            "dataSource": "http://127.0.0.1:5004/line"
+        }
+    ],
+    "created_by": "global",
+    "date": "2017-07-19 10:23:12.689738",
+    "id": "f14e3c78-6ca6-11e7-9ac9-a0999b0aebbf"
+}

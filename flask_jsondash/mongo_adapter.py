@@ -2,7 +2,7 @@
 
 """
 flask_jsondash.mongo_adapter
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Adapters for various storage engines.
 

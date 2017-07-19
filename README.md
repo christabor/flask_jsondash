@@ -428,6 +428,10 @@ Keep in mind, many *stylistic* customizations can be overridden in css, since mo
 
 Check out [data utils](docs/data_utils.md) for more.
 
+### Loading example dashboards config automatically
+
+Run `make fixtures`.
+
 ### Using endpoints dynamically
 
 Because the chart builder utilizes simple endpoints, you can use the power of REST to create more complicated views. For example:
@@ -439,6 +443,10 @@ could return `{"data": [1, 2, 3, 4]}`, but you could customize the url by updati
 `curl -XGET http://localhost:8080/api/foo?gt=9`
 
 could return `{"data": [10, 20, 30, 40]}` instead!
+
+### Using shared data for performance and simplicity.
+
+Data from a single source can be shared amongst N charts using namespaced "keys" in the payload. [See the shared data section](docs/schemas.md) and visit an [example configuration here](https://github.com/christabor/flask_jsondash/blob/master/example_app/examples/config/shared-data.json) for more.
 
 ### Generating test data
 
@@ -461,6 +469,10 @@ While the data is not dynamically generated, you can easily use Github gists (or
 ### Embedding graphs from other resources
 
 For example, the build tool Jenkins provides a [plugin for build statistics](https://wiki.jenkins-ci.org/display/JENKINS/Global+Build+Stats+Plugin). The raw generated png (url is typically of the format https://{JENKINS_SERVER}/view/{VIEW_NAME}/job/{JOB_NAME}/buildTimeGraph/png) can be directly embedded using the `iframe` chart option.
+
+### Other cool stuff
+
+Check out the `Makefile` for more useful commands.
 
 ## Performance
 

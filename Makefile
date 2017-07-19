@@ -17,6 +17,11 @@ coverage: clean
 dockerize:
 	docker build --tag jsondash_base:latest -f BaseDockerfile .
 	docker-compose build ; docker-compose up
+fixtures:
+	python -m flask_jsondash.model_factories --fixtures example_app/examples/config
+fixturize:
+	mkdir -p fixtures/
+	python -m flask_jsondash.model_factories --dump fixtures
 pypi:
 	python setup.py sdist upload -r pypi
 sort:
@@ -34,5 +39,7 @@ help:
 	@echo "cleanpyc .... Remove .pyc files."
 	@echo "coverage .... Generate coverage statistics and html"
 	@echo "dockerize ... Setup docker containers and initialize example apps"
+	@echo "fixtures .... Load all example dashboards"
+	@echo "fixturize ... Convert existing database records to fixtures"
 	@echo "tests ....... Run all tests"
 	@echo "testdata .... Generate some test data"
