@@ -68,6 +68,21 @@ var jsondash = function() {
         self.getByEl = function(el) {
             return self.get(el.data().guid);
         };
+        /**
+         * [getAllMatchingProp Get widget guids matching a givne propname and val]
+         */
+        self.getAllMatchingProp = function(propname, val) {
+            var matches = [];
+            $.each(self.all(), function(i, widg){
+                if(widg.config[propname] === val) {
+                    matches.push(widg.config.guid);
+                }
+            });
+            return matches;
+        };
+        /**
+         * [getAllOfProp Get all the widgets' config values of a specified property]
+         */
         self.getAllOfProp = function(propname) {
             var props = [];
             $.each(self.all(), function(i, widg){
@@ -75,16 +90,31 @@ var jsondash = function() {
             });
             return props;
         };
+        /**
+         * [loadAll Load all widgets at once in succession]
+         */
         self.loadAll = function() {
             var unique_urls = d3.set(self.getAllOfProp('dataSource')).values();
             var cached = {};
             var proms = [];
             // Build out promises.
             $.each(unique_urls, function(_, url){
-                proms.push($.getJSON(url));
+                var req = $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    error: function(error){
+                        var matches = self.getAllMatchingProp('dataSource', url);
+                        $.each(matches, function(_, guid){
+                            var widg = self.get(guid);
+                            jsondash.handleRes(error, null, widg.el);
+                        });
+                    }
+                });
+                proms.push(req);
             });
             // Retrieve and gather the promises
-            $.when.apply($, proms).done(whenAllDone).then(thenAfter, thenAfterFailed);
+            $.when.apply($, proms).done(whenAllDone);
 
             function whenAllDone() {
                 if(arguments.length === 3) {
@@ -116,9 +146,6 @@ var jsondash = function() {
                     widg.load();
                 }
             }
-
-            function thenAfter() {}
-            function thenAfterFailed(error) {}
         };
         self.newModel = function() {
             var config = getParsedFormConfig();

@@ -4,6 +4,23 @@
 /** global: venn */
 /** global: Plotly */
 
+jsondash.handleRes = function(error, data, container) {
+    var err_msg = '';
+    if(error) {
+        err_msg = 'Error: ' + error.status + ' ' + error.statusText;
+    }
+    else if(!data) {
+        err_msg = 'No data was found (invalid response).';
+    }
+    if(error || !data) {
+        container.classed({error: true});
+        container.select('.error-overlay')
+            .classed({hidden: false})
+            .select('.alert')
+            .text(err_msg);
+        jsondash.unload(container);
+    }
+};
 jsondash.getJSON = function(container, config, callback) {
     var url     = config.dataSource;
     var cached  = config.cachedData;
@@ -15,21 +32,8 @@ jsondash.getJSON = function(container, config, callback) {
         return callback(null, cached);
     }
     d3.json(url, function(error, data){
-        if(error) {
-            jsondash.unload(container);
-            err_msg = 'Error: ' + error.status + ' ' + error.statusText;
-        }
-        else if(!data) {
-            jsondash.unload(container);
-            err_msg = 'No data was found (invalid response).';
-        }
+        jsondash.handleRes(error, data, container);
         if(error || !data) {
-            container.classed({error: true});
-            container.select('.error-overlay')
-                .classed({hidden: false})
-                .select('.alert')
-                .text(err_msg);
-            jsondash.unload(container);
             return;
         }
         callback(error, config.key && data.multicharts[config.key] ? data.multicharts[config.key] : data);
