@@ -88,6 +88,7 @@ def test_dump_fixtures_delete(monkeypatch, tmpdir):
         records = []
 
     monkeypatch.setattr(_db, 'read', lambda *args, **kwargs: records)
+    monkeypatch.setattr(_db, 'delete_all', lambda *a, **kw: [])
     runner = CliRunner()
     tmp = tmpdir.mkdir('dumped_fixtures_test')
     args = ['--dump', tmp.strpath, '--delete']
@@ -114,3 +115,5 @@ def test_dump_fixtures_delete_bad_path_show_errors_no_exception(monkeypatch):
     assert 'Saving db as fixtures to:' in result.output
     assert result.exit_code == 0
     assert len(read()) == 0
+    err_msg = "The following records could not be dumped: ['/fakepath/"
+    assert err_msg in result.output
