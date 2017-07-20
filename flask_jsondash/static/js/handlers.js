@@ -137,7 +137,6 @@ jsondash.handlers.handleCytoscape = function(container, config) {
             },
         };
         var spec = $.extend(cyspec, override);
-        console.log(spec);
         var cy = cytoscape(spec);
         // Look for callbacks potentially registered for third party code.
         jsondash.api.runCallbacks(container, config);
