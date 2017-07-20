@@ -49,11 +49,11 @@ jsondash.util.reformatQueryParams = function(oldp, newp) {
     var combined  = '';
     var oldparams = {};
     var newparams = {};
-    $.each(oldp.split('&'), function(i, param){
+    $.each(oldp ? oldp.split('&'): [], function(i, param){
         param = param.split('=');
         oldparams[param[0]] = param[1];
     });
-    $.each(newp.split('&'), function(i, param){
+    $.each(newp ? newp.split('&'): [], function(i, param){
         param = param.split('=');
         newparams[param[0]] = param[1];
     });
