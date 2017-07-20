@@ -90,11 +90,23 @@ var jsondash = function() {
             });
             return props;
         };
+        self.getAllOfPropUnless = function(propname, propcheck, val) {
+            var props = [];
+            $.each(self.all(), function(i, widg){
+                if(widg.config[propcheck] !== val) {
+                    props.push(widg.config[propname]);
+                }
+            });
+            return props;
+        };
         /**
          * [loadAll Load all widgets at once in succession]
          */
         self.loadAll = function() {
-            var unique_urls = d3.set(self.getAllOfProp('dataSource')).values();
+            // Don't run this on certain types that are not cacheable (e.g. binary, html)
+            var config_urls = self.getAllOfPropUnless('dataSource', 'family', 'Basic');
+            console.log(config_urls);
+            var unique_urls = d3.set(config_urls).values();
             var cached = {};
             var proms = [];
             // Build out promises.
