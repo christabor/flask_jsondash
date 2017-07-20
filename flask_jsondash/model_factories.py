@@ -76,7 +76,11 @@ def dump_fixtures(path, delete_after=False):
     errors = []
     # Allow absolute OR relative paths.
     cwd = '' if path.startswith('/') else os.getcwd()
-    for dashboard in adapter.read():
+    dashboards = list(adapter.read())
+    if not dashboards:
+        click.echo('Nothing to dump.')
+        return
+    for dashboard in dashboards:
         # Mongo id is not serializeable
         if '_id' in dashboard:
             dashboard.pop('_id')
@@ -84,13 +88,13 @@ def dump_fixtures(path, delete_after=False):
         dashboard.update(date=str(dashboard['date']))
         name = '{}-{}'.format(dashboard['name'], dashboard['id'])
         name = name.replace(' ', '-').lower()
-        fullpath = '{}{}/{}.json'.format(cwd, path, name)
+        fullpath = '{}/{}/{}.json'.format(cwd, path, name)
         click.echo('Saving fixture: ' + fullpath)
         try:
             with open(fullpath, 'w') as fixture:
                 fixture.write(json.dumps(dashboard, indent=4))
         except Exception as e:
-            print(e)
+            click.echo(e)
             errors.append(fullpath)
             continue
     if delete_after and not errors:
@@ -186,7 +190,7 @@ def make_fake_chart_data(**kwargs):
 @click.option('--delete',
               is_flag=True,
               default=False,
-              help='A path to dump db records, as json dashboard configs.')
+              help='Determine if the database records should be deleted')
 def insert_dashboards(records, max_charts, fixtures, dump, delete):
     """Insert a number of dashboard records into the database."""
     if fixtures is not None:
