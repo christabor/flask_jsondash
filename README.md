@@ -114,6 +114,26 @@ Each chart is very straightforward. Most of the power is leveraged by the variou
 
 ### Quickstart
 
+#### Setting database environment variables.
+
+Make sure the following env vars are set:
+
+* `CHARTS_DB_HOST` - The DB server hostname (defaults to 'localhost')
+* `CHARTS_DB_PORT` - The DB server port (defaults to 27017)
+* `CHARTS_DB_NAME` - The DB database name (defaults to 'charts')
+* `CHARTS_DB_TABLE` The DB collection name (defaults to 'views')
+* `CHARTS_ACTIVE_DB` The DB backend to use - options: 'mongo' (default)
+
+##### Starting DB
+
+Make sure to start so json configuration can be saved.
+
+###### Starting db: *MongoDB*
+
+Start however you'd like, but usually `mongod` will work. *Note: you will need to make sure the collection has been created within your mongo instance, and is specified in the CHARTS_DB_TABLE env var, as well as specify your database name under the CHARTS_DB_NAME env var*
+
+#### Download the package and start the app
+
 **Method 1 - use provided flask app**
 
 ```shell
@@ -184,23 +204,6 @@ These are necessary and included, based simply on the likelihood they may not al
 * Masonry (JS)
 * Jquery UI (CSS/JS)
 
-### Setting environment variables.
-
-Make sure the following env vars are set:
-
-* `CHARTS_DB_HOST` - The DB server hostname (defaults to 'localhost')
-* `CHARTS_DB_PORT` - The DB server port (defaults to 27017)
-* `CHARTS_DB_NAME` - The DB database name (defaults to 'charts')
-* `CHARTS_DB_TABLE` The DB collection name (or sql table name) (defaults to 'views')
-* `CHARTS_ACTIVE_DB` The DB backend to use - options: 'mongo' (default)
-
-### Starting DB
-
-Make sure to start so json configuration can be saved.
-
-#### Mongodb
-
-Start however you'd like, but usually `mongod` will work. *Note: you will need to make sure the collection has been created within your mongo instance, and is specified in the CHARTS_DB_TABLE env var, as well as specify your database name under the CHARTS_DB_NAME env var*
 
 ### Starting flask app
 
