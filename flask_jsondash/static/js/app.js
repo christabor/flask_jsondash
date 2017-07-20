@@ -105,7 +105,6 @@ var jsondash = function() {
         self.loadAll = function() {
             // Don't run this on certain types that are not cacheable (e.g. binary, html)
             var config_urls = self.getAllOfPropUnless('dataSource', 'family', 'Basic');
-            console.log(config_urls);
             var unique_urls = d3.set(config_urls).values();
             var cached = {};
             var proms = [];
