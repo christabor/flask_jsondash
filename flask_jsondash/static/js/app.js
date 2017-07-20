@@ -130,7 +130,7 @@ var jsondash = function() {
             function whenAllDone() {
                 if(arguments.length === 3) {
                     var ref_url = unique_urls[0];
-                    var data = arguments[0];
+                    var data = arguments[0][0];
                     if(ref_url) {
                         cached[ref_url] = data;
                     }
