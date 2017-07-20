@@ -23,7 +23,7 @@ def make_count(num=1000):
 
 def make_setting(num=30):
     def setting(*args, **kwargs):
-        return 30
+        return num
     return setting
 
 
@@ -53,7 +53,7 @@ def test_paginator_norecords(monkeypatch, client):
     check_values(paginator, 30, 30, 0, 0, [], 0)
 
 
-def test_paginator_default_fallback_data(monkeypatch, client):
+def test_paginator_default_fallback_data_lt_2(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'setting', make_setting(0))
     monkeypatch.setattr(charts_builder.adapter, 'count', make_count(0))
@@ -61,13 +61,16 @@ def test_paginator_default_fallback_data(monkeypatch, client):
     check_values(paginator, 2, 2, 0, 0, [], 0)
 
 
-def test_paginator_bad_kwargs(monkeypatch, client):
+def test_paginator_bad_kwargs_fallback_data(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'setting', make_setting(0))
     monkeypatch.setattr(charts_builder.adapter, 'count', make_count(0))
+    # Ensure the paginator uses a minimum of 2 per page to prevent
+    # division errors, even when there are no good values sent,
+    # AND the app default setting is forcibly invalid (set to 0)
     paginator = charts_builder.paginator(
         page=None, per_page=None, count=None)
-    check_values(paginator, 30, 30, 0, 0, [], 0)
+    check_values(paginator, 2, 2, 0, 0, [], 0)
 
 
 def test_create_dashboards_check_paginator_html(monkeypatch, ctx, client):

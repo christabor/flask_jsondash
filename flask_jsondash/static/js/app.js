@@ -937,6 +937,9 @@ var jsondash = function() {
     }
 
     function prettifyJSONPreview() {
+        // The raw config is hidden in demo mode,
+        // so this will throw an error otherwise
+        if(jsondash.util.isInDemoMode()) {return;}
         // Reformat the code inside of the raw json field,
         // to pretty print for the user.
         JSON_DATA.text(prettyCode(JSON_DATA.text()));

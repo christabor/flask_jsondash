@@ -19,7 +19,7 @@ from uuid import uuid1
 import click
 from werkzeug.datastructures import ImmutableMultiDict
 
-from . import db, settings
+from . import db, settings, schema
 
 adapter = db.get_db_handler()
 
@@ -70,6 +70,7 @@ def dump_fixtures(path, delete_after=False):
 
     Args:
         name (path): The folder path to save configs in (must exist first!)
+        delete_after (bool, optional): Delete records after dumping fixtures.
     """
     click.echo('Saving db as fixtures to: ' + path)
     # If an error occured, don't delete any records
@@ -122,8 +123,10 @@ def make_fake_dashboard(name='Random chart', max_charts=10):
         name=name,
         created_by='global',
         date=dt.now(),
+        category=choice(settings.CHARTS_CONFIG.keys()),
         modules=db.format_charts(charts),
         id=str(uuid1()),
+        layout='freeform',
     )
 
 

@@ -5,24 +5,44 @@
         </div>
         <div class="panel-body">
             <div class="form-group">
-                <label>
-                    View Name <input class="form-control input-md" type="text" name="name" value="{% if view %}{{ view.name }}{% endif %}" placeholder="name">
-                </label>
-                &nbsp;
-                <label>
-                    Layout mode
-                    <select name="mode" class="form-control">
-                        <option value="grid" {% if view.layout == 'grid' %}selected{% endif %}>Grid (use rows/columns with a fixed grid system)</option>
-                        <option value="freeform" {% if view.layout == 'freeform' %}selected{% endif %}>Freeform (choose all sizing and positioning manually)</option>
-                    </select>
-                </label>
-                {% if can_edit_global %}
+                <fieldset>
+                    <legend>Basics</legend>
+                    <label>
+                        View Name <input class="form-control input-md" type="text" name="name" value="{% if view %}{{ view.name }}{% endif %}" placeholder="name">
+                    </label>
                     &nbsp;
                     <label>
-                        Global?
-                        <input type="checkbox" name="is_global" {% if view and is_global %}checked{% endif %}>
+                        Layout mode
+                        <select name="mode" class="form-control">
+                            <option value="grid" {% if view.layout == 'grid' %}selected{% endif %}>Grid (use rows/columns with a fixed grid system)</option>
+                            <option value="freeform" {% if view.layout == 'freeform' %}selected{% endif %}>Freeform (choose all sizing and positioning manually)</option>
+                        </select>
                     </label>
-                {% endif %}
+                    {% if can_edit_global %}
+                        &nbsp;
+                        <label>
+                            Global? <input type="checkbox" name="is_global" {% if view and is_global %}checked{% endif %}>
+                            <small>This will make the chart visible to all</small>
+                        </label>
+                    {% endif %}
+                </fieldset>
+                <fieldset>
+                    <legend>Categorize</legend>
+                    <label>
+                        Category
+                        <select name="category" class="form-control input-md">
+                            <option value="">---</option>
+                            {% for cat in categories %}
+                                <option value="{{ cat }}" {{ 'selected' if view.category == cat else '' }}>{{ cat }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    &nbsp;
+                    <label>
+                        or new:
+                        <input class="form-control input-md" type="text" name="category_new" value="">
+                    </label>
+                </fieldset>
             </div>
             <div class="modules hidden">
                 {% if view %}

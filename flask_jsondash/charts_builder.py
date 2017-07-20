@@ -13,7 +13,7 @@ The chart blueprint that houses all functionality.
 import json
 import os
 import uuid
-from collections import namedtuple
+from collections import namedtuple, defaultdict
 from datetime import datetime as dt
 
 import jinja2
@@ -36,7 +36,7 @@ STATIC_DIR = os.path.dirname(static.__file__)
 REQUIRED_STATIC_FAMILES = ['D3']
 
 Paginator = namedtuple('Paginator',
-                       'count per_page curr_page num_pages limit skip')
+                       'count per_page curr_page num_pages next limit skip')
 
 charts = Blueprint(
     'jsondash',
@@ -271,20 +271,21 @@ def paginator(page=0, per_page=None, count=None):
         count = adapter.count()
     if page is None:
         page = 0
-    default_per_page = setting('JSONDASH_PERPAGE')
-    # Allow query parameter overrides.
-    per_page = per_page if per_page is not None else default_per_page
-    per_page = per_page if per_page > 2 else 2  # Prevent division errors etc
+    if per_page is None:
+        per_page = setting('JSONDASH_PERPAGE')
+    per_page = per_page if per_page > 2 else 2  # Prevent division errors
     curr_page = page - 1 if page > 0 else 0
     num_pages = count // per_page
     rem = count % per_page
     extra_pages = 2 if rem else 1
     pages = list(range(1, num_pages + extra_pages))
+    skip = curr_page * per_page
     return Paginator(
         limit=per_page,
         per_page=per_page,
         curr_page=curr_page,
-        skip=curr_page * per_page,
+        skip=skip,
+        next=min([skip + per_page, count]),
         num_pages=pages,
         count=count,
     )
@@ -347,12 +348,46 @@ def sort_modules(viewjson):
     return modules
 
 
+def get_categories():
+    """Get all categories."""
+    views = list(adapter.filter({}, {'category': 1}))
+    return set([
+        v['category'] for v in views if v.get('category')
+        not in [None, 'uncategorized']
+    ])
+
+
+def categorize_views(views):
+    """Return a categorized version of the views.
+
+    Categories are determined by the view category key, if present.
+    If not present, then the view is bucketed into a general bucket.
+
+    Args:
+        views (list): The list of views.
+    Returns:
+        dict: The categorized version
+    """
+    buckets = defaultdict(list)
+    for view in views:
+        try:
+            buckets[view.get('category', 'uncategorized')].append(view)
+        except:
+            continue
+    for cat, view in buckets.items():
+        buckets[cat] = sorted(view, key=lambda v: v['name'].lower())
+    return buckets
+
+
 @charts.route('/charts', methods=['GET'])
 @charts.route('/charts/', methods=['GET'])
 def dashboard():
     """Load all views."""
     opts = dict()
     views = []
+    # Allow query parameter overrides.
+    page = int(request.args.get('page', 0))
+    per_page = int(request.args.get('per_page', setting('JSONDASH_PERPAGE')))
     if setting('JSONDASH_FILTERUSERS'):
         opts.update(filter=dict(created_by=metadata(key='username')))
         views = list(adapter.read(**opts))
@@ -363,19 +398,15 @@ def dashboard():
     else:
         views = list(adapter.read(**opts))
     if views:
-        page = request.args.get('page')
-        per_page = request.args.get('per_page')
-        paginator_args = dict(count=len(views))
-        if per_page is not None:
-            paginator_args.update(per_page=int(per_page))
-        if page is not None:
-            paginator_args.update(page=int(page))
-        pagination = paginator(**paginator_args)
+        pagination = paginator(count=len(views), page=page, per_page=per_page)
         opts.update(limit=pagination.limit, skip=pagination.skip)
+        views = views[pagination.skip:pagination.next]
     else:
         pagination = None
+    categorized = categorize_views(views)
     kwargs = dict(
-        views=views,
+        total=len(views),
+        views=categorized,
         view=None,
         paginator=pagination,
         creating=True,
@@ -419,6 +450,7 @@ def view(c_id):
     kwargs = dict(
         id=c_id,
         view=viewjson,
+        categories=get_categories(),
         num_rows=None if layout_type == 'freeform' else get_num_rows(viewjson),
         modules=sort_modules(viewjson),
         assets=get_active_assets(active_charts),
@@ -576,7 +608,11 @@ def update(c_id):
                   'specifying row(s)! Edit JSON manually '
                   'to override this.', 'error')
             return redirect(view_url)
+        category = form_data.get('category', '')
+        category_override = form_data.get('category_new', '')
+        category = category_override if category_override != '' else category
         data = dict(
+            category=category if category != '' else 'uncategorized',
             name=form_data['name'],
             layout=layout,
             modules=modules,

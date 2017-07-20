@@ -1,4 +1,4 @@
-.PHONY: cleanpyc cleanbuild clean tests coverage dockerize help pypi testdata analysis
+.PHONY: cleanpyc cleanbuild clean tests coverage dockerize help pypi testdata analysis fixtures fixturize
 all: clean cleanpyc cleanbuild tests
 analysis:
 	prospector -s veryhigh flask_jsondash

@@ -71,6 +71,17 @@ jsondash.util.reformatQueryParams = function(oldp, newp) {
 };
 
 /**
+ * [isInDemoMode Check if app is in demo mode.]
+ */
+jsondash.util.isInDemoMode = function() {
+    var parts = window.location.href.split('?');
+    var matches = parts.filter(function(part, _){
+        return part === 'jsondash_demo_mode=1' || part === 'jsondash_demo_mode=true';
+    });
+    return matches.length > 0;
+};
+
+/**
  * [intervalStrToMS Convert a string formatted to indicate an interval to milliseconds]
  * @param  {[String]} ival_fmt [The interval format string e.g. "1-d", "2-h"]
  * @return {[Number]} [The number of milliseconds]

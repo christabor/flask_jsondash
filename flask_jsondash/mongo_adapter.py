@@ -35,6 +35,10 @@ class Db(object):
         """Standard db count."""
         return self.coll.count(**kwargs)
 
+    def filter(self, *args, **kwargs):
+        """Separeately allow more nuanced filtering specific to mongo."""
+        return self.coll.find(*args, **kwargs)
+
     def read(self, **kwargs):
         """Read a record."""
         if kwargs.get('c_id') is None:

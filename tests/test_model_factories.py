@@ -63,11 +63,25 @@ def test_load_fixtures(monkeypatch):
     assert len(records) == 16  # Changed as new examples are added.
 
 
+def test_dump_fixtures_empty(monkeypatch, tmpdir):
+    records = []
+    monkeypatch.setattr(_db, 'read', lambda *args, **kwargs: records)
+    runner = CliRunner()
+    tmp = tmpdir.mkdir('dumped_fixtures_test')
+    args = ['--dump', tmp.strpath]
+    result = runner.invoke(model_factories.insert_dashboards, args)
+    assert 'Nothing to dump.' in result.output
+    assert result.exit_code == 0
+    assert len(os.listdir(tmp.strpath)) == len(records)
+
+
 def test_dump_fixtures(monkeypatch, tmpdir):
     records = [
         model_factories.make_fake_dashboard(name=i, max_charts=1)
         for i in range(10)]
-
+    # Also ensure _id is popped off.
+    for r in records:
+        r.update(_id='foo')
     monkeypatch.setattr(_db, 'read', lambda *args, **kwargs: records)
     runner = CliRunner()
     tmp = tmpdir.mkdir('dumped_fixtures_test')
@@ -115,5 +129,5 @@ def test_dump_fixtures_delete_bad_path_show_errors_no_exception(monkeypatch):
     assert 'Saving db as fixtures to:' in result.output
     assert result.exit_code == 0
     assert len(read()) == 0
-    err_msg = "The following records could not be dumped: ['/fakepath/"
+    err_msg = "The following records could not be dumped: ['//fakepath/"
     assert err_msg in result.output

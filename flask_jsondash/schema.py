@@ -210,6 +210,10 @@ DASHBOARD_SCHEMA = {
         'required': True,
         'allowed': ['freeform', 'grid'],
     },
+    'category': {
+        'type': 'string',
+        'required': False,
+    },
     'modules': {
         'type': 'list',
         'schema': CHART_SCHEMA,
