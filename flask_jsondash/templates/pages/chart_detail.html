@@ -3,9 +3,10 @@
 {# Generate all the charts for a row (grid mode only) #}
 {%- macro chart_row(rownum, modules=None) %}
     <div class="row grid-row {{ 'grid-row-template' if not modules else '' }}">
-        <p class="grid-row-label-wrapper">
+        <p class="grid-row-label-wrapper text-center">
+            Row <span class="rownum">{{ rownum }}</span>
             <a href="#chart-options" class="grid-row-label btn btn-success btn-xs" data-toggle="modal" data-row="{{ rownum }}">
-                <span class="fa fa-plus"></span> Add a widget to row <span class="rownum">{{ rownum }}</span>
+                <span class="fa fa-plus"></span> Add a widget</span>
             </a>
             <a href="#" class="btn btn-xs btn-danger delete-row"><span class="fa fa-times-circle"></span> Delete row</a>
         </p>
@@ -164,7 +165,7 @@
                         <br>
                         <div class="col-md-12">
                             <a href="#" class="btn btn-default btn-block lead well text-center">
-                                <span class="fa fa-plus"></span> Add new row
+                                <span class="fa fa-plus"></span> Add new row above
                             </a>
                         </div>
                     </div>
@@ -175,7 +176,7 @@
                         <br>
                         <div class="col-md-12">
                             <a href="#" class="btn btn-default btn-block lead well text-center">
-                                <span class="fa fa-plus"></span> Add new row
+                                <span class="fa fa-plus"></span> Add new row below
                             </a>
                         </div>
                     </div>

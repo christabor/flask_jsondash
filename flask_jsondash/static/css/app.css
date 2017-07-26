@@ -282,6 +282,13 @@ body {
 }
 .jsondash-editing .dashboard-charts .grid-row {
     min-height: 300px;
+    padding: 1em 0 1em 0;
+    border-bottom: 1px solid #999;
+    border-top: 1px solid #999;
+    background-color: #E4E4E4;
+}
+.jsondash-editing .dashboard-charts .grid-row:hover {
+    background-color: #D9D9D9;
 }
 .jsondash-editing .dashboard-charts .grid-row .grid-row-label {
     margin: 0 auto;
@@ -289,7 +296,7 @@ body {
 .jsondash-editing .dashboard-charts .grid-row-label-wrapper {
     display: block;
     text-align: center;
-    margin-top: 2em;
+    margin-bottom: 1em;
     padding: 1em 1em 0 1em;
 }
 
