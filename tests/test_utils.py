@@ -2,7 +2,7 @@ from random import shuffle
 
 import pytest
 
-from flask_jsondash import charts_builder
+from flask_jsondash import schema, charts_builder
 
 
 @pytest.mark.schema
@@ -12,7 +12,7 @@ from flask_jsondash import charts_builder
     [],  # Handles empty case as true
 ])
 def test_is_consecutive_rows_normal(lst):
-    assert charts_builder.is_consecutive_rows(lst)
+    assert schema.is_consecutive_rows(lst)
 
 
 @pytest.mark.schema
@@ -22,7 +22,7 @@ def test_is_consecutive_rows_normal(lst):
     range(1, 100, 2),
 ])
 def test_is_consecutive_rows_invalid(lst):
-    assert not charts_builder.is_consecutive_rows(lst)
+    assert not schema.is_consecutive_rows(lst)
 
 
 @pytest.mark.schema
@@ -33,7 +33,7 @@ def test_is_consecutive_rows_invalid(lst):
 ])
 def test_is_consecutive_rows_invalid_no_row_zero_allowed(lst):
     with pytest.raises(AssertionError):
-        charts_builder.is_consecutive_rows(lst)
+        schema.is_consecutive_rows(lst)
 
 
 @pytest.mark.utils

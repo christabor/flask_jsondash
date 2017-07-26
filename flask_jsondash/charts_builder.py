@@ -24,7 +24,9 @@ from flask_jsondash import static, templates
 
 from . import db
 from .settings import CHARTS_CONFIG
-from .schema import validate
+from .schema import (
+    validate_raw_json, InvalidSchemaError,
+)
 
 TEMPLATE_DIR = os.path.dirname(templates.__file__)
 STATIC_DIR = os.path.dirname(static.__file__)
@@ -52,10 +54,6 @@ default_config = dict(
     JSONDASH_PERPAGE=25,
 )
 adapter = db.get_db_handler()
-
-
-class InvalidSchemaError(ValueError):
-    """Wrapper exception for specific raising scenarios."""
 
 
 def auth(**kwargs):
@@ -471,107 +469,6 @@ def delete(c_id):
     adapter.delete(c_id)
     flash('Deleted dashboard "{}"'.format(c_id))
     return redirect(dash_url)
-
-
-def is_consecutive_rows(lst):
-    """Check if a list of integers is consecutive.
-
-    Args:
-        lst (list): The list of integers.
-
-    Returns:
-        True/False: If the list contains consecutive integers.
-
-    Originally taken from and modified:
-        http://stackoverflow.com/
-            questions/40091617/test-for-consecutive-numbers-in-list
-    """
-    assert 0 not in lst, '0th index is invalid!'
-    lst = list(set(lst))
-    if not lst:
-        return True
-    setl = set(lst)
-    return len(lst) == len(setl) and setl == set(range(min(lst), max(lst) + 1))
-
-
-def validate_raw_json_grid(conf):
-    """Grid mode specific validations.
-
-    Args:
-        conf (dict): The dashboard configuration.
-
-    Raises:
-        InvalidSchemaError: If there are any issues with the schema
-
-    Returns:
-        None: If no errors were found.
-    """
-    layout = conf.get('layout', 'freeform')
-    fixed_only_required = ['row']
-    rows = []
-    modules = conf.get('modules', [])
-    valid_cols = ['col-{}'.format(i) for i in range(1, 13)]
-    if not modules:
-        return
-    for module in modules:
-        try:
-            rows.append(int(module.get('row')))
-        except TypeError:
-            raise InvalidSchemaError(
-                'Invalid row value for module "{}"'.format(module.get('name')))
-    if not is_consecutive_rows(rows):
-        raise InvalidSchemaError(
-            'Row order is not consecutive: "{}"!'.format(sorted(rows)))
-    for module in modules:
-        width = module.get('width')
-        if width not in valid_cols:
-            raise InvalidSchemaError(
-                'Invalid width for grid format: "{}"'.format(width))
-        for field in fixed_only_required:
-            if field not in module and layout == 'grid':
-                ident = module.get('name', module)
-                raise InvalidSchemaError(
-                    'Invalid JSON. "{}" must be '
-                    'included in "{}" for '
-                    'fixed grid layouts'.format(field, ident))
-
-
-def validate_raw_json(jsonstr, **overrides):
-    """Validate the raw json for a config.
-
-    Args:
-        jsonstr (str): The raw json configuration
-        **overrides: Any key/value pairs to override in the config.
-            Used only for setting default values that the user should
-            never enter but are required to validate the schema.
-
-    Raises:
-        InvalidSchemaError: If there are any issues with the schema
-
-    Returns:
-        data (dict): The parsed configuration data
-    """
-    data = json.loads(jsonstr)
-    data.update(**overrides)
-    layout = data.get('layout', 'freeform')
-
-    if layout == 'grid':
-        validate_raw_json_grid(data)
-    else:
-        for module in data.get('modules', []):
-            width = module.get('width')
-            try:
-                int(width)
-            except (TypeError, ValueError):
-                raise InvalidSchemaError(
-                    'Invalid value for width in `freeform` layout.')
-            if module.get('row') is not None:
-                raise InvalidSchemaError(
-                    'Cannot mix `row` with `freeform` layout.')
-    results = validate(data)
-    if results is not None:
-        raise InvalidSchemaError(results)
-    return data
 
 
 @charts.route('/charts/<c_id>/update', methods=['POST'])
