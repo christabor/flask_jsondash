@@ -6,6 +6,8 @@ Python scripts for generating schema appropriate data from various contexts.
 
 Below is a list of python modules and their methods. When in doubt, check the overall [data utils](../flask_jsondash/data_utils/) module for more.
 
+For certain modules, extra packages need to be installed. These are all specified where the namespace matches the module name, in `setup.py`, which you [can see here](../setup.py)
+
 Any module that supports command line usage will be accessible via `python MODULE_NAME.py`. To find out how to use them, just run `python MODULE_NAME.py --help`, or look at the source.
 
 ## Modules
@@ -23,3 +25,5 @@ Any module that supports command line usage will be accessible via `python MODUL
 `get_word_freq_distribution`: create a counter with word frequencies.
 
 `format_4_wordcloud`: create wordcloud friendly config from words.
+
+`url2wordcloud`: Get the html content of a url, clean up, find the word frequency, and format in a way suitable for use directly in a wordcloud.

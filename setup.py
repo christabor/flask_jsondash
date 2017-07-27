@@ -11,6 +11,13 @@ test_requirements = [
     'pytest-cov==2.4',
     'pyquery==1.2',
 ]
+extras_require = {
+    'wordcloud': [
+        'requests',
+        'pyquery',
+        'requests-mock',
+    ]
+}
 requirements = [
     'click==6.6',
     'Flask',
@@ -51,6 +58,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
+    extras_require=extras_require,
     tests_require=test_requirements,
     install_requires=requirements,
     package_dir={'flask_jsondash': 'flask_jsondash'},

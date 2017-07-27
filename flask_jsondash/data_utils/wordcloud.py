@@ -12,6 +12,11 @@ Utilities for working with wordcloud formatted data.
 """
 
 from collections import Counter
+from string import punctuation
+import re
+
+import requests
+from pyquery import PyQuery as Pq
 
 # Py2/3 compat.
 try:
@@ -55,7 +60,7 @@ def format_4_wordcloud(words, size_multiplier=2):
     """Format words in a way suitable for wordcloud plugin.
 
     Args:
-        words (list): A list of strings indicating words.
+        words (list): A list 2-tuples of format: (word-string, occurences).
         size_multiplier (int, optional): The size multiplier to scale
             word sizing. Can improve visual display of word cloud.
 
@@ -66,3 +71,46 @@ def format_4_wordcloud(words, size_multiplier=2):
         {'text': word, 'size': size * size_multiplier}
         for (word, size) in words if word
     ]
+
+
+def url2wordcloud(url, requests_kwargs={},
+                  exclude_punct=True,
+                  normalized=True,
+                  limit=None,
+                  size=1,
+                  min_len=None):
+    """Convert the text content of a urls' html to a wordcloud config.
+
+    Args:
+        url (str): The url to load.
+        requests_kwargs (dict, optional): The kwargs to pass to the
+            requests library. (e.g. auth, headers, mimetypes)
+        exclude_punc (bool, optional): exclude punctuation
+        min_length (int, optional): the minimum required length, if any
+        limit (int, optional): the number of items to limit
+            (by most common), if any
+        normalized (bool, optional): normalize data by
+            lowercasing and strippping whitespace
+
+    Returns:
+        same value as :func:`~format_4_wordcloud`
+    """
+    resp = requests.get(url, **requests_kwargs)
+    if not resp.status_code == 200:
+        return []
+    resp = Pq(resp.content).find('body').text().split(' ')
+    if exclude_punct:
+        resp = [
+            re.sub(r'[^a-zA-Z0-9]+', '', w) for w
+            in resp if w not in punctuation
+        ]
+    if min_len is not None:
+        resp = [w for w in resp if len(w) >= min_len]
+    if normalized:
+        resp = [w.lower() for w in resp]
+    words = get_word_freq_distribution(resp)
+    if limit is not None:
+        words = words.most_common(limit)
+    else:
+        words = [(k, v) for k, v in words.items()]
+    return format_4_wordcloud(words, size_multiplier=size)

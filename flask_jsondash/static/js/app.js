@@ -615,7 +615,7 @@ var jsondash = function() {
             order: parseNum(form.find('[name="order"]').val(), 10),
             refresh: form.find('[name="refresh"]').is(':checked'),
             refreshInterval: jsondash.util.intervalStrToMS(form.find('[name="refreshInterval"]').val()),
-            classes: getClasses(form),
+            classes: getClasses(form)
         };
         if(my.layout === 'grid') {
             conf['row'] = parseNum(form.find('[name="row"]').val());

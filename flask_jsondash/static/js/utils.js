@@ -171,14 +171,12 @@ jsondash.util.translateStr = function(x, y) {
  *     on digits and width of container.]
  */
 jsondash.util.getDigitSize = function() {
-    var BOX_PADDING = 20;
     // scale value is reversed, since we want
     // the font-size to get smaller as the number gets longer.
     var scale = d3.scale.linear()
         .clamp(true)
         .domain([2, 14]) // min/max digits length: $0 - $999,999,999.00
         .range([90, 30]); // max/min font-size
-    window.scale = scale;
     return scale;
 };
 
