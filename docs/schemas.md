@@ -217,7 +217,11 @@ This means configuration that uses javascript functions are not accepted; these 
 
 ## D3
 
-D3js is a powerful SVG based "dynamic document" drawing library that can create just about any imaginable visualization. Visit [d3js.org](http://d3js.org) for more.
+D3js is a powerful SVG based "dynamic document" drawing library that can create just about any imaginable visualization. As such, only a subset of commonly used types are represented here, with specific schema requirements to fulfill each chart type.
+
+If you are familiar with d3 and want more customization, you'll need to use the **basic -> iframe** or **basic -> embed** option instead in order to write your own javascript.
+
+Visit [d3js.org](http://d3js.org) for more.
 
 ### Examples
 
@@ -366,7 +370,7 @@ Just like the single number option above, a number group has the same options (`
         "data": 740,
     },
     {
-        "title": "Average Daily Uses",
+        "title": "Average Daily Users",
         "description": "(aka DAU)",
         "data": 541200,
     },
@@ -384,7 +388,7 @@ You can also override the column width for each item, via `"width": "30%"`.
 
 **units**
 
-While you can just add options units to the `data` fields value, If you want to specify units separately for nicer styling, you can use `"units": "..."` and it will be styled nicely for you.
+While you can just add optional units within the `data` field value, If you want to specify units separately for nicer styling, you can use the `"units": "..."` field and it will be styled nicely for you (see below).
 
 ##### Examples
 

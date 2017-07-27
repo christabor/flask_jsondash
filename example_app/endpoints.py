@@ -96,7 +96,7 @@ def numbergroup():
                 "data": 740,
             },
             {
-                "title": "Average Daily Uses",
+                "title": "Average Daily Users",
                 "description": "(aka DAU)",
                 "data": 541200,
                 "noformat": False,
@@ -112,7 +112,7 @@ def numbergroup():
         [
             {
                 "title": "Simple thing",
-                "data": 123,
+                "data": 2,
                 "width": "33%",
                 "description": "Just a simple number"
             },
