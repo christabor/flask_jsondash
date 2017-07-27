@@ -60,7 +60,7 @@ def test_load_fixtures(monkeypatch):
     monkeypatch.setattr(_db, 'create', lambda *a, **kw: records.append(a))
     result = runner.invoke(model_factories.insert_dashboards, args)
     assert result.exit_code == 0
-    assert len(records) == 16  # Changed as new examples are added.
+    assert len(records) == 17  # Changed as new examples are added.
 
 
 def test_dump_fixtures_empty(monkeypatch, tmpdir):
@@ -123,6 +123,7 @@ def test_dump_fixtures_delete_bad_path_show_errors_no_exception(monkeypatch):
         records = []
 
     monkeypatch.setattr(_db, 'read', lambda *args, **kwargs: records)
+    monkeypatch.setattr(_db, 'delete_all', lambda *a, **kw: [])
     runner = CliRunner()
     args = ['--dump', '/fakepath/', '--delete']
     result = runner.invoke(model_factories.insert_dashboards, args)
@@ -134,14 +135,8 @@ def test_dump_fixtures_delete_bad_path_show_errors_no_exception(monkeypatch):
 
 
 def test_delete_all_cli(monkeypatch):
-    records = [
-        model_factories.make_fake_dashboard(name=i, max_charts=1)
-        for i in range(1)]
-    assert len(read()) == 1
-    monkeypatch.setattr(_db, 'read', lambda *args, **kwargs: records)
     runner = CliRunner()
     args = ['--delete']
     result = runner.invoke(model_factories.insert_dashboards, args)
     assert 'Deleting all records!' in result.output
     assert result.exit_code == 0
-    assert len(read()) == 0
