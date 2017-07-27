@@ -1,0 +1,56 @@
+{
+    "username": "anonymous",
+    "category": "Basic",
+    "layout": "grid",
+    "name": "Number groups demo",
+    "modules": [
+        {
+            "name": "Custom width overrides",
+            "family": "Basic",
+            "type": "numbergroup",
+            "refresh": false,
+            "height": 260,
+            "width": "col-12",
+            "classes": [],
+            "dataSource": "http://127.0.0.1:5004/numbergroup?dataset=1",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "e2b5c59d-c491-449a-0472-8c4bc0950085",
+            "order": 2,
+            "row": 1
+        },
+        {
+            "name": "Custom units example",
+            "family": "Basic",
+            "type": "numbergroup",
+            "refresh": false,
+            "height": 300,
+            "width": "col-12",
+            "classes": [],
+            "dataSource": "http://127.0.0.1:5004/numbergroup?dataset=2",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "f6bd4afe-e2a7-31ed-01f1-ffad9ba6286c",
+            "order": 0,
+            "row": 1
+        },
+        {
+            "name": "Row 2",
+            "family": "Basic",
+            "type": "numbergroup",
+            "refresh": false,
+            "height": 260,
+            "width": "col-12",
+            "classes": [],
+            "dataSource": "http://127.0.0.1:5004/numbergroup",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "38747931-fe19-e660-b2d1-4f13b950ab1c",
+            "order": 1,
+            "row": 1
+        }
+    ],
+    "created_by": "global",
+    "date": "2017-07-26 22:40:39.300054",
+    "id": "72ea3c5c-7288-11e7-b810-a0999b0aebbf"
+}

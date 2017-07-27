@@ -77,6 +77,83 @@ def rand_hex_color():
 
 
 @cross_origin()
+@app.route('/numbergroup')
+def numbergroup():
+    """Fake endpoint."""
+    dataset = int(request.args.get('dataset', 0))
+    # multiple examples shown here for variadic demonstrations
+    datas = [
+        [
+            {
+                "title": "Number of widgets sold in last day",
+                "description": 'This is a good sign',
+                "data": 32515.0,
+                "color": "green",
+            },
+            {
+                "title": "New customers signed up this week",
+                "description": 'New user accounts created',
+                "data": 740,
+            },
+            {
+                "title": "Average Daily Uses",
+                "description": "(aka DAU)",
+                "data": 541200,
+                "noformat": False,
+            },
+            {
+                "title": "Max concurrent users this week",
+                "description": "Server load peak",
+                "data": 123401,
+                "color": "orange",
+                "noformat": True,
+            },
+        ],
+        [
+            {
+                "title": "Simple thing",
+                "data": 123,
+                "width": "33%",
+                "description": "Just a simple number"
+            },
+            {
+                "title": "Simple thing 2",
+                "data": 4033,
+                "width": "33%",
+                "description": "Just a simple number"
+            },
+            {
+                "title": "Simple thing 3",
+                "data": 49102,
+                "width": "33%",
+                "description": "Just a simple number"
+            },
+        ],
+        [
+            {
+                "title": "Average time on site",
+                "description": "Signed in to signed out (units nostyle)",
+                "data": '20 minutes',
+                "color": "#7D4EE4",
+            },
+            {
+                "title": "Average time on site page X",
+                "description": "Signed in to signed out (custom units style)",
+                "data": 15,
+                "units": "minutes",
+            },
+            {
+                "title": "Average $ spent per day",
+                "description": "Yeeehaw (custom units style)",
+                "data": 130,
+                "units": "dollars"
+            },
+        ]
+    ]
+    return jsonify(datas[dataset])
+
+
+@cross_origin()
 @app.route('/combination')
 def combination():
     """Fake endpoint."""

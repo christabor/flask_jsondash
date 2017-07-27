@@ -384,6 +384,7 @@ jsondash.handlers.handleC3 = function(container, config) {
 
 jsondash.handlers.handleBasic = function(container, config) {
     'use strict';
+    if(config.type === 'numbergroup') { return jsondash.handlers.handleNumbersGroup(container, config); }
     if(config.type === 'number') { return jsondash.handlers.handleSingleNum(container, config); }
     if(config.type === 'iframe') { return jsondash.handlers.handleIframe(container, config); }
     if(config.type === 'image') { return jsondash.handlers.handleImage(container, config); }
@@ -684,6 +685,52 @@ jsondash.handlers.handleDataTable = function(container, config) {
         $(container.select('table')[0])
             .dataTable(opts).css({
                 width: 'auto',
+        });
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
+        jsondash.unload(container);
+    });
+};
+
+jsondash.handlers.handleNumbersGroup = function(container, config) {
+    'use strict';
+
+    function getStylesForColumn(d) {
+        if(d.color && d.noformat !== false) {
+            return 'color: ' + d.color;
+        }
+        return '';
+    }
+
+    jsondash.getJSON(container, config, function(error, data){
+        container
+        .select('.chart-container')
+        .append('table')
+        .classed({numgroup: true, 'table': true})
+        .classed(jsondash.util.getCSSClasses(config))
+        .append('tr')
+        .selectAll('td')
+        .data(data)
+        .enter()
+        .append('td')
+        .attr('width', function(d, i){
+            return d.width !== null && d.width !== undefined ? d.width : null;
+        })
+        .attr('class', function(d, i){
+            if(!d.noformat) {
+                var classes = '';
+                classes += typeof d === 'string' && d.startsWith('-') ? 'text-danger' : '';
+                classes += typeof d === 'string' && !d.startsWith('-') ? 'text-success' : '';
+                return classes;
+            }
+        })
+        .html(function(d, i){
+            var styles = getStylesForColumn(d);
+            var title = '<p class="numgroup-title">' + d.title + '</p>';
+            var units = d.units ? '<span class="numgroup-val-units"> ' + d.units + '</span>' : '';
+            var num = '<h4 class="numgroup-val" style="' + styles + '">' + d.data + units + '</h4>';
+            var desc = '<small class="numgroup-desc">' + (d.description ? d.description : '') + '</small>';
+            return title + desc + num;
         });
         // Look for callbacks potentially registered for third party code.
         jsondash.api.runCallbacks(container, config);

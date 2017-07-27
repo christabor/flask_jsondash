@@ -84,13 +84,16 @@ CHARTS_CONFIG = {
         'css_url': [],
         'enabled': True,
         'dependencies': ['D3'],
-        'help_link': 'https://github.com/jasondavies/d3-cloud'
+        'help_link': 'https://github.com/jasondavies/d3-cloud',
     },
     'Basic': {
         'charts': [
             ('custom', 'Custom direct loading of any arbitrary html.'),
             ('iframe', 'Embedded iframe.'),
             ('image', 'Image (inline embed)'),
+            ('numbergroup', ('Group of numbers with titles '
+                             'representing some aggregate values for '
+                             'each column.')),
             ('number', ('Single number (size autoscaled) representing '
                         'some aggregate value.')),
             ('youtube', 'YouTube video embedded as an iframe.'),
@@ -181,7 +184,7 @@ CHARTS_CONFIG = {
         ],
         'css_url': [],
         'enabled': True,
-        'help_link': 'http://js.cytoscape.org/'
+        'help_link': 'http://js.cytoscape.org/',
     },
     'Graph': {
         'charts': [
@@ -196,7 +199,7 @@ CHARTS_CONFIG = {
         ],
         'css_url': [],
         'enabled': True,
-        'help_link': 'https://github.com/cpettitt/dagre-d3/wiki'
+        'help_link': 'https://github.com/cpettitt/dagre-d3/wiki',
     },
     'Sparklines': {
         'charts': [

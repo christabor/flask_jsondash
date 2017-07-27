@@ -56,6 +56,32 @@
     font-weight: 100;
     display: block;
 }
+.numgroup tr {
+    text-align: center;
+}
+.numgroup tr > td {
+    padding: 1em;
+    border-right:  1px solid #ccc;
+}
+.numgroup tr > td:last-of-type {
+    border: none;
+}
+.numgroup tr > td > .numgroup-title {
+    font-size: 20px;
+    font-weight: 200;
+}
+.numgroup tr > td > .numgroup-val {
+    font-size: 60px;
+}
+.numgroup tr > td > .numgroup-val .numgroup-val-units {
+    font-weight: 200;
+    font-size: 60%;
+}
+.numgroup tr > td > .numgroup-desc {
+    font-size: 15px;
+    color: #888;
+    font-weight: 400;
+}
 
 /**
  * Plotly

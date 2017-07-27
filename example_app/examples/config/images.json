@@ -2,6 +2,7 @@
     "username": "anonymous",
     "layout": "grid",
     "name": "image embeds",
+    "category": "Basic",
     "modules": [
         {
             "name": "Big time",

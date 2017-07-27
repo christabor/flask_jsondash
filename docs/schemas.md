@@ -306,7 +306,7 @@ One-off, simple, ad-hoc displays.
 
 ### Overrides
 
-Not supported.
+Not supported (not relevant).
 
 #### Custom
 
@@ -316,15 +316,15 @@ No schema; you can serve whatever kind of page you want. Similar to an iframe, e
 
 No schema; you can load whatever page you want. This will not affect the dashboard, unlike the *custom* option, but you will have limited access to the contents of the iframe (typically not a concern.)
 
-## Image
+#### Image
 
 No schema; Just drop in an image url.
 
-### Examples
+##### Examples
 
 * [Dashboard configuration](../example_app/examples/config/images.json)
 
-#### Number
+#### Number (singlenum)
 
 Any number, positive or negative. Prefixes, such as currencies, are also allowed (there is no real limit to the string, but it is typically shown as a number, and styled accordingly).
 
@@ -347,6 +347,50 @@ You can also override the color and/or disable negative/positive formatting like
 ```
 
 Disabling `noformat` is important if you are not using a numerical value, as it might incorrectly guess color and/or formatting when it doesn't make sense.
+
+#### Number Group
+
+Just like the single number option above, a number group has the same options (`color` and `noformat`), and general format, but supports multiple columns for each number (so you can build multiple big display of aggregate values in a single chart):
+
+```json
+[
+    {
+        "title": "Number of widgets sold in last day",
+        "description": 'This is a good sign',
+        "data": 32515.0,
+        "color": "green",
+    },
+    {
+        "title": "New customers signed up this week",
+        "description": 'New user accounts created',
+        "data": 740,
+    },
+    {
+        "title": "Average Daily Uses",
+        "description": "(aka DAU)",
+        "data": 541200,
+    },
+    {
+        "title": "Max concurrent users this week",
+        "description": "Server load peak",
+        "data": 123401,
+        "color": "orange",
+        "noformat": True,
+    },
+]
+```
+
+You can also override the column width for each item, via `"width": "30%"`.
+
+**units**
+
+While you can just add options units to the `data` fields value, If you want to specify units separately for nicer styling, you can use `"units": "..."` and it will be styled nicely for you.
+
+##### Examples
+
+* [Dashboard configuration](../example_app/examples/config/numbergroups.json)
+
+<img src="example_app/examples/screenshots/numbergroups.png" width="600" alt="number groups columns / rows">
 
 #### YouTube
 
