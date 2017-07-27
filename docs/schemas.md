@@ -356,13 +356,13 @@ Just like the single number option above, a number group has the same options (`
 [
     {
         "title": "Number of widgets sold in last day",
-        "description": 'This is a good sign',
+        "description": "This is a good sign",
         "data": 32515.0,
         "color": "green",
     },
     {
         "title": "New customers signed up this week",
-        "description": 'New user accounts created',
+        "description": "New user accounts created",
         "data": 740,
     },
     {
@@ -375,7 +375,7 @@ Just like the single number option above, a number group has the same options (`
         "description": "Server load peak",
         "data": 123401,
         "color": "orange",
-        "noformat": True,
+        "noformat": true,
     },
 ]
 ```
