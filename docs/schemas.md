@@ -390,7 +390,9 @@ While you can just add options units to the `data` fields value, If you want to 
 
 * [Dashboard configuration](../example_app/examples/config/numbergroups.json)
 
-<img src="example_app/examples/screenshots/numbergroups.png" width="600" alt="number groups columns / rows">
+##### Screenshots
+
+<img src="../example_app/examples/screenshots/numbergroups.png" width="600" alt="number groups columns / rows">
 
 #### YouTube
 
