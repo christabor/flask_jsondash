@@ -19,7 +19,7 @@ from uuid import uuid1
 import click
 from werkzeug.datastructures import ImmutableMultiDict
 
-from . import db, settings, schema
+from . import db, settings
 
 adapter = db.get_db_handler()
 
@@ -200,6 +200,10 @@ def insert_dashboards(records, max_charts, fixtures, dump, delete):
         return load_fixtures(fixtures)
     if dump is not None:
         return dump_fixtures(dump, delete_after=delete)
+    if dump is None and delete:
+        click.echo('Deleting all records!')
+        adapter.delete_all()
+        return
     for i in range(records):
         data = make_fake_dashboard(
             name='Test chart #{}'.format(i),

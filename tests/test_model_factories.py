@@ -131,3 +131,17 @@ def test_dump_fixtures_delete_bad_path_show_errors_no_exception(monkeypatch):
     assert len(read()) == 0
     err_msg = "The following records could not be dumped: ['//fakepath/"
     assert err_msg in result.output
+
+
+def test_delete_all_cli(monkeypatch):
+    records = [
+        model_factories.make_fake_dashboard(name=i, max_charts=1)
+        for i in range(1)]
+    assert len(read()) == 1
+    monkeypatch.setattr(_db, 'read', lambda *args, **kwargs: records)
+    runner = CliRunner()
+    args = ['--delete']
+    result = runner.invoke(model_factories.insert_dashboards, args)
+    assert 'Deleting all records!' in result.output
+    assert result.exit_code == 0
+    assert len(read()) == 0

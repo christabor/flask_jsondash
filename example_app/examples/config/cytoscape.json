@@ -1,6 +1,7 @@
 {
     "username": "anonymous",
     "layout": "grid",
+    "category": "Graphs",
     "name": "Cytoscape core layouts examples",
     "modules": [
         {

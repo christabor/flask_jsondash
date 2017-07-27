@@ -1,6 +1,7 @@
 {
     "username": "ctabor",
     "layout": "grid",
+    "category": "Performance & Tricks",
     "name": "Shared data demo",
     "modules": [
         {

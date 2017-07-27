@@ -17,6 +17,8 @@ coverage: clean
 dockerize:
 	docker build --tag jsondash_base:latest -f BaseDockerfile .
 	docker-compose build ; docker-compose up
+dropall:
+	python -m flask_jsondash.model_factories --delete
 fixtures:
 	python -m flask_jsondash.model_factories --fixtures example_app/examples/config
 fixturize:
@@ -39,6 +41,7 @@ help:
 	@echo "cleanpyc .... Remove .pyc files."
 	@echo "coverage .... Generate coverage statistics and html"
 	@echo "dockerize ... Setup docker containers and initialize example apps"
+	@echo "dropall ..... Delete all dashboards"
 	@echo "fixtures .... Load all example dashboards"
 	@echo "fixturize ... Convert existing database records to fixtures"
 	@echo "tests ....... Run all tests"

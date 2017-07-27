@@ -1,6 +1,7 @@
 {
     "username": "anonymous",
     "layout": "grid",
+    "category": "Performance & Tricks",
     "name": "Embeddable",
     "modules": [
         {

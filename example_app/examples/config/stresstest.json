@@ -1,6 +1,7 @@
 {
     "date": "2016-10-18 21:38:45.323000",
     "layout": "freeform",
+    "category": "Stress & Error testing",
     "modules": [
         {
             "name": "circlepack",
