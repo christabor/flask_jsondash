@@ -694,12 +694,19 @@ jsondash.handlers.handleDataTable = function(container, config) {
 
 jsondash.handlers.handleNumbersGroup = function(container, config) {
     'use strict';
+    var scale = d3.scale.linear()
+        .clamp(true)
+        .domain([1, 20]) // min/max digits length
+        .range([80, 30]); // max/min font-size
 
     function getStylesForColumn(d) {
+        var digits = String(d.data).length + String(d.units ? d.units : '').length;
+        var size = ~~scale(digits);
+        var styles = 'font-size: ' + size + 'px;';
         if(d.color && d.noformat !== false) {
-            return 'color: ' + d.color;
+            styles += 'color: ' + d.color + ';';
         }
-        return '';
+        return styles;
     }
 
     jsondash.getJSON(container, config, function(error, data){
