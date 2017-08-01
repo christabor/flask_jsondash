@@ -13,7 +13,7 @@ Vega-Lite is a high-level grammar for interactive graphics. It provides a concis
 ### Examples
 
 * [Dashboard configuration](../example_app/examples/config/vegalite-fixed.json)
-* [Individual dashboard charts](../example_app/examples/vegalite/)
+* [Individual dashboard charts data](../example_app/examples/vegalite/)
 
 ### Overrides
 
@@ -194,7 +194,7 @@ Plotly is an extremely diverse, powerful and now open source charting library th
 ### Examples
 
 * [Dashboard configuration](../example_app/examples/config/plotly.json)
-* [Individual dashboard charts](../example_app/examples/plotly/)
+* [Individual dashboard charts data](../example_app/examples/plotly/)
 
 ### Overrides
 
@@ -304,6 +304,7 @@ A recursive json config that uses `name`, `size`, and `children` as its main key
     ]
 }
 ```
+
 ## Basic
 
 One-off, simple, ad-hoc displays.
@@ -449,7 +450,7 @@ Cytoscape is a graph theory / network library for analysis and visualisation. Vi
 ### Examples
 
 * [Dashboard configuration](../example_app/examples/config/cytoscape.json)
-* [Individual dashboard charts](../example_app/examples/cytoscape/)
+* [Individual dashboard charts data](../example_app/examples/cytoscape/)
 
 ### Overrides
 
@@ -470,7 +471,7 @@ Sigma is a JavaScript library dedicated to graph drawing. It makes easy to publi
 ### Examples
 
 * [Dashboard configuration](../example_app/examples/config/sigma.json)
-* [Individual dashboard charts](../example_app/examples/sigma/)
+* [Individual dashboard charts data](../example_app/examples/sigma/)
 
 ### Overrides
 
@@ -538,6 +539,37 @@ A list of objects with keys `sets`, and `size`, where `set` is a list of set nam
     {"sets": ["A", "B"], "size": 2},
 ]
 ```
+
+## FlameGraph
+
+From Brendan Gregg, originator of flame graph software: "Flame graphs are a visualization of profiled software, allowing the most frequent code-paths to be identified quickly and accurately."
+
+### Overrides
+
+Supported.
+
+Format should be similar to d3 hierarchical layouts, like:
+
+```json
+{
+  "children": [
+    {
+      "name": "...", 
+      "value": 10
+    },
+    {
+      "name": "...", 
+      "value": 30,
+      "children": [...]
+    }
+  ]
+}
+```
+
+### Examples
+
+* [Dashboard configuration](../example_app/examples/config/flamegraph.json)
+* [Individual dashboard charts data](../example_app/examples/flamegraph/)
 
 ## Sparklines
 

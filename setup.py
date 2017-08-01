@@ -12,7 +12,7 @@ test_requirements = [
     'pyquery==1.2',
 ]
 extras_require = {
-    'wordcloud': [
+    'wordcloud-utils': [
         'requests',
         'pyquery',
         'requests-mock',

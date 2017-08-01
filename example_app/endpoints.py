@@ -280,6 +280,20 @@ def sigma():
 
 
 @cross_origin()
+@app.route('/flamegraph')
+def flamegraph():
+    """Fake endpoint."""
+    chart_name = request.args.get('name', 'stacks')
+    filename = '{}/examples/flamegraph/{}.json'.format(cwd, chart_name)
+    try:
+        with open(filename, 'r') as chartjson:
+            return chartjson.read()
+    except IOError:
+        pass
+    return jsonify({})
+
+
+@cross_origin()
 @app.route('/cytoscape')
 def cytoscape():
     """Fake endpoint.

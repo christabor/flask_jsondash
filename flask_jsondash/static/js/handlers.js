@@ -108,6 +108,23 @@ jsondash.handlers.handleSigma = function(container, config) {
 };
 
 /**
+ * [handleFlameGraph handler for flameGraph plugin]
+ */
+jsondash.handlers.handleFlameGraph = function(container, config) {
+    jsondash.getJSON(container, config, function(_, data){
+        var padding = 60;
+        var _width = isNaN(config.width) ? jsondash.getDynamicWidth(container, config) : config.width;
+        var flamegraph = d3.flameGraph()
+            .width(_width - padding)
+            .height(config.height - padding);
+        container.datum(data).call(flamegraph);
+        // Look for callbacks potentially registered for third party code.
+        jsondash.api.runCallbacks(container, config);
+        jsondash.unload(container);
+    });
+};
+
+/**
  * Handler for all cytoscape specifications
  */
 jsondash.handlers.handleCytoscape = function(container, config) {

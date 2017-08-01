@@ -899,7 +899,8 @@ var jsondash = function() {
             cytoscape      : jsondash.handlers.handleCytoscape,
             sigmajs        : jsondash.handlers.handleSigma,
             c3             : jsondash.handlers.handleC3,
-            d3             : jsondash.handlers.handleD3
+            d3             : jsondash.handlers.handleD3,
+            flamegraph     : jsondash.handlers.handleFlameGraph
         };
         return handlers[family];
     }

@@ -1,0 +1,41 @@
+{
+    "username": "anonymous",
+    "category": "uncategorized",
+    "layout": "grid",
+    "name": "D3-flamegraph-demo",
+    "modules": [
+        {
+            "name": "Basic Flamegraph",
+            "family": "FlameGraph",
+            "refresh": false,
+            "height": 500,
+            "width": "col-6",
+            "classes": [],
+            "dataSource": "http://127.0.0.1:5004/flamegraph",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "3fb2e83f-03b0-a81c-415d-696da49f5e85",
+            "type": "flamegraph",
+            "order": 0,
+            "row": 1
+        },
+        {
+            "name": "Basic Flamegraph - wide",
+            "family": "FlameGraph",
+            "refresh": false,
+            "height": 500,
+            "width": "col-12",
+            "classes": [],
+            "dataSource": "http://127.0.0.1:5004/flamegraph",
+            "override": false,
+            "refreshInterval": null,
+            "guid": "3fb2e83f-03b0-a81c-415d-696da49f53ad2",
+            "type": "flamegraph",
+            "order": 0,
+            "row": 1
+        }
+    ],
+    "created_by": "global",
+    "date": "2017-07-31 22:55:34.267273",
+    "id": "f8a9c740-767d-11e7-9b3a-a0999b0aebbf"
+}

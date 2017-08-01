@@ -73,6 +73,19 @@ CHARTS_CONFIG = {
         'enabled': True,
         'help_link': 'https://github.com/d3/d3/wiki',
     },
+    'FlameGraph': {
+        'charts': [
+            ('flamegraph', 'Flame Graph'),
+        ],
+        'dependencies': ['D3'],
+        'js_url': [
+            '//spiermar.github.io/d3-flame-graph/d3.flameGraph.js',
+            '//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js'
+        ],
+        'css_url': ['//spiermar.github.io/d3-flame-graph/d3.flameGraph.css'],
+        'enabled': True,
+        'help_link': 'https://github.com/spiermar/d3-flame-graph',
+    },
     'WordCloud': {
         'charts': [
             ('wordcloud', 'Word Cloud'),
