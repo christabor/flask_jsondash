@@ -60,7 +60,7 @@ def test_load_fixtures(monkeypatch):
     monkeypatch.setattr(_db, 'create', lambda *a, **kw: records.append(a))
     result = runner.invoke(model_factories.insert_dashboards, args)
     assert result.exit_code == 0
-    assert len(records) == 18  # Changed as new examples are added.
+    assert len(records) == 19  # Changed as new examples are added.
 
 
 def test_dump_fixtures_empty(monkeypatch, tmpdir):

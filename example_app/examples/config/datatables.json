@@ -1,0 +1,32 @@
+{
+    "date": "2016-08-23 15:03:49.178000",
+    "layout": "grid",
+    "modules": [
+        {
+            "name": "datatable",
+            "family": "DataTable",
+            "height": 600,
+            "width": "col-6",
+            "dataSource": "http://127.0.0.1:5004/dtable",
+            "override": false,
+            "guid": "c3a9c36b-edc1-6627-340c-07da627b2175",
+            "type": "datatable",
+            "row": 1
+        },
+        {
+            "name": "Datatable override",
+            "family": "DataTable",
+            "refresh": false,
+            "height": 600,
+            "width": "col-6",
+            "dataSource": "http://127.0.0.1:5004/dtable?override=1",
+            "override": true,
+            "refreshInterval": 10000,
+            "guid": "c1a9c36b-edc1-6627-340c-333aaaa",
+            "type": "datatable",
+            "row": 1
+        }
+    ],
+    "id": "a16401b0-1c4e-11e6-b9a3-a0999asdok02223d",
+    "name": "Datatable"
+}
