@@ -128,22 +128,14 @@ var jsondash = function() {
             $.when.apply($, proms).done(whenAllDone);
 
             function whenAllDone() {
-                if(arguments.length === 3) {
-                    var ref_url = unique_urls[0];
-                    var data = arguments[0][0];
+                $.each(arguments, function(index, prom){
+                    var ref_url = unique_urls[index];
+                    var data = null;
                     if(ref_url) {
+                        data = prom[0];
                         cached[ref_url] = data;
                     }
-                } else {
-                    $.each(arguments, function(index, prom){
-                        var ref_url = unique_urls[index];
-                        var data = null;
-                        if(ref_url) {
-                            data = prom[0];
-                            cached[ref_url] = data;
-                        }
-                    });
-                }
+                });
                 // Inject a cached value on the config for use down the road
                 // (this is done so little is changed with the architecture of getting and loading).
                 for(var guid in self.all()){
