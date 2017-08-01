@@ -137,6 +137,8 @@ def test_dump_fixtures_delete_bad_path_show_errors_no_exception(monkeypatch):
 def test_delete_all_cli(monkeypatch):
     runner = CliRunner()
     args = ['--delete']
+    monkeypatch.setattr(_db, 'delete_all', lambda *a, **kw: [])
+    assert model_factories.delete_all() is None
     result = runner.invoke(model_factories.insert_dashboards, args)
     assert 'Deleting all records!' in result.output
     assert result.exit_code == 0
