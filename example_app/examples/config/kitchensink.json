@@ -8,7 +8,7 @@
             "refresh": false,
             "height": 500,
             "width": 550,
-            "dataSource": "http://localhost:5004/wordcloud",
+            "dataSource": "http://127.0.0.1:5004/wordcloud",
             "override": false,
             "refreshInterval": null,
             "guid": "46c99420-a500-185b-dcbc-013d93ca8de1",

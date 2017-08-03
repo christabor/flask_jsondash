@@ -37,7 +37,7 @@
             "refresh": false,
             "height": 400,
             "width": "col-2",
-            "dataSource": "http://localhost:5004/gauge",
+            "dataSource": "http://127.0.0.1:5004/gauge",
             "override": false,
             "refreshInterval": null,
             "guid": "7ba7e9ad-ab88-2ad9-7136-0dfef6bc3d29",
