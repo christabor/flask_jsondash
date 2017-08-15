@@ -10,6 +10,7 @@ test_requirements = [
     'pytest==3.0',
     'pytest-cov==2.4',
     'pyquery==1.2',
+    'requests_mock',
 ]
 extras_require = {
     'wordcloud-utils': [
