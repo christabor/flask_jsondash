@@ -303,7 +303,7 @@ def cytoscape():
 
     This returns all required json as a single endpoint.
     """
-    chart_name = request.args.get('name', 'dagre')
+    chart_name = request.args.get('name', 'basic')
     filename = '{}/examples/cytoscape/{}.json'.format(cwd, chart_name)
     try:
         with open(filename, 'r') as chartjson:
