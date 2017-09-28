@@ -1,6 +1,6 @@
 # Flask JSONDash
 
-[![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/flask-jsondash/)
+<img src="https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg" width="90" height="40" alt="Support via Gratipay" />
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3d9d8e8742a742a0843a418506de757c)](https://www.codacy.com/app/dxdstudio/flask_jsondash?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=christabor/flask_jsondash&amp;utm_campaign=Badge_Grade)
 [![Code Climate](https://codeclimate.com/github/christabor/flask_jsondash/badges/gpa.svg)](https://codeclimate.com/github/christabor/flask_jsondash)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/christabor/flask_jsondash/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/christabor/flask_jsondash/?branch=master)
