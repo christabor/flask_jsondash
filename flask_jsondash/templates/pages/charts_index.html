@@ -9,6 +9,7 @@
         {% if view.created_by %} by {{ view.created_by }}{% endif %}
         ({{ view.modules|length }} modules)
     </a>
+    {% if can_edit %}
     <div class="pull-right">
         <form class="form-inline" action="{{ url_for('jsondash.clone', c_id=view.id) }}" method="POST">
             <button class="btn btn-success btn-xs">
@@ -21,6 +22,7 @@
             </button>
         </form>
     </div>
+    {% endif %}
 </li>
 {% endmacro -%}
 
@@ -47,7 +49,7 @@
                 <div class="col-md-6">
                     <h1>
                         <a href="#new-view-form" class="btn btn-md btn-success" id="add" data-toggle="collapse">
-                            <span class="fa fa-plus"></span> Create new dashboard
+                            <span class="fa fa-plus" {% if not can_edit %}disabled{% endif %}></span> Create new dashboard
                         </a>
                     </h1>
                 </div>
