@@ -20,7 +20,7 @@ extras_require = {
     ]
 }
 requirements = [
-    'click==6.6',
+    'click==6.7',
     'Flask',
     'cerberus',
     'pymongo==3.3.0',
