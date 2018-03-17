@@ -1,5 +1,6 @@
 # ---------- Misc --------- #
 
+/**/geckodriver.log
 *.sublime-*
 *.log
 *.pyc

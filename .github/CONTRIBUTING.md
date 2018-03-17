@@ -12,6 +12,7 @@
 1. Where appropriate (all python code) unit tests are required. JS unit tests are encouraged but at the moment are not well instrumented.
 2. Coverage must meet or exceed percentage set in the tox file (usually 98%)
 3. Massive changes should be proposed as issues before any work is done (e.g. I don't like jquery - let's switch to X will be closed if a PR is submitted without discussion).
+4. Create a README.md with as much useful info as possible in your services module (e.g. `/services/<SERVICE>/README.md`)
 
 ### If adding new chart types, examples, etc... you must:
 
