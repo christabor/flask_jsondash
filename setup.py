@@ -8,7 +8,7 @@ SRCDIR = '.'
 folder = os.path.abspath(os.path.dirname(__file__))
 test_requirements = [
     'pytest==3.5.0',
-    'pytest-cov==2.4',
+    'pytest-cov==2.5.1',
     'pyquery==1.2',
     'requests_mock',
 ]
