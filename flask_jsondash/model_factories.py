@@ -123,7 +123,7 @@ def make_fake_dashboard(name='Random chart', max_charts=10):
         name=name,
         created_by='global',
         date=dt.now(),
-        category=choice(settings.CHARTS_CONFIG.keys()),
+        category=choice(list(settings.CHARTS_CONFIG.keys())),
         modules=db.format_charts(charts),
         id=str(uuid1()),
         layout='freeform',

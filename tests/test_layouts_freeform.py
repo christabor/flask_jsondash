@@ -1,6 +1,6 @@
 import json
 
-from conftest import setup_dashboard
+from tests.conftest import setup_dashboard
 
 
 def test_freeform_mode_has_no_rows_or_cols(monkeypatch, ctx, client):

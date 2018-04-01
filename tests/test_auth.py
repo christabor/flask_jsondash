@@ -2,7 +2,7 @@ from pyquery import PyQuery as pq
 
 import pytest
 
-from conftest import auth_invalid
+from tests.conftest import auth_invalid
 
 from flask_jsondash import charts_builder
 

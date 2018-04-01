@@ -6,7 +6,7 @@ from pyquery import PyQuery as pq
 
 import pytest
 
-from conftest import (
+from tests.conftest import (
     get_json_config,
     auth_valid,
     read,
