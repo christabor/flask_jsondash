@@ -5,7 +5,7 @@ from click.testing import CliRunner
 
 from flask_jsondash import model_factories
 from flask_jsondash.settings import CHARTS_CONFIG
-from conftest import read
+from tests.conftest import read
 
 _db = model_factories.adapter
 

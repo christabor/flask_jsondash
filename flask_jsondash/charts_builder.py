@@ -23,13 +23,8 @@ from flask_jsondash import static, templates
 
 from . import db
 from .settings import CHARTS_CONFIG
-from .utils import (
-    get_num_rows,
-    sort_modules,
-    is_global_dashboard,
-    categorize_views,
-    paginator,
-)
+from . import utils
+
 from .schema import (
     validate_raw_json, InvalidSchemaError,
 )
@@ -294,12 +289,12 @@ def dashboard():
     else:
         views = list(adapter.read(**opts))
     if views:
-        pagination = paginator(count=len(views), page=page, per_page=per_page)
+        pagination = utils.paginator(count=len(views), page=page, per_page=per_page)
         opts.update(limit=pagination.limit, skip=pagination.skip)
         views = views[pagination.skip:pagination.next]
     else:
         pagination = None
-    categorized = categorize_views(views)
+    categorized = utils.categorize_views(views)
     kwargs = dict(
         total=len(views),
         views=categorized,
@@ -347,12 +342,12 @@ def view(c_id):
         id=c_id,
         view=viewjson,
         categories=get_categories(),
-        num_rows=None if layout_type == 'freeform' else get_num_rows(viewjson),
-        modules=sort_modules(viewjson),
+        num_rows=None if layout_type == 'freeform' else utils.get_num_rows(viewjson),
+        modules=utils.sort_modules(viewjson),
         assets=get_active_assets(active_charts),
         can_edit=can_edit,
         can_edit_global=auth(authtype='edit_global'),
-        is_global=is_global_dashboard(viewjson),
+        is_global=utils.is_global_dashboard(viewjson),
     )
     return render_template('pages/chart_detail.html', **kwargs)
 

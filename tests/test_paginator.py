@@ -4,7 +4,7 @@ from pyquery import PyQuery as pq
 
 from flask_jsondash import charts_builder, utils
 
-from conftest import (
+from tests.conftest import (
     auth_valid,
     read,
 )

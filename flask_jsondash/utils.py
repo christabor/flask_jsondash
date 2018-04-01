@@ -12,7 +12,7 @@ General utils for handling data within the blueprint.
 
 from collections import defaultdict, namedtuple
 
-import charts_builder
+from . import charts_builder
 
 Paginator = namedtuple('Paginator',
                        'count per_page curr_page num_pages next limit skip')

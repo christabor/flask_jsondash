@@ -1,6 +1,6 @@
 import json
 
-from conftest import setup_dashboard
+from tests.conftest import setup_dashboard
 
 
 def test_grid_mode_has_no_cols_empty_single_row(monkeypatch, ctx, client):
