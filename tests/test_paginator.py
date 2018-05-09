@@ -34,32 +34,32 @@ def check_values(paginator, limit, perpage, currpage, skip, numpages, count):
 
 def test_paginator_default_usage(monkeypatch, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'setting', make_setting(30))
-    monkeypatch.setattr(charts_builder.adapter, 'count', make_count(1000))
+    monkeypatch.setattr(utils, 'setting', make_setting(30))
+    monkeypatch.setattr(utils.adapter, 'count', make_count(1000))
     paginator = utils.paginator(page=0)
     check_values(paginator, 30, 30, 0, 0, range(1, 35), 1000)
 
 
 def test_paginator_norecords(monkeypatch, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'setting', make_setting(30))
-    monkeypatch.setattr(charts_builder.adapter, 'count', make_count(0))
+    monkeypatch.setattr(utils, 'setting', make_setting(30))
+    monkeypatch.setattr(utils.adapter, 'count', make_count(0))
     paginator = utils.paginator(page=0)
     check_values(paginator, 30, 30, 0, 0, [], 0)
 
 
 def test_paginator_default_fallback_data_lt_2(monkeypatch, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'setting', make_setting(0))
-    monkeypatch.setattr(charts_builder.adapter, 'count', make_count(0))
+    monkeypatch.setattr(utils, 'setting', make_setting(0))
+    monkeypatch.setattr(utils.adapter, 'count', make_count(0))
     paginator = utils.paginator(page=None, per_page=1, count=None)
     check_values(paginator, 2, 2, 0, 0, [], 0)
 
 
 def test_paginator_bad_kwargs_fallback_data(monkeypatch, client):
     app, test = client
-    monkeypatch.setattr(charts_builder, 'setting', make_setting(0))
-    monkeypatch.setattr(charts_builder.adapter, 'count', make_count(0))
+    monkeypatch.setattr(utils, 'setting', make_setting(0))
+    monkeypatch.setattr(utils.adapter, 'count', make_count(0))
     # Ensure the paginator uses a minimum of 2 per page to prevent
     # division errors, even when there are no good values sent,
     # AND the app default setting is forcibly invalid (set to 0)
@@ -80,10 +80,13 @@ def test_create_dashboards_check_paginator_html(monkeypatch, ctx, client):
     assert dom.find('.paginator-status').text() == 'Showing 0-25 of 100 results'
     res = test.get(url_for('jsondash.dashboard') + '?page=2')
     dom = pq(res.data)
-    assert dom.find('.paginator-status').text() == 'Showing 25-50 of 100 results'
+    assert dom.find(
+        '.paginator-status').text() == 'Showing 25-50 of 100 results'
     res = test.get(url_for('jsondash.dashboard') + '?page=3')
     dom = pq(res.data)
-    assert dom.find('.paginator-status').text() == 'Showing 50-75 of 100 results'
+    assert dom.find(
+        '.paginator-status').text() == 'Showing 50-75 of 100 results'
     res = test.get(url_for('jsondash.dashboard') + '?page=4')
     dom = pq(res.data)
-    assert dom.find('.paginator-status').text() == 'Showing 75-100 of 100 results'
+    assert dom.find(
+        '.paginator-status').text() == 'Showing 75-100 of 100 results'

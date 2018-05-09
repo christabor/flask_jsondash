@@ -20,13 +20,13 @@ from flask_jsondash import settings
 REDIRECT_MSG = 'You should be redirected automatically'
 
 
-def test_app_redirects(ctx, client):
+def test_app_redirects(client):
     app, test = client
     res = test.get('/charts')
     assert REDIRECT_MSG in str(res.data)
 
 
-def test_routes(ctx, client):
+def test_routes(client):
     assert url_for('jsondash.dashboard') == '/charts/'
     assert url_for('jsondash.view', c_id='foo') == '/charts/foo'
     assert url_for('jsondash.update', c_id='foo') == '/charts/foo/update'
@@ -35,7 +35,7 @@ def test_routes(ctx, client):
     assert url_for('jsondash.create') == '/charts/create'
 
 
-def test_get_dashboard_contains_all_chart_types_list(monkeypatch, ctx, client):
+def test_get_dashboard_contains_all_chart_types_list(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
@@ -48,14 +48,14 @@ def test_get_dashboard_contains_all_chart_types_list(monkeypatch, ctx, client):
             assert label in str(res.data)
 
 
-def test_get_dashboard_contains_no_chart_msg(monkeypatch, ctx, client):
+def test_get_dashboard_contains_no_chart_msg(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     res = str(test.get(url_for('jsondash.dashboard')).data)
     assert 'No dashboards exist. Create one below to get started.' in res
 
 
-def test_dashboards_override_perpage_pagination(monkeypatch, ctx, client):
+def test_dashboards_override_perpage_pagination(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     for i in range(10):
@@ -68,7 +68,7 @@ def test_dashboards_override_perpage_pagination(monkeypatch, ctx, client):
     assert len(dom.find('.pagination').find('li:not(.active)')) == 5
 
 
-def test_create_dashboards_check_index_count(monkeypatch, ctx, client):
+def test_create_dashboards_check_index_count(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     for i in range(10):
@@ -80,7 +80,7 @@ def test_create_dashboards_check_index_count(monkeypatch, ctx, client):
     assert 'Showing 10 dashboards with 0 charts' in heading
 
 
-def test_get_view_valid_id_invalid_config(monkeypatch, ctx, client):
+def test_get_view_valid_id_invalid_config(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = dict(modules=[dict(foo='bar')])
@@ -91,7 +91,7 @@ def test_get_view_valid_id_invalid_config(monkeypatch, ctx, client):
         assert 'Invalid config!' in str(res.data)
 
 
-def test_get_view_valid_id_invalid_modules(monkeypatch, ctx, client):
+def test_get_view_valid_id_invalid_modules(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = dict(id='123')
@@ -103,7 +103,7 @@ def test_get_view_valid_id_invalid_modules(monkeypatch, ctx, client):
     assert 'Invalid configuration - missing modules.' in str(res.data)
 
 
-def test_get_view_valid_id_ensure_id_popped(monkeypatch, ctx, client):
+def test_get_view_valid_id_ensure_id_popped(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
@@ -116,7 +116,7 @@ def test_get_view_valid_id_ensure_id_popped(monkeypatch, ctx, client):
     assert len(dom.find('.item')) == len(view['modules'])
 
 
-def test_view_valid_dashboard_count_and_inputs(monkeypatch, ctx, client):
+def test_view_valid_dashboard_count_and_inputs(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
@@ -128,7 +128,7 @@ def test_view_valid_dashboard_count_and_inputs(monkeypatch, ctx, client):
     assert len(dom.find('.charts-input-icon')) == 1
 
 
-def test_view_valid_dashboard_inputs_form(monkeypatch, ctx, client):
+def test_view_valid_dashboard_inputs_form(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
@@ -146,7 +146,7 @@ def test_view_valid_dashboard_inputs_form(monkeypatch, ctx, client):
     assert len(dom.find('.chart-inputs form input')) == 7
 
 
-def test_view_valid_dashboard_inputs_form_counts(monkeypatch, ctx, client):
+def test_view_valid_dashboard_inputs_form_counts(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
@@ -171,7 +171,7 @@ def test_view_valid_dashboard_inputs_form_counts(monkeypatch, ctx, client):
     assert len(dom.find('.chart-inputs [type="checkbox"]')) == len(checkbox)
 
 
-def test_get_view_valid_modules_valid_dash_title(monkeypatch, ctx, client):
+def test_get_view_valid_modules_valid_dash_title(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
@@ -182,7 +182,7 @@ def test_get_view_valid_modules_valid_dash_title(monkeypatch, ctx, client):
     assert dom.find('.dashboard-title').text() == view['name']
 
 
-def test_create_valid(monkeypatch, ctx, client):
+def test_create_valid(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     res = test.post(
@@ -195,7 +195,7 @@ def test_create_valid(monkeypatch, ctx, client):
 
 
 @pytest.mark.invalid_id_redirect
-def test_get_view_invalid_id_redirect(monkeypatch, ctx, client):
+def test_get_view_invalid_id_redirect(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     res = test.get(url_for('jsondash.view', c_id='123'))
@@ -203,7 +203,7 @@ def test_get_view_invalid_id_redirect(monkeypatch, ctx, client):
 
 
 @pytest.mark.invalid_id_redirect
-def test_clone_invalid_id_redirect(monkeypatch, ctx, client):
+def test_clone_invalid_id_redirect(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     res = test.post(url_for('jsondash.clone', c_id='123'))
@@ -211,7 +211,7 @@ def test_clone_invalid_id_redirect(monkeypatch, ctx, client):
 
 
 @pytest.mark.invalid_id_redirect
-def test_delete_invalid_id_redirect(monkeypatch, ctx, client):
+def test_delete_invalid_id_redirect(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     res = test.post(
@@ -221,14 +221,14 @@ def test_delete_invalid_id_redirect(monkeypatch, ctx, client):
 
 @pytest.mark.update_raw
 @pytest.mark.invalid_id_redirect
-def test_update_invalid_id_redirect(monkeypatch, ctx, client):
+def test_update_invalid_id_redirect(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     res = test.post(url_for('jsondash.update', c_id='123'))
     assert REDIRECT_MSG in str(res.data)
 
 
-def test_clone_valid(monkeypatch, ctx, client):
+def test_clone_valid(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     assert len(read()) == 0
@@ -251,7 +251,7 @@ def test_clone_valid(monkeypatch, ctx, client):
     assert len(read()) == 2
 
 
-def test_delete_valid(monkeypatch, ctx, client):
+def test_delete_valid(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = dict(name='mydash', modules=[])
@@ -277,7 +277,7 @@ def test_delete_valid(monkeypatch, ctx, client):
 
 
 @pytest.mark.update_raw
-def test_update_edit_raw_invalid(monkeypatch, ctx, client):
+def test_update_edit_raw_invalid(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     view = get_json_config('inputs.json')
@@ -298,7 +298,7 @@ def test_update_edit_raw_invalid(monkeypatch, ctx, client):
     'family',
 ])
 def test_update_edit_raw_invalidschema_missing_x(field, monkeypatch,
-                                                 ctx, client):
+                                                 client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     module = dict(
@@ -320,7 +320,7 @@ def test_update_edit_raw_invalidschema_missing_x(field, monkeypatch,
 
 
 @pytest.mark.update_raw
-def test_update_edit_raw_valid(monkeypatch, ctx, client):
+def test_update_edit_raw_valid(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     assert not read()
@@ -352,7 +352,7 @@ def test_update_edit_raw_valid(monkeypatch, ctx, client):
 
 
 @pytest.mark.update
-def test_update_valid(monkeypatch, ctx, client):
+def test_update_valid(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     assert not read()
@@ -374,7 +374,7 @@ def test_update_valid(monkeypatch, ctx, client):
 
 
 @pytest.mark.update
-def test_update_invalid_swap_freeform_to_grid_no_row(monkeypatch, ctx, client):
+def test_update_invalid_swap_freeform_to_grid_no_row(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     assert not read()
@@ -405,7 +405,7 @@ def test_update_invalid_swap_freeform_to_grid_no_row(monkeypatch, ctx, client):
     assert len(read()) == 1
 
 
-def test_no_demo_mode(monkeypatch, ctx, client):
+def test_no_demo_mode(monkeypatch, client):
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
     data = dict(name='newname', modules=[])
@@ -419,7 +419,7 @@ def test_no_demo_mode(monkeypatch, ctx, client):
     assert dom.find('.chart-header .dropdown-toggle')
 
 
-def test_demo_mode(monkeypatch, ctx, client):
+def test_demo_mode(monkeypatch, client):
     # Test that certain UI elements are removed when in demo mode.
     app, test = client
     monkeypatch.setattr(charts_builder, 'auth', auth_valid)
@@ -433,7 +433,7 @@ def test_demo_mode(monkeypatch, ctx, client):
     assert not dom.find('.chart-header .dropdown-toggle')
 
 
-def test_correct_charts_count(monkeypatch, ctx, client):
+def test_correct_charts_count(monkeypatch, client):
     app, test = client
     data = dict(
         mode='grid',

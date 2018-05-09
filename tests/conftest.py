@@ -106,7 +106,7 @@ def make_chart(**kwargs):
     return json.dumps(data)
 
 
-@pytest.yield_fixture
+@pytest.yield_fixture(autouse=True)
 def ctx(monkeypatch, request):
     with app.test_request_context() as req_ctx:
         global fake_db
