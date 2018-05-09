@@ -21,16 +21,18 @@ from flask import (Blueprint, current_app, flash, redirect, render_template,
 
 from flask_jsondash import static, templates
 
-from . import db
-from .settings import CHARTS_CONFIG
-from .utils import (
+from flask_jsondash import db
+from flask_jsondash.settings import CHARTS_CONFIG
+from flask_jsondash.utils import (
     get_num_rows,
     sort_modules,
     is_global_dashboard,
     categorize_views,
     paginator,
+    setting,
+    adapter,
 )
-from .schema import (
+from flask_jsondash.schema import (
     validate_raw_json, InvalidSchemaError,
 )
 
@@ -50,13 +52,6 @@ charts = Blueprint(
     static_url_path=STATIC_DIR,
     static_folder=STATIC_DIR,
 )
-default_config = dict(
-    JSONDASH_FILTERUSERS=False,
-    JSONDASH_GLOBALDASH=False,
-    JSONDASH_GLOBAL_USER='global',
-    JSONDASH_PERPAGE=25,
-)
-adapter = db.get_db_handler()
 
 
 def auth(**kwargs):
@@ -108,21 +103,6 @@ def metadata(key=None, exclude=[]):
             continue
         _metadata[k] = conf_metadata[k]()
     return _metadata
-
-
-def setting(name, default=None):
-    """A simplified getter for namespaced flask config values.
-
-    Args:
-        name (str): A setting to retrieve the value for.
-        default (None, optional): A default value to fall back to
-            if not specified.
-    Returns:
-        str: A value from the app config.
-    """
-    if default is None:
-        default = default_config.get(name)
-    return current_app.config.get(name, default)
 
 
 def local_static(chart_config, static_config):

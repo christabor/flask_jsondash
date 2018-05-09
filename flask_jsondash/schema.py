@@ -14,7 +14,7 @@ import json
 
 import cerberus
 
-from .settings import CHARTS_CONFIG
+from flask_jsondash.settings import CHARTS_CONFIG
 
 
 class InvalidSchemaError(ValueError):

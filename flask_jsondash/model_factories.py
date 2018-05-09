@@ -19,7 +19,7 @@ from uuid import uuid1
 import click
 from werkzeug.datastructures import ImmutableMultiDict
 
-from . import db, settings
+from flask_jsondash import db, settings
 
 adapter = db.get_db_handler()
 

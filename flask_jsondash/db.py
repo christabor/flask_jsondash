@@ -15,7 +15,7 @@ from datetime import datetime as dt
 
 from pymongo import MongoClient
 
-from . import mongo_adapter, settings
+from flask_jsondash import mongo_adapter, settings
 
 DB_NAME = settings.ACTIVE_DB
 
