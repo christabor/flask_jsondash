@@ -43,8 +43,8 @@ def test_update_format_charts(monkeypatch, adapter):
     assert records[0][0]['id'] == 'foo-id'
     assert records[0][1]['$set']['name'] == 'foo'
     assert len(records[0][1]['$set']['modules']) == 2
-    assert 'module_1' in records[0][1]['$set'].keys()
-    assert 'module_2' in records[0][1]['$set'].keys()
+    assert 'module_1' in list(records[0][1]['$set'].keys())
+    assert 'module_2' in list(records[0][1]['$set'].keys())
     assert isinstance(records[0][1]['$set']['date'], datetime)
 
 

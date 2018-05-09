@@ -12,10 +12,35 @@ General utils for handling data within the blueprint.
 
 from collections import defaultdict, namedtuple
 
-import charts_builder
+from flask import current_app
 
+from flask_jsondash import db
+
+adapter = db.get_db_handler()
 Paginator = namedtuple('Paginator',
                        'count per_page curr_page num_pages next limit skip')
+
+default_config = dict(
+    JSONDASH_FILTERUSERS=False,
+    JSONDASH_GLOBALDASH=False,
+    JSONDASH_GLOBAL_USER='global',
+    JSONDASH_PERPAGE=25,
+)
+
+
+def setting(name, default=None):
+    """A simplified getter for namespaced flask config values.
+
+    Args:
+        name (str): A setting to retrieve the value for.
+        default (None, optional): A default value to fall back to
+            if not specified.
+    Returns:
+        str: A value from the app config.
+    """
+    if default is None:
+        default = default_config.get(name)
+    return current_app.config.get(name, default)
 
 
 def get_num_rows(viewconf):
@@ -84,9 +109,9 @@ def is_global_dashboard(view):
     Returns:
         bool: If all criteria was met to be included as a global dashboard.
     """
-    global_user = charts_builder.setting('JSONDASH_GLOBAL_USER')
+    global_user = setting('JSONDASH_GLOBAL_USER')
     return all([
-        charts_builder.setting('JSONDASH_GLOBALDASH'),
+        setting('JSONDASH_GLOBALDASH'),
         view.get('created_by') == global_user,
     ])
 
@@ -106,7 +131,7 @@ def categorize_views(views):
     for view in views:
         try:
             buckets[view.get('category', 'uncategorized')].append(view)
-        except:
+        except Exception:
             continue
     for cat, view in buckets.items():
         buckets[cat] = sorted(view, key=lambda v: v['name'].lower())
@@ -116,11 +141,11 @@ def categorize_views(views):
 def paginator(page=0, per_page=None, count=None):
     """Get pagination calculations in a compact format."""
     if count is None:
-        count = charts_builder.adapter.count()
+        count = adapter.count()
     if page is None:
         page = 0
     if per_page is None:
-        per_page = charts_builder.setting('JSONDASH_PERPAGE')
+        per_page = setting('JSONDASH_PERPAGE')
     per_page = per_page if per_page > 2 else 2  # Prevent division errors
     curr_page = page - 1 if page > 0 else 0
     num_pages = count // per_page

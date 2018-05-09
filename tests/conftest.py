@@ -6,7 +6,7 @@ import pytest
 from flask import Flask, url_for
 from pyquery import PyQuery as pq
 
-from flask_jsondash import charts_builder
+from flask_jsondash import charts_builder, utils
 from flask_jsondash import db
 
 URL_BASE = 'http://127.0.0.1:80'
@@ -106,15 +106,16 @@ def make_chart(**kwargs):
     return json.dumps(data)
 
 
-@pytest.yield_fixture
+@pytest.yield_fixture(autouse=True)
 def ctx(monkeypatch, request):
     with app.test_request_context() as req_ctx:
         global fake_db
         fake_db = []
-        monkeypatch.setattr(charts_builder.adapter, 'read', read)
-        monkeypatch.setattr(charts_builder.adapter, 'create', create)
-        monkeypatch.setattr(charts_builder.adapter, 'delete', delete)
-        monkeypatch.setattr(charts_builder.adapter, 'update', update)
+        monkeypatch.setattr(utils.adapter, 'read', read)
+        monkeypatch.setattr(utils.adapter, 'create', create)
+        monkeypatch.setattr(utils.adapter, 'delete', delete)
+        monkeypatch.setattr(utils.adapter, 'update', update)
+        monkeypatch.setattr(utils.adapter, 'filter', read)
         yield req_ctx
 
 

@@ -21,26 +21,23 @@ from flask import (Blueprint, current_app, flash, redirect, render_template,
 
 from flask_jsondash import static, templates
 
-from . import db
-from .settings import CHARTS_CONFIG
-from .utils import (
-    get_num_rows,
-    sort_modules,
-    is_global_dashboard,
-    categorize_views,
-    paginator,
-)
-from .schema import (
+from flask_jsondash import db
+from flask_jsondash import settings
+from flask_jsondash.utils import setting
+from flask_jsondash.utils import adapter
+from flask_jsondash import utils
+from flask_jsondash.schema import (
     validate_raw_json, InvalidSchemaError,
 )
 
 TEMPLATE_DIR = os.path.dirname(templates.__file__)
 STATIC_DIR = os.path.dirname(static.__file__)
 
-# Internally required libs that are also shared in `settings.py` for charts.
-# These follow the same format as what is loaded in `get_active_assets`
-# so that shared libraries are loaded in the same manner for simplicty
-# and prevention of duplicate loading. Note these are just LABELS, not files.
+# Internally required libs that are also shared in `settings.py`
+# for charts. These follow the same format as what is loaded in
+# `get_active_assets` so that shared libraries are loaded in the same manner
+# for simplicty and prevention of duplicate loading.
+# Note these are just LABELS, not files.
 REQUIRED_STATIC_FAMILES = ['D3']
 
 charts = Blueprint(
@@ -50,13 +47,6 @@ charts = Blueprint(
     static_url_path=STATIC_DIR,
     static_folder=STATIC_DIR,
 )
-default_config = dict(
-    JSONDASH_FILTERUSERS=False,
-    JSONDASH_GLOBALDASH=False,
-    JSONDASH_GLOBAL_USER='global',
-    JSONDASH_PERPAGE=25,
-)
-adapter = db.get_db_handler()
 
 
 def auth(**kwargs):
@@ -110,21 +100,6 @@ def metadata(key=None, exclude=[]):
     return _metadata
 
 
-def setting(name, default=None):
-    """A simplified getter for namespaced flask config values.
-
-    Args:
-        name (str): A setting to retrieve the value for.
-        default (None, optional): A default value to fall back to
-            if not specified.
-    Returns:
-        str: A value from the app config.
-    """
-    if default is None:
-        default = default_config.get(name)
-    return current_app.config.get(name, default)
-
-
 def local_static(chart_config, static_config):
     """Convert remote cdn urls to local urls, based on user provided paths.
 
@@ -156,8 +131,8 @@ def ctx():
     filter_user = setting('JSONDASH_FILTERUSERS')
     static = setting('JSONDASH').get('static')
     # Rewrite the static config paths to be local if the overrides are set.
-    config = (CHARTS_CONFIG if not static
-              else local_static(CHARTS_CONFIG, static))
+    config = (settings.CHARTS_CONFIG if not static
+              else local_static(settings.CHARTS_CONFIG, static))
     return dict(
         static_config=static,
         charts_config=config,
@@ -228,7 +203,7 @@ def _static(filename):
 def get_all_assets():
     """Load ALL asset files for css/js from config."""
     cssfiles, jsfiles = [], []
-    for c in CHARTS_CONFIG.values():
+    for c in settings.CHARTS_CONFIG.values():
         if c['css_url'] is not None:
             cssfiles += c['css_url']
         if c['js_url'] is not None:
@@ -244,17 +219,17 @@ def get_active_assets(families):
     families += REQUIRED_STATIC_FAMILES  # Always load internal, shared libs.
     assets = dict(css=[], js=[])
     families = set(families)
-    for family, data in CHARTS_CONFIG.items():
+    for family, data in settings.CHARTS_CONFIG.items():
         if family in families:
             # Also add all dependency assets.
             if data['dependencies']:
                 for dep in data['dependencies']:
                     assets['css'] += [
-                        css for css in CHARTS_CONFIG[dep]['css_url']
+                        css for css in settings.CHARTS_CONFIG[dep]['css_url']
                         if css not in assets['css']]
 
                     assets['js'] += [
-                        js for js in CHARTS_CONFIG[dep]['js_url']
+                        js for js in settings.CHARTS_CONFIG[dep]['js_url']
                         if js not in assets['js']
                     ]
             assets['css'] += [
@@ -283,7 +258,8 @@ def dashboard():
     views = []
     # Allow query parameter overrides.
     page = int(request.args.get('page', 0))
-    per_page = int(request.args.get('per_page', setting('JSONDASH_PERPAGE')))
+    per_page = int(request.args.get(
+        'per_page', setting('JSONDASH_PERPAGE')))
     if setting('JSONDASH_FILTERUSERS'):
         opts.update(filter=dict(created_by=metadata(key='username')))
         views = list(adapter.read(**opts))
@@ -294,12 +270,13 @@ def dashboard():
     else:
         views = list(adapter.read(**opts))
     if views:
-        pagination = paginator(count=len(views), page=page, per_page=per_page)
+        pagination = utils.paginator(count=len(views),
+                                     page=page, per_page=per_page)
         opts.update(limit=pagination.limit, skip=pagination.skip)
         views = views[pagination.skip:pagination.next]
     else:
         pagination = None
-    categorized = categorize_views(views)
+    categorized = utils.categorize_views(views)
     kwargs = dict(
         total=len(views),
         views=categorized,
@@ -347,12 +324,14 @@ def view(c_id):
         id=c_id,
         view=viewjson,
         categories=get_categories(),
-        num_rows=None if layout_type == 'freeform' else get_num_rows(viewjson),
-        modules=sort_modules(viewjson),
+        num_rows=(
+            None if layout_type == 'freeform' else utils.get_num_rows(viewjson)
+        ),
+        modules=utils.sort_modules(viewjson),
         assets=get_active_assets(active_charts),
         can_edit=can_edit,
         can_edit_global=auth(authtype='edit_global'),
-        is_global=is_global_dashboard(viewjson),
+        is_global=utils.is_global_dashboard(viewjson),
     )
     return render_template('pages/chart_detail.html', **kwargs)
 

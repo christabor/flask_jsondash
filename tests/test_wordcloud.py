@@ -47,7 +47,7 @@ def test_url2wordcloud_exclude_punct(monkeypatch):
     url = 'http://www.test.com'
     content = '<html><body>; great words $ &!</body></html>'
     with requests_mock.Mocker() as m:
-        m.get(url, content=content)
+        m.get(url, content=content.encode('utf-8'))
         res = wordcloud.url2wordcloud(url, exclude_punct=True)
         assert isinstance(res, list)
         words = [w['text'] for w in res]
@@ -61,7 +61,7 @@ def test_url2wordcloud_limit(monkeypatch):
     url = 'http://www.test.com'
     content = '<html><body>these are are great great great words</body></html>'
     with requests_mock.Mocker() as m:
-        m.get(url, content=content)
+        m.get(url, content=content.encode('utf-8'))
         res = wordcloud.url2wordcloud(url, limit=2)
         assert isinstance(res, list)
         words = [w['text'] for w in res]
@@ -75,7 +75,7 @@ def test_url2wordcloud_min_len_none(monkeypatch):
     url = 'http://www.test.com'
     content = '<html><body>; great words short word $</body></html>'
     with requests_mock.Mocker() as m:
-        m.get(url, content=content)
+        m.get(url, content=content.encode('utf-8'))
         res = wordcloud.url2wordcloud(url, min_len=10)
         assert isinstance(res, list)
         words = [w['text'] for w in res]
@@ -86,7 +86,7 @@ def test_url2wordcloud_min_len_none_one(monkeypatch):
     url = 'http://www.test.com'
     content = '<html><body>a a prettylongwordfortest sort word</body></html>'
     with requests_mock.Mocker() as m:
-        m.get(url, content=content)
+        m.get(url, content=content.encode('utf-8'))
         res = wordcloud.url2wordcloud(url, min_len=10)
         assert isinstance(res, list)
         words = [w['text'] for w in res]
@@ -97,6 +97,6 @@ def test_url2wordcloud_bad_url(monkeypatch):
     url = 'http://www.test.com'
     content = '<html><body>500 SERVER ERROR.</body></html>'
     with requests_mock.Mocker() as m:
-        m.get(url, content=content, status_code=404)
+        m.get(url, content=content.encode('utf-8'), status_code=404)
         res = wordcloud.url2wordcloud(url, min_len=10)
         assert res == []
