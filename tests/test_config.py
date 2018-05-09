@@ -25,7 +25,7 @@ def test_valid_helplink():
 
 
 def test_families_with_dependencies_are_valid_in_config():
-    families = settings.CHARTS_CONFIG.keys()
+    families = list(settings.CHARTS_CONFIG.keys())
     for family, config in settings.CHARTS_CONFIG.items():
         if config['dependencies']:
             for dep in config['dependencies']:
