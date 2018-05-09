@@ -38,12 +38,12 @@ def test_is_consecutive_rows_invalid_no_row_zero_allowed(lst):
 
 @pytest.mark.utils
 def test_get_num_rows_none():
-    assert charts_builder.get_num_rows(None) is None
+    assert utils.get_num_rows(None) is None
 
 
 @pytest.mark.utils
 def test_get_num_rows_freeform():
-    assert charts_builder.get_num_rows(dict(layout='freeform')) is None
+    assert utils.get_num_rows(dict(layout='freeform')) is None
 
 
 @pytest.mark.utils
@@ -52,7 +52,7 @@ def test_get_num_rows_fixed():
         layout='grid',
         modules=[dict(row=1), dict(row=2)],
     )
-    assert charts_builder.get_num_rows(conf) == 2
+    assert utils.get_num_rows(conf) == 2
 
 
 @pytest.mark.utils

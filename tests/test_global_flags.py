@@ -2,7 +2,7 @@ import pytest
 
 from pyquery import PyQuery as pq
 
-from flask_jsondash import charts_builder
+from flask_jsondash import charts_builder, utils
 
 from conftest import (
     auth_valid,
@@ -55,14 +55,13 @@ def test_setting(ctx, client):
 def test_is_global_dashboard_true(ctx, client):
     app, test = client
     app.config.update(JSONDASH_GLOBALDASH=True)
-    assert charts_builder.is_global_dashboard(
-        dict(created_by='global-test'))
+    assert utils.is_global_dashboard(dict(created_by='global-test'))
 
 
 @pytest.mark.globalflag
 def test_is_global_dashboard_false(ctx, client):
     app, test = client
-    is_global = charts_builder.is_global_dashboard
+    is_global = utils.is_global_dashboard
     assert not is_global(dict(created_by='foo'))
     assert not is_global(dict(created_by='Username'))
 
