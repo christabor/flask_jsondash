@@ -9,7 +9,7 @@ folder = os.path.abspath(os.path.dirname(__file__))
 test_requirements = [
     'pytest==3.6.0',
     'pytest-cov==2.5.1',
-    'pyquery==1.2',
+    'pyquery==1.4.0',
     'requests_mock',
 ]
 extras_require = {
