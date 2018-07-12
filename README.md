@@ -8,7 +8,7 @@
 [![Code Health](https://landscape.io/github/christabor/flask_jsondash/master/landscape.svg?style=flat)](https://landscape.io/github/christabor/flask_jsondash/master)
 [![Coverage Status](https://coveralls.io/repos/github/christabor/flask_jsondash/badge.svg?branch=master)](https://coveralls.io/github/christabor/flask_jsondash?branch=master)
 [![PyPI version](https://badge.fury.io/py/flask_jsondash.svg)](https://badge.fury.io/py/flask_jsondash)
-[![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/flask-jsondash/)
+<img src="http://img.shields.io/liberapay/patrons/christabor.svg?logo=liberapay">
 
 Easily configurable, chart dashboards from any arbitrary API endpoint. JSON config only. Ready to go.
 
