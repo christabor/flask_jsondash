@@ -24,7 +24,7 @@ Easily configurable, chart dashboards from any arbitrary API endpoint. JSON conf
 
 <img src="example_app/examples/screenshots/plotly.png" alt="kitchensink screenshot 1">
 
-This project is a [flask blueprint](http://flask.pocoo.org/docs/0.10/blueprints/) that allows you to create **sleek dashboards** without writing any front end (or backend) code. Everything is powered through simple JSON configurations for declaring arbitrary charts.
+This project is a [flask blueprint](http://flask.pocoo.org/docs/1.0/blueprints/) that allows you to create **sleek dashboards** without writing any front end (or backend) code. Everything is powered through simple JSON configurations for declaring arbitrary charts.
 
 ## Features
 
