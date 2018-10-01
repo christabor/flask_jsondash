@@ -11,6 +11,7 @@ A translation adapter for transparent operations between storage types.
 """
 
 import json
+import re
 from datetime import datetime as dt
 
 from pymongo import MongoClient
@@ -57,7 +58,11 @@ def get_db_handler():
         object: The instantiated database handler
     """
     if DB_NAME == 'mongo':
-        client = MongoClient(host=settings.DB_URI, port=settings.DB_PORT)
+        if re.match(r"^mongodb:",settings.DB_URI)!=None:
+            client = MongoClient(settings.DB_URI)
+        else:
+            client = MongoClient(host=settings.DB_URI, port=settings.DB_PORT)
+            
         conn = client[settings.DB_NAME]
         coll = conn[settings.DB_TABLE]
         return mongo_adapter.Db(client, conn, coll, format_charts)
