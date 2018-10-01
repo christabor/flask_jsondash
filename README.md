@@ -118,7 +118,7 @@ Each chart is very straightforward. Most of the power is leveraged by the variou
 
 Make sure the following env vars are set:
 
-* `CHARTS_DB_HOST` - The DB server hostname (defaults to 'localhost')
+* `CHARTS_DB_HOST` - The DB server hostname (defaults to 'localhost'), or full MongoDB connection URL with username and password, eg. `mongodb://user:pass@localhost/dbname?authSource=admin`
 * `CHARTS_DB_PORT` - The DB server port (defaults to 27017)
 * `CHARTS_DB_NAME` - The DB database name (defaults to 'charts')
 * `CHARTS_DB_TABLE` The DB collection name (defaults to 'views')
