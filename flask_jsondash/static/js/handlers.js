@@ -54,24 +54,20 @@ jsondash.getJSON = function(container, config, callback) {
     }
 
     // perfom the request
+    var callbackFun = function(error, data){
+        jsondash.handleRes(error, data, container);
+        if(error || !data) {
+            return;
+        }
+        callback(error, config.key && data.multicharts[config.key] ? data.multicharts[config.key] : data);
+    }
+
     if (ispost) {
         var postedData = this.postDataFromString(config);
         var postedData = config.postData;
-        request.send("POST", postedData, function(error, data){
-            jsondash.handleRes(error, data, container);
-            if(error || !data) {
-                return;
-            }
-            callback(error, config.key && data.multicharts[config.key] ? data.multicharts[config.key] : data);
-        });
+        request.send("POST", postedData, callbackFun);
     } else {
-        request.get(function(error, data){
-            jsondash.handleRes(error, data, container);
-            if(error || !data) {
-                return;
-            }
-            callback(error, config.key && data.multicharts[config.key] ? data.multicharts[config.key] : data);
-        });
+        request.get(callbackFun);
     }
 };
 
