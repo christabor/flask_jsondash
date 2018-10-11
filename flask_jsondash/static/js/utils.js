@@ -141,6 +141,18 @@ jsondash.util.isOverride = function(config) {
     return config.override && config.override === true;
 };
 
+jsondash.util.getDicoHeader = function(customHeaderText) {
+    dicoHeader = {};
+    var headersList = customHeaderText.split('\n');
+    headersList.forEach(function(line) {
+        var temp = line.split(':');
+        var h = temp[0].replace(' ', '');
+        var v = temp[1].replace(' ', '')
+        dicoHeader[h] = v;
+    });
+    return dicoHeader;
+};
+
 // Credit: http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
 jsondash.util.s4 = function() {
     return Math.floor((1 + Math.random()) * 0x10000)

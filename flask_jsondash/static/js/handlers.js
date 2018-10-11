@@ -22,17 +22,6 @@ jsondash.handleRes = function(error, data, container) {
     }
 };
 
-jsondash.addAdditionalHeader = function(config, request) {
-    var customHeader = config.customHeader;
-    var headersList = customHeader.split('\n');
-    headersList.forEach(function(line) {
-        var temp = line.split(':');
-        var h = temp[0].replace(' ', '');
-        var v = temp[1].replace(' ', '')
-        request.header(h, v);
-    });
-};
-
 jsondash.postDataFromString = function(config) {
     var postData = config.postData;
     var data = JSON.parse(postData);
@@ -53,8 +42,16 @@ jsondash.getJSON = function(container, config, callback) {
 
     var request = d3.json(url);
 
+    // get additional headers
+    var customHeaderText = config.customHeader;
+    var headers = this.util.getDicoHeader(customHeaderText);
     // add the additional headers to the request
-    this.addAdditionalHeader(config, request);
+    for (var h in headers) {
+        if (headers.hasOwnProperty(h)) {
+            var v = headers[h];
+            request.header(h, v);
+        }
+    }
 
     // perfom the request
     if (ispost) {

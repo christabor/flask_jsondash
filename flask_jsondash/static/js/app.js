@@ -399,10 +399,16 @@ var jsondash = function() {
 
     function previewAPIRoute(e) {
         e.preventDefault();
+        var request_type = WIDGET_FORM.find('[name="isPOST"]').is(':checked') ? 'POST' : 'GET';
+        var customHeader = WIDGET_FORM.find('[name="customHeader"]').val();
+        customHeader = jsondash.util.getDicoHeader(customHeader);
+        var postData = request_type == 'POST' ? WIDGET_FORM.find('[name="postData"]').val() : {};
         // Shows the response of the API field as a json payload, inline.
         $.ajax({
-            type: 'GET',
+            type: request_type,
             url: API_ROUTE_URL.val().trim(),
+            headers: customHeader,
+            data: postData,
             success: function(data) {
                 API_PREVIEW.html(prettyCode(data));
                 API_PREVIEW.trigger(EVENTS.preview_api, [{status: data, error: false}]);
