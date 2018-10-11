@@ -69,7 +69,7 @@ var jsondash = function() {
             return self.get(el.data().guid);
         };
         /**
-         * [getAllMatchingProp Get widget guids matching a givne propname and val]
+         * [getAllMatchingProp Get widget guids matching a given propname and val]
          */
         self.getAllMatchingProp = function(propname, val) {
             var matches = [];
@@ -99,12 +99,24 @@ var jsondash = function() {
             });
             return props;
         };
+        self.getAllOfPropUnlessPropEmpty = function(propname, propcheck) {
+            var props = [];
+            $.each(self.all(), function(i, widg){
+                if(widg.config[propcheck] !== undefined && widg.config[propcheck] !== null && widg.config[propcheck] !== "") {
+                    props.push(widg.config[propname]);
+                }
+            });
+            return props;
+        };
         /**
          * [loadAll Load all widgets at once in succession]
          */
         self.loadAll = function() {
             // Don't run this on certain types that are not cacheable (e.g. binary, html)
             var config_urls = self.getAllOfPropUnless('dataSource', 'family', 'Basic');
+            var config_urls_with_custom_header = self.getAllOfPropUnlessPropEmpty('dataSource', 'customHeader');
+            // do not make a request for custom headers
+            config_urls = config_urls.filter(url => config_urls_with_custom_header.indexOf(url) === -1);
             var unique_urls = d3.set(config_urls).values();
             var cached = {};
             var proms = [];
@@ -509,7 +521,7 @@ var jsondash = function() {
         populateRowField(conf.row);
         // Update the modal fields with this widgets' value.
         $.each(conf, function(field, val){
-            if(field === 'override' || field === 'refresh') {
+            if(field === 'override' || field === 'refresh' || field === 'isPOST') {
                 WIDGET_FORM.find('[name="' + field + '"]').prop('checked', val);
             } else if(field === 'classes') {
                 WIDGET_FORM.find('[name="' + field + '"]').val(val.join(','));
@@ -603,6 +615,9 @@ var jsondash = function() {
             width: form.find('[name="width"]').val(),
             height: parseNum(form.find('[name="height"]').val(), 10),
             dataSource: form.find('[name="dataSource"]').val(),
+            customHeader: form.find('[name="customHeader"]').val(),
+            isPOST: form.find('[name="isPOST"]').is(':checked'),
+            postData: form.find('[name="postData"]').val(),
             override: form.find('[name="override"]').is(':checked'),
             order: parseNum(form.find('[name="order"]').val(), 10),
             refresh: form.find('[name="refresh"]').is(':checked'),

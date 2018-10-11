@@ -21,9 +21,28 @@ jsondash.handleRes = function(error, data, container) {
         jsondash.unload(container);
     }
 };
+
+jsondash.addAdditionalHeader = function(config, request) {
+    var customHeader = config.customHeader;
+    var headersList = customHeader.split('\n');
+    headersList.forEach(function(line) {
+        var temp = line.split(':');
+        var h = temp[0].replace(' ', '');
+        var v = temp[1].replace(' ', '')
+        request.header(h, v);
+    });
+};
+
+jsondash.postDataFromString = function(config) {
+    var postData = config.postData;
+    var data = JSON.parse(postData);
+    return data;
+};
+
 jsondash.getJSON = function(container, config, callback) {
     var url     = config.dataSource;
     var cached  = config.cachedData;
+    var ispost  = config.isPOST;
     var err_msg = null;
     if(!url) throw new Error('Invalid URL: ' + url);
     if(cached && cached !== null && cached !== undefined) {
@@ -31,13 +50,32 @@ jsondash.getJSON = function(container, config, callback) {
         config.cachedData = null;
         return callback(null, cached);
     }
-    d3.json(url, function(error, data){
-        jsondash.handleRes(error, data, container);
-        if(error || !data) {
-            return;
-        }
-        callback(error, config.key && data.multicharts[config.key] ? data.multicharts[config.key] : data);
-    });
+
+    var request = d3.json(url);
+
+    // add the additional headers to the request
+    this.addAdditionalHeader(config, request);
+
+    // perfom the request
+    if (ispost) {
+        var postedData = this.postDataFromString(config);
+        var postedData = config.postData;
+        request.send("POST", postedData, function(error, data){
+            jsondash.handleRes(error, data, container);
+            if(error || !data) {
+                return;
+            }
+            callback(error, config.key && data.multicharts[config.key] ? data.multicharts[config.key] : data);
+        });
+    } else {
+        request.get(function(error, data){
+            jsondash.handleRes(error, data, container);
+            if(error || !data) {
+                return;
+            }
+            callback(error, config.key && data.multicharts[config.key] ? data.multicharts[config.key] : data);
+        });
+    }
 };
 
 

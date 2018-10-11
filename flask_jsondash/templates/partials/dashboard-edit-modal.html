@@ -59,6 +59,26 @@
                             Data Source <small class="text-danger">*</small>
                             <small>API, json, webpage, template, etc...</em></small>
                             <input class="form-control" type="text" name="dataSource" value="http://" placeholder="e.g. localhost:5000/my/endpoint" required>
+                            <div style="margin-left: 15px;">
+                                <a style="display: block;" class="collapsed" data-toggle="collapse" data-target="#collapsibleAdditionalHeader" aria-expanded="false" placeholder="">
+                                    Add custom header
+                                    <span class="fa fa-caret-down"></span>
+                                </a>
+                                <textarea id="collapsibleAdditionalHeader" name="customHeader" class="collapse form-control" style="width: 100%;" rows="3"></textarea>
+                            </div>
+                            <div style="margin-left: 15px;">
+                                <label>
+                                    <input type="checkbox" name="isPOST">
+                                    POST request?
+                                </label>
+                                <div style="margin-left: 15px;">
+                                    <a style="display: block;" class="collapsed" data-toggle="collapse" data-target="#collapsiblePOSTBody" aria-expanded="false" placeholder="">
+                                        Add POST body
+                                        <span class="fa fa-caret-down"></span>
+                                    </a>
+                                    <textarea id="collapsiblePOSTBody" name="postData" class="collapse form-control" style="width: 100%;" rows="3"></textarea>
+                                </div>
+                            </div>
                         </label>
                     </fieldset>
                 </div>
