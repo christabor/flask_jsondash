@@ -7,7 +7,7 @@ from setuptools import setup
 SRCDIR = '.'
 folder = os.path.abspath(os.path.dirname(__file__))
 test_requirements = [
-    'pytest==4.0.2',
+    'pytest==4.1.1',
     'pytest-cov==2.6.0',
     'pyquery==1.4.0',
     'requests_mock',
