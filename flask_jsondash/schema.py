@@ -6,7 +6,7 @@ flask_jsondash.schema
 
 The core schema definition and validation rules.
 
-:copyright: (c) 2016 by Chris Tabor.
+:copyright: (c) 2019 by Chris Tabor.
 :license: MIT, see LICENSE for more details.
 """
 
@@ -25,7 +25,7 @@ def get_chart_types():
     """Get all available chart 'type' names from core config.
 
     Returns:
-        types (list): A list of all possible chart types, under all families.
+        list: A list of all possible chart types, under all families.
     """
     types = []
     charts = [chart['charts'] for chart in CHARTS_CONFIG.values()]
@@ -229,7 +229,14 @@ DASHBOARD_SCHEMA = {
 
 
 def validate(conf):
-    """Validate a json conf."""
+    """Validate a json conf.
+
+    Args:
+        conf (dict): The schema configuration.
+
+    Returns:
+        list: A list of schema errors, or None.
+    """
     v = cerberus.Validator(DASHBOARD_SCHEMA, allow_unknown=True)
     valid = v.validate(conf)
     if not valid:
@@ -245,9 +252,9 @@ def is_consecutive_rows(lst):
     Returns:
         True/False: If the list contains consecutive integers.
 
-    Originally taken from and modified:
-        http://stackoverflow.com/
-            questions/40091617/test-for-consecutive-numbers-in-list
+    ..note: Originally taken from and modified:
+        stackoverflow.com/questions/40091617/
+            test-for-consecutive-numbers-in-list
     """
     assert 0 not in lst, '0th index is invalid!'
     lst = list(set(lst))
@@ -312,7 +319,7 @@ def validate_raw_json(jsonstr, **overrides):
         InvalidSchemaError: If there are any issues with the schema
 
     Returns:
-        data (dict): The parsed configuration data
+        dict: The parsed configuration data
     """
     data = json.loads(jsonstr)
     data.update(**overrides)

@@ -24,6 +24,8 @@ fixtures:
 fixturize:
 	mkdir -p fixtures/
 	python -m flask_jsondash.model_factories --dump fixtures
+lint:
+	prospector --zero-exit --die-on-tool-error --profile-path=.prospector.yml flask_jsondash
 pypi:
 	python setup.py sdist upload -r pypi
 sort:
@@ -44,5 +46,6 @@ help:
 	@echo "dropall ..... Delete all dashboards"
 	@echo "fixtures .... Load all example dashboards"
 	@echo "fixturize ... Convert existing database records to fixtures"
+	@echo "lint ........ Run all code linting"
 	@echo "tests ....... Run all tests"
 	@echo "testdata .... Generate some test data"

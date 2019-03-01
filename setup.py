@@ -6,12 +6,6 @@ from setuptools import setup
 
 SRCDIR = '.'
 folder = os.path.abspath(os.path.dirname(__file__))
-test_requirements = [
-    'pytest==4.0.2',
-    'pytest-cov==2.6.0',
-    'pyquery==1.4.0',
-    'requests_mock',
-]
 extras_require = {
     'wordcloud-utils': [
         'requests',
@@ -42,7 +36,7 @@ def readme():
 
 setup(
     name='flask_jsondash',
-    version='6.3.3',
+    version='6.3.4',
     description=('Easily configurable, chart dashboards from any '
                  'arbitrary API endpoint. JSON config only. Ready to go.'),
     long_description=readme(),
@@ -56,11 +50,12 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
     extras_require=extras_require,
-    tests_require=test_requirements,
     install_requires=requirements,
     package_dir={'flask_jsondash': 'flask_jsondash'},
     packages=['flask_jsondash'],

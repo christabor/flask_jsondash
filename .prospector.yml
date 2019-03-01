@@ -1,0 +1,48 @@
+# https://prospector.landscape.io/en/master/profiles.html
+strictness: veryhigh
+test-warnings: true
+doc-warnings: true
+ignore-paths:
+  - build
+  - htmlcov
+  - tests
+  - .pytest_cache
+  - .git
+  - env
+  - venv
+  - docs
+  - /**/__init__.py
+ignore-patterns:
+  - (^|/)skip(this)?(/|$)
+# ALL runners below:
+pep8:
+  full: true
+  disable:
+    - W602
+    - W603
+pyflakes:
+  run: true
+  disable:
+    - F821
+pep257:
+    # We use google docstrings in this package.
+    - D203
+pylint:
+  run: true
+  options:
+    max-line-length: 80
+dodgy:
+  run: true
+frosted:
+  run: true
+pyroma:
+  run: true
+mccabe:
+  run: true
+  max-line-length: 80
+  max-complexity: 10
+  disable:
+    - D400
+    - D205
+    # Should be removed in favor of max-complexity.
+    - MC0001

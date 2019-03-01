@@ -33,14 +33,6 @@ def test_path_hierarchy_invalid_path_empty_path(tmpdir):
         filetree.path_hierarchy('')
 
 
-def test_get_tree_invalid_path(tmpdir):
-    runner = CliRunner()
-    result = runner.invoke(filetree.get_tree, ['-p', '/{}'.format(uuid1())])
-    assert result.exit_code == -1
-    assert isinstance(result.exception, OSError)
-    assert 'No such file or directory' in str(result.exception)
-
-
 def test_get_tree_valid_path(tmpdir):
     uid = str(uuid1())
     tmp = tmpdir.mkdir(uid)

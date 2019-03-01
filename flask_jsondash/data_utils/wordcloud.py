@@ -7,15 +7,17 @@ flask_jsondash.data_utils.wordcloud
 
 Utilities for working with wordcloud formatted data.
 
-:copyright: (c) 2016 by Chris Tabor.
+:copyright: (c) 2019 by Chris Tabor.
 :license: MIT, see LICENSE for more details.
 """
 
-from collections import Counter
-from string import punctuation
 import re
 
+from collections import Counter
+from string import punctuation
+
 import requests
+
 from pyquery import PyQuery as Pq
 
 # Py2/3 compat.
