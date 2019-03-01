@@ -6,7 +6,7 @@ flask_jsondash.utils
 
 General utils for handling data within the blueprint.
 
-:copyright: (c) 2016 by Chris Tabor.
+:copyright: (c) 2019 by Chris Tabor.
 :license: MIT, see LICENSE for more details.
 """
 

@@ -6,7 +6,7 @@ flask_jsondash.mongo_adapter
 
 Adapters for various storage engines.
 
-:copyright: (c) 2016 by Chris Tabor.
+:copyright: (c) 2019 by Chris Tabor.
 :license: MIT, see LICENSE for more details.
 """
 

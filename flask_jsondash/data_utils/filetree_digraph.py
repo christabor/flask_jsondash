@@ -8,7 +8,7 @@ flask_jsondash.data_utils.filetree_digraph
 A utility for getting digraph friendly data structures
 from the list of files and directories on a given path.
 
-:copyright: (c) 2016 by Chris Tabor.
+:copyright: (c) 2019 by Chris Tabor.
 :license: MIT, see LICENSE for more details.
 """
 
@@ -65,19 +65,17 @@ def make_dotfile(path):
 @click.command()
 @click.option('--dot', '-d',
               default=None,
+              type=click.File('wb'),
               help='Output specified file as a dotfile.')
 @click.option('--path', '-p',
               default='.',
+              type=click.Path(exists=True),
               help='The starting path')
 def get_dotfile_tree(path, dot):
     """CLI wrapper for existing functions."""
     res = make_dotfile(path)
-    if path == '.':
-        raise ValueError('Running in the same directory when no'
-                         ' folders are present does not make sense.')
     if dot is not None:
-        with open(dot, 'w') as dotfile:
-            dotfile.write(res)
+        dot.write(res.encode('utf-8'))
         return
     else:
         print(res)

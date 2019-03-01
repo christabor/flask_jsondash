@@ -8,18 +8,18 @@ from flask_jsondash.data_utils import filetree_digraph
 
 
 def test_make_dotfile(tmpdir):
-    uid = str(uuid1())
-    tmp = tmpdir.mkdir(uid)
+    tmp = tmpdir.mkdir('somedir')
     for i in range(4):
         tmp.join('{}.txt'.format(i)).write('{}'.format(i))
     data = filetree_digraph.make_dotfile(tmp.strpath)
     # Ensure wrapping lines are proper digraph format.
-    assert data.startswith('digraph {\n')
-    assert data.endswith('\n}\n')
-    lines = data.split('\n')
-    # Ensure each line has the right dotfile format.
-    for i, line in enumerate(lines[1:len(lines) - 2]):
-        assert line == '\t"{0}" -> "{1}.txt";'.format(uid, i)
+    res = data.split('\n')
+    assert res[0] == 'digraph {'
+    assert res[1] == '\t"somedir" -> "0.txt";'
+    assert res[2] == '\t"somedir" -> "1.txt";'
+    assert res[3] == '\t"somedir" -> "2.txt";'
+    assert res[4] == '\t"somedir" -> "3.txt";'
+    assert res[5] == '}'
 
 
 def test_make_dotfile_skip_empty(monkeypatch, tmpdir):
@@ -43,14 +43,6 @@ def test_make_dotfile_invalid_path_none():
         filetree_digraph.make_dotfile(None)
 
 
-def test_get_dotfile_tree_invalid_path(tmpdir):
-    runner = CliRunner()
-    result = runner.invoke(filetree_digraph.get_dotfile_tree, ['-p', '.'])
-    assert result.exit_code == -1
-    assert isinstance(result.exception, ValueError)
-    assert 'Running in the same directory when no' in str(result.exception)
-
-
 def test_get_dotfile_tree_valid_path(tmpdir):
     uid = str(uuid1())
     tmp = tmpdir.mkdir(uid)
@@ -67,10 +59,10 @@ def test_get_dotfile_tree_valid_path_dotfile(tmpdir):
     tmp = tmpdir.mkdir(uid)
     tmpfile = tmp.join('foo.dot')
     tmpfilepath = str(tmpfile.realpath())
-    tmppath = str(tmp.realpath())
     runner = CliRunner()
     result = runner.invoke(
-        filetree_digraph.get_dotfile_tree, ['-p', tmppath, '-d', tmpfilepath])
+        filetree_digraph.get_dotfile_tree, ['-p', tmp.strpath, '-d',
+                                            tmpfilepath])
     assert result.exit_code == 0
     with open(tmpfilepath, 'r') as res:
-        assert 'digraph' in str(res.read())
+        assert 'digraph' in res.read()

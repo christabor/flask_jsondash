@@ -10,13 +10,14 @@ from the list of files and directories on a given path.
 
 Re-purposed from: github.com/christabor/MoAL/blob/master/MOAL/get_file_tree.py
 
-:copyright: (c) 2016 by Chris Tabor.
+:copyright: (c) 2019 by Chris Tabor.
 :license: MIT, see LICENSE for more details.
 """
 
 import errno
 import json
 import os
+
 from pprint import pprint
 
 import click

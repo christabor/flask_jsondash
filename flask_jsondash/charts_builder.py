@@ -6,7 +6,7 @@ flask_jsondash.charts_builder
 
 The chart blueprint that houses all functionality.
 
-:copyright: (c) 2016 by Chris Tabor.
+:copyright: (c) 2019 by Chris Tabor.
 :license: MIT, see LICENSE for more details.
 """
 
@@ -44,7 +44,6 @@ charts = Blueprint(
     'jsondash',
     __name__,
     template_folder=TEMPLATE_DIR,
-    static_url_path=STATIC_DIR,
     static_folder=STATIC_DIR,
 )
 

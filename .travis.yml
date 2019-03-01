@@ -19,13 +19,9 @@ notifications:
     recipients:
       - dxdstudio@gmail.com
     on_failure: always
-    on_success: always
 install:
-    - pip install -U coveralls
-    - pip install -U tox
-    - pip install -U pytest
-    - pip install -U pyquery
-    - python setup.py install
+    - pip install --upgrade pip setuptools tox
+    - pip install .
 script: tox -e $TOXENV
 after_success:
   coveralls
