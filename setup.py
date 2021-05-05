@@ -23,7 +23,7 @@ requirements = [
     'click==7.0',
     'Flask',
     'cerberus',
-    'pymongo==3.7.2',
+    'pymongo==3.11.4',
 ]
 
 
